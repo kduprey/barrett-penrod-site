@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Header, Navbar } from "./components";
+import Header from "./components/Header";
+import Navbar from "./components/Navbar";
 
 const Home = () => {
 	const [date, setDate] = useState(new Date());
@@ -19,7 +20,9 @@ const Home = () => {
 				description="Site is under construction"
 			/>
 
-			<main className="flex flex-col min-h-screen"></main>
+			<main className="flex flex-col min-h-screen bg-slate-100">
+				<Navbar activePage="home" />
+			</main>
 		</div>
 	);
 };

@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import Footer from "./components/Footer";
 
 const Home = () => {
 	const [date, setDate] = useState(new Date());
 
-	useEffect(() => {
-		var time = setTimeout(() => {
-			setDate(new Date());
-		}, 1000);
-
-		return () => clearTimeout(time);
-	}, [date]);
+	useEffect(() => {}, []);
 
 	return (
 		<div>
@@ -21,7 +17,14 @@ const Home = () => {
 			/>
 
 			<main className="flex flex-col min-h-screen bg-slate-100">
-				<Navbar activePage="home" />
+				{/* Navbar */}
+				<Navbar activePage="Home" />
+
+				{/* Hero Div */}
+				<Hero />
+
+				{/* Footer */}
+				<Footer />
 			</main>
 		</div>
 	);

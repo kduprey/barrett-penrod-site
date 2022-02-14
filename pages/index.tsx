@@ -23,6 +23,40 @@ const Home: NextPage = () => {
 			},
 		],
 	};
+	const menu2: NavMenu = {
+		name: "Voice Studio",
+		sublinks: [
+			{
+				name: "Philosophy",
+				path: "/voice-studio/philosophy",
+			},
+			{
+				name: "Booking",
+				path: "/voice-studio/booking",
+			},
+			{
+				name: "Research",
+				path: "/voice-studio/research",
+			},
+		],
+	};
+	const menu3: NavMenu = {
+		name: "Projects",
+		sublinks: [
+			{
+				name: "Directing",
+				path: "/projects/directing",
+			},
+			{
+				name: "In the Works",
+				path: "/projects/in-the-works",
+			},
+		],
+	};
+	const menu4: NavMenu = {
+		name: "Contact",
+		path: "/contact",
+	};
 
 	return (
 		<main>
@@ -36,12 +70,9 @@ const Home: NextPage = () => {
 					<h1>Barrett Penrod</h1>
 					<Group>
 						<NavMenuItem menu={menu1} />
-						<Navbar.Section grow>
-							<Link href={"/"}>Home</Link>
-						</Navbar.Section>
-						<Navbar.Section>
-							<Link href={"/"}>Home</Link>
-						</Navbar.Section>
+						<NavMenuItem menu={menu2} />
+						<NavMenuItem menu={menu3} />
+						<NavMenuItem menu={menu4} />
 					</Group>
 				</Group>
 			</AppShell>

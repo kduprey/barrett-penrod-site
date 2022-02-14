@@ -5,5 +5,6 @@ export interface Page {
 
 export interface NavMenu {
 	name: string;
-	sublinks: Page[];
+	path?: string;
+	sublinks?: Page[];
 }

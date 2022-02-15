@@ -36,15 +36,11 @@ const Home: NextPage = () => {
 		],
 	};
 	const menu3: NavMenu = {
-		name: "Projects",
+		name: "Directing",
 		sublinks: [
 			{
-				name: "Directing",
-				path: "/projects/directing",
-			},
-			{
-				name: "In the Works",
-				path: "/projects/in-the-works",
+				name: "In Development",
+				path: "/directing/in-development",
 			},
 		],
 	};

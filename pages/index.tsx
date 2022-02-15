@@ -44,7 +44,18 @@ const Home: NextPage = () => {
 			},
 		],
 	};
+
 	const menu4: NavMenu = {
+		name: "Visual Art",
+		sublinks: [
+			{
+				name: "Gallery",
+				path: "/visual-art/gallery",
+			},
+		],
+	};
+
+	const menu5: NavMenu = {
 		name: "Contact",
 		path: "/contact",
 	};
@@ -67,7 +78,7 @@ const Home: NextPage = () => {
 							size={"lg"}
 							style={{ marginTop: "0em" }}
 						>
-							Actor, Singer, Director, Teacher
+							Actor - Singer - Educator - Director - Visual Artist
 						</Text>
 					</Group>
 					<Group>
@@ -75,6 +86,7 @@ const Home: NextPage = () => {
 						<NavMenuItem menu={menu2} />
 						<NavMenuItem menu={menu3} />
 						<NavMenuItem menu={menu4} />
+						<NavMenuItem menu={menu5} />
 					</Group>
 				</Group>
 			</AppShell>

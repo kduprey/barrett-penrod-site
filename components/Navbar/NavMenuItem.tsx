@@ -13,7 +13,6 @@ const NavMenuItem = ({ menu }: Props) => {
 			<Menu
 				trigger="hover"
 				placement="center"
-				size={"sm"}
 				control={
 					<Group spacing={3}>
 						<Text>{menu.name}</Text>

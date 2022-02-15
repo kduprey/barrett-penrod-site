@@ -1,6 +1,7 @@
-import { Button, Divider, Menu, Text } from "@mantine/core";
+import { Button, Divider, Menu, Text, Group } from "@mantine/core";
 import Link from "next/link";
 import { NavMenu } from "../../types";
+import { ChevronDownIcon } from "@modulz/radix-icons";
 
 type Props = {
 	menu: NavMenu;
@@ -13,7 +14,12 @@ const NavMenuItem = ({ menu }: Props) => {
 				trigger="hover"
 				placement="center"
 				size={"sm"}
-				control={<Text>{menu.name}</Text>}
+				control={
+					<Group spacing={3}>
+						<Text>{menu.name}</Text>
+						<ChevronDownIcon />
+					</Group>
+				}
 			>
 				{menu.sublinks.map((e, i) => (
 					<Menu.Item key={i}>

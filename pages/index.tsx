@@ -16,7 +16,24 @@ import { NavMenu } from "../types";
 const Home: NextPage = () => {
 	const menu1: NavMenu = {
 		name: "Actor - Singer",
-		path: "/actor-singer",
+		sublinks: [
+			{
+				name: "About",
+				path: "/actor-singer/about",
+			},
+			{
+				name: "Headshot/Resumé",
+				path: "/actor-singer/headshot-resume",
+			},
+			{
+				name: "Media",
+				path: "/actor-singer/media",
+			},
+			{
+				name: "News",
+				path: "/actor-singer/news",
+			},
+		],
 	};
 	const menu2: NavMenu = {
 		name: "Voice Studio",

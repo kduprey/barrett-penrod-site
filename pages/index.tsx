@@ -1,4 +1,12 @@
-import { AppShell, Group, Navbar } from "@mantine/core";
+import {
+	AppShell,
+	Center,
+	Group,
+	MantineColor,
+	Navbar,
+	Text,
+	Title,
+} from "@mantine/core";
 import type { NextPage } from "next";
 import Header from "../components/Header";
 import Link from "next/link";
@@ -7,21 +15,8 @@ import { NavMenu } from "../types";
 
 const Home: NextPage = () => {
 	const menu1: NavMenu = {
-		name: "Performance",
-		sublinks: [
-			{
-				name: "About",
-				path: "/performance/about",
-			},
-			{
-				name: "Media",
-				path: "/performance/media",
-			},
-			{
-				name: "News",
-				path: "/performance/news",
-			},
-		],
+		name: "Actor - Singer",
+		path: "/actor-singer",
 	};
 	const menu2: NavMenu = {
 		name: "Voice Studio",
@@ -67,7 +62,18 @@ const Home: NextPage = () => {
 			/>
 			<AppShell padding={"sm"}>
 				<Group direction="column" position="center">
-					<h1>Barrett Penrod</h1>
+					<Group position="center" spacing={"xs"} direction="column">
+						<Title order={1} style={{ marginBottom: "0em" }}>
+							Barrett Penrod
+						</Title>
+						<Text
+							color={"gray"}
+							size={"lg"}
+							style={{ marginTop: "0em" }}
+						>
+							Actor, Singer, Director, Teacher
+						</Text>
+					</Group>
 					<Group>
 						<NavMenuItem menu={menu1} />
 						<NavMenuItem menu={menu2} />

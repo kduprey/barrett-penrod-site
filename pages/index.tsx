@@ -83,7 +83,7 @@ const Home: NextPage = () => {
 						Actor - Singer - Educator - Director - Visual Artist
 					</h5>
 				</div>
-				<div className="flex justify-evenly items-center">
+				<div className="flex justify-evenly items-center space-x-2">
 					<NavMenuItem menu={menu1} />
 					<NavMenuItem menu={menu2} />
 					<NavMenuItem menu={menu3} />

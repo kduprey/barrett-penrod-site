@@ -29,3 +29,7 @@ h6 {
 p {
 	@apply text-base font-normal text-slate-100 md:text-lg;
 }
+
+a {
+	@apply text-blue-500 hover:text-blue-600 hover:underline transition-all ease-in-out duration-150;
+}

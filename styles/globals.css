@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+h1 {
+	@apply text-4xl font-bold md:text-6xl;
+}
+
+h2 {
+	@apply text-3xl font-bold md:text-5xl;
+}
+
+h3 {
+	@apply text-2xl font-bold md:text-4xl;
+}
+
+h4 {
+	@apply text-xl font-bold md:text-3xl;
+}
+
+h5 {
+	@apply text-lg font-bold md:text-2xl;
+}
+
+h6 {
+	@apply text-base font-bold md:text-xl;
+}
+
+p {
+	@apply text-base font-normal text-slate-100 md:text-lg;
+}

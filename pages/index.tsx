@@ -1,4 +1,3 @@
-import { AppShell, Grid, Group, MediaQuery, Text, Title } from "@mantine/core";
 import type { NextPage } from "next";
 import Header from "../components/Header";
 import Link from "next/link";
@@ -70,48 +69,28 @@ const Home: NextPage = () => {
 	};
 
 	return (
-		<main>
+		<main className="h-screen w-full bg-slate-100 p-6">
 			<Header
 				title={"Barrett Penrod - Actor, Singer, Director, Teacher"}
 				// TODO: Add description
 				description={""}
 			/>
-			<AppShell padding={"sm"}>
-				<Grid
-					align={"center"}
-					justify="center"
-					sx={{ backgroundColor: "gray" }}
-				>
-					<Grid.Col md={6}>
-						<Group
-							position="center"
-							spacing={"xs"}
-							direction="column"
-						>
-							<Title order={1} style={{ marginBottom: "0em" }}>
-								Barrett Penrod
-							</Title>
-							<Text
-								color={"gray"}
-								size={"lg"}
-								style={{ marginTop: "0em" }}
-							>
-								Actor - Singer - Educator - Director - Visual
-								Artist
-							</Text>
-						</Group>
-					</Grid.Col>
-					<Grid.Col md={6}>
-						<Group>
-							<NavMenuItem menu={menu1} />
-							<NavMenuItem menu={menu2} />
-							<NavMenuItem menu={menu3} />
-							<NavMenuItem menu={menu4} />
-							<NavMenuItem menu={menu5} />
-						</Group>
-					</Grid.Col>
-				</Grid>
-			</AppShell>
+
+			<div className="flex flex-col space-y-4">
+				<div className="flex flex-col items-center justify-center space-y-3">
+					<h1 className="text-center">Barrett Penrod</h1>
+					<h5 className="text-center text-slate-700">
+						Actor - Singer - Educator - Director - Visual Artist
+					</h5>
+				</div>
+				<div className="flex justify-evenly items-center">
+					<NavMenuItem menu={menu1} />
+					<NavMenuItem menu={menu2} />
+					<NavMenuItem menu={menu3} />
+					<NavMenuItem menu={menu4} />
+					<NavMenuItem menu={menu5} />
+				</div>
+			</div>
 		</main>
 	);
 };

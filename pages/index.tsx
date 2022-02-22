@@ -1,12 +1,4 @@
-import {
-	AppShell,
-	Center,
-	Group,
-	MantineColor,
-	Navbar,
-	Text,
-	Title,
-} from "@mantine/core";
+import { AppShell, Grid, Group, MediaQuery, Text, Title } from "@mantine/core";
 import type { NextPage } from "next";
 import Header from "../components/Header";
 import Link from "next/link";
@@ -85,27 +77,40 @@ const Home: NextPage = () => {
 				description={""}
 			/>
 			<AppShell padding={"sm"}>
-				<Group direction="column" position="center">
-					<Group position="center" spacing={"xs"} direction="column">
-						<Title order={1} style={{ marginBottom: "0em" }}>
-							Barrett Penrod
-						</Title>
-						<Text
-							color={"gray"}
-							size={"lg"}
-							style={{ marginTop: "0em" }}
+				<Grid
+					align={"center"}
+					justify="center"
+					sx={{ backgroundColor: "gray" }}
+				>
+					<Grid.Col md={6}>
+						<Group
+							position="center"
+							spacing={"xs"}
+							direction="column"
 						>
-							Actor - Singer - Educator - Director - Visual Artist
-						</Text>
-					</Group>
-					<Group>
-						<NavMenuItem menu={menu1} />
-						<NavMenuItem menu={menu2} />
-						<NavMenuItem menu={menu3} />
-						<NavMenuItem menu={menu4} />
-						<NavMenuItem menu={menu5} />
-					</Group>
-				</Group>
+							<Title order={1} style={{ marginBottom: "0em" }}>
+								Barrett Penrod
+							</Title>
+							<Text
+								color={"gray"}
+								size={"lg"}
+								style={{ marginTop: "0em" }}
+							>
+								Actor - Singer - Educator - Director - Visual
+								Artist
+							</Text>
+						</Group>
+					</Grid.Col>
+					<Grid.Col md={6}>
+						<Group>
+							<NavMenuItem menu={menu1} />
+							<NavMenuItem menu={menu2} />
+							<NavMenuItem menu={menu3} />
+							<NavMenuItem menu={menu4} />
+							<NavMenuItem menu={menu5} />
+						</Group>
+					</Grid.Col>
+				</Grid>
 			</AppShell>
 		</main>
 	);

@@ -86,7 +86,7 @@ const Home: NextPage = () => {
 			/>
 			{/* Title Bar */}
 			<div className="sticky top-0 bg-primary flex justify-between items-center px-6">
-				<h1 className="text-secondary font-light">Barrett Penrod</h1>
+				<h2 className="text-secondary font-light">Barrett Penrod</h2>
 				<MenuButton isOpen={isOpen} setOpen={setIsOpen} />
 			</div>
 

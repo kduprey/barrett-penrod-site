@@ -35,7 +35,7 @@ const Nav = ({ isNavOpen, isCVOpen, setIsCVOpen, setIsNavOpen }: Props) => {
 									Scroll.scroller.scrollTo("showreel", {
 										duration: 1000,
 										smooth: true,
-										offset: -100,
+										offset: -75,
 									}),
 								300
 							);
@@ -53,7 +53,7 @@ const Nav = ({ isNavOpen, isCVOpen, setIsCVOpen, setIsNavOpen }: Props) => {
 									Scroll.scroller.scrollTo("photos", {
 										duration: 1000,
 										smooth: true,
-										offset: -100,
+										offset: -75,
 									}),
 								300
 							);

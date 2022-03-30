@@ -1,3 +1,5 @@
+import Scroll from "react-scroll";
+
 type Props = {
 	isNavOpen: boolean;
 	isCVOpen: boolean;
@@ -41,9 +43,42 @@ const Nav = ({ isNavOpen, isCVOpen, setIsCVOpen, setIsNavOpen }: Props) => {
 					>
 						Bio
 					</li>
-					<li className="text-sm font-normal">Video</li>
-					<li className="text-sm font-normal">Photos</li>
-					<li className="text-sm font-normal">Contact</li>
+					<li
+						className="cursor-pointer text-sm font-normal"
+						onClick={(e) => {
+							Scroll.scroller.scrollTo("showreel", {
+								duration: 1000,
+								smooth: true,
+								offset: -100,
+							});
+						}}
+					>
+						Video
+					</li>
+					<li
+						className="cursor-pointer text-sm font-normal"
+						onClick={(e) => {
+							Scroll.scroller.scrollTo("photos", {
+								duration: 1000,
+								smooth: true,
+								offset: -100,
+							});
+						}}
+					>
+						Photos
+					</li>
+					<li
+						className="cursor-pointer text-sm font-normal"
+						onClick={(e) => {
+							Scroll.scroller.scrollTo("contact", {
+								duration: 1000,
+								smooth: true,
+								offset: -100,
+							});
+						}}
+					>
+						Contact
+					</li>
 				</ul>
 			</nav>
 		</>

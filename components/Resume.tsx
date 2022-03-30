@@ -11,17 +11,17 @@ type Props = {
 const Resume = ({ closeIcon, fileIcon, setIsCVOpen, isCVOpen }: Props) => {
 	return (
 		<div
-			className={`fixed top-0 z-20  h-full w-full overflow-auto bg-primary p-6 transition-all duration-300 ease-in-out md:p-12 md:duration-500 ${
+			className={`fixed z-20 overflow-auto bg-primary p-6 transition-all duration-300 ease-in-out md:p-12 md:duration-500 ${
 				isCVOpen
-					? "left-0 h-full w-full md:w-1/2 md:shadow-lg"
-					: "-left-full h-0 w-0"
+					? "left-0 top-0 h-full w-full md:w-1/2 md:shadow-lg"
+					: "-left-full -top-full h-0 w-0"
 			}`}
 		>
 			<div className="flex items-center justify-between">
 				<h2 className="py-3 text-secondary">Resume</h2>
 				<FontAwesomeIcon
 					icon={closeIcon}
-					className="cursor-pointer text-4xl text-white"
+					className="cursor-pointer text-4xl text-white transition-colors ease-in-out hover:text-slate-400"
 					onClick={(e) => setIsCVOpen(false)}
 				/>
 			</div>

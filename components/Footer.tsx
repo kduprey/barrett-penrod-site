@@ -10,7 +10,10 @@ type Props = {
 
 const Footer = ({ facebook, twitter, instagram, youtube }: Props) => {
 	return (
-		<div className="flex flex-col flex-wrap items-center justify-center space-y-4 bg-primary py-6 md:flex md:flex-row">
+		<div
+			id="contact"
+			className="flex flex-col flex-wrap items-center justify-center space-y-4 bg-primary py-6 md:flex md:flex-row"
+		>
 			<h1 className="w-full text-center text-secondary">Contact</h1>
 
 			<div className="w-full">

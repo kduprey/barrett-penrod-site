@@ -88,13 +88,7 @@ const Home: NextPage = () => {
 	};
 
 	return (
-		<main
-			className={`${
-				isNavOpen || isCVOpen
-					? "fixed w-full bg-primary"
-					: "w-full bg-primary"
-			}`}
-		>
+		<main className={`${isNavOpen || isCVOpen ? "" : ""} bg-primary`}>
 			<Header
 				title={"Barrett Penrod - Actor, Singer, Director, Teacher"}
 				// TODO: Add description

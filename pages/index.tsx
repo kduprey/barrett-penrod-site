@@ -78,44 +78,41 @@ const Home: NextPage = () => {
 	};
 
 	return (
-		<main className="h-screen w-full bg-primary">
+		<main className="w-full bg-primary">
 			<Header
 				title={"Barrett Penrod - Actor, Singer, Director, Teacher"}
 				// TODO: Add description
 				description={""}
 			/>
-			<div className="px-6">
-				<div className="flex justify-between items-center">
-					<h1 className="text-secondary font-light">
-						Barrett Penrod
-					</h1>
-					<MenuButton isOpen={isOpen} setOpen={setIsOpen} />
-				</div>
+			{/* Title Bar */}
+			<div className="sticky top-0 bg-primary flex justify-between items-center px-6">
+				<h1 className="text-secondary font-light">Barrett Penrod</h1>
+				<MenuButton isOpen={isOpen} setOpen={setIsOpen} />
+			</div>
 
-				{/* Mobile Navbar */}
-				<nav
-					className={`fixed h-screen bg-primary transition-all ease-in-out duration-300 ${
-						isOpen ? "w-full h-screen left-0" : "w-0 h-0 -left-full"
-					}`}
-				>
-					<ul className=" pt-10 flex flex-col space-y-4 justify-center items-center">
-						<li className="">Bio</li>
-						<div className="border-b-2 w-1/2"></div>
-						<li>Video</li>
-						<div className="border-b-2 w-1/2"></div>
-						<li>Photos</li>
-						<div className="border-b-2 w-1/2"></div>
-						<li>Contact</li>
-					</ul>
-				</nav>
+			{/* Mobile Navbar */}
+			<nav
+				className={`fixed h-screen bg-primary transition-all ease-in-out duration-300 ${
+					isOpen ? "w-full h-screen left-0" : "w-0 h-0 -left-full"
+				}`}
+			>
+				<ul className=" pt-10 flex flex-col space-y-4 justify-center items-center">
+					<li className="">Bio</li>
+					<div className="border-b-2 w-1/2"></div>
+					<li>Video</li>
+					<div className="border-b-2 w-1/2"></div>
+					<li>Photos</li>
+					<div className="border-b-2 w-1/2"></div>
+					<li>Contact</li>
+				</ul>
+			</nav>
 
-				{/* Social Media Links */}
-				<div className="flex justify-evenly items-center bg-secondary p-2 text-black">
-					<FontAwesomeIcon icon={faFacebookF} />
-					<FontAwesomeIcon icon={faTwitter} />
-					<FontAwesomeIcon icon={faInstagram} />
-					<FontAwesomeIcon icon={faYoutube} />
-				</div>
+			{/* Social Media Links */}
+			<div className="flex justify-evenly items-center bg-secondary p-2 text-black mx-6">
+				<FontAwesomeIcon icon={faFacebookF} />
+				<FontAwesomeIcon icon={faTwitter} />
+				<FontAwesomeIcon icon={faInstagram} />
+				<FontAwesomeIcon icon={faYoutube} />
 			</div>
 
 			{/* Heading Text */}
@@ -156,7 +153,7 @@ const Home: NextPage = () => {
 
 			{/* Showreel */}
 
-			<div className="flex flex-col py-6 space-y-4 justify-center items-center">
+			<div className="flex flex-col py-6 space-y-4 justify-center items-center bg-slate-100">
 				<h2>Showreel</h2>
 				<div className="w-5/6 h-[200px] bg-slate-400 flex flex-col items-center justify-center">
 					<h4>YouTube Placeholder</h4>
@@ -165,7 +162,7 @@ const Home: NextPage = () => {
 
 			{/* Photos */}
 
-			<div className="flex flex-col py-6 space-y-4 justify-center items-center">
+			<div className="flex flex-col py-6 space-y-4 justify-center items-center bg-slate-100">
 				<h2>Photos</h2>
 				<div className="flex flex-col space-y-6 justify-center items-center w-full">
 					<div className="flex flex-col justify-center items-center w-3/5 h-[400px] bg-slate-400">

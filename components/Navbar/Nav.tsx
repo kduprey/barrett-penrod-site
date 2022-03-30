@@ -7,29 +7,39 @@ type Props = {
 
 const Nav = ({ isNavOpen, isCVOpen, setIsCVOpen, setIsNavOpen }: Props) => {
 	return (
-		<nav
-			className={`fixed bg-primary transition-all ease-in-out duration-300 ${
-				isNavOpen ? "w-full h-full left-0" : "w-0 h-0 -left-full"
-			}`}
-		>
-			<ul className=" pt-10 flex flex-col space-y-4 justify-center items-center">
-				<li
-					onClick={(e) => {
-						setIsNavOpen(!isNavOpen);
-						setTimeout(() => setIsCVOpen(!isCVOpen), 300);
-					}}
-					className="cursor-pointer"
-				>
-					Bio
-				</li>
-				<div className="border-b-2 w-1/2"></div>
-				<li>Video</li>
-				<div className="border-b-2 w-1/2"></div>
-				<li>Photos</li>
-				<div className="border-b-2 w-1/2"></div>
-				<li>Contact</li>
-			</ul>
-		</nav>
+		<>
+			<nav
+				className={`fixed bg-primary transition-all duration-300 ease-in-out md:hidden ${
+					isNavOpen ? "left-0 h-full w-full" : "-left-full h-0 w-0"
+				}`}
+			>
+				<ul className=" flex flex-col items-center justify-center space-y-4 pt-10">
+					<li
+						onClick={(e) => {
+							setIsNavOpen(!isNavOpen);
+							setTimeout(() => setIsCVOpen(!isCVOpen), 300);
+						}}
+						className="cursor-pointer"
+					>
+						Bio
+					</li>
+					<div className="w-1/2 border-b-2"></div>
+					<li>Video</li>
+					<div className="w-1/2 border-b-2"></div>
+					<li>Photos</li>
+					<div className="w-1/2 border-b-2"></div>
+					<li>Contact</li>
+				</ul>
+			</nav>
+			<nav className="hidden w-full bg-primary py-3 px-6 md:sticky md:top-12 md:block">
+				<ul className="flex w-1/4 space-x-5 ">
+					<li className="text-sm font-normal">Bio</li>
+					<li className="text-sm font-normal">Video</li>
+					<li className="text-sm font-normal">Photos</li>
+					<li className="text-sm font-normal">Contact</li>
+				</ul>
+			</nav>
+		</>
 	);
 };
 

@@ -7,8 +7,10 @@ type Props = {
 
 const TitleBar = ({ isNavOpen, setIsNavOpen }: Props) => {
 	return (
-		<div className="sticky top-0 bg-primary flex justify-between items-center px-6">
-			<h2 className="text-secondary font-light">Barrett Penrod</h2>
+		<div className="sticky top-0 flex items-center justify-between bg-primary px-6 md:pt-4">
+			<h2 className="font-light text-secondary md:text-2xl md:font-medium">
+				Barrett Penrod
+			</h2>
 			<MenuButton isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
 		</div>
 	);

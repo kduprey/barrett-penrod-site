@@ -8,48 +8,21 @@ type Props = {
 };
 
 const NavMenuItem = ({ menu }: Props) => {
-	// let timeout; // NodeJS.Timeout
-	// const timeoutDuration = 400;
-
-	// const buttonRef = useRef(null); // useRef<HTMLButtonElement>(null)
-	// const [openState, setOpenState] = useState(false);
-
-	// const toggleMenu = (open) => {
-	// 	// log the current open state in React (toggle open state)
-	// 	setOpenState((openState) => !openState);
-	// 	// toggle the menu by clicking on buttonRef
-	// 	buttonRef?.current?.click(); // eslint-disable-line
-	// };
-
-	// // Open the menu after a delay of timeoutDuration
-	// const onHover = (open, action) => {
-	// 	// if the modal is currently closed, we need to open it
-	// 	// OR
-	// 	// if the modal is currently open, we need to close it
-	// 	if (
-	// 		(!open && !openState && action === "onMouseEnter") ||
-	// 		(open && openState && action === "onMouseLeave")
-	// 	) {
-	// 		// clear the old timeout, if any
-	// 		clearTimeout(timeout);
-	// 		// open the modal after a timeout
-	// 		timeout = setTimeout(() => toggleMenu(open), timeoutDuration);
-	// 	}
-	// 	// else: don't click! 😁
-	// };
-
-	// const handleClick = (open) => {
-	// 	setOpenState(!open); // toggle open state in React state
-	// 	clearTimeout(timeout); // stop the hover timer if it's running
-	// };
+	const [isOpen, setIsOpen] = useState(false);
 
 	if (menu.sublinks)
 		return (
-			<Menu as="div" className="relative">
-				<Menu.Button className="inline-flex justify-center text-sm py-2 px-4 bg-slate-900 bg-opacity-20 hover:bg-opacity-30 rounded">
+			<div className="relative">
+				<button
+					onMouseEnter={(e) => setIsOpen(!isOpen)}
+					onMouseLeave={(e) => setIsOpen(!isOpen)}
+					onClick={(e) => setIsOpen(!isOpen)}
+					className="inline-flex justify-center text-sm py-2 px-4 bg-slate-900 bg-opacity-20 hover:bg-opacity-30 rounded"
+				>
 					{menu.name}
-				</Menu.Button>
+				</button>
 				<Transition
+					show={isOpen}
 					as={Fragment}
 					enter="transition ease-out duration-100"
 					enterFrom="transform opacity-0 scale-95"
@@ -58,15 +31,17 @@ const NavMenuItem = ({ menu }: Props) => {
 					leaveFrom="transform opacity-100 scale-100"
 					leaveTo="transform opacity-0 scale-95"
 				>
-					<Menu.Items className="absolute flex flex-col py-1 px-1 left-0 w-auto divide-slate-100 rounded-md shadow-lg focus:outline-none mt-2 origin-top-left bg-white divide-y">
+					<div
+						onMouseEnter={(e) => setIsOpen(!isOpen)}
+						onMouseLeave={(e) => setIsOpen(!isOpen)}
+						className="absolute flex flex-col py-1 px-1 left-0 overflow-auto divide-slate-100 rounded-md shadow-lg focus:outline-none mt-2 origin-top-left bg-white divide-y"
+					>
 						{menu.sublinks.map((e, i) => (
-							<Menu.Item as="a" key={i}>
-								{e.name}
-							</Menu.Item>
+							<div key={i}>{e.name}</div>
 						))}
-					</Menu.Items>
+					</div>
 				</Transition>
-			</Menu>
+			</div>
 		);
 	if (menu.path)
 		return (

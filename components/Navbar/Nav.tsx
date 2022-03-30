@@ -26,11 +26,59 @@ const Nav = ({ isNavOpen, isCVOpen, setIsCVOpen, setIsNavOpen }: Props) => {
 						Bio
 					</li>
 					<div className="w-1/2 border-b-2"></div>
-					<li>Video</li>
+					<li
+						className="cursor-pointer"
+						onClick={(e) => {
+							setIsNavOpen(!isNavOpen);
+							setTimeout(
+								() =>
+									Scroll.scroller.scrollTo("showreel", {
+										duration: 1000,
+										smooth: true,
+										offset: -100,
+									}),
+								300
+							);
+						}}
+					>
+						Video
+					</li>
 					<div className="w-1/2 border-b-2"></div>
-					<li>Photos</li>
+					<li
+						className="cursor-pointer"
+						onClick={(e) => {
+							setIsNavOpen(!isNavOpen);
+							setTimeout(
+								() =>
+									Scroll.scroller.scrollTo("photos", {
+										duration: 1000,
+										smooth: true,
+										offset: -100,
+									}),
+								300
+							);
+						}}
+					>
+						Photos
+					</li>
 					<div className="w-1/2 border-b-2"></div>
-					<li>Contact</li>
+					<li
+						className="cursor-pointer"
+						onClick={(e) => {
+							setIsNavOpen(!isNavOpen);
+							setTimeout(
+								() =>
+									Scroll.scroller.scrollTo("contact", {
+										duration: 1000,
+										smooth: true,
+										offset: -100,
+									}),
+								300
+							);
+						}}
+					>
+						Contact
+					</li>
 				</ul>
 			</nav>
 			<nav className="hidden w-full bg-primary py-3 px-8 md:sticky md:top-14 md:block">

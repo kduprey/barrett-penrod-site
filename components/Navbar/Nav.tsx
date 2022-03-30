@@ -31,9 +31,16 @@ const Nav = ({ isNavOpen, isCVOpen, setIsCVOpen, setIsNavOpen }: Props) => {
 					<li>Contact</li>
 				</ul>
 			</nav>
-			<nav className="hidden w-full bg-primary py-3 px-6 md:sticky md:top-12 md:block">
+			<nav className="hidden w-full bg-primary py-3 px-8 md:sticky md:top-14 md:block">
 				<ul className="flex w-1/4 space-x-5 ">
-					<li className="text-sm font-normal">Bio</li>
+					<li
+						className="cursor-pointer text-sm font-normal"
+						onClick={(e) => {
+							setIsCVOpen(!isCVOpen);
+						}}
+					>
+						Bio
+					</li>
 					<li className="text-sm font-normal">Video</li>
 					<li className="text-sm font-normal">Photos</li>
 					<li className="text-sm font-normal">Contact</li>

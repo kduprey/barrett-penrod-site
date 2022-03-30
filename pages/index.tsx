@@ -90,7 +90,9 @@ const Home: NextPage = () => {
 	return (
 		<main
 			className={`${
-				isNavOpen ? "fixed w-full bg-primary" : "w-full bg-primary"
+				isNavOpen || isCVOpen
+					? "fixed w-full bg-primary"
+					: "w-full bg-primary"
 			}`}
 		>
 			<Header

@@ -42,6 +42,14 @@ li {
 	@apply font-thin text-xl text-white;
 }
 
+.skills h3 {
+	@apply text-secondary py-3;
+}
+
+.skills div {
+	@apply flex flex-col justify-evenly space-y-3;
+}
+
 .ham {
 	cursor: pointer;
 	-webkit-tap-highlight-color: transparent;

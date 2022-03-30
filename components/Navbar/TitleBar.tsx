@@ -1,15 +1,15 @@
 import MenuButton from "../../components/MenuButton";
 
 type Props = {
-	isOpen: boolean;
-	setOpen: (isOpen: boolean) => void;
+	isNavOpen: boolean;
+	setIsNavOpen: (isNavOpen: boolean) => void;
 };
 
-const TitleBar = ({ isOpen, setOpen }: Props) => {
+const TitleBar = ({ isNavOpen, setIsNavOpen }: Props) => {
 	return (
 		<div className="sticky top-0 bg-primary flex justify-between items-center px-6">
 			<h2 className="text-secondary font-light">Barrett Penrod</h2>
-			<MenuButton isOpen={isOpen} setOpen={setOpen} />
+			<MenuButton isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
 		</div>
 	);
 };

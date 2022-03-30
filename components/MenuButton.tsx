@@ -1,18 +1,19 @@
 type Props = {
-	isOpen: boolean;
-	setOpen: (isOpen: boolean) => void;
+	isNavOpen: boolean;
+	setIsNavOpen: (isNavOpen: boolean) => void;
 };
 
 const MenuButton = (props: Props) => {
 	return (
 		<>
 			<svg
-				className="ham hamRotate ham1"
+				className={`ham hamRotate ham1 ${
+					props.isNavOpen ? "active" : ""
+				}`}
 				viewBox="0 0 100 100"
 				width="80"
 				onClick={(e) => {
-					props.setOpen(!props.isOpen);
-					e.currentTarget.classList.toggle("active");
+					props.setIsNavOpen(!props.isNavOpen);
 				}}
 			>
 				<path

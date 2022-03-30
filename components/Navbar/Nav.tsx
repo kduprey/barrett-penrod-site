@@ -1,16 +1,27 @@
 type Props = {
-	isOpen: boolean;
+	isNavOpen: boolean;
+	isCVOpen: boolean;
+	setIsCVOpen: (isCVOpen: boolean) => void;
+	setIsNavOpen: (isNavOpen: boolean) => void;
 };
 
-const Nav = ({ isOpen }: Props) => {
+const Nav = ({ isNavOpen, isCVOpen, setIsCVOpen, setIsNavOpen }: Props) => {
 	return (
 		<nav
 			className={`fixed bg-primary transition-all ease-in-out duration-300 ${
-				isOpen ? "w-full h-full left-0" : "w-0 h-0 -left-full"
+				isNavOpen ? "w-full h-full left-0" : "w-0 h-0 -left-full"
 			}`}
 		>
 			<ul className=" pt-10 flex flex-col space-y-4 justify-center items-center">
-				<li className="">Bio</li>
+				<li
+					onClick={(e) => {
+						setIsNavOpen(!isNavOpen);
+						setTimeout(() => setIsCVOpen(!isCVOpen), 300);
+					}}
+					className="cursor-pointer"
+				>
+					Bio
+				</li>
 				<div className="border-b-2 w-1/2"></div>
 				<li>Video</li>
 				<div className="border-b-2 w-1/2"></div>

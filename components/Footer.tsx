@@ -8,7 +8,7 @@ type Props = {
 	youtube: IconDefinition;
 };
 
-const Footer = (props: Props) => {
+const Footer = ({ facebook, twitter, instagram, youtube }: Props) => {
 	return (
 		<div className="bg-primary flex flex-col justify-center items-center space-y-4 py-6">
 			<h1 className="text-secondary">Contact</h1>
@@ -37,10 +37,10 @@ const Footer = (props: Props) => {
 			</div>
 			{/* Social Media Links */}
 			<div className="flex justify-evenly items-center text-white w-4/5 pt-4">
-				<FontAwesomeIcon icon={props.facebook} />
-				<FontAwesomeIcon icon={props.twitter} />
-				<FontAwesomeIcon icon={props.instagram} />
-				<FontAwesomeIcon icon={props.youtube} />
+				<FontAwesomeIcon icon={facebook} />
+				<FontAwesomeIcon icon={twitter} />
+				<FontAwesomeIcon icon={instagram} />
+				<FontAwesomeIcon icon={youtube} />
 			</div>
 		</div>
 	);

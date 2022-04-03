@@ -19,7 +19,7 @@ import TitleBar from "../components/Navbar/TitleBar";
 
 import Resume from "../components/Resume";
 import Image from "next/image";
-import headshot5 from "/public/headshot5.jpg";
+import headshot5 from "../public/headshot5.jpg";
 
 const Home: NextPage = () => {
 	const [isNavOpen, setIsNavOpen] = useState(false);

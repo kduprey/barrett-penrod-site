@@ -19,7 +19,12 @@ import TitleBar from "../components/Navbar/TitleBar";
 
 import Resume from "../components/Resume";
 import Image from "next/image";
+import headshot1 from "../public/headshot1.jpg";
+import headshot2 from "../public/headshot2.jpg";
+import headshot3 from "../public/headshot3.jpg";
+import headshot4 from "../public/headshot4.jpg";
 import headshot5 from "../public/headshot5.jpg";
+import headshot6 from "../public/headshot6.jpg";
 
 const Home: NextPage = () => {
 	const [isNavOpen, setIsNavOpen] = useState(false);
@@ -45,15 +50,6 @@ const Home: NextPage = () => {
 				setIsCVOpen={setIsCVOpen}
 			/>
 
-			{/* Resume */}
-
-			<Resume
-				isCVOpen={isCVOpen}
-				setIsCVOpen={setIsCVOpen}
-				fileIcon={faFileLines}
-				closeIcon={faCircleXmark}
-			/>
-
 			{/* Social Media Links */}
 			<SocialBar
 				facebook={faFacebookF}
@@ -73,6 +69,44 @@ const Home: NextPage = () => {
 			{/* About Section */}
 
 			<About />
+
+			{/* Resume/Headshots */}
+
+			<div className="flex space-x-3 pt-3">
+				<div className="flex w-1/2 flex-col items-center justify-center space-y-3">
+					<h3 className="text-secondary">Headshots</h3>
+					<div className="grid  grid-cols-3">
+						<Image
+							src={headshot1}
+							alt="Barrett Penrod - Headshot"
+						/>
+						<Image
+							src={headshot2}
+							alt="Barrett Penrod - Headshot"
+						/>
+						<Image
+							src={headshot3}
+							alt="Barrett Penrod - Headshot"
+						/>
+						<Image
+							src={headshot4}
+							alt="Barrett Penrod - Headshot"
+						/>
+						<Image
+							src={headshot5}
+							alt="Barrett Penrod - Headshot"
+						/>
+						<Image
+							src={headshot6}
+							alt="Barrett Penrod - Headshot"
+						/>
+					</div>
+				</div>
+				<div className="flex flex-col items-center ">
+					<h3 className="text-secondary">Resumé</h3>
+					<Resume />
+				</div>
+			</div>
 
 			{/* Showreel */}
 

@@ -92,7 +92,9 @@ const Home: NextPage = () => {
 	return (
 		<main className={`${isNavOpen || isCVOpen ? "" : ""} bg-primary`}>
 			<Header
-				title={"Barrett Penrod - Actor, Singer, Director, Teacher"}
+				title={
+					"Barrett Penrod · Actor-Singer, Educator, Director, Visual Artist"
+				}
 				// TODO: Add description
 				description={""}
 			/>

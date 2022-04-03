@@ -63,7 +63,12 @@ const Home: NextPage = () => {
 
 			{/* Headshot 1 */}
 			<div className="flex w-full flex-col items-center justify-center bg-slate-400 py-4 md:hidden">
-				<Image src={headshot5} alt="Barret Penrod" />
+				<Image
+					loading="lazy"
+					placeholder="blur"
+					src={headshot5}
+					alt="Barret Penrod"
+				/>
 			</div>
 
 			{/* About Section */}
@@ -77,26 +82,38 @@ const Home: NextPage = () => {
 					<h3 className="text-secondary">Headshots</h3>
 					<div className="grid  grid-cols-3">
 						<Image
+							loading="lazy"
+							placeholder="blur"
 							src={headshot1}
 							alt="Barrett Penrod - Headshot"
 						/>
 						<Image
+							loading="lazy"
+							placeholder="blur"
 							src={headshot2}
 							alt="Barrett Penrod - Headshot"
 						/>
 						<Image
+							loading="lazy"
+							placeholder="blur"
 							src={headshot3}
 							alt="Barrett Penrod - Headshot"
 						/>
 						<Image
+							loading="lazy"
+							placeholder="blur"
 							src={headshot4}
 							alt="Barrett Penrod - Headshot"
 						/>
 						<Image
+							loading="lazy"
+							placeholder="blur"
 							src={headshot5}
 							alt="Barrett Penrod - Headshot"
 						/>
 						<Image
+							loading="lazy"
+							placeholder="blur"
 							src={headshot6}
 							alt="Barrett Penrod - Headshot"
 						/>

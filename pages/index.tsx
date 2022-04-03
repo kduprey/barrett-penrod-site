@@ -19,6 +19,8 @@ import TitleBar from "../components/Navbar/TitleBar";
 import { NavMenu } from "../types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Resume from "../components/Resume";
+import Image from "next/image";
+import headshot5 from "/public/headshot5.jpg";
 
 const Home: NextPage = () => {
 	const [isNavOpen, setIsNavOpen] = useState(false);
@@ -126,8 +128,8 @@ const Home: NextPage = () => {
 			<Headline />
 
 			{/* Headshot 1 */}
-			<div className="flex h-[600px] w-full flex-col items-center justify-center bg-slate-400 py-4 md:hidden">
-				<h1 className="text-center">Image Placeholder</h1>
+			<div className="flex w-full flex-col items-center justify-center bg-slate-400 py-4 md:hidden">
+				<Image src={headshot5} alt="Barret Penrod" />
 			</div>
 
 			{/* About Section */}

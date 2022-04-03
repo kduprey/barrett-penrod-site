@@ -11,7 +11,7 @@ const Nav = ({ isNavOpen, isCVOpen, setIsCVOpen, setIsNavOpen }: Props) => {
 	return (
 		<>
 			<nav
-				className={`fixed bg-primary transition-all duration-300 ease-in-out md:hidden ${
+				className={`fixed z-20 bg-primary transition-all duration-300 ease-in-out md:hidden ${
 					isNavOpen ? "left-0 h-full w-full" : "-left-full h-0 w-0"
 				}`}
 			>
@@ -81,7 +81,7 @@ const Nav = ({ isNavOpen, isCVOpen, setIsCVOpen, setIsNavOpen }: Props) => {
 					</li>
 				</ul>
 			</nav>
-			<nav className="hidden w-full bg-primary py-3 px-8 md:sticky md:top-14 md:block">
+			<nav className="hidden w-full bg-primary py-3 px-8 md:sticky md:top-14 md:z-20 md:block">
 				<ul className="flex w-1/4 space-x-5 ">
 					<li
 						className="cursor-pointer text-sm font-normal"

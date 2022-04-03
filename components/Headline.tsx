@@ -1,3 +1,6 @@
+import Image from "next/image";
+import headshot5 from "/public/headshot5.jpg";
+
 type Props = {
 	// ...
 };
@@ -25,8 +28,8 @@ const Headline = (props: Props) => {
 					<p className="tracking-widest">Actor / Performer / Model</p>
 				</div>
 				{/* Image */}
-				<div className="flex h-[600px] flex-col items-center justify-center bg-slate-400">
-					<h2 className="text-center">Image Placeholder</h2>
+				<div className="z-10 flex w-1/4 border">
+					<Image src={headshot5} alt="Barret Penrod" />
 				</div>
 			</div>
 		</>

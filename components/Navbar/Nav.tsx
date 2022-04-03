@@ -1,5 +1,6 @@
 import Scroll from "react-scroll";
 import { NavMenu } from "../../types";
+import MobileSubmenu from "./MobileSubmenu";
 import Submenu from "./Submenu";
 
 type Props = {
@@ -83,69 +84,9 @@ const Nav = ({ isNavOpen, isCVOpen, setIsCVOpen, setIsNavOpen }: Props) => {
 				}`}
 			>
 				<ul className=" flex flex-col items-center justify-center space-y-4 pt-10">
-					<li
-						onClick={(e) => {
-							setIsNavOpen(!isNavOpen);
-							setTimeout(() => setIsCVOpen(!isCVOpen), 300);
-						}}
-						className="cursor-pointer"
-					>
-						Bio
-					</li>
-					<div className="w-1/2 border-b-2"></div>
-					<li
-						className="cursor-pointer"
-						onClick={(e) => {
-							setIsNavOpen(!isNavOpen);
-							setTimeout(
-								() =>
-									Scroll.scroller.scrollTo("showreel", {
-										duration: 1000,
-										smooth: true,
-										offset: -75,
-									}),
-								300
-							);
-						}}
-					>
-						Video
-					</li>
-					<div className="w-1/2 border-b-2"></div>
-					<li
-						className="cursor-pointer"
-						onClick={(e) => {
-							setIsNavOpen(!isNavOpen);
-							setTimeout(
-								() =>
-									Scroll.scroller.scrollTo("photos", {
-										duration: 1000,
-										smooth: true,
-										offset: -75,
-									}),
-								300
-							);
-						}}
-					>
-						Photos
-					</li>
-					<div className="w-1/2 border-b-2"></div>
-					<li
-						className="cursor-pointer"
-						onClick={(e) => {
-							setIsNavOpen(!isNavOpen);
-							setTimeout(
-								() =>
-									Scroll.scroller.scrollTo("contact", {
-										duration: 1000,
-										smooth: true,
-										offset: -100,
-									}),
-								300
-							);
-						}}
-					>
-						Contact
-					</li>
+					{menus.map((menu, index) => (
+						<MobileSubmenu key={index} menu={menu} />
+					))}
 				</ul>
 			</nav>
 			{/* Medium */}

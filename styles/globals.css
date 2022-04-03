@@ -42,6 +42,10 @@ li {
 	@apply text-xl font-thin text-white;
 }
 
+.medium-submenu {
+	@apply absolute w-auto space-y-2 border bg-primary px-4 py-4;
+}
+
 .skills h3 {
 	@apply py-3 text-secondary md:text-2xl;
 }

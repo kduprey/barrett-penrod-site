@@ -1,4 +1,6 @@
 import Scroll from "react-scroll";
+import { NavMenu } from "../../types";
+import Submenu from "./Submenu";
 
 type Props = {
 	isNavOpen: boolean;
@@ -6,6 +8,71 @@ type Props = {
 	setIsCVOpen: (isCVOpen: boolean) => void;
 	setIsNavOpen: (isNavOpen: boolean) => void;
 };
+
+const menu1: NavMenu = {
+	name: "Actor - Singer",
+	sublinks: [
+		{
+			name: "About",
+			path: "/actor-singer/about",
+		},
+		{
+			name: "Headshot/Resumé",
+			path: "/actor-singer/headshot-resume",
+		},
+		{
+			name: "Media",
+			path: "/actor-singer/media",
+		},
+		{
+			name: "News",
+			path: "/actor-singer/news",
+		},
+	],
+};
+const menu2: NavMenu = {
+	name: "Voice Studio",
+	sublinks: [
+		{
+			name: "Philosophy",
+			path: "/voice-studio/philosophy",
+		},
+		{
+			name: "Booking",
+			path: "/voice-studio/booking",
+		},
+		{
+			name: "Research",
+			path: "/voice-studio/research",
+		},
+	],
+};
+const menu3: NavMenu = {
+	name: "Directing",
+	sublinks: [
+		{
+			name: "In Development",
+			path: "/directing/in-development",
+		},
+	],
+};
+
+const menu4: NavMenu = {
+	name: "Visual Art",
+	sublinks: [
+		{
+			name: "Gallery",
+			path: "/visual-art/gallery",
+		},
+	],
+};
+
+const menu5: NavMenu = {
+	name: "Contact",
+	path: "/contact",
+};
+
+const menus = [menu1, menu2, menu3, menu4, menu5];
 
 const Nav = ({ isNavOpen, isCVOpen, setIsCVOpen, setIsNavOpen }: Props) => {
 	return (
@@ -81,52 +148,12 @@ const Nav = ({ isNavOpen, isCVOpen, setIsCVOpen, setIsNavOpen }: Props) => {
 					</li>
 				</ul>
 			</nav>
+			{/* Medium */}
 			<nav className="hidden w-full bg-primary py-3 px-8 md:sticky md:top-14 md:z-20 md:block">
-				<ul className="flex w-1/4 space-x-5 ">
-					<li
-						className="cursor-pointer text-sm font-normal"
-						onClick={(e) => {
-							setIsCVOpen(!isCVOpen);
-						}}
-					>
-						Bio
-					</li>
-					<li
-						className="cursor-pointer text-sm font-normal"
-						onClick={(e) => {
-							Scroll.scroller.scrollTo("showreel", {
-								duration: 1000,
-								smooth: true,
-								offset: -100,
-							});
-						}}
-					>
-						Video
-					</li>
-					<li
-						className="cursor-pointer text-sm font-normal"
-						onClick={(e) => {
-							Scroll.scroller.scrollTo("photos", {
-								duration: 1000,
-								smooth: true,
-								offset: -100,
-							});
-						}}
-					>
-						Photos
-					</li>
-					<li
-						className="cursor-pointer text-sm font-normal"
-						onClick={(e) => {
-							Scroll.scroller.scrollTo("contact", {
-								duration: 1000,
-								smooth: true,
-								offset: -100,
-							});
-						}}
-					>
-						Contact
-					</li>
+				<ul className="flex space-x-5 ">
+					{menus.map((menu) => (
+						<Submenu key={menu.name} menu={menu} />
+					))}
 				</ul>
 			</nav>
 		</>

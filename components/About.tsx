@@ -1,9 +1,9 @@
 import Image from "next/image";
-import headshot1 from "../public/headshot1.jpg";
-import groupPhoto from "../public/groupPhoto.jpg";
-import halloween from "../public/halloween.jpg";
-import postWorkout from "../public/postWorkout.jpg";
-import yankeeGame from "../public/yankeeGame.jpg";
+import headshot1 from "/public/headshot1.jpg";
+import groupPhoto from "/public/groupPhoto.jpg";
+import halloween from "/public/halloween.jpg";
+import postWorkout from "/public/postWorkout.jpg";
+import yankeeGame from "/public/yankeeGame.jpg";
 
 type Props = {
 	// ...

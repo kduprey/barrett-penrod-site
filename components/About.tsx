@@ -15,8 +15,8 @@ const About = (props: Props) => {
 			id="about"
 			className="flex flex-col items-center justify-center space-y-4 bg-slate-200 py-6 px-8 md:flex-row md:justify-evenly md:space-y-0"
 		>
-			<div className="flex w-1/4 flex-col space-y-4">
-				<h2 className="text-center text-primary md:self-start md:pt-6">
+			<div className="flex w-1/4 flex-col space-y-10">
+				<h2 className="text-center text-primary md:self-start">
 					About Me
 				</h2>
 

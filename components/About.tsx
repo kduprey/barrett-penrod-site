@@ -15,8 +15,8 @@ const About = (props: Props) => {
 			id="about"
 			className="flex flex-col items-center justify-center space-y-4 bg-slate-200 py-6 px-8 md:flex-row md:justify-evenly md:space-y-0"
 		>
-			<div className="flex w-1/4 flex-col space-y-10">
-				<h2 className="text-center text-primary md:self-start">
+			<div className="flex flex-col sm:w-1/4 md:space-y-10">
+				<h2 className="pb-4 text-center text-primary md:self-start">
 					About Me
 				</h2>
 
@@ -24,7 +24,7 @@ const About = (props: Props) => {
 					<Image src={headshot1} alt="Barrett Penrod" />
 				</div>
 			</div>
-			<section className=" w-2/3 px-6">
+			<section className=" md:w-2/3 md:px-6">
 				<p className="text-slate-800">
 					Hello! Glad to see you here. Feel free to stay awhile!
 				</p>
@@ -57,7 +57,7 @@ const About = (props: Props) => {
 					specifics I&rsquo;d love to share! &nbsp;
 				</p>
 			</section>
-			<div className="w-1/4 space-y-4">
+			<div className="space-y-4 md:w-1/4">
 				<div className="grid grid-cols-2 gap-2">
 					<Image
 						placeholder="blur"

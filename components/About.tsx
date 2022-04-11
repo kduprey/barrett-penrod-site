@@ -24,18 +24,39 @@ const About = (props: Props) => {
 					<Image src={headshot1} alt="Barrett Penrod" />
 				</div>
 			</div>
-			<p className="text-slate-800 md:w-1/4">
-				Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-				Necessitatibus culpa dolor voluptatibus quam libero, amet
-				explicabo odit eius veniam dolore repudiandae maiores adipisci
-				voluptatem. Iste veniam animi doloremque quod sequi?
+			<section className=" w-2/3 px-6">
+				<p className="text-slate-800">
+					Hello! Glad to see you here. Feel free to stay awhile!
+				</p>
 				<br />
+				<p className="text-slate-800">
+					So, about me: If you sat me down, ordered us a round of
+					margaritas (my favorite), and asked me to tell you about me
+					and what I do &ndash; we&rsquo;d be talking for a few good
+					hours. Expect me to geek out about the voice a lot, as well
+					as actors who inspire me. I&rsquo;m going to talk about
+					authenticity, honesty, advocacy, allyship, and overall, a
+					fierce desire to contribute positively to those I am
+					fortunate to work with. I&rsquo;ll tell you what I like to
+					do outside of work to keep balanced. I&rsquo;ll talk about
+					where my partner and I have traveled, and my favorite true
+					crime podcast I&rsquo;ve been listening to. I&rsquo;ll ask
+					you a lot of questions about you, your interests, and listen
+					to what you have to say. When all is said and done, I want
+					you to feel seen and heard as much as you want.
+				</p>
 				<br />
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum
-				laboriosam tempora ipsam fuga aliquam iure doloremque quis,
-				temporibus error deserunt tenetur, quibusdam libero enim, velit
-				eum unde vitae optio. Sed.
-			</p>
+				<p className="text-slate-800">
+					Specifics about my work &ndash; I&rsquo;ve got a big tenor
+					voice. I also have a strong lower end, so I often venture
+					into Baritone territory depending on the project. I&rsquo;m
+					just as comfortable in Plays as I am in Musicals. It&rsquo;s
+					my personal goal to be as stylistically versatile as
+					possible &ndash; I want to keep you guessing on my favorite
+					style to sing. Keep scrolling for more, there&rsquo;s more
+					specifics I&rsquo;d love to share! &nbsp;
+				</p>
+			</section>
 			<div className="w-1/4 space-y-4">
 				<div className="grid grid-cols-2 gap-2">
 					<Image

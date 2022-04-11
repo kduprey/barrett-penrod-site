@@ -13,7 +13,7 @@ const Submenu = ({ menu }: Props) => {
 	if (menu.sublinks) {
 		return (
 			<li
-				className="px-2"
+				className="cursor-pointer px-2"
 				onClick={() => {
 					setIsOpen(!isOpen);
 				}}
@@ -31,7 +31,7 @@ const Submenu = ({ menu }: Props) => {
 					className={`medium-submenu transition-all duration-300 ease-in-out ${
 						isOpen
 							? "top-full h-auto w-auto opacity-100"
-							: "-top-full w-0 opacity-0"
+							: "-top-60 w-0 opacity-0"
 					} `}
 				>
 					{menu.sublinks?.map((sublink, index) => (

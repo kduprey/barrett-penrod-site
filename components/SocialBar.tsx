@@ -17,7 +17,7 @@ const SocialBar = ({ facebook, twitter, instagram, youtube }: Props) => {
 				<FontAwesomeIcon icon={instagram} />
 				<FontAwesomeIcon icon={youtube} />
 			</div>
-			<div className="fixed top-1/2 right-0 hidden h-40 w-12 flex-col justify-evenly bg-secondary md:flex">
+			<div className="fixed top-1/2 right-0 z-20 hidden h-40 w-12 flex-col justify-evenly bg-secondary md:flex">
 				<FontAwesomeIcon icon={facebook} />
 				<FontAwesomeIcon icon={twitter} />
 				<FontAwesomeIcon icon={instagram} />

@@ -8,7 +8,6 @@ import {
 	faInstagram,
 	faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
-import { faFileLines, faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import Footer from "../components/Footer";
 import Photos from "../components/Photos";
 import Showreel from "../components/Showreel";
@@ -25,6 +24,16 @@ import headshot3 from "../public/headshot3.jpg";
 import headshot4 from "../public/headshot4.jpg";
 import headshot5 from "../public/headshot5.jpg";
 import headshot6 from "../public/headshot6.jpg";
+import Headshot from "../components/Headshot";
+
+const headshots = [
+	headshot1,
+	headshot2,
+	headshot3,
+	headshot4,
+	headshot5,
+	headshot6,
+];
 
 const Home: NextPage = () => {
 	const [isNavOpen, setIsNavOpen] = useState(false);
@@ -82,42 +91,15 @@ const Home: NextPage = () => {
 					{/* TODO: #4 On hover: react to hover
 						TODO: #5 On click: open in modal view */}
 					<div className="grid grid-cols-3 gap-2">
-						<Image
-							loading="lazy"
-							placeholder="blur"
-							src={headshot1}
-							alt="Barrett Penrod - Headshot"
-						/>
-						<Image
-							loading="lazy"
-							placeholder="blur"
-							src={headshot2}
-							alt="Barrett Penrod - Headshot"
-						/>
-						<Image
-							loading="lazy"
-							placeholder="blur"
-							src={headshot3}
-							alt="Barrett Penrod - Headshot"
-						/>
-						<Image
-							loading="lazy"
-							placeholder="blur"
-							src={headshot4}
-							alt="Barrett Penrod - Headshot"
-						/>
-						<Image
-							loading="lazy"
-							placeholder="blur"
-							src={headshot5}
-							alt="Barrett Penrod - Headshot"
-						/>
-						<Image
-							loading="lazy"
-							placeholder="blur"
-							src={headshot6}
-							alt="Barrett Penrod - Headshot"
-						/>
+						{headshots.map((e, i) => {
+							return (
+								<Headshot
+									imageProps={{ src: e }}
+									alt="Barrett Penrod - Headshot"
+									key={i}
+								/>
+							);
+						})}
 					</div>
 					<a
 						href="https://files.kduprey.com/barrettpenrod/BarrettPenrodHeadshots.zip"

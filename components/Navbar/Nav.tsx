@@ -26,7 +26,7 @@ const Nav = ({ isNavOpen, isCVOpen, setIsCVOpen, setIsNavOpen }: Props) => {
 				</ul>
 			</nav>
 			{/* Medium */}
-			<nav className="hidden w-full bg-primary py-3 px-8 md:sticky md:top-14 md:z-20 md:block">
+			<nav className="hidden w-full bg-primary py-3 px-8 md:sticky md:top-14 md:z-50 md:block">
 				<ul className="flex space-x-5 ">
 					{menus.map((menu) => (
 						<Submenu key={menu.name} menu={menu} />

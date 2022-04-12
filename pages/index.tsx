@@ -76,35 +76,27 @@ const Home: NextPage = () => {
 
 			{/* Resume/Headshots */}
 
-			<div className="flex justify-evenly">
-				<div className="flex  flex-col items-center justify-center space-y-3">
-					<h3 className="text-secondary">Headshots</h3>
+			<div className="flex flex-col items-center justify-center space-y-3 pb-4">
+				<h3 className="py-6 text-secondary">Headshots</h3>
 
-					{/* TODO: #4 On hover: react to hover
-						TODO: #5 On click: open in modal view */}
-					<div className="grid grid-cols-3 gap-2">
-						{headshots.map((e, i) => {
-							return (
-								<Headshot
-									imageProps={{ src: e }}
-									alt="Barrett Penrod - Headshot"
-									key={i}
-								/>
-							);
-						})}
-					</div>
-					<a
-						href="https://files.kduprey.com/barrettpenrod/BarrettPenrodHeadshots.zip"
-						download={true}
-						className="bg-secondary px-4 py-2 text-slate-800 hover:bg-slate-300 hover:no-underline"
-					>
-						Download Headshots
-					</a>
+				<div className="grid w-2/3 grid-cols-3 gap-4">
+					{headshots.map((e, i) => {
+						return (
+							<Headshot
+								imageProps={{ src: e }}
+								alt="Barrett Penrod - Headshot"
+								key={i}
+							/>
+						);
+					})}
 				</div>
-				<div className="">
-					<h2 className="text-secondary">Resumé</h2>
-					<Resume />
-				</div>
+				<a
+					href="https://files.kduprey.com/barrettpenrod/BarrettPenrodHeadshots.zip"
+					download={true}
+					className="bg-secondary px-4 py-2 text-slate-800 hover:bg-slate-300 hover:no-underline"
+				>
+					Download Headshots
+				</a>
 			</div>
 
 			{/* Showreel */}

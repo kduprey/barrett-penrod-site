@@ -19,7 +19,7 @@ const About = (props: Props) => {
 				<h2 className="pb-4 text-center text-4xl text-primary md:hidden md:self-start">
 					About Me
 				</h2>
-				<div className="">
+				<div className="mx-auto w-2/3 md:w-auto">
 					<Image src={headshot1} alt="Barrett Penrod" />
 				</div>
 			</div>

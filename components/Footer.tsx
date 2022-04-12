@@ -1,14 +1,14 @@
-import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+import {
+	faFacebookF,
+	faTwitter,
+	faInstagram,
+	faYoutube,
+} from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-type Props = {
-	facebook: IconDefinition;
-	twitter: IconDefinition;
-	instagram: IconDefinition;
-	youtube: IconDefinition;
-};
+type Props = {};
 
-const Footer = ({ facebook, twitter, instagram, youtube }: Props) => {
+const Footer = (props: Props) => {
 	return (
 		<div
 			id="contact"
@@ -45,10 +45,10 @@ const Footer = ({ facebook, twitter, instagram, youtube }: Props) => {
 
 			{/* Social Media Links */}
 			<div className="flex w-4/5 items-center justify-evenly pt-4 text-white md:w-1/4">
-				<FontAwesomeIcon icon={facebook} />
-				<FontAwesomeIcon icon={twitter} />
-				<FontAwesomeIcon icon={instagram} />
-				<FontAwesomeIcon icon={youtube} />
+				<FontAwesomeIcon icon={faFacebookF} />
+				<FontAwesomeIcon icon={faTwitter} />
+				<FontAwesomeIcon icon={faInstagram} />
+				<FontAwesomeIcon icon={faYoutube} />
 			</div>
 		</div>
 	);

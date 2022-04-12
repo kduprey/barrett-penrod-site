@@ -2,12 +2,7 @@ import type { NextPage } from "next";
 import Header from "../components/Header";
 import Nav from "../components/Navbar/Nav";
 import { useState } from "react";
-import {
-	faFacebookF,
-	faTwitter,
-	faInstagram,
-	faYoutube,
-} from "@fortawesome/free-brands-svg-icons";
+
 import Footer from "../components/Footer";
 import Photos from "../components/Photos";
 import Showreel from "../components/Showreel";
@@ -16,7 +11,7 @@ import Headline from "../components/Headline";
 import SocialBar from "../components/SocialBar";
 import TitleBar from "../components/Navbar/TitleBar";
 
-import Resume from "../components/Resume";
+import Resume from "../components/ResumeTable";
 import Image from "next/image";
 import headshot1 from "../public/headshot1.jpg";
 import headshot2 from "../public/headshot2.jpg";
@@ -44,7 +39,9 @@ const Home: NextPage = () => {
 			<Header
 				title={"Barrett Penrod · Actor, Singer, Mover"}
 				// TODO: Add description
-				description={""}
+				description={
+					"Barrett Penrod is an actor, singer, and mover looking for work."
+				}
 			/>
 			{/* Title Bar */}
 			<TitleBar isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
@@ -58,12 +55,7 @@ const Home: NextPage = () => {
 			/>
 
 			{/* Social Media Links */}
-			<SocialBar
-				facebook={faFacebookF}
-				twitter={faTwitter}
-				instagram={faInstagram}
-				youtube={faYoutube}
-			/>
+			<SocialBar />
 
 			{/* Heading Text */}
 			<Headline />
@@ -84,35 +76,35 @@ const Home: NextPage = () => {
 
 			{/* Resume/Headshots */}
 
-			<div className="">
-				<div className="flex flex-col items-center py-2">
+			<div className="flex justify-evenly">
+				<div className="flex  flex-col items-center justify-center space-y-3">
+					<h3 className="text-secondary">Headshots</h3>
+
+					{/* TODO: #4 On hover: react to hover
+						TODO: #5 On click: open in modal view */}
+					<div className="grid grid-cols-3 gap-2">
+						{headshots.map((e, i) => {
+							return (
+								<Headshot
+									imageProps={{ src: e }}
+									alt="Barrett Penrod - Headshot"
+									key={i}
+								/>
+							);
+						})}
+					</div>
+					<a
+						href="https://files.kduprey.com/barrettpenrod/BarrettPenrodHeadshots.zip"
+						download={true}
+						className="bg-secondary px-4 py-2 text-slate-800 hover:bg-slate-300 hover:no-underline"
+					>
+						Download Headshots
+					</a>
+				</div>
+				<div className="">
 					<h2 className="text-secondary">Resumé</h2>
 					<Resume />
 				</div>
-			</div>
-			<div className="flex flex-col items-center justify-center space-y-3 p-3">
-				<h3 className="text-secondary">Headshots</h3>
-
-				{/* TODO: #4 On hover: react to hover
-						TODO: #5 On click: open in modal view */}
-				<div className="grid w-3/4 grid-cols-3 gap-2">
-					{headshots.map((e, i) => {
-						return (
-							<Headshot
-								imageProps={{ src: e }}
-								alt="Barrett Penrod - Headshot"
-								key={i}
-							/>
-						);
-					})}
-				</div>
-				<a
-					href="https://files.kduprey.com/barrettpenrod/BarrettPenrodHeadshots.zip"
-					download={true}
-					className="bg-secondary px-4 py-2 text-slate-800 hover:bg-slate-300 hover:no-underline"
-				>
-					Download Headshots
-				</a>
 			</div>
 
 			{/* Showreel */}
@@ -125,12 +117,7 @@ const Home: NextPage = () => {
 
 			{/* Footer */}
 
-			<Footer
-				facebook={faFacebookF}
-				twitter={faTwitter}
-				instagram={faInstagram}
-				youtube={faYoutube}
-			/>
+			<Footer />
 		</main>
 	);
 };

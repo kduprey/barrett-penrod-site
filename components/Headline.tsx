@@ -25,9 +25,7 @@ const Headline = (props: Props) => {
 					<h1 className="text-8xl font-extrabold text-white ">
 						Barrett Penrod
 					</h1>
-					<p className="tracking-widest">
-						Actor-Singer, Educator, Director, Visual Artist
-					</p>
+					<p className="tracking-widest">Actor, Singer, Mover</p>
 				</div>
 				{/* Image */}
 				<div className="z-10 flex w-1/4 border">

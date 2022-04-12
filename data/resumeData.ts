@@ -10,14 +10,14 @@ export const theater = [
 		"Theater Company": "Seattle Air and Space",
 	},
 	{
-		"Show Name": "Mamma Mia",
-		Role: "Ensemble",
-		"Theater Company": "Seattle Musical Theatre",
+		"Show Name": "Singing in the Rain",
+		Role: "Production Tenor",
+		"Theater Company": "Coeur D’Alene Sum. Theatre",
 	},
 	{
-		"Show Name": "Rapunzel - A Holiday Panto",
-		Role: "Ensemble",
-		"Theater Company": "Centerstage Theatre",
+		"Show Name": "Pirates of Penzance",
+		Role: "The Pirate King",
+		"Theater Company": "The Core Ensemble",
 	},
 	{
 		"Show Name": "Title of Show",
@@ -30,19 +30,19 @@ export const theater = [
 		"Theater Company": "The Core Ensemble",
 	},
 	{
-		"Show Name": "Pirates of Penzance",
-		Role: "The Pirate King",
-		"Theater Company": "The Core Ensemble",
-	},
-	{
 		"Show Name": "Cardinal Sins (World Premeire)",
 		Role: "Camile",
 		"Theater Company": "Centerstage Theatre",
 	},
 	{
-		"Show Name": "Singing in the Rain",
-		Role: "Production Tenor",
-		"Theater Company": "Coeur D’Alene Sum. Theatre",
+		"Show Name": "Mamma Mia",
+		Role: "Ensemble",
+		"Theater Company": "Seattle Musical Theatre",
+	},
+	{
+		"Show Name": "Rapunzel - A Holiday Panto",
+		Role: "Ensemble",
+		"Theater Company": "Centerstage Theatre",
 	},
 	{
 		"Show Name": "For all That (World Premeire)",
@@ -68,9 +68,14 @@ export const eduTheatre = [
 		"Theater Company": "New York University",
 	},
 	{
-		"Show Name": "Storm - A Musical Review",
-		Role: "Ensemble ",
-		"Theater Company": "New York University ",
+		"Show Name": "Cover Me",
+		Role: "Principal Soloist",
+		"Theater Company": "New York University",
+	},
+	{
+		"Show Name": "Home Again",
+		Role: "Principal Soloist",
+		"Theater Company": "New York University",
 	},
 	{
 		"Show Name": "Seussical",
@@ -80,16 +85,6 @@ export const eduTheatre = [
 	{
 		"Show Name": "Spring Awakening",
 		Role: "Hanschen",
-		"Theater Company": "Cornish College of the Arts",
-	},
-	{
-		"Show Name": "Sister Act",
-		Role: "TJ/ M. O’Hara",
-		"Theater Company": "Cornish College of the Arts",
-	},
-	{
-		"Show Name": "Caucasian Chalk Circle",
-		Role: "Laverenti",
 		"Theater Company": "Cornish College of the Arts",
 	},
 	{
@@ -106,28 +101,16 @@ export const training = {
 			Instructor: "Candice Donehoo Pullom",
 		},
 		{
-			Skill: "Acting",
-			Instructor: "Sheila Daniels",
-		},
-		{
-			Skill: "Physical Technique",
-			Instructor: "Ellen Boyle",
-		},
-		{
-			Skill: "Dance",
-			Instructor: "Tinka Daley",
-		},
-		{
 			Skill: "Text Analysis",
 			Instructor: "Timothy McCuen Piggee",
 		},
 		{
-			Skill: "Voice (Speech)",
-			Instructor: "Kate Myre",
+			Skill: "Acting",
+			Instructor: "Sheila Daniels",
 		},
 		{
-			Skill: "Shakespeare",
-			Instructor: "Kerry Skalsky",
+			Skill: "Dance",
+			Instructor: "Tinka Daley",
 		},
 	],
 
@@ -153,8 +136,8 @@ export const training = {
 			Instructor: "Herschel Garfein",
 		},
 		{
-			Skill: "Business / Audition Rep",
-			Instructor: "Stan Tucker / David Alpert",
+			Skill: "Audition Technique",
+			Instructor: "Stan Tucker / David Alpert / Jen Bender",
 		},
 		{
 			Skill: "Recital Rep",
@@ -162,33 +145,6 @@ export const training = {
 		},
 	],
 };
-
-export const otherTraining = [
-	{
-		Skill: "Master Class – Audition",
-		Instructor: "LaChanze",
-	},
-	{
-		Skill: "Master Class – Performance",
-		Instructor: "Mandy Patinkin",
-	},
-	{
-		Skill: "Master Class – Performance",
-		Instructor: "Stephanie J. Block",
-	},
-	{
-		Skill: "Master Class – Performance",
-		Instructor: "Ben Vereen",
-	},
-	{
-		Skill: "Master Class – Voice Technique",
-		Instructor: "Jason Forbach",
-	},
-	{
-		Skill: "Southern Utah University – Voice (Singing - 1 year)",
-		Instructor: "Carol Anne Modesitt",
-	},
-];
 
 export const specialSkills =
 	"Large tenor voice with strong middle and lower voice (can and have played baritone roles). Advanced Part Singing. Sight Reading. Drag Performer. Dialects (IPA Trained). Singing Voice Specialist. Fitness Enthusiast. Visual Artist. Carol Channing Impression. SVS and Directing resumes available on request.";

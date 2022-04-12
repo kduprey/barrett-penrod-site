@@ -84,35 +84,35 @@ const Home: NextPage = () => {
 
 			{/* Resume/Headshots */}
 
-			<div className="flex space-x-3 py-3">
-				<div className="flex w-1/2 flex-col items-center justify-center space-y-3">
-					<h3 className="text-secondary">Headshots</h3>
-
-					{/* TODO: #4 On hover: react to hover
-						TODO: #5 On click: open in modal view */}
-					<div className="grid grid-cols-3 gap-2">
-						{headshots.map((e, i) => {
-							return (
-								<Headshot
-									imageProps={{ src: e }}
-									alt="Barrett Penrod - Headshot"
-									key={i}
-								/>
-							);
-						})}
-					</div>
-					<a
-						href="https://files.kduprey.com/barrettpenrod/BarrettPenrodHeadshots.zip"
-						download={true}
-						className="bg-secondary px-4 py-2 text-slate-800 hover:bg-slate-300 hover:no-underline"
-					>
-						Download Headshots
-					</a>
-				</div>
-				<div className="flex flex-col items-center ">
-					<h3 className="text-secondary">Resumé</h3>
+			<div className="">
+				<div className="flex flex-col items-center py-2">
+					<h2 className="text-secondary">Resumé</h2>
 					<Resume />
 				</div>
+			</div>
+			<div className="flex flex-col items-center justify-center space-y-3 p-3">
+				<h3 className="text-secondary">Headshots</h3>
+
+				{/* TODO: #4 On hover: react to hover
+						TODO: #5 On click: open in modal view */}
+				<div className="grid w-3/4 grid-cols-3 gap-2">
+					{headshots.map((e, i) => {
+						return (
+							<Headshot
+								imageProps={{ src: e }}
+								alt="Barrett Penrod - Headshot"
+								key={i}
+							/>
+						);
+					})}
+				</div>
+				<a
+					href="https://files.kduprey.com/barrettpenrod/BarrettPenrodHeadshots.zip"
+					download={true}
+					className="bg-secondary px-4 py-2 text-slate-800 hover:bg-slate-300 hover:no-underline"
+				>
+					Download Headshots
+				</a>
 			</div>
 
 			{/* Showreel */}

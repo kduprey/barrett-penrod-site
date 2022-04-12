@@ -30,6 +30,10 @@ h6 {
 	@apply text-base font-bold md:text-xl;
 }
 
+td {
+	@apply text-sm;
+}
+
 p {
 	@apply text-base font-normal text-slate-100 md:text-lg;
 }

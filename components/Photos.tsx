@@ -5,10 +5,10 @@ type Props = {
 const Photos = (props: Props) => {
 	return (
 		<div
-			id="photos"
+			id="production-photos"
 			className="flex flex-col items-center justify-center space-y-4 bg-slate-100 py-6"
 		>
-			<h2>Photos</h2>
+			<h2>Production Photos</h2>
 			<div className="flex w-full flex-col items-center justify-center space-y-6 md:grid md:grid-cols-3 md:justify-items-center">
 				<div className="flex h-[400px] w-3/5 flex-col items-center justify-center bg-slate-400">
 					<p>Photo 1</p>

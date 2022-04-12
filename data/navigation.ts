@@ -73,8 +73,8 @@ export const menus: NavMenu[] = [
 		path: "/about",
 		sublinks: [
 			{
-				name: "Bio",
-				path: "/about/bio",
+				name: "About Me",
+				path: "/about/about-me",
 			},
 			{
 				name: "Headshot/Resumé",

@@ -77,9 +77,9 @@ const Home: NextPage = () => {
 			{/* Resume/Headshots */}
 
 			<div className="flex flex-col items-center justify-center space-y-3 pb-4">
-				<h3 className="py-6 text-secondary">Headshots</h3>
+				<h2 className="py-6 text-secondary">Headshots</h2>
 
-				<div className="grid w-2/3 grid-cols-3 gap-4">
+				<div className="grid w-5/6 grid-cols-3 gap-4 md:w-2/3">
 					{headshots.map((e, i) => {
 						return (
 							<Headshot

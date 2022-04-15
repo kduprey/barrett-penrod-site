@@ -115,6 +115,16 @@ const Home: NextPage = () => {
 				<h1 className="text-center text-secondary">Resumé</h1>
 
 				<ResumeTable />
+
+				<div className="flex justify-center pb-6">
+					<a
+						href="https://files.kduprey.com/barrettpenrod/Barrett_Penrod_Resume.pdf"
+						download={true}
+						className="bg-secondary px-4 py-2 text-slate-800 hover:bg-slate-300 hover:no-underline"
+					>
+						Download Resume
+					</a>
+				</div>
 			</div>
 
 			{/* Showreel */}

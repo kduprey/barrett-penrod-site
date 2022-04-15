@@ -6,11 +6,46 @@ const Showreel = (props: Props) => {
 	return (
 		<div
 			id="showreel"
-			className="flex flex-col items-center justify-center space-y-4 bg-slate-100 py-6 md:flex-row-reverse md:justify-evenly"
+			className="flex flex-col items-center justify-center space-y-4 bg-slate-100 py-6 md:justify-evenly"
 		>
 			<h2>Showreel</h2>
-			<div className="flex h-[200px] w-5/6 flex-col items-center justify-center bg-slate-400 md:h-[400px] md:w-1/2">
-				<h4>YouTube Placeholder</h4>
+			<div className="grid grid-cols-2 gap-3">
+				<iframe
+					width="560"
+					height="315"
+					src="https://www.youtube.com/embed/7iekqhAo4O0"
+					title="YouTube video player"
+					frameBorder={0}
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+					allowFullScreen
+				></iframe>
+				<iframe
+					width="560"
+					height="315"
+					src="https://www.youtube.com/embed/F1-LEy1_lTY"
+					title="YouTube video player"
+					frameBorder={0}
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+					allowFullScreen
+				></iframe>
+				<iframe
+					width="560"
+					height="315"
+					src="https://www.youtube.com/embed/ShN59EBuFsQ"
+					title="YouTube video player"
+					frameBorder={0}
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+					allowFullScreen
+				></iframe>
+				<iframe
+					width="560"
+					height="315"
+					src="https://www.youtube.com/embed/khObU__kOvo"
+					title="YouTube video player"
+					frameBorder={0}
+					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+					allowFullScreen
+				></iframe>
 			</div>
 		</div>
 	);

@@ -19,6 +19,7 @@ import headshot4 from "../public/headshot4.jpg";
 import headshot5 from "../public/headshot5.jpg";
 import headshot6 from "../public/headshot6.jpg";
 import Headshot from "../components/Headshot";
+import ResumeTable from "../components/ResumeTable";
 
 const headshots = [
 	headshot1,
@@ -99,6 +100,13 @@ const Home: NextPage = () => {
 				>
 					Download Headshots
 				</a>
+			</div>
+
+			{/* Resume */}
+			<div className="py-6 md:p-0">
+				<h1 className="text-center text-secondary">Resumé</h1>
+
+				<ResumeTable />
 			</div>
 
 			{/* Showreel */}

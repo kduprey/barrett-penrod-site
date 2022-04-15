@@ -3,6 +3,7 @@ import { Link } from "react-scroll";
 
 export interface Page {
 	name: string;
+	id: string;
 	path: string;
 	scrollTo: boolean;
 }

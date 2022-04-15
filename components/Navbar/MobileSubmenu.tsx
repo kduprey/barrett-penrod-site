@@ -72,7 +72,7 @@ const MobileSubmenu = ({ menu, setIsNavOpen, isNavOpen }: Props) => {
 									onClick={() => {
 										setIsNavOpen(false);
 									}}
-									to={sublink.path}
+									to={sublink.id}
 									spy={true}
 									smooth={true}
 									offset={-75}

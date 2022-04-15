@@ -106,6 +106,10 @@ const Home: NextPage = () => {
 				</a>
 			</div>
 
+			<div className="flex justify-center p-3">
+				<hr className="h-1 w-3/4" />
+			</div>
+
 			{/* Resume */}
 			<div className="py-6 md:p-0">
 				<h1 className="text-center text-secondary">Resumé</h1>
@@ -116,6 +120,10 @@ const Home: NextPage = () => {
 			{/* Showreel */}
 
 			<Showreel />
+
+			<div className="flex justify-center bg-slate-100 p-3">
+				<hr className="h-1 w-3/4 bg-slate-300" />
+			</div>
 
 			{/* Photos */}
 

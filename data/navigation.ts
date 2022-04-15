@@ -29,8 +29,8 @@ export const menus: NavMenu[] = [
 			{
 				name: "Resumé",
 				id: "resume",
-				path: "/about/resume",
-				scrollTo: false,
+				path: "/#resume",
+				scrollTo: true,
 			},
 		],
 	},
@@ -47,8 +47,8 @@ export const menus: NavMenu[] = [
 			{
 				name: "Production Photos",
 				id: "production-photos",
-				path: "/media/production-photos",
-				scrollTo: false,
+				path: "/#production-photos",
+				scrollTo: true,
 			},
 		],
 	},
@@ -58,6 +58,6 @@ export const menus: NavMenu[] = [
 	},
 	{
 		name: "Contact",
-		path: "/contact",
+		path: "/#contact",
 	},
 ];

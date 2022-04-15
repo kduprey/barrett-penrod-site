@@ -21,18 +21,6 @@ const Photos = (props: Props) => {
 			<div className="flex w-full flex-col items-center justify-center space-y-3 md:grid md:grid-cols-3 md:justify-items-center md:space-y-0">
 				<div className="w-3/4">
 					<Image
-						src={seussical}
-						loading="lazy"
-						placeholder="blur"
-						alt="Horton, Sussical"
-					/>
-					<p className="text-center text-primary">
-						Horton the Elephant (Seussical), Cornish College of the
-						Arts
-					</p>
-				</div>
-				<div className="w-3/4">
-					<Image
 						src={maywest}
 						loading="lazy"
 						placeholder="blur"
@@ -43,6 +31,7 @@ const Photos = (props: Props) => {
 						Washington
 					</p>
 				</div>
+
 				<div className="w-3/4">
 					<Image
 						src={mamamia}
@@ -79,6 +68,19 @@ const Photos = (props: Props) => {
 						Cornish College of the Arts
 					</p>
 				</div>
+				<div className="w-3/4">
+					<Image
+						src={seussical}
+						loading="lazy"
+						placeholder="blur"
+						alt="Horton, Sussical"
+					/>
+					<p className="text-center text-primary">
+						Horton the Elephant (Seussical), Cornish College of the
+						Arts
+					</p>
+				</div>
+
 				<div className="w-3/4">
 					<Image
 						src={gaycity}

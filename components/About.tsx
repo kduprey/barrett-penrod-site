@@ -12,7 +12,7 @@ type Props = {
 const About = (props: Props) => {
 	return (
 		<div
-			id="about"
+			id="about-me"
 			className="flex flex-col items-center justify-center space-y-4 bg-slate-200 py-6 px-8 md:flex-row md:justify-evenly md:space-y-0"
 		>
 			<div className="flex flex-col sm:w-1/4 md:space-y-10">

@@ -2,7 +2,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { NavMenu } from "../../types";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
+import NextLink from "next/link";
+import { Link } from "react-scroll";
 
 type Props = {
 	menu: NavMenu;
@@ -35,24 +36,45 @@ const Submenu = ({ menu }: Props) => {
 							: "-top-60 w-0 opacity-0"
 					} `}
 				>
-					{menu.sublinks?.map((sublink, index) => (
-						<Link key={index} href={sublink.path}>
-							<a className="cursor-pointer text-secondary underline-offset-2 hover:text-white hover:underline">
-								{sublink.name}
-							</a>
-						</Link>
-					))}
+					{menu.sublinks?.map((sublink, index) => {
+						if (sublink.scrollTo) {
+							return (
+								<Link
+									key={index}
+									className="cursor-pointer text-secondary underline-offset-2 hover:text-white hover:underline"
+									onClick={() => {
+										setIsOpen(false);
+									}}
+									to={sublink.path}
+									spy={true}
+									smooth={true}
+									offset={-100}
+									duration={500}
+								>
+									{sublink.name}
+								</Link>
+							);
+						}
+
+						return (
+							<NextLink key={index} href={sublink.path}>
+								<a className="cursor-pointer text-secondary underline-offset-2 hover:text-white hover:underline">
+									{sublink.name}
+								</a>
+							</NextLink>
+						);
+					})}
 				</ul>
 			</li>
 		);
 	}
 
 	return (
-		<Link href={menu.path || ""}>
+		<NextLink href={menu.path || ""}>
 			<a className="cursor-pointer text-xl font-thin text-secondary underline-offset-2 hover:text-white hover:underline ">
 				{menu.name}
 			</a>
-		</Link>
+		</NextLink>
 	);
 };
 

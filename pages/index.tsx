@@ -18,6 +18,7 @@ import headshot3 from "../public/headshot3.jpg";
 import headshot4 from "../public/headshot4.jpg";
 import headshot5 from "../public/headshot5.jpg";
 import headshot6 from "../public/headshot6.jpg";
+import recitalflyer from "/public/recitalflyer.png";
 import Headshot from "../components/Headshot";
 import ResumeTable from "../components/ResumeTable";
 
@@ -35,7 +36,10 @@ const Home: NextPage = () => {
 	const [isCVOpen, setIsCVOpen] = useState(false);
 
 	return (
-		<main className={`${isNavOpen || isCVOpen ? "" : ""} bg-primary`}>
+		<main
+			className={`${isNavOpen || isCVOpen ? "" : ""} bg-primary`}
+			id="home"
+		>
 			<Header
 				title={"Barrett Penrod · Actor, Singer, Mover"}
 				// TODO: Add description
@@ -116,6 +120,43 @@ const Home: NextPage = () => {
 			{/* Photos */}
 
 			<Photos />
+
+			<div className="pt-3" id="news">
+				<h1 className="text-center text-secondary">News</h1>
+
+				<div className="p-6 text-secondary">
+					<div className="flex flex-col items-center justify-center space-y-3 p-4">
+						<h3>In Performance - April 18, 2022</h3>
+						<p>
+							NYU Class of 2022 Professional Showcase
+							<br />
+							Where - New World Stages
+							<br />
+							When - 3:30pm & 6:30pm EST
+							<br />
+							RSVP - Please contact Jen Bender at{" "}
+							<a
+								className="text-secondary underline underline-offset-2"
+								href="mailto:jnb9579@nyu.edu"
+							>
+								jnb9579@nyu.edu
+							</a>
+						</p>
+					</div>
+
+					<div className="flex flex-col items-center justify-center p-4">
+						<h3>In Performance - April 30, 2022</h3>
+						<div className="py-3 md:w-4/6">
+							<Image
+								src={recitalflyer}
+								alt="Recital flyer"
+								loading="lazy"
+								placeholder="blur"
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
 
 			{/* Footer */}
 

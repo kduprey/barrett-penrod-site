@@ -70,11 +70,24 @@ const Submenu = ({ menu }: Props) => {
 	}
 
 	return (
-		<NextLink href={menu.path || ""}>
-			<a className="cursor-pointer text-xl font-thin text-secondary underline-offset-2 hover:text-white hover:underline ">
-				{menu.name}
-			</a>
-		</NextLink>
+		<Link
+			as="a"
+			className="cursor-pointer pb-3 text-xl font-thin text-white hover:text-slate-300"
+			onClick={() => {
+				setIsOpen(false);
+			}}
+			to={
+				menu.name.toLowerCase() === "home"
+					? "home"
+					: menu.name.toLowerCase()
+			}
+			spy={true}
+			smooth={true}
+			offset={-120}
+			duration={500}
+		>
+			{menu.name}
+		</Link>
 	);
 };
 

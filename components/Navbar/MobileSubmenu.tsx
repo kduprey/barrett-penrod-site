@@ -3,6 +3,7 @@ import { NavMenu } from "../../types";
 import { motion, useAnimation } from "framer-motion";
 import NextLink from "next/link";
 import { Link } from "react-scroll";
+import { useRouter } from "next/router";
 
 type Props = {
 	menu: NavMenu;
@@ -11,6 +12,8 @@ type Props = {
 };
 
 const MobileSubmenu = ({ menu, setIsNavOpen, isNavOpen }: Props) => {
+	const router = useRouter();
+
 	const [isOpen, setIsOpen] = useState(false);
 	const controls = useAnimation();
 
@@ -98,7 +101,22 @@ const MobileSubmenu = ({ menu, setIsNavOpen, isNavOpen }: Props) => {
 		);
 	}
 
-	return <li className="py-2">{menu.name}</li>;
+	return (
+		<Link
+			as="a"
+			className="cursor-pointer pb-3 text-xl font-thin text-white hover:text-slate-300"
+			onClick={() => {
+				setIsNavOpen(false);
+			}}
+			to={menu.name.toLowerCase()}
+			spy={true}
+			smooth={true}
+			offset={-75}
+			duration={500}
+		>
+			{menu.name}
+		</Link>
+	);
 };
 
 export default MobileSubmenu;

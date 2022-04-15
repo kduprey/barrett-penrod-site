@@ -20,7 +20,7 @@ const Showreel = (props: Props) => {
 						allowFullScreen
 					></iframe>
 					<p className="py-2 text-center text-primary">
-						There But For You Go I - Self Tape
+						Self Tape - There But For You Go I - Self Tape
 					</p>
 				</div>
 				<div>

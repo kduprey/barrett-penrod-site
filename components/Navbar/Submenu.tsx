@@ -45,7 +45,7 @@ const Submenu = ({ menu }: Props) => {
 									onClick={() => {
 										setIsOpen(false);
 									}}
-									to={sublink.path}
+									to={sublink.id}
 									spy={true}
 									smooth={true}
 									offset={-100}

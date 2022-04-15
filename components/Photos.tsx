@@ -1,3 +1,12 @@
+import Image from "next/image";
+import seussical from "/public/seussical.png";
+import maywest from "/public/maywest.png";
+import mamamia from "/public/mamamia.jpeg";
+import knightensemble from "/public/knightensemble.png";
+import springawakening from "/public/springawakening.png";
+import gaycity from "/public/gaycity.jpeg";
+import soldierensemble from "/public/soldierensemble.jpeg";
+
 type Props = {
 	// ...
 };
@@ -9,24 +18,89 @@ const Photos = (props: Props) => {
 			className="flex flex-col items-center justify-center space-y-4 bg-slate-100 py-6"
 		>
 			<h2>Production Photos</h2>
-			<div className="flex w-full flex-col items-center justify-center space-y-6 md:grid md:grid-cols-3 md:justify-items-center">
-				<div className="flex h-[400px] w-3/5 flex-col items-center justify-center bg-slate-400">
-					<p>Photo 1</p>
+			<div className="flex w-full flex-col items-center justify-center space-y-3 md:grid md:grid-cols-3 md:justify-items-center md:space-y-0">
+				<div className="w-3/4">
+					<Image
+						src={seussical}
+						loading="lazy"
+						placeholder="blur"
+						alt="Horton, Sussical"
+					/>
+					<p className="text-center text-primary">
+						Horton the Elephant (Seussical), Cornish College of the
+						Arts
+					</p>
 				</div>
-				<div className="flex h-[400px] w-4/5 flex-col items-center justify-center bg-slate-400">
-					<p>Photo 2</p>
+				<div className="w-3/4">
+					<Image
+						src={maywest}
+						loading="lazy"
+						placeholder="blur"
+						alt="Horton, Sussical"
+					/>
+					<p className="text-center text-primary">
+						Barbara (Mae West’s The Drag), Gay City - Seattle,
+						Washington
+					</p>
 				</div>
-				<div className="flex h-[350px] w-3/5 flex-col items-center justify-center bg-slate-400">
-					<p>Photo 3</p>
+				<div className="w-3/4">
+					<Image
+						src={mamamia}
+						loading="lazy"
+						placeholder="blur"
+						alt="Horton, Sussical"
+					/>
+					<p className="text-center text-primary">
+						Does Your Mother Know Ensemble (Mamma Mia), Seattle
+						Musical Theatre
+					</p>
 				</div>
-				<div className="flex h-[200px] w-4/5 flex-col items-center justify-center bg-slate-400">
-					<p>Photo 4</p>
+
+				<div className="w-3/4">
+					<Image
+						src={knightensemble}
+						loading="lazy"
+						placeholder="blur"
+						alt="Horton, Sussical"
+					/>
+					<p className="text-center text-primary">
+						Knight Ensemble (Cardinal Sins), Centerstage Theatre
+					</p>
 				</div>
-				<div className="flex h-[350px] w-4/6 flex-col items-center justify-center bg-slate-400">
-					<p>Photo 5</p>
+				<div className="w-3/4">
+					<Image
+						src={springawakening}
+						loading="lazy"
+						placeholder="blur"
+						alt="Horton, Sussical"
+					/>
+					<p className="text-center text-primary">
+						Hanschen (Barrett Penrod ) and Ernst (Spring Awakening),
+						Cornish College of the Arts
+					</p>
 				</div>
-				<div className="flex h-[300px] w-5/6 flex-col items-center justify-center bg-slate-400">
-					<p>Photo 6</p>
+				<div className="w-3/4">
+					<Image
+						src={gaycity}
+						loading="lazy"
+						placeholder="blur"
+						alt="Horton, Sussical"
+					/>
+					<p className="text-center text-primary">
+						Rodney (Barrett Penrod) and Claire (The Drag), Gay City
+						- Seattle Washington
+					</p>
+				</div>
+				<div className="w-3/4">
+					<Image
+						src={soldierensemble}
+						loading="lazy"
+						placeholder="blur"
+						alt="Horton, Sussical"
+					/>
+					<p className="text-center text-primary">
+						Soldier Ensemble (For All That), Centerstage Theatre
+					</p>
 				</div>
 			</div>
 		</div>

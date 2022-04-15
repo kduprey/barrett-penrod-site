@@ -32,11 +32,14 @@ const ResumeTable = (props: Props) => {
 
 				<div className="w-full space-y-4">
 					<div>
-						<p className="text-xl font-semibold text-secondary">
-							Theatre
-						</p>
 						<table className="w-full text-slate-100">
 							<tbody>
+								<th
+									colSpan={3}
+									className="text-left text-xl font-semibold text-secondary"
+								>
+									Theatre
+								</th>
 								{theater.map((item, index) => (
 									<tr key={index}>
 										<td>{item["Show Name"]}</td>
@@ -44,16 +47,12 @@ const ResumeTable = (props: Props) => {
 										<td>{item["Theater Company"]}</td>
 									</tr>
 								))}
-							</tbody>
-						</table>
-					</div>
-
-					<div>
-						<h3 className="text-xl font-semibold text-secondary">
-							Educational Theatre
-						</h3>
-						<table className="w-full text-slate-100">
-							<tbody>
+								<th
+									colSpan={3}
+									className="text-left text-xl font-semibold text-secondary"
+								>
+									Educational Theatre
+								</th>
 								{eduTheatre.map((item, index) => (
 									<tr key={index}>
 										<td>{item["Show Name"]}</td>
@@ -61,35 +60,28 @@ const ResumeTable = (props: Props) => {
 										<td>{item["Theater Company"]}</td>
 									</tr>
 								))}
-							</tbody>
-						</table>
-					</div>
-
-					<h3 className="text-xl font-semibold text-secondary">
-						Training
-					</h3>
-					<div>
-						<h5 className="text-lg font-semibold text-secondary">
-							New York University: Master of Music in Vocal
-							Performance - Musical Theater &apos;22
-						</h5>
-						<table className="w-full text-slate-100">
-							<tbody>
+								<th
+									colSpan={3}
+									className="text-left text-xl font-semibold text-secondary"
+								>
+									Training
+									<br /> New York University: Master of Music
+									in Vocal Performance - Musical Theater
+									&apos;22
+								</th>
 								{training.NYU.map((item, index) => (
 									<tr key={index}>
 										<td>{item.Skill}</td>
 										<td>{item.Instructor}</td>
 									</tr>
 								))}
-							</tbody>
-						</table>
-					</div>
-					<div>
-						<h5 className="text-lg font-semibold text-secondary">
-							Cornish College of the Arts: BFA - Theater &apos;18
-						</h5>
-						<table className="w-full text-slate-100">
-							<tbody>
+								<th
+									colSpan={3}
+									className="text-left text-xl font-semibold text-secondary"
+								>
+									Cornish College of the Arts: BFA - Theater
+									&apos;18
+								</th>
 								{training.Cornish.map((item, index) => (
 									<tr key={index}>
 										<td>{item.Skill}</td>
@@ -99,6 +91,7 @@ const ResumeTable = (props: Props) => {
 							</tbody>
 						</table>
 					</div>
+
 					<div className="md:pr-20">
 						<h3 className="text-xl font-semibold text-secondary">
 							Special Skills

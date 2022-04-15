@@ -5,10 +5,10 @@ type Props = {
 const Showreel = (props: Props) => {
 	return (
 		<div
-			id="showreel"
+			id="video-sound-demo"
 			className="flex flex-col items-center justify-center space-y-4 bg-slate-100 py-6 md:justify-evenly"
 		>
-			<h2>Showreel</h2>
+			<h2>Video/Sound Demo</h2>
 			<div className="grid grid-cols-2 gap-3">
 				<iframe
 					width="560"

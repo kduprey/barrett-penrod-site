@@ -17,7 +17,11 @@ const Footer = (props: Props) => {
 			<h1 className="w-full text-center text-secondary">Contact</h1>
 
 			<div className="w-full ">
-				<form className="flex flex-col items-center justify-center space-y-3">
+				<form
+					className="flex flex-col items-center justify-center space-y-3"
+					action="https://getform.io/f/a41d0619-2460-4143-b154-c186c25a7000"
+					method="POST"
+				>
 					<div className="flex space-x-3">
 						<label htmlFor="name" className="text-secondary">
 							Name
@@ -36,7 +40,9 @@ const Footer = (props: Props) => {
 						</label>
 						<textarea id="message" rows={5} />
 					</div>
-					<button className=" bg-secondary px-4 py-2">Submit</button>
+					<button type="submit" className=" bg-secondary px-4 py-2">
+						Submit
+					</button>
 				</form>
 			</div>
 

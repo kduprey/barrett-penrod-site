@@ -80,6 +80,7 @@ const MobileSubmenu = ({ menu, setIsNavOpen, isNavOpen }: Props) => {
 									smooth={true}
 									offset={-75}
 									duration={500}
+									key={sublink.id}
 								>
 									{sublink.name}
 								</Link>

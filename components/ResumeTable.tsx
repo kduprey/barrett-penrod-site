@@ -36,7 +36,7 @@ const ResumeTable = (props: Props) => {
 							<tbody>
 								<th
 									colSpan={3}
-									className="text-left text-xl font-semibold text-secondary"
+									className="py-3 text-left text-xl font-semibold text-secondary"
 								>
 									Theatre
 								</th>
@@ -49,7 +49,7 @@ const ResumeTable = (props: Props) => {
 								))}
 								<th
 									colSpan={3}
-									className="text-left text-xl font-semibold text-secondary"
+									className="py-3 text-left text-xl font-semibold text-secondary"
 								>
 									Educational Theatre
 								</th>
@@ -62,12 +62,15 @@ const ResumeTable = (props: Props) => {
 								))}
 								<th
 									colSpan={3}
-									className="text-left text-xl font-semibold text-secondary"
+									className=" py-3 text-left text-xl font-semibold text-secondary"
 								>
-									Training
-									<br /> New York University: Master of Music
-									in Vocal Performance - Musical Theater
-									&apos;22
+									<div>Training</div>
+
+									<div className="pt-3">
+										New York University: Master of Music in
+										Vocal Performance - Musical Theater
+										&apos;22
+									</div>
 								</th>
 								{training.NYU.map((item, index) => (
 									<tr key={index}>
@@ -77,7 +80,7 @@ const ResumeTable = (props: Props) => {
 								))}
 								<th
 									colSpan={3}
-									className="text-left text-xl font-semibold text-secondary"
+									className="py-3 text-left text-xl font-semibold text-secondary"
 								>
 									Cornish College of the Arts: BFA - Theater
 									&apos;18

@@ -21,7 +21,12 @@ const Nav = ({ isNavOpen, isCVOpen, setIsCVOpen, setIsNavOpen }: Props) => {
 			>
 				<ul className=" flex flex-col items-center justify-center space-y-4 pt-10">
 					{menus.map((menu, index) => (
-						<MobileSubmenu key={index} menu={menu} />
+						<MobileSubmenu
+							key={index}
+							menu={menu}
+							isNavOpen={isNavOpen}
+							setIsNavOpen={setIsNavOpen}
+						/>
 					))}
 				</ul>
 			</nav>

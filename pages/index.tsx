@@ -11,7 +11,6 @@ import Headline from "../components/Headline";
 import SocialBar from "../components/SocialBar";
 import TitleBar from "../components/Navbar/TitleBar";
 
-import Resume from "../components/ResumeTable";
 import Image from "next/image";
 import headshot1 from "../public/headshot1.jpg";
 import headshot2 from "../public/headshot2.jpg";
@@ -76,7 +75,10 @@ const Home: NextPage = () => {
 
 			{/* Resume/Headshots */}
 
-			<div className="flex flex-col items-center justify-center space-y-3 pb-4">
+			<div
+				className="flex flex-col items-center justify-center space-y-3 pb-4"
+				id="headshots"
+			>
 				<h2 className="py-6 text-secondary">Headshots</h2>
 
 				<div className="grid w-5/6 grid-cols-3 gap-4 md:w-2/3">

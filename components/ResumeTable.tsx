@@ -33,13 +33,13 @@ const ResumeTable = (props: Props) => {
 				<div className="w-full space-y-4">
 					<div>
 						<table className="w-full text-slate-100">
+							<th
+								colSpan={3}
+								className="py-3 text-left text-xl font-semibold text-secondary"
+							>
+								Theatre
+							</th>
 							<tbody>
-								<th
-									colSpan={3}
-									className="py-3 text-left text-xl font-semibold text-secondary"
-								>
-									Theatre
-								</th>
 								{theater.map((item, index) => (
 									<tr key={index}>
 										<td>{item["Show Name"]}</td>
@@ -47,12 +47,14 @@ const ResumeTable = (props: Props) => {
 										<td>{item["Theater Company"]}</td>
 									</tr>
 								))}
-								<th
-									colSpan={3}
-									className="py-3 text-left text-xl font-semibold text-secondary"
-								>
-									Educational Theatre
-								</th>
+							</tbody>
+							<th
+								colSpan={3}
+								className="py-3 text-left text-xl font-semibold text-secondary"
+							>
+								Educational Theatre
+							</th>
+							<tbody>
 								{eduTheatre.map((item, index) => (
 									<tr key={index}>
 										<td>{item["Show Name"]}</td>
@@ -60,31 +62,34 @@ const ResumeTable = (props: Props) => {
 										<td>{item["Theater Company"]}</td>
 									</tr>
 								))}
-								<th
-									colSpan={3}
-									className=" py-3 text-left text-xl font-semibold text-secondary"
-								>
-									<div>Training</div>
+							</tbody>
+							<th
+								colSpan={3}
+								className=" py-3 text-left text-xl font-semibold text-secondary"
+							>
+								<div>Training</div>
 
-									<div className="pt-3">
-										New York University: Master of Music in
-										Vocal Performance - Musical Theater
-										&apos;22
-									</div>
-								</th>
+								<div className="pt-3">
+									New York University: Master of Music in
+									Vocal Performance - Musical Theater &apos;22
+								</div>
+							</th>
+							<tbody>
 								{training.NYU.map((item, index) => (
 									<tr key={index}>
 										<td>{item.Skill}</td>
 										<td>{item.Instructor}</td>
 									</tr>
 								))}
-								<th
-									colSpan={3}
-									className="py-3 text-left text-xl font-semibold text-secondary"
-								>
-									Cornish College of the Arts: BFA - Theater
-									&apos;18
-								</th>
+							</tbody>
+							<th
+								colSpan={3}
+								className="py-3 text-left text-xl font-semibold text-secondary"
+							>
+								Cornish College of the Arts: BFA - Theater
+								&apos;18
+							</th>
+							<tbody>
 								{training.Cornish.map((item, index) => (
 									<tr key={index}>
 										<td>{item.Skill}</td>

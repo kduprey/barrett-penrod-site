@@ -4,6 +4,7 @@ import { motion, useAnimation } from "framer-motion";
 import NextLink from "next/link";
 import { Link } from "react-scroll";
 import { useRouter } from "next/router";
+import * as gtag from "../../lib/analytics";
 
 type Props = {
 	menu: NavMenu;
@@ -74,6 +75,9 @@ const MobileSubmenu = ({ menu, setIsNavOpen, isNavOpen }: Props) => {
 									className="cursor-pointer pb-3 text-xl font-thin text-white hover:text-slate-300"
 									onClick={() => {
 										setIsNavOpen(false);
+										gtag.pageview(
+											router.pathname + sublink.id
+										);
 									}}
 									to={sublink.id}
 									spy={true}

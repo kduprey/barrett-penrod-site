@@ -14,19 +14,30 @@ const News = (props: Props) => {
 						In Performance - April 18, 2022
 					</h3>
 					<p>
-						NYU Class of 2022 Professional Showcase
-						<br />
-						Where - New World Stages
-						<br />
-						When - 3:30pm & 6:30pm EST
-						<br />
-						RSVP - Please contact Jen Bender at{" "}
-						<a
-							className="text-secondary underline underline-offset-2"
-							href="mailto:jnb9579@nyu.edu"
-						>
-							jnb9579@nyu.edu
-						</a>
+						<div>NYU Class of 2022 Professional Showcase</div>
+						<div className="flex space-x-2">
+							<div>Where -</div>
+							<a
+								className="text-white underline underline-offset-2 hover:text-slate-300"
+								href="https://goo.gl/maps/9VZCULgcTspi2KFq8"
+							>
+								New World Stages <br />
+								340 W 50th Street,
+								<br />
+								New York, NY <br />
+								10019
+							</a>
+						</div>
+						<div>When - 3:30pm & 6:30pm EST</div>
+						<div>
+							RSVP - Please contact Jen Bender at{" "}
+							<a
+								className="text-secondary underline underline-offset-2"
+								href="mailto:jnb9579@nyu.edu"
+							>
+								jnb9579@nyu.edu
+							</a>
+						</div>
 					</p>
 				</div>
 

@@ -26,20 +26,21 @@ const Footer = (props: Props) => {
 						<label htmlFor="name" className="text-secondary">
 							Name
 						</label>
-						<input type="text" id="name" />
+						<input type="text" name="Name" id="name" />
 					</div>
 					<div className="flex space-x-3">
 						<label htmlFor="email" className="text-secondary">
 							Email
 						</label>
-						<input type="email" id="email" />
+						<input type="email" name="Email" id="email" />
 					</div>
 					<div className="flex flex-col items-center justify-center space-y-3">
 						<label htmlFor="message" className="text-secondary">
 							Message
 						</label>
-						<textarea id="message" rows={5} />
+						<textarea id="message" name="Message" rows={5} />
 					</div>
+
 					<button type="submit" className=" bg-secondary px-4 py-2">
 						Submit
 					</button>

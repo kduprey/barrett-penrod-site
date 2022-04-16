@@ -30,16 +30,17 @@ const About = (props: Props) => {
 				<p className="text-slate-800">
 					Hello! Glad to see you here. Feel free to stay awhile!{" "}
 					<br />
-					<br /> So, about me: If you sat me down, ordered us a round
-					of margaritas, and asked me to tell you about me and what I
-					do &ndash; we&rsquo;d be talking for a few good hours.
-					Expect me to geek out about the human voice a lot.
-					I&rsquo;ll tell you what I like to do outside of work to
-					keep balanced. I&rsquo;ll talk about where my partner and I
-					have traveled, my favorite true crime podcast I&rsquo;ve
-					been listening to, and what the last show on Broadway was
-					that gave me goosebumps. I&rsquo;ll also want to know what
-					you&rsquo;re excited about or working on! <br />
+					<br /> So, about me: <br />
+					<br /> If you sat me down, ordered us a round of margaritas,
+					and asked me to tell you about me and what I do &ndash;
+					we&rsquo;d be talking for a few good hours. Expect me to
+					geek out about the human voice a lot. I&rsquo;ll tell you
+					what I like to do outside of work to keep balanced.
+					I&rsquo;ll talk about where my partner and I have traveled,
+					my favorite true crime podcast I&rsquo;ve been listening to,
+					and what the last show on Broadway was that gave me
+					goosebumps. I&rsquo;ll also want to know what you&rsquo;re
+					excited about or working on! <br />
 					<br /> To list some specifics about my work &ndash;
 					I&rsquo;ve got a big tenor voice. I also have a strong lower
 					end, so I often venture into Baritone territory depending on

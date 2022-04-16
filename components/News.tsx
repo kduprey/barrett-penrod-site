@@ -9,7 +9,7 @@ const News = (props: Props) => {
 			<h1 className="text-center text-secondary">News</h1>
 
 			<div className="p-6 text-white">
-				<div className="flex flex-col items-center justify-center space-y-3 p-4 ">
+				<div className="flex flex-col items-center justify-center space-y-3 bg-[#57068c] p-4">
 					<h3 className="font-normal">
 						In Performance - April 18, 2022
 					</h3>

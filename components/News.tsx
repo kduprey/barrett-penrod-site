@@ -13,7 +13,7 @@ const News = (props: Props) => {
 					<h3 className="font-normal">
 						In Performance - April 18, 2022
 					</h3>
-					<p>
+					<div>
 						<div>NYU Class of 2022 Professional Showcase</div>
 						<div className="flex space-x-2">
 							<div>Where -</div>
@@ -38,7 +38,7 @@ const News = (props: Props) => {
 								jnb9579@nyu.edu
 							</a>
 						</div>
-					</p>
+					</div>
 				</div>
 
 				<div className="flex flex-col items-center justify-center p-4">

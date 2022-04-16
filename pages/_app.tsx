@@ -19,11 +19,31 @@ import "@fontsource/montserrat/600-italic.css";
 import "@fontsource/montserrat/700-italic.css";
 import "@fontsource/montserrat/800-italic.css";
 import "@fontsource/montserrat/900-italic.css";
+import Script from "next/script";
 import "../styles/globals.css";
 import { AppProps } from "next/app";
 
 export default function App(props: AppProps) {
-  const { Component, pageProps } = props;
+	const { Component, pageProps } = props;
 
-  return <Component {...pageProps} />;
+	return (
+		<>
+			<Script
+				strategy="afterInteractive"
+				src="https://www.googletagmanager.com/gtag/js?id=G-KFM4XGBGYY"
+			/>
+			<Script
+				id="gtm-script"
+				strategy="afterInteractive"
+				dangerouslySetInnerHTML={{
+					__html: `window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+
+                  gtag('config', 'G-KFM4XGBGYY');`,
+				}}
+			/>
+			<Component {...pageProps} />
+		</>
+	);
 }

@@ -21,6 +21,7 @@ import headshot6 from "../public/headshot6.jpg";
 import Headshot from "../components/Headshot";
 import ResumeTable from "../components/ResumeTable";
 import News from "../components/News";
+import * as gtag from "../lib/analytics";
 
 const headshots = [
 	headshot1,
@@ -101,6 +102,14 @@ const Home: NextPage = () => {
 					href="https://files.kduprey.com/barrettpenrod/BarrettPenrodHeadshots.zip"
 					download={true}
 					className="bg-secondary px-4 py-2 text-slate-800 hover:bg-slate-300 hover:no-underline"
+					onClick={() => {
+						gtag.event({
+							action: "download",
+							category: "headshots",
+							label: "Barrett Penrod - Headshots",
+							value: 1,
+						});
+					}}
 				>
 					Download Headshots
 				</a>
@@ -121,6 +130,14 @@ const Home: NextPage = () => {
 						href="https://files.kduprey.com/barrettpenrod/Barrett_Penrod_Resume.pdf"
 						download={true}
 						className="bg-secondary px-4 py-2 text-slate-800 hover:bg-slate-300 hover:no-underline"
+						onClick={() => {
+							gtag.event({
+								action: "download",
+								category: "resume",
+								label: "Barrett Penrod - Resume",
+								value: 1,
+							});
+						}}
 					>
 						Download Resume
 					</a>

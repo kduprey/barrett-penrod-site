@@ -15,7 +15,7 @@ const Nav = ({ isNavOpen, isCVOpen, setIsCVOpen, setIsNavOpen }: Props) => {
 	return (
 		<>
 			<nav
-				className={`fixed z-20 bg-primary transition-all duration-300 ease-in-out md:hidden ${
+				className={`fixed z-50 bg-primary transition-all duration-300 ease-in-out md:hidden ${
 					isNavOpen ? "left-0 h-full w-full" : "-left-full h-0 w-0"
 				}`}
 			>

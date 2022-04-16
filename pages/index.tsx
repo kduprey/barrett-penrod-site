@@ -111,7 +111,7 @@ const Home: NextPage = () => {
 			</div>
 
 			{/* Resume */}
-			<div className="py-6 md:p-0">
+			<div className="py-6 md:p-0" id="resume">
 				<h1 className="text-center text-secondary">Resumé</h1>
 
 				<ResumeTable />

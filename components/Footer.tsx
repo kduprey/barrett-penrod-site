@@ -90,49 +90,60 @@ const Footer = (props: Props) => {
 
 			<div className="w-full ">
 				<form
-					className={`flex flex-col items-center justify-center space-y-1 transition-all duration-300 ease-in-out ${
+					className={` flex flex-col items-center justify-center transition-all duration-300 ease-in-out  ${
 						loading ? "opacity-50" : ""
 					} ${success ? "h-0 opacity-0" : "h-auto opacity-100"}`}
 					onSubmit={handleSubmit}
 				>
-					<div className="flex items-center space-x-3">
-						<label htmlFor="name" className="text-secondary">
-							Name
-						</label>
-						<input
-							type="text"
-							className="p-2"
-							name="Name"
-							id="name"
-							value={name}
-							onChange={handleChange}
-						/>
-					</div>
-					<div className="flex items-center space-x-3">
-						<label htmlFor="email" className="text-secondary">
-							Email
-						</label>
-						<input
-							type="email"
-							className="p-2"
-							name="Email"
-							id="email"
-							value={email}
-							onChange={handleChange}
-						/>
-					</div>
-					<div className="flex flex-col items-center justify-center space-y-3">
-						<label htmlFor="message" className="text-secondary">
-							Message
-						</label>
-						<textarea
-							id="message"
-							className="p-2"
-							name="Message"
-							rows={5}
-							value={message}
-							onChange={handleChange}
-						/>
+					<div className="flex flex-col items-center justify-center space-y-1 md:flex-row md:space-x-4">
+						<div className="flex flex-col items-center justify-center space-y-3">
+							<div className="flex items-center space-x-3">
+								<label
+									htmlFor="name"
+									className="text-secondary"
+								>
+									Name
+								</label>
+								<input
+									type="text"
+									className="p-2"
+									name="Name"
+									id="name"
+									value={name}
+									onChange={handleChange}
+								/>
+							</div>
+							<div className="flex items-center space-x-3">
+								<label
+									htmlFor="email"
+									className="text-secondary"
+								>
+									Email
+								</label>
+								<input
+									type="email"
+									className="p-2"
+									name="Email"
+									id="email"
+									value={email}
+									onChange={handleChange}
+								/>
+							</div>
+						</div>
+
+						<div className="flex items-center justify-center space-x-3 pt-3 md:flex-col md:space-y-3">
+							<label htmlFor="message" className="text-secondary">
+								Message
+							</label>
+							<textarea
+								id="message"
+								className="p-2"
+								name="Message"
+								rows={5}
+								value={message}
+								onChange={handleChange}
+							/>
+						</div>
 					</div>
 
 					<input
@@ -147,7 +158,7 @@ const Footer = (props: Props) => {
 					<button
 						type="submit"
 						disabled={loading}
-						className="bg-secondary px-4 py-2"
+						className="mt-3 bg-secondary px-4 py-2"
 					>
 						Submit
 					</button>

@@ -8,7 +8,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@fontsource/montserrat": "^4.5.10",
+    "@fontsource/montserrat": "^4.5.11",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-brands-svg-icons": "^6.1.1",
     "@fortawesome/free-regular-svg-icons": "^6.1.1",

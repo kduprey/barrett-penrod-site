@@ -13,11 +13,12 @@ const Showreel = (props: Props) => {
 				<div>
 					<iframe
 						className="h-[400px] w-full md:h-[315px] md:w-[560px]"
-						src="https://www.youtube.com/embed/7iekqhAo4O0"
+						src="https://www.youtube-nocookie.com/embed/7iekqhAo4O0"
 						title="YouTube video player"
 						frameBorder={0}
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 						allowFullScreen
+						loading="lazy"
 					></iframe>
 					<p className="py-2 text-center text-primary">
 						Self Tape - There But For You Go I - Self Tape
@@ -26,11 +27,12 @@ const Showreel = (props: Props) => {
 				<div>
 					<iframe
 						className="h-[400px] w-full md:h-[315px] md:w-[560px]"
-						src="https://www.youtube.com/embed/F1-LEy1_lTY"
+						src="https://www.youtube-nocookie.com/embed/F1-LEy1_lTY"
 						title="YouTube video player"
 						frameBorder={0}
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 						allowFullScreen
+						loading="lazy"
 					></iframe>
 					<p className="py-2 text-center text-primary">
 						Cover Me, NYU - Hello (Adele) Country Rock
@@ -39,11 +41,12 @@ const Showreel = (props: Props) => {
 				<div>
 					<iframe
 						className="h-[400px] w-full md:h-[315px] md:w-[560px]"
-						src="https://www.youtube.com/embed/ShN59EBuFsQ"
+						src="https://www.youtube-nocookie.com/embed/ShN59EBuFsQ"
 						title="YouTube video player"
 						frameBorder={0}
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 						allowFullScreen
+						loading="lazy"
 					></iframe>
 					<p className="py-2 text-center text-primary">
 						Self Tape - Everybody Say&apos;s Don&apos;t - Anyone Can
@@ -53,11 +56,12 @@ const Showreel = (props: Props) => {
 				<div>
 					<iframe
 						className="h-[400px] w-full md:h-[315px] md:w-[560px]"
-						src="https://www.youtube.com/embed/khObU__kOvo"
+						src="https://www.youtube-nocookie.com/embed/khObU__kOvo"
 						title="YouTube video player"
 						frameBorder={0}
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 						allowFullScreen
+						loading="lazy"
 					></iframe>
 					<p className="py-2 text-center text-primary">
 						Self Tape - Johanna - Sweeney Todd
@@ -65,7 +69,7 @@ const Showreel = (props: Props) => {
 				</div>
 			</div>
 
-			<h3>Sound Demos Coming May 2022!</h3>
+			<h3>Sound Demos Coming June 2022!</h3>
 		</div>
 	);
 };

@@ -18,6 +18,11 @@ const nextConfig = {
 				destination: "/privacy-policy.pdf",
 				permanent: true,
 			},
+			{
+				source: "/return-policy",
+				destination: "/return-policy.pdf",
+				permanent: true,
+			},
 		];
 	},
 	async headers() {

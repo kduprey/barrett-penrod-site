@@ -23,6 +23,11 @@ const nextConfig = {
 				destination: "/return-policy.pdf",
 				permanent: true,
 			},
+			{
+				source: "/cancellation-policy",
+				destination: "/cancellation-policy.pdf",
+				permanent: true,
+			},
 		];
 	},
 	async headers() {

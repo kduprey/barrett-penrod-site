@@ -21,11 +21,10 @@ import "@fontsource/montserrat/800-italic.css";
 import "@fontsource/montserrat/900-italic.css";
 import Script from "next/script";
 import "../styles/globals.css";
-import { AppProps } from "next/app";
+import { AppPropsWithLayout } from "../types";
 
-export default function App(props: AppProps) {
-	const { Component, pageProps } = props;
-
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
+	const getLayout = Component.getLayout || ((page) => page);
 	return (
 		<>
 			<Script
@@ -43,7 +42,7 @@ export default function App(props: AppProps) {
                   gtag('config', 'G-KFM4XGBGYY');`,
 				}}
 			/>
-			<Component {...pageProps} />
+			{getLayout(<Component {...pageProps} />)}
 		</>
 	);
 }

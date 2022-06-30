@@ -46,6 +46,10 @@ li {
 	@apply text-xl font-thin text-white;
 }
 
+button {
+	@apply mt-3 bg-secondary px-4 py-2 text-primary transition-all ease-in-out hover:opacity-80;
+}
+
 .medium-submenu {
 	@apply absolute w-auto space-y-2 border bg-primary px-4 py-4;
 }

@@ -84,7 +84,7 @@ const Footer = (props: Props) => {
 	return (
 		<div
 			id="contact"
-			className="flex flex-shrink-0 flex-col flex-wrap items-center justify-center space-y-4 bg-primary py-6 md:flex md:flex-row"
+			className="mt-auto flex flex-col flex-wrap items-center justify-center space-y-4 bg-primary py-6 "
 		>
 			<h3 className="w-full text-center text-secondary">Contact</h3>
 
@@ -95,7 +95,7 @@ const Footer = (props: Props) => {
 					} ${success ? "h-0 opacity-0" : "h-auto opacity-100"}`}
 					onSubmit={handleSubmit}
 				>
-					<div className="flex flex-col items-center justify-center space-y-1 md:flex-row md:space-x-8">
+					<div className="flex flex-col items-center justify-center space-y-1 md:flex-row md:space-x-12">
 						<div className="flex flex-col items-center justify-center space-y-3">
 							<div className="flex flex-col items-center space-y-3 md:flex-row md:space-y-0 md:space-x-3">
 								<label

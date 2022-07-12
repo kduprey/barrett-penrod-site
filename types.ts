@@ -81,7 +81,7 @@ export interface GuestAttendeeTemplateData {
 
 export interface GuestBody {
 	session_id: string;
-	guests: string[];
+	guests: string;
 	eventStartTime: string;
 	eventEndTime: string;
 	eventTypeName: string;
@@ -124,4 +124,54 @@ export interface Profile {
 	name: string;
 	owner: string;
 	type: string;
+}
+
+export interface ClientInfo {
+	Name: string;
+	Email: string;
+	"Total Spend": number;
+	"Payment Count": number;
+	"Refunded Volume": number;
+	"Lessons Remaining": number;
+	"Last Lesson": Date;
+	"Total Lessons": number;
+	"Preferred Lesson Format": string;
+	"Start Date with Studio": Date;
+	"Active Member": boolean;
+	stripe_cus_id: string;
+}
+
+export interface LessonType {
+	active: boolean;
+	booking_method: string;
+	color: string;
+	created_at: Date;
+	custom_questions: Array<string[]>;
+	deleted_at: null;
+	description_html: string;
+	description_plain: string;
+	duration: number;
+	internal_note: null;
+	kind: string;
+	name: string;
+	pooling_type: null;
+	profile: Profile;
+	scheduling_url: string;
+	secret: boolean;
+	slug: string;
+	type: string;
+	updated_at: Date;
+	uri: string;
+}
+
+export interface Profile {
+	name: string;
+	owner: string;
+	type: string;
+}
+
+export interface LessonPackage {
+	title: string;
+	discount: string;
+	price: string;
 }

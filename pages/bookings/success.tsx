@@ -44,11 +44,76 @@ Success.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
 import { GetServerSideProps } from "next";
 import Stripe from "stripe";
 import { ReactElement } from "react";
+import { server } from "../../config";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const stripe = new Stripe(process.env.STRIPE_TEST_SECRET_KEY as string, {
 		apiVersion: "2020-08-27",
 	});
+
+	const statuses = {
+		guestEmailsSent: {
+			status: false,
+			message: null as any,
+		},
+		firstTimeEmailSent: {
+			status: false,
+			message: null as any,
+		},
+	};
+
+	// Are there guests?
+
+	if (ctx.query.guests) {
+		try {
+			const response = await fetch(`${server}/api/bookings/guest`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					session_id: ctx.query.session_id,
+					guests: ctx.query.guests,
+					eventStartTime: ctx.query.event_start_time,
+					eventEndTime: ctx.query.event_end_time,
+					eventTypeName: ctx.query.event_type_name,
+				}),
+			});
+			statuses.guestEmailsSent.status = true;
+			statuses.guestEmailsSent.message = await response.body;
+		} catch (err: any) {
+			console.log(err);
+			statuses.guestEmailsSent.status = false;
+			statuses.guestEmailsSent.message = err;
+		}
+	}
+
+	// Is this a first time booking?
+
+	if (ctx.query.answer_2 === "Yes") {
+		try {
+			const response = await fetch(`${server}/api/bookings/first-time`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					session_id: ctx.query.session_id,
+					invitee_email: ctx.query.invitee_email,
+					invitee_full_name: ctx.query.invitee_full_name,
+					eventStartTime: ctx.query.event_start_time,
+					eventEndTime: ctx.query.event_end_time,
+					eventTypeName: ctx.query.event_type_name,
+				}),
+			});
+			statuses.firstTimeEmailSent.status = true;
+			statuses.firstTimeEmailSent.message = await response.body;
+		} catch (err: any) {
+			console.log(err);
+			statuses.firstTimeEmailSent.status = false;
+			statuses.firstTimeEmailSent.message = err;
+		}
+	}
 
 	try {
 		const session = await stripe.checkout.sessions.retrieve(

@@ -1,42 +1,77 @@
-import { NextPageWithLayout } from "../types";
+import { LessonType, NextPageWithLayout } from "../types";
+import VsLogo from "/public/vslogo.svg";
 import Layout from "./layout";
+import { packages, services } from "../data/services";
+import Link from "next/link";
 
-type Props = {};
-
-const Bookings: NextPageWithLayout = (props: Props) => {
+const Bookings: NextPageWithLayout = () => {
 	return (
-		<section className="p-4">
-			<h1 className="text-center text-secondary">Voice Studio</h1>
+		<section className="flex flex-col items-center justify-evenly p-4">
+			<div className="w-3/4 bg-white p-3 shadow-lg shadow-black md:w-1/4">
+				<VsLogo />
+			</div>
+			<h2 className="py-6 text-center text-secondary">Services</h2>
 
-			<div className="flex flex-col space-y-3 p-4">
-				<h3>Voice Lessons</h3>
-				<div className="flex space-x-3">
-					<div className="space-y-2 rounded-lg bg-secondary p-6 shadow-md hover:opacity-80">
-						<h4 className="text-center text-primary">
-							Service Title
-						</h4>
-						<hr className="border-primary opacity-20" />
-						<p className="text-center text-primary opacity-70">
-							Location
-						</p>
-						<p className="text-primary opacity-80">
-							Lorem, ipsum dolor sit amet consectetur adipisicing
-							elit. Quaerat omnis quidem voluptas molestias
-							dignissimos consectetur voluptatum eum! Veritatis
-							ipsam mollitia molestias aperiam? Libero ut minus
-							dolore maxime atque consectetur sed!
-						</p>
-						<hr className="border-primary opacity-20" />
-						<button>Book Now!</button>
-					</div>
-					<button>Book in at your own location in NYC metro</button>
-					<button>Book in for in person at Open Jar - NYC</button>
-					<button>Book in for Virtual</button>
-				</div>
-				<h3>Voice Coaching</h3>
-				<h3>Acting Lessons</h3>
-				<h3>Audition Coaching</h3>
-				<h3>SVS Sessions</h3>
+			<div className="flex w-full flex-col items-center justify-evenly space-y-6 md:flex-row md:space-y-0">
+				{services.map((service) => {
+					return (
+						<div
+							key={service.title}
+							className="w-[18em] space-y-3 rounded-lg bg-secondary p-6 shadow-md"
+						>
+							<h4 className="text-center">{service.title}</h4>
+							<p className="text-primary">
+								{service.description}
+							</p>
+						</div>
+					);
+				})}
+			</div>
+
+			<hr className="my-6 h-1 w-full rounded-lg bg-slate-200 opacity-30" />
+
+			<h2 className="pb-3 text-center text-secondary">Packages</h2>
+			<div className="flex w-full flex-col items-center justify-evenly space-y-6 md:flex-row md:space-x-6 md:space-y-0">
+				{packages.map((lessonPackage) => {
+					return (
+						<div
+							key={lessonPackage.title}
+							className="flex flex-col items-center justify-center space-y-3 rounded-lg bg-secondary p-6 shadow-md "
+						>
+							<h4 className="text-center">
+								{lessonPackage.title}
+							</h4>
+							<p className="text-center text-primary">
+								{lessonPackage.discount}
+							</p>
+							<p className="text-center text-3xl font-bold text-primary">
+								${lessonPackage.price}
+							</p>
+							<button className="bg-primary text-secondary">
+								Reserve Now!
+							</button>
+						</div>
+					);
+				})}
+			</div>
+			{/* <div className="flex flex-col items-center justify-center">
+				<h2 className="py-3 text-center text-secondary">
+					Book a <br /> Consultation Lesson!
+				</h2>
+				<a href="https://calendly.com/bpvoicestudio/consultation-lesson">
+					<button>Reserve Now!</button>
+				</a>
+			</div> */}
+
+			<hr className="my-6 h-1 w-full rounded-lg bg-slate-200 opacity-30" />
+
+			<div className="flex flex-col items-center justify-center">
+				<h2 className="pb-3 text-center text-secondary">
+					Book an <br /> Individual Lesson!
+				</h2>
+				<Link href="/bookings/individual">
+					<button>Reserve Now!</button>
+				</Link>
 			</div>
 		</section>
 	);

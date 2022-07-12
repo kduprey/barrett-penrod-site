@@ -39,9 +39,6 @@ const Page: NextPageWithLayout = () => {
 
 	return (
 		<section id="home">
-			{/* Social Media Links */}
-			<SocialBar />
-
 			{/* Heading Text */}
 			<Headline />
 

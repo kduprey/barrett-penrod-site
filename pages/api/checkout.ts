@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
+import { URLSearchParams } from "url";
 import { server } from "../../config/index";
 
 type Data = {
@@ -10,17 +11,6 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 	const stripe = new Stripe(`${process.env.STRIPE_TEST_SECRET_KEY}`, {
 		apiVersion: "2020-08-27",
 	});
-
-	const statuses = {
-		guestEmailsSent: {
-			status: false,
-			message: null as any,
-		},
-		firstTimeEmailSent: {
-			status: false,
-			message: null as any,
-		},
-	};
 
 	const prices = {
 		svsSession: {
@@ -33,9 +23,11 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 		},
 	};
 
+	const queryString: string = new URLSearchParams(req.query).toString();
+
 	let sessionTemplate: Stripe.Checkout.SessionCreateParams = {
-		success_url: `${server}/bookings/success?session_id={CHECKOUT_SESSION_ID}&event_start_time=${req.query.event_start_time}&event_end_time=${req.query.event_end_time}&event_type_name=${req.query.event_type_name}`,
-		cancel_url: `${server}/bookings/cancel?session_id={CHECKOUT_SESSION_ID}&event_start_time=${req.query.event_start_time}&event_end_time=${req.query.event_end_time}&event_type_name=${req.query.event_type_name}`,
+		success_url: `${server}/bookings/success?session_id={CHECKOUT_SESSION_ID}&${queryString}`,
+		cancel_url: `${server}/bookings/cancel?session_id={CHECKOUT_SESSION_ID}&${queryString}`,
 		line_items: [
 			{
 				price: req.query.event_type_name.includes("SVS Session")
@@ -64,58 +56,6 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 			},
 		},
 	};
-
-	if (req.query.guests) {
-		try {
-			const response = await fetch(`${server}/api/bookings/guest`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					session_id: req.query.session_id,
-					guests: req.query.guests,
-					eventStartTime: req.query.event_start_time,
-					eventEndTime: req.query.event_end_time,
-					eventTypeName: req.query.event_type_name,
-				}),
-			});
-			statuses.guestEmailsSent.status = true;
-			statuses.guestEmailsSent.message = await response.body;
-		} catch (err: any) {
-			console.log(err);
-			statuses.guestEmailsSent.status = false;
-			statuses.guestEmailsSent.message = err;
-		}
-	}
-
-	// Is this a first time booking?
-
-	if (req.query.answer_2 === "Yes") {
-		sessionTemplate.success_url = `${server}/bookings/success?session_id={CHECKOUT_SESSION_ID}&first_time=true`;
-		try {
-			const response = await fetch(`${server}/api/bookings/first-time`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					session_id: req.query.session_id,
-					invitee_email: req.query.invitee_email,
-					invitee_full_name: req.query.invitee_full_name,
-					eventStartTime: req.query.event_start_time,
-					eventEndTime: req.query.event_end_time,
-					eventTypeName: req.query.event_type_name,
-				}),
-			});
-			statuses.firstTimeEmailSent.status = true;
-			statuses.firstTimeEmailSent.message = await response.body;
-		} catch (err: any) {
-			console.log(err);
-			statuses.firstTimeEmailSent.status = false;
-			statuses.firstTimeEmailSent.message = err;
-		}
-	}
 
 	try {
 		const customerSearch = await stripe.customers.search({

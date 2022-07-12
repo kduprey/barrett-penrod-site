@@ -47,23 +47,52 @@ li {
 }
 
 button {
-	@apply mt-3 bg-secondary px-4 py-2 text-primary transition-all ease-in-out hover:opacity-80;
+	@apply mt-3 rounded bg-secondary px-4 py-2 text-primary shadow-md transition-all ease-in-out hover:opacity-80;
 }
 
-.medium-submenu {
-	@apply absolute w-auto space-y-2 border bg-primary px-4 py-4;
+label {
+	@apply text-lg text-gray-700;
 }
 
-.skills h3 {
-	@apply py-3 text-secondary md:text-2xl;
+.withTransition {
+	@apply transition-all duration-300 ease-in-out;
 }
 
-.skills div {
-	@apply flex flex-col justify-evenly space-y-3;
-}
+@layer utilities {
+	.medium-submenu {
+		@apply absolute w-auto space-y-2 border bg-primary px-4 py-4;
+	}
 
-.skills div p {
-	@apply md:text-sm;
+	.skills h3 {
+		@apply py-3 text-secondary md:text-2xl;
+	}
+
+	.skills div {
+		@apply flex flex-col justify-evenly space-y-3;
+	}
+
+	.skills div p {
+		@apply md:text-sm;
+	}
+	.step {
+		@apply flex w-full flex-col;
+	}
+	.step hr {
+		@apply h-1 w-full border-gray-400;
+	}
+	.step p {
+		@apply font-light text-gray-400;
+	}
+	.completed {
+		@apply flex w-full cursor-pointer flex-col;
+	}
+
+	.completed hr {
+		@apply h-1 w-full border-primary;
+	}
+	.completed p {
+		@apply first-of-type:uppercase first-of-type:text-primary first-of-type:opacity-40 last-of-type:text-gray-800;
+	}
 }
 
 .ham {

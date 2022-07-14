@@ -16,7 +16,9 @@ const Nav = ({ isNavOpen, isCVOpen, setIsCVOpen, setIsNavOpen }: Props) => {
 		<>
 			<nav
 				className={`fixed z-50 bg-primary transition-all duration-300 ease-in-out md:hidden ${
-					isNavOpen ? "left-0 h-full w-full" : "-left-full h-0 w-0"
+					isNavOpen
+						? "left-0 h-full w-full pt-32"
+						: "-left-full h-0 w-0"
 				}`}
 			>
 				<ul className=" flex flex-col items-center justify-center space-y-4 pt-10">

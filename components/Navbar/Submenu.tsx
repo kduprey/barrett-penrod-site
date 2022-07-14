@@ -1,19 +1,16 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { NavMenu } from "../../types";
-import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import NextLink from "next/link";
 import { Link } from "react-scroll";
 import * as gtag from "../../lib/analytics";
-import { useRouter } from "next/router";
 
 type Props = {
 	menu: NavMenu;
 };
 
 const Submenu = ({ menu }: Props) => {
-	const router = useRouter();
-
 	const [isOpen, setIsOpen] = useState(false);
 
 	if (menu.sublinks) {

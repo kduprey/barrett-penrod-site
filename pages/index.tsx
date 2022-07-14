@@ -1,7 +1,6 @@
-import type { NextPage } from "next";
 import Header from "../components/Header";
 import Nav from "../components/Navbar/Nav";
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 
 import Footer from "../components/Footer";
 import Photos from "../components/Photos";
@@ -22,6 +21,8 @@ import Headshot from "../components/Headshot";
 import ResumeTable from "../components/ResumeTable";
 import News from "../components/News";
 import * as gtag from "../lib/analytics";
+import Layout from "./layout";
+import { NextPageWithLayout } from "../types";
 
 const headshots = [
 	headshot1,
@@ -32,36 +33,12 @@ const headshots = [
 	headshot6,
 ];
 
-const Home: NextPage = () => {
+const Page: NextPageWithLayout = () => {
 	const [isNavOpen, setIsNavOpen] = useState(false);
 	const [isCVOpen, setIsCVOpen] = useState(false);
 
 	return (
-		<main
-			className={`${isNavOpen || isCVOpen ? "" : ""} bg-primary`}
-			id="home"
-		>
-			<Header
-				title={"Barrett Penrod · Actor, Singer, Mover"}
-				// TODO: Add description
-				description={
-					"Barrett Penrod is an actor, singer, and mover looking for work."
-				}
-			/>
-			{/* Title Bar */}
-			<TitleBar isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
-
-			{/* Mobile Navbar */}
-			<Nav
-				isNavOpen={isNavOpen}
-				setIsNavOpen={setIsNavOpen}
-				isCVOpen={isCVOpen}
-				setIsCVOpen={setIsCVOpen}
-			/>
-
-			{/* Social Media Links */}
-			<SocialBar />
-
+		<section id="home">
 			{/* Heading Text */}
 			<Headline />
 
@@ -159,12 +136,9 @@ const Home: NextPage = () => {
 			{/* News */}
 
 			<News />
-
-			{/* Footer */}
-
-			<Footer />
-		</main>
+		</section>
 	);
 };
+export default Page;
 
-export default Home;
+Page.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;

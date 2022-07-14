@@ -84,9 +84,9 @@ const Footer = (props: Props) => {
 	return (
 		<div
 			id="contact"
-			className="flex flex-col flex-wrap items-center justify-center space-y-4 bg-primary py-6 md:flex md:flex-row"
+			className="mt-auto flex flex-col flex-wrap items-center justify-center space-y-4 bg-primary py-6 "
 		>
-			<h1 className="w-full text-center text-secondary">Contact</h1>
+			<h3 className="w-full text-center text-secondary">Contact</h3>
 
 			<div className="w-full ">
 				<form
@@ -95,9 +95,9 @@ const Footer = (props: Props) => {
 					} ${success ? "h-0 opacity-0" : "h-auto opacity-100"}`}
 					onSubmit={handleSubmit}
 				>
-					<div className="flex flex-col items-center justify-center space-y-1 md:flex-row md:space-x-4">
+					<div className="flex flex-col items-center justify-center space-y-1 md:flex-row md:space-x-12">
 						<div className="flex flex-col items-center justify-center space-y-3">
-							<div className="flex items-center space-x-3">
+							<div className="flex flex-col items-center space-y-3 md:flex-row md:space-y-0 md:space-x-3">
 								<label
 									htmlFor="name"
 									className="text-secondary"
@@ -113,7 +113,7 @@ const Footer = (props: Props) => {
 									onChange={handleChange}
 								/>
 							</div>
-							<div className="flex items-center space-x-3">
+							<div className="flex flex-col items-center space-y-3 md:flex-row md:space-y-0 md:space-x-3">
 								<label
 									htmlFor="email"
 									className="text-secondary"
@@ -131,13 +131,13 @@ const Footer = (props: Props) => {
 							</div>
 						</div>
 
-						<div className="flex items-center justify-center space-x-3 pt-3 md:flex-col md:space-y-3">
+						<div className="flex flex-col items-center justify-center space-y-3 pt-3 md:space-x-0 md:pt-0">
 							<label htmlFor="message" className="text-secondary">
 								Message
 							</label>
 							<textarea
 								id="message"
-								className="p-2"
+								className=" p-2"
 								name="Message"
 								rows={5}
 								value={message}
@@ -157,8 +157,8 @@ const Footer = (props: Props) => {
 
 					<button
 						type="submit"
+						className="bg-secondary"
 						disabled={loading}
-						className="mt-3 bg-secondary px-4 py-2"
 					>
 						Submit
 					</button>
@@ -179,10 +179,24 @@ const Footer = (props: Props) => {
 
 			{/* Social Media Links */}
 			<div className="flex w-4/5 items-center justify-evenly pt-4 text-white md:w-1/4">
-				<FontAwesomeIcon icon={faFacebookF} />
-				<FontAwesomeIcon icon={faTwitter} />
-				<FontAwesomeIcon icon={faInstagram} />
-				<FontAwesomeIcon icon={faYoutube} />
+				<a
+					href="https://twitter.com/penrodbarrett"
+					className="text-secondary"
+				>
+					<FontAwesomeIcon icon={faTwitter} />
+				</a>
+				<a
+					href="https://instagram.com/barrettpenrod"
+					className="text-secondary"
+				>
+					<FontAwesomeIcon icon={faInstagram} />
+				</a>
+				<a
+					href="https://www.youtube.com/channel/UCgGtle_abxJQUnCFLYg5Gyg"
+					className="text-secondary"
+				>
+					<FontAwesomeIcon icon={faYoutube} />
+				</a>
 			</div>
 		</div>
 	);

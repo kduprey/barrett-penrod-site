@@ -14,7 +14,9 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 		apiVersion: null,
 	});
 
-	const queryString: string = new URLSearchParams(req.query).toString();
+	const queryString: string = new URLSearchParams(
+		req.query as any
+	).toString();
 
 	if (req.query.event_type_name === "Consultation Session") {
 		// Add or update customer in database

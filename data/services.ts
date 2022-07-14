@@ -25,6 +25,45 @@ const bookingLink = (title: string, location: string): string => {
 
 const baseURL = "https://calendly.com/bpvoicestudio/";
 
+export const calendlyNames = [
+	{
+		title: "Voice Lesson",
+		names: [
+			"Voice Lesson - Location Chosen By Client",
+			"Voice Lesson - Open Jar",
+			"Voice Lesson - Home Studio",
+			"Voice Lesson - Virtual",
+		],
+	},
+	{
+		title: "Voice Coaching",
+		names: [
+			"Voice Coaching - Location Chosen By Client",
+			"Voice Coaching - Open Jar",
+			"Voice Coaching - Home Studio",
+			"Voice Coaching - Virtual",
+		],
+	},
+	{
+		title: "SVS Session",
+		name: [
+			"SVS Session - Location Chosen By Client",
+			"SVS Session - Open Jar",
+			"SVS Session - Home Studio",
+			"SVS Session - Virtual",
+		],
+	},
+	{
+		title: "Audition Coaching",
+		name: [
+			"Audition Coaching - Location Chosen By Client",
+			"Audition Coaching - Open Jar",
+			"Audition Coaching - Home Studio",
+			"Audition Coaching - Virtual",
+		],
+	},
+];
+
 export const services: ServiceType[] = [
 	{
 		title: "Voice Lesson",
@@ -75,23 +114,23 @@ export const services: ServiceType[] = [
 
 export const packages: LessonPackage[] = [
 	{
-		title: "4 Lesson Package",
-		discount: "1/2 off a lesson",
+		title: "4 Session Package",
+		discount: "1/2 off a session",
 		price: "280",
 	},
 	{
-		title: "6 Lesson Package",
-		discount: "1 lesson free",
+		title: "6 Session Package",
+		discount: "1 session free",
 		price: "400",
 	},
 	{
-		title: "8 Lesson Package",
-		discount: "1 and 1/2 lessons free",
+		title: "8 Session Package",
+		discount: "1 and 1/2 sessions free",
 		price: "520",
 	},
 	{
-		title: "12 Lesson Package",
-		discount: "2 lessons free",
+		title: "12 Session Package",
+		discount: "2 sessions free",
 		price: "800",
 	},
 ];

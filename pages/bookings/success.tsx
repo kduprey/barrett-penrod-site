@@ -1,12 +1,10 @@
-import { NextPageWithLayout } from "../../types";
+import { BookingInfo, NextPageWithLayout } from "../../types";
 import Layout from "../layout";
 
 type Props = {
-	session: Stripe.Checkout.Session;
-	customer: Stripe.Customer;
-	event_start_time: string;
-	event_end_time: string;
-	event_type_name: string;
+	session?: Stripe.Checkout.Session;
+	customer?: Stripe.Customer;
+	bookingInfo: BookingInfo;
 };
 
 const Success: NextPageWithLayout = (props: Props) => {
@@ -14,15 +12,25 @@ const Success: NextPageWithLayout = (props: Props) => {
 		<div className="flex flex-grow flex-col items-center justify-center space-y-4 py-6">
 			<h2 className="text-center text-secondary">Booking Confirmed</h2>
 			<div className="m-3 flex flex-col items-center justify-center space-y-4 rounded bg-secondary p-6 shadow-lg">
-				<p className="text-primary">Thank you, {props.customer.name}</p>
-				<p className="text-primary">{props.event_type_name}</p>
 				<p className="text-primary">
-					{new Date(props.event_start_time).toLocaleTimeString([], {
+					Thank you,{" "}
+					{props.customer?.name ||
+						props.bookingInfo.invitee_full_name}
+				</p>
+				<p className="text-primary">
+					{props.bookingInfo.event_type_name}
+				</p>
+				<p className="text-primary">
+					{new Date(
+						props.bookingInfo.event_start_time
+					).toLocaleTimeString([], {
 						hour: "numeric",
 						minute: "2-digit",
 					})}{" "}
 					on{" "}
-					{new Date(props.event_start_time).toLocaleDateString([], {
+					{new Date(
+						props.bookingInfo.event_start_time
+					).toLocaleDateString([], {
 						weekday: "long",
 						month: "short",
 						day: "numeric",
@@ -113,6 +121,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			statuses.firstTimeEmailSent.status = false;
 			statuses.firstTimeEmailSent.message = err;
 		}
+	}
+
+	if (ctx.query.event_type_name === "Consultation Session") {
+		return {
+			props: {
+				bookingInfo: { ...ctx.query },
+			},
+		};
 	}
 
 	try {

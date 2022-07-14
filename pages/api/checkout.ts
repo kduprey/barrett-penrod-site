@@ -2,15 +2,37 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import { URLSearchParams } from "url";
 import { server } from "../../config/index";
+import { BookingInfo, ClientInfo } from "../../types";
 
 type Data = {
 	res: string;
 };
 
 const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-	const stripe = new Stripe(`${process.env.STRIPE_TEST_SECRET_KEY}`, {
-		apiVersion: "2020-08-27",
+	const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`, {
+		// @ts-ignore
+		apiVersion: null,
 	});
+
+	const queryString: string = new URLSearchParams(req.query).toString();
+
+	if (req.query.event_type_name === "Consultation Session") {
+		// Add or update customer in database
+
+		const response = await fetch(`${server}/api/db/bookings`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				...req.query,
+			}),
+		});
+		console.log(response);
+
+		res.redirect(303, `${server}/bookings/success?${queryString}`).end();
+		return;
+	}
 
 	const prices = {
 		svsSession: {
@@ -22,8 +44,6 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 			live: "price_1L88w7AMm0G1mbCt5xei9unc",
 		},
 	};
-
-	const queryString: string = new URLSearchParams(req.query).toString();
 
 	let sessionTemplate: Stripe.Checkout.SessionCreateParams = {
 		success_url: `${server}/bookings/success?session_id={CHECKOUT_SESSION_ID}&${queryString}`,
@@ -69,6 +89,23 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 			sessionTemplate.customer_creation = "always";
 		}
 		const session = await stripe.checkout.sessions.create(sessionTemplate);
+
+		// Add or update customer in database
+
+		console.log(session);
+
+		const response = await fetch(`${server}/api/bookings`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				...req.query,
+				session_id: session.id,
+			}),
+		});
+
+		console.log(response);
 
 		res.redirect(303, session.url || `${server}/404`);
 	} catch (e: any) {

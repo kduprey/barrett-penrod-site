@@ -5,6 +5,7 @@ import type {
 	GetServerSideProps,
 } from "next";
 import type { AppProps } from "next/app";
+import { ObjectId } from "mongodb";
 
 export interface Page {
 	name: string;
@@ -127,18 +128,19 @@ export interface Profile {
 }
 
 export interface ClientInfo {
-	Name: string;
-	Email: string;
-	"Total Spend": number;
-	"Payment Count": number;
-	"Refunded Volume": number;
-	"Lessons Remaining": number;
-	"Last Lesson": Date;
-	"Total Lessons": number;
-	"Preferred Lesson Format": string;
-	"Start Date with Studio": Date;
-	"Active Member": boolean;
-	stripe_cus_id: string;
+	_id?: ObjectId;
+	activeMember: boolean;
+	email: string;
+	lessonsRemaining: number;
+	name: string;
+	paymentCount: number;
+	preferredLessonFormat: string;
+	refundedVolume: number;
+	totalLessons: number;
+	totalSpend: number;
+	stripe_cus_id?: string;
+	lastLesson: Date;
+	firstLesson: Date;
 }
 
 export interface LessonType {
@@ -174,4 +176,69 @@ export interface LessonPackage {
 	title: string;
 	discount: string;
 	price: string;
+}
+
+export interface stripeCustomer {
+	_id?: ObjectId;
+	id: string;
+	object: string;
+	address: Address;
+	balance: number;
+	created: number;
+	currency: null;
+	default_source: null;
+	delinquent: boolean;
+	description: null;
+	discount: null;
+	email: string;
+	invoice_prefix: string;
+	invoice_settings: InvoiceSettings;
+	livemode: boolean;
+	metadata: Metadata;
+	name: string;
+	next_invoice_sequence: number;
+	phone: string;
+	preferred_locales: string[];
+	shipping: null;
+	tax_exempt: string;
+	test_clock: null;
+}
+
+export interface Address {
+	city: string;
+	country: string;
+	line1: string;
+	line2: null;
+	postal_code: string;
+	state: string;
+}
+
+export interface InvoiceSettings {
+	custom_fields: null;
+	default_payment_method: string;
+	footer: null;
+	rendering_options: null;
+}
+
+export interface Metadata {
+	"Lessons Remaining": string;
+	"Last Lesson": string;
+	"Total Lessons": string;
+	"Preferred Lesson Format": string;
+	"Active Member": string;
+}
+
+export interface BookingInfo {
+	_id?: ObjectId;
+	answer_1?: string;
+	answer_2?: string;
+	assigned_to: string;
+	event_end_time: Date;
+	event_start_time: Date;
+	event_type_name: string;
+	event_type_uuid: string;
+	"guests[]"?: string[];
+	invitee_email: string;
+	invitee_full_name: string;
+	invitee_uuid: string;
 }

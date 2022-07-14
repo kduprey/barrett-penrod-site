@@ -52,7 +52,7 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 		cancel_url: `${server}/bookings/cancel?session_id={CHECKOUT_SESSION_ID}&${queryString}`,
 		line_items: [
 			{
-				price: req.query.event_type_name.includes("SVS Session")
+				price: req.query.event_type_name?.includes("SVS Session")
 					? prices.svsSession.test
 					: prices.otherLessons.test,
 				quantity: 1,

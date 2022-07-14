@@ -58,6 +58,7 @@ const Bookings: NextPageWithLayout = () => {
 				></Script>
 				<button
 					onClick={(e) => {
+						// @ts-ignore
 						Calendly.initPopupWidget({
 							url: "https://calendly.com/bpvoicestudio/consultation-session?hide_event_type_details=1",
 						});

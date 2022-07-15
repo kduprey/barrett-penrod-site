@@ -4,7 +4,7 @@ export const server = dev
 	? "https://d3c5-108-27-247-65.ngrok.io"
 	: "https://barrettpenrod.com";
 
-export const db = dev ? "test" : "prod";
+export const db = dev ? "test" : "production";
 
 export const stripeMode = dev ? "test" : "live";
 

@@ -68,6 +68,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			status: false,
 			message: null as any,
 		},
+		consultationEmailSent: {
+			status: false,
+			message: null as any,
+		},
 	};
 
 	// Are there guests?
@@ -124,11 +128,42 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	}
 
 	if (ctx.query.event_type_name === "Consultation Session") {
-		return {
-			props: {
-				bookingInfo: { ...ctx.query },
-			},
-		};
+		try {
+			const response = await fetch(
+				`${server}/api/bookings/consultation`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						invitee_email: ctx.query.invitee_email,
+						invitee_full_name: ctx.query.invitee_full_name,
+						eventStartTime: ctx.query.event_start_time,
+						eventEndTime: ctx.query.event_end_time,
+						eventTypeName: ctx.query.event_type_name,
+					}),
+				}
+			);
+
+			statuses.consultationEmailSent.status = true;
+			statuses.consultationEmailSent.message = await response.body;
+		} catch (err: any) {
+			console.log(err);
+			statuses.consultationEmailSent.status = false;
+			statuses.consultationEmailSent.message = err;
+		}
+		if (statuses.consultationEmailSent.status) {
+			return {
+				props: {
+					bookingInfo: { ...ctx.query },
+				},
+			};
+		} else {
+			return {
+				notFound: true,
+			};
+		}
 	}
 
 	try {

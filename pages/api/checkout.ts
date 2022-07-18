@@ -18,6 +18,7 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 		req.query as any
 	).toString();
 
+	// If event_type is "Consultation Session", then add booking to db and redirect to success page
 	if (req.query.event_type_name === "Consultation Session") {
 		// Add or update customer in database
 

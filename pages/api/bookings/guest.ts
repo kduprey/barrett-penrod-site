@@ -1,7 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Contact, GuestBody, TemplateMessage } from "../../../types";
 const client = require("@sendgrid/mail");
-client.setApiKey(process.env.SENDGRID_DEV_API_KEY);
+if (process.env.NODE_ENV === "production") {
+	client.setApiKey(process.env.SENDGRID_API_KEY);
+} else {
+	client.setApiKey(process.env.SENDGRID_DEV_API_KEY);
+}
 
 type Data = {
 	message: any;

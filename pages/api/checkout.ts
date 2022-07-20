@@ -1,19 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import Stripe from "stripe";
+import { stripe } from "../../config/index";
 import { URLSearchParams } from "url";
 import { server } from "../../config/index";
-import { BookingInfo, ClientInfo } from "../../types";
+import Stripe from "stripe";
 
 type Data = {
 	res: string;
 };
 
 const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-	const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`, {
-		// @ts-ignore
-		apiVersion: null,
-	});
-
 	const queryString: string = new URLSearchParams(
 		req.query as any
 	).toString();
@@ -97,7 +92,7 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
 		console.log(session);
 
-		const response = await fetch(`${server}/api/bookings`, {
+		const response = await fetch(`${server}/api/db/bookings`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

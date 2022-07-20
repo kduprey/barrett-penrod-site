@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
+import { stripe } from "../../config";
 import { server, stripeMode } from "../../config";
 
 type Data = {
@@ -10,11 +11,6 @@ const packageCheckout = async (
 	req: NextApiRequest,
 	res: NextApiResponse<Data>
 ) => {
-	const stripe = new Stripe(process.env.STRIPE_TEST_SECRET_KEY as string, {
-		// @ts-ignore
-		apiVersion: null,
-	});
-
 	const prices: {
 		[key: string]: {
 			test: string;

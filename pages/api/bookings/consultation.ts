@@ -1,11 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { TemplateMessage } from "../../../types";
-const client = require("@sendgrid/mail");
-if (process.env.NODE_ENV === "production") {
-	client.setApiKey(process.env.SENDGRID_API_KEY);
-} else {
-	client.setApiKey(process.env.SENDGRID_DEV_API_KEY);
-}
+import { sendgrid } from "../../../config/index";
 type Data = {
 	message: any;
 };
@@ -66,7 +61,7 @@ const consultation = async (
 	};
 
 	try {
-		const response = await client.send(message);
+		const response = await sendgrid.send(message);
 		res.status(200).json({ message: response });
 	} catch (error: any) {
 		console.error(error.body);

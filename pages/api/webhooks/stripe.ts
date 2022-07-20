@@ -1,12 +1,12 @@
-import { InsertOneResult } from "mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
 import getRawBody from "raw-body";
-import Stripe from "stripe";
 import { server } from "../../../config";
 import { stripeCustomer } from "../../../types";
+import { stripe } from "../../../config";
 
 type Data = {
 	message: string;
+	data?: stripeCustomer;
 };
 
 // Tell Next.js to disable parsing body by default,
@@ -30,10 +30,6 @@ const webhookHandler = async (
 
 	const rawBody = await getRawBody(req);
 
-	const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-		// @ts-ignore
-		apiVersion: null,
-	});
 	const sig = req.headers["stripe-signature"] as string;
 
 	let event;
@@ -42,7 +38,7 @@ const webhookHandler = async (
 		event = stripe.webhooks.constructEvent(
 			rawBody,
 			sig,
-			process.env.STRIPE_WEBHOOK_SECRET as string
+			`${process.env.STRIPE_WEBHOOK_SECRET}`
 		);
 	} catch (err: any) {
 		return res.status(400).send(`Webhook Error: ${err.message}`);
@@ -138,15 +134,14 @@ const webhookHandler = async (
 			);
 
 			if (!customerInfoToUpdate.ok) {
-				return res.status(500).json({
-					message: "Error: Could not find customer",
-				});
+				return res.status(500).json(customerInfoToUpdate);
 			}
 			const customerInfoToUpdateResult =
 				(await customerInfoToUpdate.json()) as stripeCustomer[];
 			if (!customerInfoToUpdateResult) {
 				return res.status(404).json({
 					message: "Error: Could not parse customer info",
+					data: customerInfoToUpdateResult,
 				});
 			}
 

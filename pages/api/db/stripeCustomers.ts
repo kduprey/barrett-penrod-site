@@ -1,4 +1,4 @@
-import { Filter, InsertOneResult, ModifyResult, ObjectId } from "mongodb";
+import { InsertOneResult, ModifyResult, ObjectId } from "mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { collections, connectToDatabase } from "../../../lib/database.service";
 import { stripeCustomer } from "../../../types";

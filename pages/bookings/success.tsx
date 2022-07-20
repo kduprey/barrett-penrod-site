@@ -1,5 +1,6 @@
 import { BookingInfo, NextPageWithLayout } from "../../types";
 import Layout from "../layout";
+import { stripe } from "../../config/index";
 
 type Props = {
 	session?: Stripe.Checkout.Session;
@@ -55,10 +56,6 @@ import { ReactElement } from "react";
 import { server } from "../../config";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-	const stripe = new Stripe(process.env.STRIPE_TEST_SECRET_KEY as string, {
-		apiVersion: "2020-08-27",
-	});
-
 	const statuses = {
 		guestEmailsSent: {
 			status: false,

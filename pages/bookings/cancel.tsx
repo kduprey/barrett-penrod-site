@@ -49,12 +49,9 @@ Cancel.getLayout = (page) => <Layout>{page}</Layout>;
 // - Only if you need to pre-render a page whose data must be fetched at request time
 import { GetServerSideProps } from "next";
 import Stripe from "stripe";
+import { stripe } from "../../config";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-	const stripe = new Stripe(process.env.STRIPE_TEST_SECRET_KEY as string, {
-		apiVersion: "2020-08-27",
-	});
-
 	try {
 		const session = await stripe.checkout.sessions.retrieve(
 			ctx.query.session_id as string

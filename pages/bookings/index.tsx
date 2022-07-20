@@ -1,4 +1,4 @@
-import { LessonType, NextPageWithLayout } from "../../types";
+import { NextPageWithLayout } from "../../types";
 import VsLogo from "/public/vslogo.svg";
 import Layout from "../layout";
 import { packages, services } from "../../data/services";

@@ -1,6 +1,5 @@
 import { BookingInfo, NextPageWithLayout } from "../../types";
 import Layout from "../layout";
-import { stripe } from "../../config/index";
 
 type Props = {
 	session?: Stripe.Checkout.Session;
@@ -51,9 +50,9 @@ Success.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
 // You should use getServerSideProps when:
 // - Only if you need to pre-render a page whose data must be fetched at request time
 import { GetServerSideProps } from "next";
-import Stripe from "stripe";
 import { ReactElement } from "react";
-import { server } from "../../config";
+import { server, stripe } from "../../config";
+import { Stripe } from "stripe";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const statuses = {

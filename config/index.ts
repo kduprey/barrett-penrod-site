@@ -1,5 +1,4 @@
 import Stripe from "stripe";
-const sendgridClient = require("@sendgrid/mail");
 
 const dev = process.env.NODE_ENV !== "production";
 
@@ -24,10 +23,3 @@ export const stripe = new Stripe(
 		apiVersion: null,
 	}
 );
-
-if (process.env.NODE_ENV === "production") {
-	sendgridClient.setApiKey(process.env.SENDGRID_API_KEY);
-} else {
-	sendgridClient.setApiKey(process.env.SENDGRID_DEV_API_KEY);
-}
-export const sendgrid = sendgridClient;

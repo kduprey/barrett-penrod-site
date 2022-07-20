@@ -54,8 +54,8 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 		line_items: [
 			{
 				price: req.query.event_type_name?.includes("SVS Session")
-					? prices.svsSession.test
-					: prices.otherLessons.test,
+					? prices.svsSession.live
+					: prices.otherLessons.live,
 				quantity: 1,
 			},
 		],

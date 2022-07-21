@@ -13,7 +13,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.1.1",
     "@fortawesome/free-regular-svg-icons": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "@fortawesome/react-fontawesome": "^0.1.18",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@headlessui/react": "^1.6.4",
     "@sendgrid/mail": "^7.7.0",
     "@svgr/webpack": "^6.2.1",

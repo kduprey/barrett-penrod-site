@@ -1,8 +1,8 @@
 import {
 	DeleteResult,
 	InsertOneResult,
+	ModifyResult,
 	ObjectId,
-	UpdateResult,
 	WithId,
 } from "mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -19,7 +19,7 @@ export default async function handler(
 		| Data
 		| WithId<BookingInfo>[]
 		| InsertOneResult<BookingInfo>
-		| UpdateResult
+		| ModifyResult<BookingInfo>
 		| DeleteResult
 	>
 ) {
@@ -81,7 +81,7 @@ export default async function handler(
 
 	if (req.method === "PUT") {
 		const id = req.query.id;
-		const { ...booking } = req.body as BookingInfo;
+		const { ...booking } = req.body;
 
 		if (!id) {
 			return res.status(400).json({
@@ -100,10 +100,10 @@ export default async function handler(
 
 		try {
 			await connectToDatabase();
-			const result = await collections.bookings?.updateOne(
-				{ _id: new ObjectId(id.toString()) },
-				{ $set: booking }
-			);
+			const query = { _id: new ObjectId(id.toString()) };
+			const result = await collections.bookings?.findOneAndUpdate(query, {
+				$set: booking,
+			});
 			if (!result) {
 				return res.status(500).json({
 					err: new Error("Error: Failed to update client"),

@@ -1,7 +1,5 @@
-import { useRouter } from "next/router";
 import Script from "next/script";
 import { useState } from "react";
-import { server } from "../../config";
 import { services } from "../../data/services";
 
 type Props = {
@@ -10,8 +8,7 @@ type Props = {
 	selectedPackage: string;
 };
 
-const PackageModal = ({ isOpen, setIsOpen, selectedPackage }: Props) => {
-	const router = useRouter();
+const PackageModal = ({ isOpen, setIsOpen }: Props) => {
 	const [step, setStep] = useState<number[]>([1]);
 	const [service, setService] = useState(0);
 	const [location, setLocation] = useState(0);
@@ -44,6 +41,7 @@ const PackageModal = ({ isOpen, setIsOpen, selectedPackage }: Props) => {
 			e.data.event.indexOf("calendly.") === 0
 		);
 	};
+
 	if (typeof window !== "undefined") {
 		window.addEventListener("message", (e: MessageEvent) => {
 			if (isCalendlyEvent(e)) {
@@ -242,13 +240,6 @@ const PackageModal = ({ isOpen, setIsOpen, selectedPackage }: Props) => {
 									url: services[service].url[location],
 								});
 								return false;
-								router.push(
-									`${server}/api/packageCheckout?numPackage=${
-										selectedPackage.split(" ")[0]
-									}&successURL=${
-										services[service].url[location]
-									}` || ""
-								);
 							}
 						}}
 					>

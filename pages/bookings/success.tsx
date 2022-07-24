@@ -1,10 +1,11 @@
 import { BookingInfo, NextPageWithLayout } from "../../types";
-import Layout from "../layout";
+import Layout from "../../components/Layout";
+import Stripe from "stripe";
 
 type Props = {
 	session?: Stripe.Checkout.Session;
 	customer?: Stripe.Customer;
-	bookingInfo: BookingInfo;
+	bookingInfo?: BookingInfo;
 };
 
 const Success: NextPageWithLayout = (props: Props) => {
@@ -12,31 +13,37 @@ const Success: NextPageWithLayout = (props: Props) => {
 		<div className="flex flex-grow flex-col items-center justify-center space-y-4 py-6">
 			<h2 className="text-center text-secondary">Booking Confirmed</h2>
 			<div className="m-3 flex flex-col items-center justify-center space-y-4 rounded bg-secondary p-6 shadow-lg">
-				<p className="text-primary">
-					Thank you,{" "}
-					{props.customer?.name ||
-						props.bookingInfo.invitee_full_name}
-				</p>
-				<p className="text-primary">
-					{props.bookingInfo.event_type_name}
-				</p>
-				<p className="text-primary">
-					{new Date(
-						props.bookingInfo.event_start_time
-					).toLocaleTimeString([], {
-						hour: "numeric",
-						minute: "2-digit",
-					})}{" "}
-					on{" "}
-					{new Date(
-						props.bookingInfo.event_start_time
-					).toLocaleDateString([], {
-						weekday: "long",
-						month: "short",
-						day: "numeric",
-						year: "numeric",
-					})}
-				</p>
+				{props.bookingInfo ? (
+					<>
+						<p className="text-primary">
+							Thank you,{" "}
+							{props.customer?.name ||
+								props.bookingInfo.invitee_full_name}
+						</p>
+						<p className="text-primary">
+							{props.bookingInfo.event_type_name}
+						</p>
+						<p className="text-primary">
+							{new Date(
+								props.bookingInfo.event_start_time
+							).toLocaleTimeString([], {
+								hour: "numeric",
+								minute: "2-digit",
+							})}{" "}
+							on{" "}
+							{new Date(
+								props.bookingInfo.event_start_time
+							).toLocaleDateString([], {
+								weekday: "long",
+								month: "short",
+								day: "numeric",
+								year: "numeric",
+							})}
+						</p>
+					</>
+				) : (
+					<p className="text-primary">Thank you for your booking.</p>
+				)}
 				<p className="text-center text-primary">
 					Please check your email for confirmation.
 				</p>
@@ -44,15 +51,11 @@ const Success: NextPageWithLayout = (props: Props) => {
 		</div>
 	);
 };
-export default Success;
-Success.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
 
 // You should use getServerSideProps when:
 // - Only if you need to pre-render a page whose data must be fetched at request time
 import { GetServerSideProps } from "next";
-import { ReactElement } from "react";
 import { server, stripe } from "../../config";
-import { Stripe } from "stripe";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const statuses = {
@@ -187,3 +190,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		};
 	}
 };
+
+export default Success;
+Success.getLayout = (page) => <Layout>{page}</Layout>;

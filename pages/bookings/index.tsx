@@ -1,13 +1,15 @@
 import { NextPageWithLayout } from "../../types";
 import VsLogo from "/public/vslogo.svg";
-import Layout from "../layout";
+import Layout from "../../components/Layout";
 import { packages, services } from "../../data/services";
 import Link from "next/link";
 import PackageModal from "../../components/Bookings/PackageModal";
 import { useState } from "react";
 import Script from "next/script";
 
-const Bookings: NextPageWithLayout = () => {
+type Props = {};
+
+const Bookings: NextPageWithLayout = (props: Props) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedPackage, setSelectedPackage] = useState<string>("");
 

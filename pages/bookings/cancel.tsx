@@ -1,16 +1,12 @@
-import { useRouter } from "next/router";
 import { NextPageWithLayout } from "../../types";
-import Layout from "../layout";
+import Layout from "../../components/Layout";
+import Stripe from "stripe";
 
 type Props = {
-	session: Stripe.Checkout.Session;
+	session?: Stripe.Checkout.Session;
 };
 
 const Cancel: NextPageWithLayout = (props: Props) => {
-	const router = useRouter();
-
-	const { sessionId: string } = router.query;
-
 	return (
 		<div className="flex flex-grow flex-col items-center justify-center space-y-4">
 			<h2 className="text-center text-secondary">Booking Cancelled</h2>
@@ -22,9 +18,9 @@ const Cancel: NextPageWithLayout = (props: Props) => {
 				</p>
 				<a
 					href={
-						props.session.url
+						props.session?.url
 							? props.session.url
-							: (props.session.after_expiration?.recovery
+							: (props.session?.after_expiration?.recovery
 									?.url as string)
 					}
 					className="text-center text-primary underline"
@@ -48,7 +44,6 @@ Cancel.getLayout = (page) => <Layout>{page}</Layout>;
 // You should use getServerSideProps when:
 // - Only if you need to pre-render a page whose data must be fetched at request time
 import { GetServerSideProps } from "next";
-import Stripe from "stripe";
 import { stripe } from "../../config";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

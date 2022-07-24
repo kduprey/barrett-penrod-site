@@ -1,11 +1,13 @@
 import VsLogo from "/public/vslogo.svg";
 import { services } from "../../data/services";
 import { NextPageWithLayout } from "../../types";
-import Layout from "../layout";
+import Layout from "../../components/Layout";
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-const Individual: NextPageWithLayout = () => {
+type Props = {};
+
+const Individual: NextPageWithLayout = (props: Props) => {
 	const router = useRouter();
 	const [step, setStep] = useState<number[]>([1]);
 	const [service, setService] = useState(0);

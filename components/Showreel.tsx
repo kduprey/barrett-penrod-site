@@ -69,7 +69,7 @@ const Showreel = (props: Props) => {
 				</div>
 			</div>
 
-			<h3>Sound Demos Coming June 2022!</h3>
+			<h3>Sound Demos Coming August 2022!</h3>
 		</div>
 	);
 };

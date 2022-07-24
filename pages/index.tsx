@@ -1,14 +1,7 @@
-import Header from "../components/Header";
-import Nav from "../components/Navbar/Nav";
-import { ReactElement, useState } from "react";
-
-import Footer from "../components/Footer";
 import Photos from "../components/Photos";
 import Showreel from "../components/Showreel";
 import About from "../components/About";
 import Headline from "../components/Headline";
-import SocialBar from "../components/SocialBar";
-import TitleBar from "../components/Navbar/TitleBar";
 
 import Image from "next/image";
 import headshot1 from "../public/headshot1.jpg";
@@ -21,7 +14,7 @@ import Headshot from "../components/Headshot";
 import ResumeTable from "../components/ResumeTable";
 import News from "../components/News";
 import * as gtag from "../lib/analytics";
-import Layout from "./layout";
+import Layout from "../components/Layout";
 import { NextPageWithLayout } from "../types";
 
 const headshots = [
@@ -34,9 +27,6 @@ const headshots = [
 ];
 
 const Page: NextPageWithLayout = () => {
-	const [isNavOpen, setIsNavOpen] = useState(false);
-	const [isCVOpen, setIsCVOpen] = useState(false);
-
 	return (
 		<section id="home">
 			{/* Heading Text */}
@@ -141,4 +131,4 @@ const Page: NextPageWithLayout = () => {
 };
 export default Page;
 
-Page.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
+Page.getLayout = (page) => <Layout>{page}</Layout>;

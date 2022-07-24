@@ -19,12 +19,29 @@ import "@fontsource/montserrat/600-italic.css";
 import "@fontsource/montserrat/700-italic.css";
 import "@fontsource/montserrat/800-italic.css";
 import "@fontsource/montserrat/900-italic.css";
-import Script from "next/script";
 import "../styles/globals.css";
 import { AppPropsWithLayout } from "../types";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import Script from "next/script";
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
+	const router = useRouter();
+	const handleRouteChange = (url: URL) => {
+		window.gtag("config", process.env.NEXT_PUBLIC_GA_ID as string, {
+			page_path: url,
+		});
+	};
+
+	useEffect(() => {
+		router.events.on("routeChangeComplete", handleRouteChange);
+		return () => {
+			router.events.off("routeChangeComplete", handleRouteChange);
+		};
+	}, [router.events]);
+
 	const getLayout = Component.getLayout || ((page) => page);
+
 	return (
 		<>
 			<Script
@@ -36,10 +53,10 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 				strategy="afterInteractive"
 				dangerouslySetInnerHTML={{
 					__html: `window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());
+	  						function gtag(){dataLayer.push(arguments);}
+	 						gtag('js', new Date());
 
-                  gtag('config', 'G-KFM4XGBGYY');`,
+	  						gtag('config', 'G-KFM4XGBGYY');`,
 				}}
 			/>
 			{getLayout(<Component {...pageProps} />)}

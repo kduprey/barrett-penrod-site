@@ -1,17 +1,13 @@
-import Scroll from "react-scroll";
-import { NavMenu } from "../../types";
 import MobileSubmenu from "./MobileSubmenu";
 import Submenu from "./Submenu";
 import { menus } from "../../data/navigation";
 
 type Props = {
 	isNavOpen: boolean;
-	isCVOpen: boolean;
-	setIsCVOpen: (isCVOpen: boolean) => void;
 	setIsNavOpen: (isNavOpen: boolean) => void;
 };
 
-const Nav = ({ isNavOpen, isCVOpen, setIsCVOpen, setIsNavOpen }: Props) => {
+const Nav = ({ isNavOpen, setIsNavOpen }: Props) => {
 	return (
 		<>
 			<nav

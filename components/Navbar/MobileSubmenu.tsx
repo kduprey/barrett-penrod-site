@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { NavMenu } from "../../types";
 import { motion, useAnimation } from "framer-motion";
 import NextLink from "next/link";
@@ -12,7 +12,7 @@ type Props = {
 	isNavOpen: boolean;
 };
 
-const MobileSubmenu = ({ menu, setIsNavOpen, isNavOpen }: Props) => {
+const MobileSubmenu = ({ menu, setIsNavOpen }: Props) => {
 	const router = useRouter();
 
 	const [isOpen, setIsOpen] = useState(false);
@@ -76,7 +76,11 @@ const MobileSubmenu = ({ menu, setIsNavOpen, isNavOpen }: Props) => {
 									onClick={() => {
 										setIsNavOpen(false);
 										gtag.pageview(
-											router.pathname + sublink.id
+											new URL(
+												window.location.href +
+													router.route +
+													sublink.id
+											)
 										);
 									}}
 									to={sublink.id}

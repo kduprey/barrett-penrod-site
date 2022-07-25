@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { stripe } from "../../config/index";
 import { URLSearchParams } from "url";
-import { server } from "../../config/index";
+import { server, stripeMode } from "../../config/index";
 import Stripe from "stripe";
 
 type Data = {
@@ -49,8 +49,8 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 		line_items: [
 			{
 				price: req.query.event_type_name?.includes("SVS Session")
-					? prices.svsSession.live
-					: prices.otherLessons.live,
+					? prices.svsSession[stripeMode]
+					: prices.otherLessons[stripeMode],
 				quantity: 1,
 			},
 		],

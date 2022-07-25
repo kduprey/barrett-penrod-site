@@ -1,5 +1,5 @@
+import { setCookie } from "cookies-next";
 import { useRouter } from "next/router";
-import { setCookie, getCookie } from "cookies-next";
 import { useState } from "react";
 import { services } from "../../data/services";
 
@@ -35,6 +35,34 @@ const PackageModal = ({ isOpen, setIsOpen }: Props) => {
 			setStep([1, 2]);
 		}
 	};
+
+	const isCalendlyEvent = (e: MessageEvent) => {
+		if (e.origin === "https://calendly.com")
+			return (
+				e.origin === "https://calendly.com" &&
+				e.data.event &&
+				e.data.event.indexOf("calendly.") === 0
+			);
+		else return false;
+	};
+
+	if (typeof window !== "undefined") {
+		window.addEventListener("message", (e: MessageEvent) => {
+			if (isCalendlyEvent(e)) {
+				console.log("Event: ", e.data.event);
+				console.log("Data: ", e.data.payload);
+
+				if (e.data.event === "calendly.event_scheduled") {
+					setIsOpen(false);
+					console.log(e.data.payload);
+
+					// router.push(
+					// 	"/api/checkout?package=" + selectedPackage + e.data.payload
+					// );
+				}
+			}
+		});
+	}
 
 	return (
 		<div

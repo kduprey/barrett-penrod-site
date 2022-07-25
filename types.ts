@@ -176,6 +176,10 @@ export interface LessonPackage {
 	title: string;
 	discount: string;
 	price: string;
+	stripeID: {
+		test: string;
+		live: string;
+	};
 }
 
 export interface stripeCustomer {

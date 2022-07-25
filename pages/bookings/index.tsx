@@ -64,7 +64,6 @@ const Bookings: NextPageWithLayout = (props: Props) => {
 						Calendly.initPopupWidget({
 							url: "https://calendly.com/bpvoicestudio/consultation-session?hide_event_type_details=1",
 						});
-						return false;
 					}}
 				>
 					Schedule time with me

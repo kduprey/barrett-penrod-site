@@ -1,10 +1,10 @@
-import { NextPageWithLayout } from "../../types";
-import VsLogo from "/public/vslogo.svg";
+import Link from "next/link";
+import { useState } from "react";
+import PackageModal from "../../components/Bookings/PackageModal";
 import Layout from "../../components/Layout";
 import { packages, services } from "../../data/services";
-import Link from "next/link";
-import PackageModal from "../../components/Bookings/PackageModal";
-import { useState } from "react";
+import { NextPageWithLayout } from "../../types";
+import VsLogo from "/public/vslogo.svg";
 
 import { setCookie } from "cookies-next";
 
@@ -50,9 +50,25 @@ const Bookings: NextPageWithLayout = (props: Props) => {
 					Book a <br /> Free Consultation!
 				</h2>
 
-				<a href="https://calendly.com/bpvoicestudio/consultation-session">
-					<button>Schedule time with me</button>
-				</a>
+				<link
+					href="https://assets.calendly.com/assets/external/widget.css"
+					rel="stylesheet"
+				/>
+				<Script
+					src="https://assets.calendly.com/assets/external/widget.js"
+					type="text/javascript"
+					async
+				></Script>
+				<button
+					onClick={(e) => {
+						// @ts-ignore
+						Calendly.initPopupWidget({
+							url: "https://calendly.com/bpvoicestudio/consultation-session?hide_event_type_details=1",
+						});
+					}}
+				>
+					Schedule time with me
+				</button>
 			</div>
 
 			<hr className="my-6 h-1 w-full rounded-lg bg-slate-200 opacity-30" />

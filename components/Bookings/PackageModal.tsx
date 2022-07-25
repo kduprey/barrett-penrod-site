@@ -35,11 +35,13 @@ const PackageModal = ({ isOpen, setIsOpen }: Props) => {
 	};
 
 	const isCalendlyEvent = (e: MessageEvent) => {
-		return (
-			e.origin === "https://calendly.com" &&
-			e.data.event &&
-			e.data.event.indexOf("calendly.") === 0
-		);
+		if (e.origin === "https://calendly.com")
+			return (
+				e.origin === "https://calendly.com" &&
+				e.data.event &&
+				e.data.event.indexOf("calendly.") === 0
+			);
+		else return false;
 	};
 
 	if (typeof window !== "undefined") {

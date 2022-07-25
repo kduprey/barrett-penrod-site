@@ -118,8 +118,8 @@ export const packages: LessonPackage[] = [
 		discount: "1/2 off a session",
 		price: "280",
 		stripeID: {
-			test: "test",
-			live: "live",
+			test: "price_1LLKKfAMm0G1mbCtsNQnB6jW",
+			live: "price_1LLKHdAMm0G1mbCtVZ9UmBPv",
 		},
 	},
 	{
@@ -127,8 +127,8 @@ export const packages: LessonPackage[] = [
 		discount: "1 session free",
 		price: "400",
 		stripeID: {
-			test: "test",
-			live: "live",
+			test: "price_1LLKKtAMm0G1mbCtRGAQOxp7",
+			live: "price_1LLKIlAMm0G1mbCtcZ3PDgqq",
 		},
 	},
 	{
@@ -136,8 +136,8 @@ export const packages: LessonPackage[] = [
 		discount: "1 and 1/2 sessions free",
 		price: "520",
 		stripeID: {
-			test: "test",
-			live: "live",
+			test: "price_1LLKLAAMm0G1mbCt2zHaZ8BU",
+			live: "price_1LLKJAAMm0G1mbCtcijAzVhU",
 		},
 	},
 	{
@@ -145,8 +145,8 @@ export const packages: LessonPackage[] = [
 		discount: "2 sessions free",
 		price: "800",
 		stripeID: {
-			test: "test",
-			live: "live",
+			test: "price_1LLKLLAMm0G1mbCtE0ubYKM2",
+			live: "price_1LLKJMAMm0G1mbCtSUld32rj",
 		},
 	},
 ];

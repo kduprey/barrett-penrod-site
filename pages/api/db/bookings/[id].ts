@@ -14,16 +14,24 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<Data | WithId<BookingInfo>>
 ) {
-	const { id } = req.query;
+	if (req.method !== "GET") {
+		res.setHeader("Allow", "GET");
+		return res.status(400).json({
+			message: "Error: Invalid method",
+		});
+	}
 
-	if (!id) {
+	if (!req.query.id) {
 		return res.status(400).json({
 			message: "Error: Missing id",
 		});
 	}
+	const { id } = req.query;
 
 	try {
-		const query = { _id: new ObjectId(id.toString()) };
+		const query = {
+			_id: new ObjectId(id.valueOf() === "string" ? id.toString() : ""),
+		};
 		await connectToDatabase();
 		const client = await collections.bookings?.findOne(query);
 		if (!client) {

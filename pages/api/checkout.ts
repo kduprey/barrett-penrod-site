@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { stripe } from "../../config/index";
+import { stripe, server, stripeMode } from "../../config/index";
 import { URLSearchParams } from "url";
-import { server, stripeMode } from "../../config/index";
 import Stripe from "stripe";
 
 type Data = {

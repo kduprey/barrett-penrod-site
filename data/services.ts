@@ -117,20 +117,36 @@ export const packages: LessonPackage[] = [
 		title: "4 Session Package",
 		discount: "1/2 off a session",
 		price: "280",
+		stripeID: {
+			test: "test",
+			live: "live",
+		},
 	},
 	{
 		title: "6 Session Package",
 		discount: "1 session free",
 		price: "400",
+		stripeID: {
+			test: "test",
+			live: "live",
+		},
 	},
 	{
 		title: "8 Session Package",
 		discount: "1 and 1/2 sessions free",
 		price: "520",
+		stripeID: {
+			test: "test",
+			live: "live",
+		},
 	},
 	{
 		title: "12 Session Package",
 		discount: "2 sessions free",
 		price: "800",
+		stripeID: {
+			test: "test",
+			live: "live",
+		},
 	},
 ];

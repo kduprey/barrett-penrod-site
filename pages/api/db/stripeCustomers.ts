@@ -38,7 +38,7 @@ export default async function handler(
 		} catch (error: unknown) {
 			console.log(error);
 
-			return res.status(500).send(error);
+			return res.status(500).json(error);
 		}
 	}
 
@@ -72,7 +72,7 @@ export default async function handler(
 			}
 			return res.status(200).json(client);
 		} catch (err) {
-			return res.status(500).send(err);
+			return res.status(500).json(err);
 		}
 	}
 

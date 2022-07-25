@@ -69,7 +69,6 @@ const webhookHandler = async (
 			const createResult = await createResponse.json();
 			return res.status(200).json(createResult);
 
-			break;
 		case "customer.deleted":
 			const customerDeleted = event.data.object as stripeCustomer;
 			// Then define and call a function to handle the event customer.deleted
@@ -116,7 +115,6 @@ const webhookHandler = async (
 			const deleteResult = await deleteResponse.json();
 			return res.status(200).json(deleteResult);
 
-			break;
 		case "customer.updated":
 			const customerUpdated = event.data.object as stripeCustomer;
 			// Then define and call a function to handle the event customer.updated
@@ -164,7 +162,6 @@ const webhookHandler = async (
 			const updateResult = await updateResponse.json();
 			return res.status(200).json(updateResult);
 
-			break;
 		// ... handle other event types
 		default:
 			console.log(`Unhandled event type ${event.type}`);

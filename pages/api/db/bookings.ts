@@ -25,13 +25,13 @@ export default async function handler(
 ) {
 	if (req.method === "GET") {
 		if (req.query.filter) {
-			const query = await JSON.parse(req.query.filter as string);
-			console.log(query);
+			const filter = JSON.parse(req.query.filter as string);
+			console.log(filter);
 
 			try {
 				await connectToDatabase();
 				const client = await collections.bookings
-					?.find(query)
+					?.find(filter)
 					.toArray();
 				if (!client) {
 					return res.status(404).json({
@@ -45,7 +45,7 @@ export default async function handler(
 			} catch (error: any) {
 				console.log(error);
 
-				return res.status(500).send(error);
+				return res.status(500).json(error);
 			}
 		}
 
@@ -113,7 +113,7 @@ export default async function handler(
 		} catch (error: any) {
 			console.log(error);
 
-			return res.status(500).send(error);
+			return res.status(500).json(error);
 		}
 	}
 
@@ -139,7 +139,7 @@ export default async function handler(
 		} catch (error: any) {
 			console.log(error);
 
-			return res.status(500).send(error);
+			return res.status(500).json(error);
 		}
 	}
 

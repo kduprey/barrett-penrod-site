@@ -77,6 +77,11 @@ const Footer = (props: Props) => {
 					setError(true);
 					setLoading(false);
 				}
+			})
+			.catch((err) => {
+				console.log(err);
+				setError(true);
+				setLoading(false);
 			});
 	};
 

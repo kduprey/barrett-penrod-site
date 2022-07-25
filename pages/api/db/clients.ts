@@ -34,10 +34,10 @@ export default async function handler(
 			console.log(client);
 
 			return res.status(200).json(client);
-		} catch (error: unknown) {
+		} catch (error: any) {
 			console.log(error);
 
-			return res.status(500).send(error);
+			return res.status(500).json(error);
 		}
 	}
 

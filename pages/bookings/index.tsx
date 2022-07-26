@@ -5,7 +5,8 @@ import { packages, services } from "../../data/services";
 import Link from "next/link";
 import PackageModal from "../../components/Bookings/PackageModal";
 import { useState } from "react";
-import Script from "next/script";
+
+import { setCookie } from "cookies-next";
 
 type Props = {};
 
@@ -49,25 +50,9 @@ const Bookings: NextPageWithLayout = (props: Props) => {
 					Book a <br /> Free Consultation!
 				</h2>
 
-				<link
-					href="https://assets.calendly.com/assets/external/widget.css"
-					rel="stylesheet"
-				/>
-				<Script
-					src="https://assets.calendly.com/assets/external/widget.js"
-					type="text/javascript"
-					async
-				></Script>
-				<button
-					onClick={(e) => {
-						// @ts-ignore
-						Calendly.initPopupWidget({
-							url: "https://calendly.com/bpvoicestudio/consultation-session?hide_event_type_details=1",
-						});
-					}}
-				>
-					Schedule time with me
-				</button>
+				<a href="https://calendly.com/bpvoicestudio/consultation-session">
+					<button>Schedule time with me</button>
+				</a>
 			</div>
 
 			<hr className="my-6 h-1 w-full rounded-lg bg-slate-200 opacity-30" />
@@ -94,6 +79,11 @@ const Bookings: NextPageWithLayout = (props: Props) => {
 								onClick={(e) => {
 									setIsOpen(true);
 									setSelectedPackage(lessonPackage.title);
+									setCookie("packageInfo", lessonPackage, {
+										maxAge: 60 * 30,
+										sameSite: "strict",
+										secure: true,
+									});
 								}}
 							>
 								Reserve Now!

@@ -63,7 +63,7 @@ export interface TemplatePersonalization {
 	cc?: Contact[];
 	bcc?: Contact[];
 	from?: Contact;
-	dynamic_template_data: GuestAttendeeTemplateData;
+	dynamic_template_data: GuestAttendeeTemplateData | PackageTemplateData;
 	send_at?: number;
 	custom_args?: {
 		[key: string]: string;
@@ -78,6 +78,14 @@ export interface GuestAttendeeTemplateData {
 	bookingTime: string;
 	bookingDate: string;
 	bookingName: string;
+}
+
+export interface PackageTemplateData {
+	bulkSessionDiscountPackage: string;
+	dateOfFirstSession: string;
+	bookingTime: string;
+	bookingDate: string;
+	bookingLocation: string;
 }
 
 export interface GuestBody {
@@ -173,9 +181,14 @@ export interface Profile {
 }
 
 export interface LessonPackage {
+	amtSessions: number;
 	title: string;
 	discount: string;
 	price: string;
+	stripeID: {
+		test: string;
+		live: string;
+	};
 }
 
 export interface stripeCustomer {
@@ -241,4 +254,9 @@ export interface BookingInfo {
 	invitee_email: string;
 	invitee_full_name: string;
 	invitee_uuid: string;
+}
+
+export interface serviceCookieType {
+	serviceTitle: string;
+	locationName: string;
 }

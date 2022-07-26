@@ -1,4 +1,5 @@
-import Script from "next/script";
+import { useRouter } from "next/router";
+import { setCookie, getCookie } from "cookies-next";
 import { useState } from "react";
 import { services } from "../../data/services";
 
@@ -9,6 +10,7 @@ type Props = {
 };
 
 const PackageModal = ({ isOpen, setIsOpen }: Props) => {
+	const router = useRouter();
 	const [step, setStep] = useState<number[]>([1]);
 	const [service, setService] = useState(0);
 	const [location, setLocation] = useState(0);
@@ -34,34 +36,6 @@ const PackageModal = ({ isOpen, setIsOpen }: Props) => {
 		}
 	};
 
-	const isCalendlyEvent = (e: MessageEvent) => {
-		if (e.origin === "https://calendly.com")
-			return (
-				e.origin === "https://calendly.com" &&
-				e.data.event &&
-				e.data.event.indexOf("calendly.") === 0
-			);
-		else return false;
-	};
-
-	if (typeof window !== "undefined") {
-		window.addEventListener("message", (e: MessageEvent) => {
-			if (isCalendlyEvent(e)) {
-				console.log("Event: ", e.data.event);
-				console.log("Data: ", e.data.payload);
-
-				if (e.data.event === "calendly.event_scheduled") {
-					setIsOpen(false);
-					console.log(e.data.payload);
-
-					// router.push(
-					// 	"/api/checkout?package=" + selectedPackage + e.data.payload
-					// );
-				}
-			}
-		});
-	}
-
 	return (
 		<div
 			className={`withTransition fixed inset-0 h-full w-full overflow-y-auto bg-gray-600 bg-opacity-50 duration-500 ${
@@ -74,16 +48,6 @@ const PackageModal = ({ isOpen, setIsOpen }: Props) => {
 				}
 			}}
 		>
-			<link
-				href="https://assets.calendly.com/assets/external/widget.css"
-				rel="stylesheet"
-			/>
-			<Script
-				src="https://assets.calendly.com/assets/external/widget.js"
-				type="text/javascript"
-				async
-			></Script>
-
 			<div
 				className={` withTransition relative top-20 m-6 mx-auto flex w-[95%] grow flex-col items-center rounded-lg bg-secondary py-6 px-4 md:order-1 md:h-[30em] md:w-1/2 ${
 					isOpen ? "top-20" : "-top-full"
@@ -236,12 +200,24 @@ const PackageModal = ({ isOpen, setIsOpen }: Props) => {
 
 							if (!step.includes(3)) handleContinue(e);
 							if (step.includes(3)) {
-								isOpen ? setIsOpen(false) : setIsOpen(true);
-								// @ts-ignore
-								Calendly.initPopupWidget({
-									url: services[service].url[location],
+								const serviceCookie = {
+									serviceTitle: services[service].title,
+									locationName:
+										services[service].locations[location],
+								};
+								setCookie("service", serviceCookie, {
+									maxAge: 60 * 30,
+									sameSite: "strict",
+									secure: true,
 								});
-								return false;
+								setCookie("redirectFromPackageModal", true, {
+									maxAge: 60 * 30,
+									sameSite: "strict",
+									secure: true,
+								});
+								isOpen ? setIsOpen(false) : setIsOpen(true);
+
+								router.push(services[service].url[location]);
 							}
 						}}
 					>

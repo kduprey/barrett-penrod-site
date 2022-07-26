@@ -1,6 +1,12 @@
-import { BookingInfo, NextPageWithLayout } from "../../types";
+import {
+	BookingInfo,
+	LessonPackage,
+	NextPageWithLayout,
+	serviceCookieType,
+} from "../../types";
 import Layout from "../../components/Layout";
 import Stripe from "stripe";
+import { getCookie } from "cookies-next";
 
 type Props = {
 	session?: Stripe.Checkout.Session;
@@ -71,7 +77,53 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			status: false,
 			message: null as any,
 		},
+		packageEmailSent: {
+			status: false,
+			message: null as any,
+		},
 	};
+
+	const { req, res } = ctx;
+	const serviceCookie = getCookie("service", { req, res }) as string;
+	const serviceJson: serviceCookieType = serviceCookie
+		? JSON.parse(serviceCookie)
+		: null;
+	const isPackage = getCookie("redirectFromPackageModal", {
+		req,
+		res,
+	}) as boolean;
+
+	if (isPackage) {
+		const packageCookie = getCookie("packageInfo", { req, res }) as string;
+		const packageJson: LessonPackage = JSON.parse(packageCookie);
+
+		try {
+			const response = await fetch(
+				`${server}/api/bookings/package-confirmation`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						"Access-Control-Allow-Origin": "*",
+					},
+					body: JSON.stringify({
+						invitee_email: ctx.query.invitee_email,
+						invitee_full_name: ctx.query.invitee_full_name,
+						bulkSessionDiscountPackage: packageJson.title,
+						dateOfFirstSession: ctx.query.event_start_time,
+						bookingTime: ctx.query.event_start_time,
+						bookingDate: ctx.query.event_start_time,
+						bookingLocation: serviceJson.locationName,
+					}),
+				}
+			);
+			statuses.packageEmailSent.status = true;
+			statuses.packageEmailSent.message = await response.json();
+		} catch (error) {
+			statuses.packageEmailSent.status = false;
+			statuses.packageEmailSent.message = error;
+		}
+	}
 
 	// Are there guests?
 
@@ -91,7 +143,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 				}),
 			});
 			statuses.guestEmailsSent.status = true;
-			statuses.guestEmailsSent.message = await response.body;
+			statuses.guestEmailsSent.message = await response.json();
 		} catch (err: any) {
 			console.log(err);
 			statuses.guestEmailsSent.status = false;
@@ -118,7 +170,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 				}),
 			});
 			statuses.firstTimeEmailSent.status = true;
-			statuses.firstTimeEmailSent.message = await response.body;
+			statuses.firstTimeEmailSent.message = await response.json();
 		} catch (err: any) {
 			console.log(err);
 			statuses.firstTimeEmailSent.status = false;
@@ -146,7 +198,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			);
 
 			statuses.consultationEmailSent.status = true;
-			statuses.consultationEmailSent.message = await response.body;
+			statuses.consultationEmailSent.message = await response.json();
 		} catch (err: any) {
 			console.log(err);
 			statuses.consultationEmailSent.status = false;
@@ -168,7 +220,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	try {
 		const session = await stripe.checkout.sessions.retrieve(
 			ctx.query.session_id as string
-		); // your fetch function here
+		);
 
 		const customer = await stripe.customers.retrieve(
 			session.customer as string

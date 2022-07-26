@@ -70,7 +70,7 @@ const consultation = async (
 		res.status(200).json({ message: response });
 	} catch (error: any) {
 		console.error(error.body);
-		res.status(500).json({ message: error });
+		res.status(500).json(error);
 	}
 };
 

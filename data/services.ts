@@ -71,8 +71,9 @@ export const services: ServiceType[] = [
 			"One hour, one on one individualized voice lesson, where we work the coordination and function of the voice for singing technique, both genre specific and individual style, and performance.",
 		locations,
 		get url() {
+			const title = this.title;
 			return this.locations.map((location) => {
-				return bookingLink(this.title, location);
+				return bookingLink(title, location);
 			});
 		},
 	},
@@ -82,8 +83,9 @@ export const services: ServiceType[] = [
 			"One hour, one on one individualized voice coaching, where we work the artistic interpretation of client chosen repertoire through the lens of musicality, stylistic choice, song analysis, personal authenticity in song, and acting in song. ",
 		locations,
 		get url() {
+			const title = this.title;
 			return this.locations.map((location) => {
-				return bookingLink(this.title, location);
+				return bookingLink(title, location);
 			});
 		},
 	},
@@ -92,10 +94,11 @@ export const services: ServiceType[] = [
 		title: "SVS Session",
 		description:
 			"One hour and fifteen minute habilitative session focused towards the singing voice for singers who are currently/formerly undergoing vocal rehabilitative treatment with a Speech Language Pathologist and Laryngologist.",
-		locations,
+		locations: ["Open Jar", "Virtual", "Location Chosen By Client"],
 		get url() {
+			const title = this.title;
 			return this.locations.map((location) => {
-				return bookingLink(this.title, location);
+				return bookingLink(title, location);
 			});
 		},
 	},
@@ -105,8 +108,9 @@ export const services: ServiceType[] = [
 			"A one hour, individual audition prep coaching for specific industry auditions or general audition skills, with additional audition book consultation.",
 		locations,
 		get url() {
+			const title = this.title;
 			return this.locations.map((location) => {
-				return bookingLink(this.title, location);
+				return bookingLink(title, location);
 			});
 		},
 	},
@@ -114,6 +118,7 @@ export const services: ServiceType[] = [
 
 export const packages: LessonPackage[] = [
 	{
+		amtSessions: 4,
 		title: "4 Session Package",
 		discount: "1/2 off a session",
 		price: "280",
@@ -123,6 +128,7 @@ export const packages: LessonPackage[] = [
 		},
 	},
 	{
+		amtSessions: 6,
 		title: "6 Session Package",
 		discount: "1 session free",
 		price: "400",
@@ -132,6 +138,7 @@ export const packages: LessonPackage[] = [
 		},
 	},
 	{
+		amtSessions: 8,
 		title: "8 Session Package",
 		discount: "1 and 1/2 sessions free",
 		price: "520",
@@ -141,6 +148,7 @@ export const packages: LessonPackage[] = [
 		},
 	},
 	{
+		amtSessions: 12,
 		title: "12 Session Package",
 		discount: "2 sessions free",
 		price: "800",

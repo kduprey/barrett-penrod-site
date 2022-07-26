@@ -4,6 +4,8 @@ import { NextPageWithLayout } from "../../types";
 import Layout from "../../components/Layout";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { setCookie, getCookie } from "cookies-next";
+import { getCookieParser } from "next/dist/server/api-utils";
 
 type Props = {};
 
@@ -182,9 +184,23 @@ const Individual: NextPageWithLayout = (props: Props) => {
 							e.preventDefault();
 							if (!step.includes(3)) handleContinue(e);
 							if (step.includes(3)) {
-								router.push(
-									services[service].url[location] || ""
-								);
+								const serviceCookie = {
+									serviceTitle: services[service].title,
+									locationName:
+										services[service].locations[location],
+								};
+								setCookie("service", serviceCookie, {
+									maxAge: 60 * 30,
+									sameSite: "strict",
+									secure: true,
+								});
+								setCookie("redirectFromPackageModal", false, {
+									maxAge: 60 * 30,
+									sameSite: "strict",
+									secure: true,
+								});
+
+								router.push(services[service].url[location]);
 							}
 						}}
 					>

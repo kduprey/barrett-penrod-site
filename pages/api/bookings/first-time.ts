@@ -12,11 +12,9 @@ type Data = {
 };
 
 type Body = {
-	session_id?: string;
 	invitee_email: string;
 	invitee_full_name: string;
 	eventStartTime: string;
-	eventEndTime: string;
 	eventTypeName: string;
 };
 

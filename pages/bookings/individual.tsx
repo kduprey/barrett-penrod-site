@@ -4,8 +4,7 @@ import { NextPageWithLayout } from "../../types";
 import Layout from "../../components/Layout";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { setCookie, getCookie } from "cookies-next";
-import { getCookieParser } from "next/dist/server/api-utils";
+import Logo from "../../components/Logo";
 
 type Props = {};
 
@@ -39,178 +38,181 @@ const Individual: NextPageWithLayout = (props: Props) => {
 	// TODO: Remove margin on mobile view of logo
 
 	return (
-		<section className="flex h-[65%] grow flex-col items-center justify-evenly p-4 md:flex-row">
-			<div className="order-2 m-6 flex w-full grow flex-col items-center rounded-lg bg-secondary py-6 px-4 md:order-1 md:h-[30em] md:w-1/2">
-				<div className="flex w-full items-start justify-evenly space-x-3">
-					{/* Step 1 */}
-					<div
-						id="step1"
-						className={`${step.includes(1) ? "completed" : "step"}`}
-						onClick={(e) => handleBackStep(e, 1)}
-					>
-						<hr />
-						<p>Step 1</p>
-						<p>Select Service</p>
-						{step.includes(2) ? (
-							<span className="text-primary-800 font-bold">
-								{services[service].title}
-							</span>
-						) : null}
-					</div>
-					{/* Step 2 */}
-					<div
-						id="step2"
-						className={`${step.includes(2) ? "completed" : "step"}`}
-						onClick={(e) => handleBackStep(e, 2)}
-					>
-						<hr />
-						<p>Step 2</p>
-						<p>Select Location</p>
-						{step.includes(3) ? (
-							<span className="text-primary-800 font-bold">
-								{services[service].locations[location]}
-							</span>
-						) : null}
-					</div>
-					{/* Step 3 */}
-					<div className={step.includes(3) ? "completed" : "step"}>
-						<hr />
-						<p>Step 3</p>
-						<p>Confirm and Book</p>
-					</div>
-				</div>
+		<section className="flex flex-col items-center justify-center space-y-4 p-4 md:flex-row">
+			<div className="logo w-5/6 p-3 md:w-1/4 ">
+				<VsLogo />
+				{/* <Logo /> */}
+			</div>
+			<div className="flex flex-col items-center justify-center space-y-4 md:pl-6">
+				<h3 className=" text-center text-secondary">
+					Book your individual session
+				</h3>
 
-				<form
-					className="flex grow flex-col items-center justify-center"
-					onSubmit={(e) => {
-						e.preventDefault();
-					}}
-				>
-					{/* Service Selection */}
-					<div
-						className={
-							step.includes(2)
-								? "hidden"
-								: "mt-6 flex flex-col items-center justify-center md:mt-0 md:flex-row"
-						}
-					>
-						<label
-							htmlFor="service"
-							className="text-gray-700 md:text-2xl"
+				<div className="order-2 m-3 flex flex-col items-center rounded-lg bg-secondary py-6 px-4 md:order-1 ">
+					<div className="flex w-full items-start justify-evenly space-x-3">
+						{/* Step 1 */}
+						<div
+							id="step1"
+							className={`${
+								step.includes(1) ? "completed" : "step"
+							}`}
+							onClick={(e) => handleBackStep(e, 1)}
 						>
-							Choose your lesson type:
-						</label>
-
-						<select
-							name="service"
-							id="service"
-							className="m-6 md:text-2xl"
-							value={service}
-							onChange={(e) => {
-								setService(Number.parseInt(e.target.value));
-							}}
-						>
-							{services.map((service, index) => {
-								return (
-									<option value={index} key={service.title}>
-										{service.title}
-									</option>
-								);
-							})}
-						</select>
-					</div>
-
-					{/* Location Selection */}
-					<div
-						className={`withTransition mt-6 flex flex-col items-center justify-center md:mt-0 md:flex-row ${
-							step.includes(2) && !step.includes(3)
-								? " "
-								: " hidden"
-						}`}
-					>
-						<label
-							htmlFor="location"
-							className="text-center md:text-2xl"
-						>
-							Select Session Location:
-						</label>
-
-						<select
-							name="location"
-							id="location"
-							className="m-6 md:text-2xl"
-							value={location}
-							onChange={(e) => {
-								setLocation(Number.parseInt(e.target.value));
-							}}
-						>
-							{service != -1
-								? services[service].locations.map(
-										(result, index) => {
-											return (
-												<option
-													value={index}
-													key={result}
-												>
-													{result}
-												</option>
-											);
-										}
-								  )
-								: null}
-						</select>
-					</div>
-
-					{step.includes(3) && (
-						<div className="m-2 flex flex-col items-center justify-center space-y-4 md:grow md:justify-evenly">
-							<h4>Confirm Details:</h4>
-							<p className="text-2xl text-primary">
-								Service:{" "}
-								<span className="font-medium">
+							<hr />
+							<p>Step 1</p>
+							<p>Select Service</p>
+							{step.includes(2) ? (
+								<span className="text-primary-800 font-bold">
 									{services[service].title}
 								</span>
-							</p>
-							<p className="text-center text-2xl text-primary">
-								Location:{" "}
-								<span className="font-medium">
+							) : null}
+						</div>
+						{/* Step 2 */}
+						<div
+							id="step2"
+							className={`${
+								step.includes(2) ? "completed" : "step"
+							}`}
+							onClick={(e) => handleBackStep(e, 2)}
+						>
+							<hr />
+							<p>Step 2</p>
+							<p>Select Location</p>
+							{step.includes(3) ? (
+								<span className="text-primary-800 font-bold">
 									{services[service].locations[location]}
 								</span>
-							</p>
+							) : null}
 						</div>
-					)}
-					<button
-						className="border border-black transition ease-in-out hover:opacity-70 md:text-xl"
-						onClick={(e) => {
-							e.preventDefault();
-							if (!step.includes(3)) handleContinue(e);
-							if (step.includes(3)) {
-								const serviceCookie = {
-									serviceTitle: services[service].title,
-									locationName:
-										services[service].locations[location],
-								};
-								setCookie("service", serviceCookie, {
-									maxAge: 60 * 30,
-									sameSite: "strict",
-									secure: true,
-								});
-								setCookie("redirectFromPackageModal", false, {
-									maxAge: 60 * 30,
-									sameSite: "strict",
-									secure: true,
-								});
+						{/* Step 3 */}
+						<div
+							className={step.includes(3) ? "completed" : "step"}
+						>
+							<hr />
+							<p>Step 3</p>
+							<p>Confirm and Book</p>
+						</div>
+					</div>
 
-								router.push(services[service].url[location]);
-							}
+					<form
+						className="flex grow flex-col items-center justify-center"
+						onSubmit={(e) => {
+							e.preventDefault();
 						}}
 					>
-						Continue
-					</button>
-				</form>
-			</div>
+						{/* Service Selection */}
+						<div
+							className={
+								step.includes(2)
+									? "hidden"
+									: "mt-6 flex flex-col items-center justify-center md:mt-0 md:flex-row"
+							}
+						>
+							<label
+								htmlFor="service"
+								className="text-gray-700 md:text-2xl"
+							>
+								Choose your lesson type:
+							</label>
 
-			<div className="order-1 w-3/4 bg-white p-3 shadow-lg shadow-black md:w-1/4">
-				<VsLogo />
+							<select
+								name="service"
+								id="service"
+								className="m-6 md:text-2xl"
+								value={service}
+								onChange={(e) => {
+									setService(Number.parseInt(e.target.value));
+								}}
+							>
+								{services.map((service, index) => {
+									return (
+										<option
+											value={index}
+											key={service.title}
+										>
+											{service.title}
+										</option>
+									);
+								})}
+							</select>
+						</div>
+
+						{/* Location Selection */}
+						<div
+							className={`withTransition mt-6 flex flex-col items-center justify-center md:mt-0 md:flex-row ${
+								step.includes(2) && !step.includes(3)
+									? " "
+									: " hidden"
+							}`}
+						>
+							<label
+								htmlFor="location"
+								className="text-center md:text-2xl"
+							>
+								Select Session Location:
+							</label>
+
+							<select
+								name="location"
+								id="location"
+								className="m-6 md:text-2xl"
+								value={location}
+								onChange={(e) => {
+									setLocation(
+										Number.parseInt(e.target.value)
+									);
+								}}
+							>
+								{service != -1
+									? services[service].locations.map(
+											(result, index) => {
+												return (
+													<option
+														value={index}
+														key={result}
+													>
+														{result}
+													</option>
+												);
+											}
+									  )
+									: null}
+							</select>
+						</div>
+
+						{step.includes(3) && (
+							<div className="m-2 flex flex-col items-center justify-center space-y-4 md:grow md:justify-evenly">
+								<h4>Confirm Details:</h4>
+								<p className="text-2xl text-primary">
+									Service:{" "}
+									<span className="font-medium">
+										{services[service].title}
+									</span>
+								</p>
+								<p className="text-center text-2xl text-primary">
+									Location:{" "}
+									<span className="font-medium">
+										{services[service].locations[location]}
+									</span>
+								</p>
+							</div>
+						)}
+						<button
+							className="border border-black transition ease-in-out hover:opacity-70 md:text-xl"
+							onClick={(e) => {
+								e.preventDefault();
+								if (!step.includes(3)) handleContinue(e);
+								if (step.includes(3)) {
+									router.push(
+										`/bookings/bookNow?service=${service}&location=${location}`
+									);
+								}
+							}}
+						>
+							Continue
+						</button>
+					</form>
+				</div>
 			</div>
 		</section>
 	);

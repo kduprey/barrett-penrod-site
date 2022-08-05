@@ -33,13 +33,7 @@ const guest = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
 	const template_id: string = "d-b628680e34354157b553625c036e2836";
 
-	const guests: Contact[] = data.guests
-		.split(",")
-		.map((guestEmail: string) => {
-			return {
-				email: guestEmail,
-			};
-		});
+	const guests: Contact[] = data.guests;
 
 	const message: TemplateMessage = {
 		from: {

@@ -1,4 +1,4 @@
-import { LessonPackage } from "../types";
+import { LessonBundle } from "../types";
 
 type ServiceType = {
 	title: string;

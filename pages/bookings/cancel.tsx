@@ -8,9 +8,9 @@ type Props = {
 
 const Cancel: NextPageWithLayout = (props: Props) => {
 	return (
-		<div className="flex flex-grow flex-col items-center justify-center space-y-4">
+		<div className="flex flex-grow flex-col items-center justify-center space-y-4 p-4">
 			<h2 className="text-center text-secondary">Booking Cancelled</h2>
-			<div className="m-3 flex w-1/2 flex-col items-center justify-center space-y-4 rounded bg-secondary p-6 shadow-lg">
+			<div className="m-3 flex flex-col items-center justify-center space-y-4 rounded bg-secondary p-6 shadow-lg md:w-1/2">
 				<p className="text-center text-primary">
 					Downpayment is required to confirm booking. Booking will be
 					cancelled within the hour pending no downpayment is
@@ -28,10 +28,6 @@ const Cancel: NextPageWithLayout = (props: Props) => {
 					If you would like to keep the booking, click here to
 					continue with payment.
 				</a>
-
-				<p className="text-center text-primary">
-					Please check your email for confirmation.
-				</p>
 			</div>
 		</div>
 	);

@@ -6,6 +6,7 @@ import type {
 } from "next";
 import type { AppProps } from "next/app";
 import { ObjectId } from "mongodb";
+import Stripe from "stripe";
 
 export interface Page {
 	name: string;
@@ -80,7 +81,7 @@ export interface GuestAttendeeTemplateData {
 	bookingName: string;
 }
 
-export interface PackageTemplateData {
+export interface PackageTemplateData extends EmailLocationData {
 	bulkSessionDiscountPackage: string;
 	dateOfFirstSession: string;
 	bookingTime: string;
@@ -88,11 +89,13 @@ export interface PackageTemplateData {
 	bookingLocation: string;
 }
 
+export interface EmailLocationData {
+	zoomLink?: string;
+}
+
 export interface GuestBody {
-	session_id: string;
-	guests: string;
+	guests: Contact[];
 	eventStartTime: string;
-	eventEndTime: string;
 	eventTypeName: string;
 }
 
@@ -180,14 +183,22 @@ export interface Profile {
 	type: string;
 }
 
-export interface LessonPackage {
+export interface LessonBundle {
 	amtSessions: number;
 	title: string;
 	discount: string;
 	price: string;
-	stripeID: {
-		test: string;
-		live: string;
+	priceID: {
+		test: Stripe.Checkout.SessionCreateParams.LineItem;
+		live: Stripe.Checkout.SessionCreateParams.LineItem;
+	};
+}
+
+export interface Price {
+	name: "SVS Session" | "Regular Session" | "Open Jar Booking Fee";
+	priceID: {
+		live: Stripe.Checkout.SessionCreateParams.LineItem;
+		test: Stripe.Checkout.SessionCreateParams.LineItem;
 	};
 }
 
@@ -256,7 +267,143 @@ export interface BookingInfo {
 	invitee_uuid: string;
 }
 
-export interface serviceCookieType {
-	serviceTitle: string;
-	locationName: string;
+export interface CalendlyEvent {
+	resource: EventResource;
+}
+
+export interface EventResource {
+	created_at: Date;
+	end_time: Date;
+	event_guests: Guest[];
+	event_memberships: EventMembership[];
+	event_type: string;
+	invitees_counter: InviteesCounter;
+	location: ZoomLocation | InPersonLocation;
+	name: string;
+	start_time: Date;
+	status: string;
+	updated_at: Date;
+	uri: string;
+	cancellation?: Cancellation;
+}
+
+export interface Cancellation {
+	cancelled_by: string;
+	reason: string;
+	canceler_type: "host" | "invitee";
+}
+
+export interface Guest {
+	email: string;
+	created_at: string;
+	updated_at: string;
+}
+
+export interface EventMembership {
+	user: string;
+}
+
+export interface InviteesCounter {
+	active: number;
+	limit: number;
+	total: number;
+}
+
+export interface InPersonLocation {
+	type: string;
+	location: string;
+}
+
+export interface ZoomLocation {
+	data?: LocationData;
+	join_url: string;
+	status: string;
+	type: string;
+}
+
+export interface LocationData {
+	id: number;
+	settings: Settings;
+	password: string;
+	extra: ExtraData;
+}
+
+export interface ExtraData {
+	intl_numbers_url: string;
+}
+
+export interface GlobalDialInNumber {
+	number: string;
+	type: string;
+	country: string;
+	city: string;
+	country_name: string;
+}
+
+export interface Settings {
+	global_dial_in_numbers: GlobalDialInNumber[];
+}
+
+export interface CalendlyEventInvitee {
+	resource: InviteeResource;
+}
+
+export interface InviteeResource {
+	cancel_url: string;
+	created_at: Date;
+	email: string;
+	event: string;
+	first_name: string | null;
+	last_name: string | null;
+	name: string;
+	new_invitee: string | null;
+	no_show: NoShow | null;
+	old_invitee: string | null;
+	payment: Payment | null;
+	questions_and_answers: QuestionsAndAnswer[];
+	reconfirmation: Reconfirmation | null;
+	reschedule_url: string;
+	rescheduled: boolean;
+	routing_form_submission: string | null;
+	status: "active" | "cancelled";
+	text_reminder_number: string | null;
+	timezone: string;
+	tracking: Tracking;
+	updated_at: Date;
+	uri: string;
+	cancellation?: Cancellation;
+}
+
+export interface Reconfirmation {
+	created_at: Date;
+	confirmed_at: Date;
+}
+
+export interface NoShow {
+	uri: string;
+	created_at: Date;
+}
+
+export interface Payment {
+	external_id: string;
+	provider: "stripe" | "paypal";
+	amount: number;
+	currency: string;
+	terms: string;
+	successful: boolean;
+}
+
+export interface QuestionsAndAnswer {
+	question: string;
+	answer: string;
+	position: "1" | "2";
+}
+
+export interface Tracking {
+	utm_campaign: string | null;
+	utm_source: string | null;
+	utm_medium: string | null;
+	utm_content: string | null;
+	utm_term: string | null;
+	salesforce_uuid: string | null;
 }

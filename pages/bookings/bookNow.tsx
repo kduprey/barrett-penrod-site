@@ -87,7 +87,7 @@ const Page: NextPageWithLayout = () => {
 		},
 	});
 
-	if ((isNaN(service) && isNaN(location)) || isLoading) {
+	if ((Number.isNaN(service) && Number.isNaN(location)) || isLoading) {
 		return (
 			<div className=" mx-auto flex flex-col items-center justify-center space-y-6 py-6 text-secondary">
 				<h3>Loading...</h3>

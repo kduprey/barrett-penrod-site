@@ -18,7 +18,7 @@
 		"@sendgrid/mail": "^7.7.0",
 		"axios": "^0.27.2",
 		"framer-motion": "^6.5.1",
-		"mongodb": "^4.8.0",
+		"mongodb": "^4.8.1",
 		"next": "^12.2.3",
 		"next-connect": "^0.13.0",
 		"raw-body": "^2.5.1",

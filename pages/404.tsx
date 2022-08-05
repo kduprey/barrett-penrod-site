@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from "../types";
-import Layout from "./layout";
+import Layout from "../components/Layout";
 
 // pages/404.jsx
 const Custom404: NextPageWithLayout = () => {

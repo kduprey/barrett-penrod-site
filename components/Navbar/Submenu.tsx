@@ -5,12 +5,14 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import NextLink from "next/link";
 import { Link } from "react-scroll";
 import * as gtag from "../../lib/analytics";
+import { useRouter } from "next/router";
 
 type Props = {
 	menu: NavMenu;
 };
 
 const Submenu = ({ menu }: Props) => {
+	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
 
 	if (menu.sublinks) {
@@ -45,7 +47,13 @@ const Submenu = ({ menu }: Props) => {
 									className="cursor-pointer text-secondary underline-offset-2 hover:text-white hover:underline"
 									onClick={() => {
 										setIsOpen(false);
-										gtag.pageview("/" + sublink.id);
+										gtag.pageview(
+											new URL(
+												window.location.href +
+													router.route +
+													sublink.id
+											)
+										);
 									}}
 									to={sublink.id}
 									spy={true}

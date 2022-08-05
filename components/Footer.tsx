@@ -1,12 +1,11 @@
 import {
-	faFacebookF,
 	faTwitter,
 	faInstagram,
 	faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import { useState } from "react";
 
 type Props = {};
 
@@ -16,9 +15,9 @@ const Footer = (props: Props) => {
 	const [message, setMessage] = useState("");
 	const [age, setAge] = useState("");
 
-	const [loading, setLoading] = useState(false);
-	const [success, setSuccess] = useState(false);
-	const [error, setError] = useState(false);
+	const [loading, setLoading] = useState(false as boolean);
+	const [success, setSuccess] = useState(false as boolean);
+	const [error, setError] = useState(false as boolean);
 
 	const handleChange = (
 		e:
@@ -78,6 +77,11 @@ const Footer = (props: Props) => {
 					setError(true);
 					setLoading(false);
 				}
+			})
+			.catch((err) => {
+				console.log(err);
+				setError(true);
+				setLoading(false);
 			});
 	};
 
@@ -169,6 +173,13 @@ const Footer = (props: Props) => {
 							<FontAwesomeIcon icon={faCheck} size="3x" />
 							<h4 className="text-secondary">
 								Your message has been sent!
+							</h4>
+						</div>
+					) : error ? (
+						<div className="text-center text-secondary">
+							<FontAwesomeIcon icon={faTimes} size="3x" />
+							<h4 className="text-secondary">
+								There was an error sending your message.
 							</h4>
 						</div>
 					) : (

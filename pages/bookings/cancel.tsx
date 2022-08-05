@@ -1,20 +1,16 @@
-import { useRouter } from "next/router";
 import { NextPageWithLayout } from "../../types";
-import Layout from "../layout";
+import Layout from "../../components/Layout";
+import Stripe from "stripe";
 
 type Props = {
-	session: Stripe.Checkout.Session;
+	session?: Stripe.Checkout.Session;
 };
 
 const Cancel: NextPageWithLayout = (props: Props) => {
-	const router = useRouter();
-
-	const { sessionId: string } = router.query;
-
 	return (
-		<div className="flex flex-grow flex-col items-center justify-center space-y-4">
+		<div className="flex flex-grow flex-col items-center justify-center space-y-4 p-4">
 			<h2 className="text-center text-secondary">Booking Cancelled</h2>
-			<div className="m-3 flex w-1/2 flex-col items-center justify-center space-y-4 rounded bg-secondary p-6 shadow-lg">
+			<div className="m-3 flex flex-col items-center justify-center space-y-4 rounded bg-secondary p-6 shadow-lg md:w-1/2">
 				<p className="text-center text-primary">
 					Downpayment is required to confirm booking. Booking will be
 					cancelled within the hour pending no downpayment is
@@ -22,9 +18,9 @@ const Cancel: NextPageWithLayout = (props: Props) => {
 				</p>
 				<a
 					href={
-						props.session.url
+						props.session?.url
 							? props.session.url
-							: (props.session.after_expiration?.recovery
+							: (props.session?.after_expiration?.recovery
 									?.url as string)
 					}
 					className="text-center text-primary underline"
@@ -32,10 +28,6 @@ const Cancel: NextPageWithLayout = (props: Props) => {
 					If you would like to keep the booking, click here to
 					continue with payment.
 				</a>
-
-				<p className="text-center text-primary">
-					Please check your email for confirmation.
-				</p>
 			</div>
 		</div>
 	);
@@ -48,7 +40,6 @@ Cancel.getLayout = (page) => <Layout>{page}</Layout>;
 // You should use getServerSideProps when:
 // - Only if you need to pre-render a page whose data must be fetched at request time
 import { GetServerSideProps } from "next";
-import Stripe from "stripe";
 import { stripe } from "../../config";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

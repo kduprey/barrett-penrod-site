@@ -7,7 +7,7 @@ import {
 } from "mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { collections, connectToDatabase } from "../../../lib/database.service";
-import { BookingInfo } from "../../../types";
+import { CalendlyEventInvitee } from "../../../types";
 
 type Data = {
 	err: Error;
@@ -17,9 +17,9 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<
 		| Data
-		| WithId<BookingInfo>[]
-		| InsertOneResult<BookingInfo>
-		| ModifyResult<BookingInfo>
+		| WithId<CalendlyEventInvitee>[]
+		| InsertOneResult<CalendlyEventInvitee>
+		| ModifyResult<CalendlyEventInvitee>
 		| DeleteResult
 	>
 ) {
@@ -30,7 +30,7 @@ export default async function handler(
 
 			try {
 				await connectToDatabase();
-				const client = await collections.bookings
+				const client = await collections.eventInvitees
 					?.find(filter)
 					.toArray();
 				if (!client) {
@@ -50,7 +50,7 @@ export default async function handler(
 		}
 
 		await connectToDatabase();
-		const clients = await collections.bookings?.find({}).toArray();
+		const clients = await collections.eventInvitees?.find({}).toArray();
 		if (!clients) {
 			return res.status(404).json({
 				err: new Error("Error: No clients found"),
@@ -60,17 +60,17 @@ export default async function handler(
 	}
 
 	if (req.method === "POST") {
-		const { ...booking } = req.body as BookingInfo;
-		if (!booking) {
+		const { ...invitee } = req.body as CalendlyEventInvitee;
+		if (!invitee) {
 			return res.status(400).json({
 				err: new Error("Error: Missing client info"),
 			});
 		}
-		booking.event_start_time = new Date(booking.event_start_time);
-		booking.event_end_time = new Date(booking.event_end_time);
+		invitee.resource.created_at = new Date(invitee.resource.created_at);
+		invitee.resource.updated_at = new Date(invitee.resource.updated_at);
 
 		await connectToDatabase();
-		const result = await collections.bookings?.insertOne(booking);
+		const result = await collections.eventInvitees?.insertOne(invitee);
 		if (!result) {
 			return res.status(500).json({
 				err: new Error("Error: Failed to insert client"),
@@ -81,7 +81,7 @@ export default async function handler(
 
 	if (req.method === "PUT") {
 		const id = req.query.id;
-		const { ...booking } = req.body;
+		const { ...invitee } = req.body;
 
 		if (!id) {
 			return res.status(400).json({
@@ -89,21 +89,24 @@ export default async function handler(
 			});
 		}
 
-		if (!booking) {
+		if (!invitee) {
 			return res.status(400).json({
 				err: new Error("Error: Missing client info"),
 			});
 		}
 
-		booking.event_start_time = new Date(booking.event_start_time);
-		booking.event_end_time = new Date(booking.event_end_time);
+		invitee.event_start_time = new Date(invitee.event_start_time);
+		invitee.event_end_time = new Date(invitee.event_end_time);
 
 		try {
 			await connectToDatabase();
 			const query = { _id: new ObjectId(id.toString()) };
-			const result = await collections.bookings?.findOneAndUpdate(query, {
-				$set: booking,
-			});
+			const result = await collections.eventInvitees?.findOneAndUpdate(
+				query,
+				{
+					$set: invitee,
+				}
+			);
 			if (!result) {
 				return res.status(500).json({
 					err: new Error("Error: Failed to update client"),
@@ -127,7 +130,7 @@ export default async function handler(
 
 		try {
 			await connectToDatabase();
-			const result = await collections.bookings?.deleteOne({
+			const result = await collections.eventInvitees?.deleteOne({
 				_id: new ObjectId(id.toString()),
 			});
 			if (!result) {

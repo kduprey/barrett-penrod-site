@@ -1,30 +1,36 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import { TemplateMessage } from "../../../types";
+
 const sendgrid = require("@sendgrid/mail");
 if (process.env.NODE_ENV === "production") {
 	sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 } else {
 	sendgrid.setApiKey(process.env.SENDGRID_DEV_API_KEY);
 }
-type Data = {
-	message: any;
-};
+
+type Data = {};
 
 type Body = {
 	invitee_email: string;
 	invitee_full_name: string;
-	eventStartTime: string;
-	eventTypeName: string;
-	zoomLink: string;
+	bookingTime: string;
+	bookingDate: string;
+	service: string;
 };
+// Example of data for body:
+// {
+//     "BookingTime": "2:00 pm",
+//     "BookingDate": "June 26, 2022",
+//     "service": "Virtual via Zoom"
+// }
 
-const consultation = async (
+const continuingConfirmation = async (
 	req: NextApiRequest,
 	res: NextApiResponse<Data>
 ) => {
 	const data: Body = req.body;
 
-	const template_id: string = "d-4a2d850cce134d40bdd662e3fe2a96b3";
+	const template_id: string = "d-d3b1109a7bd44612b10c3e60ed9024da";
 
 	const message: TemplateMessage = {
 		from: {
@@ -44,22 +50,23 @@ const consultation = async (
 					},
 				],
 				dynamic_template_data: {
-					bookingTime: new Date(
-						data.eventStartTime
-					).toLocaleTimeString([], {
-						hour: "2-digit",
-						minute: "2-digit",
-					}),
-					bookingDate: new Date(
-						data.eventStartTime
-					).toLocaleDateString([], {
-						weekday: "long",
-						month: "short",
-						day: "numeric",
-						year: "numeric",
-					}),
-					bookingName: data.eventTypeName,
-					zoomLink: data.zoomLink,
+					bookingTime: new Date(data.bookingTime).toLocaleTimeString(
+						[],
+						{
+							hour: "2-digit",
+							minute: "2-digit",
+						}
+					),
+					bookingDate: new Date(data.bookingDate).toLocaleDateString(
+						[],
+						{
+							weekday: "long",
+							month: "short",
+							day: "numeric",
+							year: "numeric",
+						}
+					),
+					bookingName: data.service,
 				},
 			},
 		],
@@ -70,9 +77,9 @@ const consultation = async (
 		const response = await sendgrid.send(message);
 		res.status(200).json({ message: response });
 	} catch (error: any) {
-		console.error(error.body);
+		console.log(error);
 		res.status(500).json(error);
 	}
 };
 
-export default consultation;
+export default continuingConfirmation;

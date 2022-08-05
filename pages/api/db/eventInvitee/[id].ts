@@ -4,7 +4,7 @@ import {
 	collections,
 	connectToDatabase,
 } from "../../../../lib/database.service";
-import { BookingInfo } from "../../../../types";
+import { CalendlyEventInvitee } from "../../../../types";
 
 type Data = {
 	message: string;
@@ -12,7 +12,7 @@ type Data = {
 
 export default async function handler(
 	req: NextApiRequest,
-	res: NextApiResponse<Data | WithId<BookingInfo>>
+	res: NextApiResponse<Data | WithId<CalendlyEventInvitee>>
 ) {
 	if (req.method !== "GET") {
 		res.setHeader("Allow", "GET");
@@ -33,7 +33,7 @@ export default async function handler(
 			_id: new ObjectId(id.valueOf() === "string" ? id.toString() : ""),
 		};
 		await connectToDatabase();
-		const client = await collections.bookings?.findOne(query);
+		const client = await collections.eventInvitees?.findOne(query);
 		if (!client) {
 			return res.status(404).json({
 				message: "Error: Client not found",

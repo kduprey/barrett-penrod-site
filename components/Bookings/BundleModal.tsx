@@ -1,16 +1,14 @@
 import { useRouter } from "next/router";
-import Script from "next/script";
 import { useState } from "react";
-import { server } from "../../config";
-import { services } from "../../data/services";
+import { bundleServices } from "../../data/services";
 
 type Props = {
 	isOpen: boolean;
 	setIsOpen: (isOpen: boolean) => void;
-	selectedPackage: string;
+	selectedBundle: number | undefined;
 };
 
-const PackageModal = ({ isOpen, setIsOpen, selectedPackage }: Props) => {
+const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
 	const router = useRouter();
 	const [step, setStep] = useState<number[]>([1]);
 	const [service, setService] = useState(0);
@@ -37,31 +35,6 @@ const PackageModal = ({ isOpen, setIsOpen, selectedPackage }: Props) => {
 		}
 	};
 
-	const isCalendlyEvent = (e: MessageEvent) => {
-		return (
-			e.origin === "https://calendly.com" &&
-			e.data.event &&
-			e.data.event.indexOf("calendly.") === 0
-		);
-	};
-	if (typeof window !== "undefined") {
-		window.addEventListener("message", (e: MessageEvent) => {
-			if (isCalendlyEvent(e)) {
-				console.log("Event: ", e.data.event);
-				console.log("Data: ", e.data.payload);
-
-				if (e.data.event === "calendly.event_scheduled") {
-					setIsOpen(false);
-					console.log(e.data.payload);
-
-					// router.push(
-					// 	"/api/checkout?package=" + selectedPackage + e.data.payload
-					// );
-				}
-			}
-		});
-	}
-
 	return (
 		<div
 			className={`withTransition fixed inset-0 h-full w-full overflow-y-auto bg-gray-600 bg-opacity-50 duration-500 ${
@@ -74,16 +47,6 @@ const PackageModal = ({ isOpen, setIsOpen, selectedPackage }: Props) => {
 				}
 			}}
 		>
-			<link
-				href="https://assets.calendly.com/assets/external/widget.css"
-				rel="stylesheet"
-			/>
-			<Script
-				src="https://assets.calendly.com/assets/external/widget.js"
-				type="text/javascript"
-				async
-			></Script>
-
 			<div
 				className={` withTransition relative top-20 m-6 mx-auto flex w-[95%] grow flex-col items-center rounded-lg bg-secondary py-6 px-4 md:order-1 md:h-[30em] md:w-1/2 ${
 					isOpen ? "top-20" : "-top-full"
@@ -104,7 +67,7 @@ const PackageModal = ({ isOpen, setIsOpen, selectedPackage }: Props) => {
 						<p>Select Service</p>
 						{step.includes(2) ? (
 							<span className="text-primary-800 font-bold">
-								{services[service].title}
+								{bundleServices[service].title}
 							</span>
 						) : null}
 					</div>
@@ -119,7 +82,7 @@ const PackageModal = ({ isOpen, setIsOpen, selectedPackage }: Props) => {
 						<p>Select Location</p>
 						{step.includes(3) ? (
 							<span className="text-primary-800 font-bold">
-								{services[service].locations[location]}
+								{bundleServices[service].locations[location]}
 							</span>
 						) : null}
 					</div>
@@ -161,7 +124,7 @@ const PackageModal = ({ isOpen, setIsOpen, selectedPackage }: Props) => {
 								setService(Number.parseInt(e.target.value));
 							}}
 						>
-							{services.map((service, index) => {
+							{bundleServices.map((service, index) => {
 								return (
 									<option value={index} key={service.title}>
 										{service.title}
@@ -196,7 +159,7 @@ const PackageModal = ({ isOpen, setIsOpen, selectedPackage }: Props) => {
 							}}
 						>
 							{service != -1
-								? services[service].locations.map(
+								? bundleServices[service].locations.map(
 										(result, index) => {
 											return (
 												<option
@@ -218,13 +181,17 @@ const PackageModal = ({ isOpen, setIsOpen, selectedPackage }: Props) => {
 							<p className="text-2xl text-primary">
 								Service:{" "}
 								<span className="font-medium">
-									{services[service].title}
+									{bundleServices[service].title}
 								</span>
 							</p>
 							<p className="text-center text-2xl text-primary">
 								Location:{" "}
 								<span className="font-medium">
-									{services[service].locations[location]}
+									{
+										bundleServices[service].locations[
+											location
+										]
+									}
 								</span>
 							</p>
 						</div>
@@ -237,17 +204,9 @@ const PackageModal = ({ isOpen, setIsOpen, selectedPackage }: Props) => {
 							if (!step.includes(3)) handleContinue(e);
 							if (step.includes(3)) {
 								isOpen ? setIsOpen(false) : setIsOpen(true);
-								// @ts-ignore
-								Calendly.initPopupWidget({
-									url: services[service].url[location],
-								});
-								return false;
+
 								router.push(
-									`${server}/api/packageCheckout?numPackage=${
-										selectedPackage.split(" ")[0]
-									}&successURL=${
-										services[service].url[location]
-									}` || ""
+									`/bookings/bookNow?service=${service}&location=${location}&bundle=${selectedBundle}`
 								);
 							}
 						}}
@@ -260,4 +219,4 @@ const PackageModal = ({ isOpen, setIsOpen, selectedPackage }: Props) => {
 	);
 };
 
-export default PackageModal;
+export default BundleModal;

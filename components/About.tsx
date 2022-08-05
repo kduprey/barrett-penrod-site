@@ -72,9 +72,6 @@ const About = (props: Props) => {
 					/>
 					<Image src={postWorkout} alt="Post Workout" />
 				</div>
-				{/* <button className="bg-secondary py-2 px-6 text-primary md:mb-6 md:self-end">
-					View Full Resume
-				</button> */}
 			</div>
 		</div>
 	);

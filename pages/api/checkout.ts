@@ -1,61 +1,107 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { stripe, server, stripeMode } from "../../config/index";
-import { URLSearchParams } from "url";
 import Stripe from "stripe";
-import { getCookie, hasCookie } from "cookies-next";
-import { LessonPackage, serviceCookieType } from "../../types";
+import { Guest } from "../../types";
+import { bundles, Prices } from "../../data/services";
 
 type Data = {
-	res: string;
+	url?: string;
+	error?: string;
+};
+
+type Body = {
+	service: number;
+	location: number;
+	bundle?: number;
+	email: string;
+	name: string;
+	eventTime: string;
+	firstTime: boolean;
+	guests: string[];
 };
 
 const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-	const queryString: string = new URLSearchParams(
-		req.query as any
-	).toString();
+	const {
+		service,
+		location,
+		bundle,
+		email,
+		name,
+		eventTime,
+		firstTime,
+		guests,
+	}: Body = req.body.data;
 
-	const serviceInfo = getCookie("service", { req, res }) as string;
-	const serviceInfoJSON: serviceCookieType = JSON.parse(serviceInfo);
+	console.log(email);
+
+	let guestsObj: Guest[] = [];
+	if (guests)
+		guestsObj = guests.map((guest: string) => ({
+			email: guest,
+			created_at: new Date().toISOString(),
+			updated_at: new Date().toISOString(),
+		}));
 
 	let line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
-	// If event_type is "Consultation Session", then add booking to db and redirect to success page
-	if (req.query.event_type_name === "Consultation Session") {
-		// Add or update customer in database
-
-		const response = await fetch(`${server}/api/db/bookings`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				...req.query,
-			}),
-		});
-		console.log(response);
-
-		res.redirect(303, `${server}/bookings/success?${queryString}`).end();
-		return;
+	// if is a bundle purchase, add the bundle to the line items
+	if (bundle) {
+		line_items.push(bundles[bundle].priceID[stripeMode]);
+	} else {
+		// if SVS Session, add the downpayment for SVS Session
+		if (service == 2) {
+			line_items.push(Prices[0].priceID[stripeMode]);
+		} else {
+			// if not SVS Session, add the regular downpayment
+			line_items.push(Prices[1].priceID[stripeMode]);
+		}
 	}
 
-	const prices = {
-		svsSession: {
-			test: "price_1LDhdeAMm0G1mbCt3nyv52uI",
-			live: "price_1LDhS8AMm0G1mbCtVVMPsJiS",
-		},
-		otherLessons: {
-			test: "price_1LDhdeAMm0G1mbCtGFA3BJEJ",
-			live: "price_1L88w7AMm0G1mbCt5xei9unc",
-		},
-		openJarFee: {
-			test: "price_1LPn53AMm0G1mbCt5MtVjvox",
-			live: "price_1LPn4aAMm0G1mbCtwDPP0yWq",
-		},
-	};
+	// if location is Open Jar, add the Open Jar booking fee
+	if (location == 1) {
+		line_items.push(Prices[2].priceID[stripeMode]);
+	}
 
+	// Create success url
+	const successURL: URL = new URL(server + "/bookings/success");
+	// Add the event time to the success url
+	successURL.searchParams.append("eventTime", new Date(eventTime).toString());
+	// Add the service to the success url
+	successURL.searchParams.append("service", Number(service).toString());
+	// Add the location to the success url
+	successURL.searchParams.append("location", Number(location).toString());
+	// Add the bundle to the success url, if it exists
+	if (bundle)
+		successURL.searchParams.append("bundle", Number(bundle).toString());
+	// Add isFirstTime to the success url
+	successURL.searchParams.append("firstTime", Boolean(firstTime).toString());
+	// If there are guests, add them to the success url
+	if (guestsObj.length > 0) {
+		successURL.searchParams.append("guests", JSON.stringify(guests));
+	}
+
+	// Create cancel url
+	const cancelURL: URL = new URL(server + "/bookings/cancel");
+	// Add the event time to the cancel url
+	cancelURL.searchParams.append("eventTime", new Date(eventTime).toString());
+	// Add the service to the cancel url
+	cancelURL.searchParams.append("service", Number(service).toString());
+	// Add the location to the cancel url
+	cancelURL.searchParams.append("location", Number(location).toString());
+	// Add the bundle to the cancel url, if it exists
+	if (bundle)
+		cancelURL.searchParams.append("bundle", Number(bundle).toString());
+	// Add isFirstTime to the cancel url
+	cancelURL.searchParams.append("firstTime", Boolean(firstTime).toString());
+	// If there are guests, add them to the cancel url
+	if (guestsObj.length > 0) {
+		cancelURL.searchParams.append("guests", JSON.stringify(guestsObj));
+	}
+
+	// Create the Checkout Session Template
 	let sessionTemplate: Stripe.Checkout.SessionCreateParams = {
-		success_url: `${server}/bookings/success?session_id={CHECKOUT_SESSION_ID}&${queryString}`,
-		cancel_url: `${server}/bookings/cancel?session_id={CHECKOUT_SESSION_ID}&${queryString}`,
+		success_url: successURL.href + "&session_id={CHECKOUT_SESSION_ID}",
+		cancel_url: cancelURL.href + "&session_id={CHECKOUT_SESSION_ID}",
 		mode: "payment",
 		automatic_tax: {
 			enabled: true,
@@ -64,7 +110,7 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 			enabled: true,
 		},
 		payment_intent_data: {
-			setup_future_usage: "on_session",
+			setup_future_usage: "off_session",
 		},
 		allow_promotion_codes: true,
 		submit_type: "book",
@@ -77,52 +123,11 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 		},
 	};
 
-	const isPackage = getCookie("redirectFromPackageModal", {
-		req,
-		res,
-	}) as boolean;
-
-	if (isPackage && hasCookie("packageInfo", { req, res })) {
-		const packageInfo = getCookie("packageInfo", { req, res }) as string;
-		const packageInfoJSON: LessonPackage = JSON.parse(packageInfo);
-
-		// If location is Open Jar, add booking fee to checkout total
-		if (serviceInfoJSON.locationName === "Open Jar") {
-			stripe.prices.retrieve(prices.openJarFee[stripeMode]);
-
-			line_items.push({
-				price: prices.openJarFee[stripeMode],
-				quantity: 1,
-			});
-		}
-		// Add package to checkout total
-		line_items.push({
-			price: packageInfoJSON.stripeID[stripeMode],
-			quantity: 1,
-		});
-	} else {
-		if (serviceInfoJSON.locationName === "Open Jar") {
-			line_items.push({
-				price: prices.openJarFee[stripeMode],
-				quantity: 1,
-			});
-		}
-
-		// Add downpayment to checkout total
-		// Terminary operation checks if SVS Session, and if so downpayment is $40
-		line_items.push({
-			price:
-				serviceInfoJSON.serviceTitle === "SVS Session"
-					? prices.svsSession[stripeMode]
-					: prices.otherLessons[stripeMode],
-			quantity: 1,
-		});
-	}
-
+	// Look for a customer with the email address or name in Stripe and create one if it doesn't exist
 	try {
 		// Check if user is previous client
 		const customerSearch = await stripe.customers.search({
-			query: `email:"${req.query.invitee_email}" OR name~"${req.query.invitee_full_name}"`,
+			query: `email:"${email}" OR name~"${name}"`,
 		});
 
 		if (customerSearch.data.length > 0) {
@@ -130,13 +135,13 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 			sessionTemplate.customer = customerSearch.data[0].id;
 		} else {
 			// If user is new client, set session to use email from booking and create customer
-			sessionTemplate.customer_email = `${req.query.invitee_email}`;
+			sessionTemplate.customer_email = `${email}`;
 			sessionTemplate.customer_creation = "always";
 		}
 	} catch (err) {
 		console.log(err);
 		// If error finding client, set session to use email from booking and create customer
-		sessionTemplate.customer_email = `${req.query.invitee_email}`;
+		sessionTemplate.customer_email = `${email}`;
 		sessionTemplate.customer_creation = "always";
 	}
 
@@ -145,28 +150,14 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 		// Create checkout session
 		const session = await stripe.checkout.sessions.create(sessionTemplate);
 
-		try {
-			// Add or update booking in database
-			const response = await fetch(`${server}/api/db/bookings`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					...req.query,
-					session_id: session.id,
-				}),
-			});
-			console.info(response);
-		} catch (err) {
-			console.error("Error adding booking to database");
-			console.error(err);
-		}
-
-		res.redirect(303, session.url || `${server}/404`);
+		session.url
+			? res.status(200).json({ url: session.url })
+			: res
+					.status(404)
+					.json({ error: "Error creating checkout session" });
 	} catch (e: any) {
 		console.error(e);
-		res.redirect(303, `${server}/404?error=${e.message}`);
+		res.status(404).json({ error: e.message });
 	}
 };
 

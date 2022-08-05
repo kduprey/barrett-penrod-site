@@ -14,8 +14,8 @@ type Body = {
 	invitee_email: string;
 	invitee_full_name: string;
 	eventStartTime: string;
-	eventEndTime: string;
 	eventTypeName: string;
+	zoomLink: string;
 };
 
 const consultation = async (
@@ -59,6 +59,7 @@ const consultation = async (
 						year: "numeric",
 					}),
 					bookingName: data.eventTypeName,
+					zoomLink: data.zoomLink,
 				},
 			},
 		],

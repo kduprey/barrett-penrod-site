@@ -1,15 +1,14 @@
 import { useRouter } from "next/router";
-import { setCookie, getCookie } from "cookies-next";
 import { useState } from "react";
-import { services } from "../../data/services";
+import { bundleServices } from "../../data/services";
 
 type Props = {
 	isOpen: boolean;
 	setIsOpen: (isOpen: boolean) => void;
-	selectedPackage: string;
+	selectedBundle: number | undefined;
 };
 
-const PackageModal = ({ isOpen, setIsOpen }: Props) => {
+const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
 	const router = useRouter();
 	const [step, setStep] = useState<number[]>([1]);
 	const [service, setService] = useState(0);
@@ -68,7 +67,7 @@ const PackageModal = ({ isOpen, setIsOpen }: Props) => {
 						<p>Select Service</p>
 						{step.includes(2) ? (
 							<span className="text-primary-800 font-bold">
-								{services[service].title}
+								{bundleServices[service].title}
 							</span>
 						) : null}
 					</div>
@@ -83,7 +82,7 @@ const PackageModal = ({ isOpen, setIsOpen }: Props) => {
 						<p>Select Location</p>
 						{step.includes(3) ? (
 							<span className="text-primary-800 font-bold">
-								{services[service].locations[location]}
+								{bundleServices[service].locations[location]}
 							</span>
 						) : null}
 					</div>
@@ -125,7 +124,7 @@ const PackageModal = ({ isOpen, setIsOpen }: Props) => {
 								setService(Number.parseInt(e.target.value));
 							}}
 						>
-							{services.map((service, index) => {
+							{bundleServices.map((service, index) => {
 								return (
 									<option value={index} key={service.title}>
 										{service.title}
@@ -160,7 +159,7 @@ const PackageModal = ({ isOpen, setIsOpen }: Props) => {
 							}}
 						>
 							{service != -1
-								? services[service].locations.map(
+								? bundleServices[service].locations.map(
 										(result, index) => {
 											return (
 												<option
@@ -182,13 +181,17 @@ const PackageModal = ({ isOpen, setIsOpen }: Props) => {
 							<p className="text-2xl text-primary">
 								Service:{" "}
 								<span className="font-medium">
-									{services[service].title}
+									{bundleServices[service].title}
 								</span>
 							</p>
 							<p className="text-center text-2xl text-primary">
 								Location:{" "}
 								<span className="font-medium">
-									{services[service].locations[location]}
+									{
+										bundleServices[service].locations[
+											location
+										]
+									}
 								</span>
 							</p>
 						</div>
@@ -200,24 +203,11 @@ const PackageModal = ({ isOpen, setIsOpen }: Props) => {
 
 							if (!step.includes(3)) handleContinue(e);
 							if (step.includes(3)) {
-								const serviceCookie = {
-									serviceTitle: services[service].title,
-									locationName:
-										services[service].locations[location],
-								};
-								setCookie("service", serviceCookie, {
-									maxAge: 60 * 30,
-									sameSite: "strict",
-									secure: true,
-								});
-								setCookie("redirectFromPackageModal", true, {
-									maxAge: 60 * 30,
-									sameSite: "strict",
-									secure: true,
-								});
 								isOpen ? setIsOpen(false) : setIsOpen(true);
 
-								router.push(services[service].url[location]);
+								router.push(
+									`/bookings/bookNow?service=${service}&location=${location}&bundle=${selectedBundle}`
+								);
 							}
 						}}
 					>
@@ -229,4 +219,4 @@ const PackageModal = ({ isOpen, setIsOpen }: Props) => {
 	);
 };
 
-export default PackageModal;
+export default BundleModal;

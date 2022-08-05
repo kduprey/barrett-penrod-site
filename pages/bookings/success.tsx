@@ -1,55 +1,99 @@
-import {
-	BookingInfo,
-	LessonPackage,
-	NextPageWithLayout,
-	serviceCookieType,
-} from "../../types";
+import { Contact, Guest, GuestBody, NextPageWithLayout } from "../../types";
 import Layout from "../../components/Layout";
 import Stripe from "stripe";
-import { getCookie } from "cookies-next";
 
 type Props = {
-	session?: Stripe.Checkout.Session;
-	customer?: Stripe.Customer;
-	bookingInfo?: BookingInfo;
+	eventTime: string;
+	zoomLink: string;
+	name: string;
+	service: number;
+	session: Stripe.Checkout.Session;
+	customer: Stripe.Customer;
+	bundle?: number;
 };
 
 const Success: NextPageWithLayout = (props: Props) => {
+	const eventTimeObj = new Date(props.eventTime);
+
+	console.log(props);
+
+	if (props.zoomLink)
+		return (
+			<section className="flex flex-grow flex-col items-center justify-center space-y-4 py-6">
+				<h2 className="text-center text-secondary">
+					Consultation Session Confirmed
+				</h2>
+
+				<div className="m-3 flex flex-col items-center justify-center space-y-4 rounded bg-secondary p-6 shadow-lg">
+					<p className="text-primary">Thank you, {props.name}</p>
+					<p className="text-center text-primary">
+						Your consultation session has been scheduled for{" "}
+						{eventTimeObj.toLocaleString([], {
+							hour: "numeric",
+							minute: "2-digit",
+						})}{" "}
+						on{" "}
+						{eventTimeObj.toLocaleDateString([], {
+							weekday: "long",
+							month: "short",
+							day: "numeric",
+							year: "numeric",
+						})}
+					</p>
+					<div className="flex flex-col items-center justify-center">
+						<p className="text-primary">
+							You can join the Zoom meeting here!
+						</p>
+						<a href={props.zoomLink}>{props.zoomLink}</a>
+					</div>
+
+					<p className="text-center text-primary">
+						We will send you a confirmation email shortly.
+					</p>
+				</div>
+			</section>
+		);
 	return (
 		<div className="flex flex-grow flex-col items-center justify-center space-y-4 py-6">
 			<h2 className="text-center text-secondary">Booking Confirmed</h2>
-			<div className="m-3 flex flex-col items-center justify-center space-y-4 rounded bg-secondary p-6 shadow-lg">
-				{props.bookingInfo ? (
-					<>
-						<p className="text-primary">
-							Thank you,{" "}
-							{props.customer?.name ||
-								props.bookingInfo.invitee_full_name}
-						</p>
-						<p className="text-primary">
-							{props.bookingInfo.event_type_name}
-						</p>
-						<p className="text-primary">
-							{new Date(
-								props.bookingInfo.event_start_time
-							).toLocaleTimeString([], {
-								hour: "numeric",
-								minute: "2-digit",
-							})}{" "}
-							on{" "}
-							{new Date(
-								props.bookingInfo.event_start_time
-							).toLocaleDateString([], {
-								weekday: "long",
-								month: "short",
-								day: "numeric",
-								year: "numeric",
-							})}
-						</p>
-					</>
+			<div className="m-3 flex flex-col items-center justify-center space-y-4 rounded bg-secondary p-8 shadow-lg">
+				{props.customer ? (
+					<p className="text-2xl text-primary">
+						Thank you, {props.customer.name}
+					</p>
 				) : (
-					<p className="text-primary">Thank you for your booking.</p>
+					<p className="text-primary">Thank you!</p>
 				)}
+				{props.bundle && (
+					<p className="text-primary">
+						You have booked the{" "}
+						<span className="font-semibold ">
+							{bundles[props.bundle].title}
+						</span>{" "}
+						bundle.
+					</p>
+				)}
+				<p className="text-primary">
+					Your {props.bundle ? "first" : "upcoming"}{" "}
+					<span className="font-semibold ">
+						{services[props.service].title}
+					</span>{" "}
+					session is at:
+				</p>
+
+				<p className="font-semibold text-primary">
+					{eventTimeObj.toLocaleTimeString([], {
+						hour: "numeric",
+						minute: "2-digit",
+					})}{" "}
+					on{" "}
+					{eventTimeObj.toLocaleDateString([], {
+						weekday: "long",
+						month: "short",
+						day: "numeric",
+						year: "numeric",
+					})}
+				</p>
 				<p className="text-center text-primary">
 					Please check your email for confirmation.
 				</p>
@@ -62,6 +106,7 @@ const Success: NextPageWithLayout = (props: Props) => {
 // - Only if you need to pre-render a page whose data must be fetched at request time
 import { GetServerSideProps } from "next";
 import { server, stripe } from "../../config";
+import { bundles, services } from "../../data/services";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const statuses = {
@@ -83,20 +128,103 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		},
 	};
 
-	const { req, res } = ctx;
-	const serviceCookie = getCookie("service", { req, res }) as string;
-	const serviceJson: serviceCookieType = serviceCookie
-		? JSON.parse(serviceCookie)
-		: null;
-	const isPackage = getCookie("redirectFromPackageModal", {
-		req,
-		res,
-	}) as boolean;
+	const params = ctx.query;
 
-	if (isPackage) {
-		const packageCookie = getCookie("packageInfo", { req, res }) as string;
-		const packageJson: LessonPackage = JSON.parse(packageCookie);
+	const service = parseInt(params.service as string);
+	const eventTime = new Date(params.eventTime as string);
 
+	// If booking is consultation
+	if (service == 9) {
+		const { email, name, zoomLink } = params;
+
+		try {
+			const response = await fetch(
+				`${server}/api/bookings/consultation`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						invitee_email: email,
+						invitee_full_name: name,
+						eventStartTime: eventTime,
+						eventTypeName: "Consultation",
+						zoomLink: zoomLink,
+					}),
+				}
+			);
+
+			// Are there guests?
+			if (params.guests) {
+				try {
+					const guestEmails: Contact[] = (params.guests as string)
+						.split(",")
+						.map((guestEmail) => {
+							return {
+								email: guestEmail,
+							};
+						});
+
+					const response = await fetch(
+						`${server}/api/bookings/guest`,
+						{
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify({
+								guests: guestEmails,
+								eventStartTime: params.eventTime,
+								eventTypeName: services[service].title,
+							} as GuestBody),
+						}
+					);
+					statuses.guestEmailsSent.status = true;
+					statuses.guestEmailsSent.message = await response.json();
+				} catch (err: any) {
+					console.log(err);
+					statuses.guestEmailsSent.status = false;
+					statuses.guestEmailsSent.message = err;
+				}
+			}
+
+			statuses.consultationEmailSent.status = response.ok;
+			statuses.consultationEmailSent.message = await response.json();
+		} catch (err: any) {
+			console.log(err);
+			statuses.consultationEmailSent.status = false;
+			statuses.consultationEmailSent.message = err;
+		}
+
+		if (statuses.consultationEmailSent.status) {
+			console.log(statuses.consultationEmailSent.message);
+			return {
+				props: {
+					eventTime: eventTime.toString(),
+					zoomLink: zoomLink as string,
+					name: name as string,
+					service,
+				},
+			};
+		} else {
+			return {
+				notFound: true,
+			};
+		}
+	}
+
+	const location = parseInt(params.location as string);
+	const session = await stripe.checkout.sessions.retrieve(
+		params.session_id as string
+	);
+	const customer = await stripe.customers.retrieve(
+		session.customer as string
+	);
+
+	// If booking is package
+	if (params.bundle && !customer.deleted) {
+		const bundle = parseInt(params.bundle as string);
 		try {
 			const response = await fetch(
 				`${server}/api/bookings/package-confirmation`,
@@ -107,13 +235,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 						"Access-Control-Allow-Origin": "*",
 					},
 					body: JSON.stringify({
-						invitee_email: ctx.query.invitee_email,
-						invitee_full_name: ctx.query.invitee_full_name,
-						bulkSessionDiscountPackage: packageJson.title,
-						dateOfFirstSession: ctx.query.event_start_time,
-						bookingTime: ctx.query.event_start_time,
-						bookingDate: ctx.query.event_start_time,
-						bookingLocation: serviceJson.locationName,
+						invitee_email: customer.email,
+						invitee_full_name: customer.name,
+						bulkSessionDiscountPackage: bundles[bundle].title,
+						dateOfFirstSession: params.eventTime,
+						bookingTime: params.eventTime,
+						bookingDate: params.eventTime,
+						bookingLocation: services[service].locations[location],
 					}),
 				}
 			);
@@ -126,21 +254,25 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	}
 
 	// Are there guests?
-
-	if (ctx.query.guests) {
+	if (params.guests) {
 		try {
+			const temp = params.guests as unknown as Guest[];
+			const guestEmails: Contact[] = temp.map((guest) => {
+				return {
+					email: guest.email,
+				};
+			});
+
 			const response = await fetch(`${server}/api/bookings/guest`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					session_id: ctx.query.session_id,
-					guests: ctx.query.guests,
-					eventStartTime: ctx.query.event_start_time,
-					eventEndTime: ctx.query.event_end_time,
-					eventTypeName: ctx.query.event_type_name,
-				}),
+					guests: guestEmails,
+					eventStartTime: params.eventTime,
+					eventTypeName: services[service].title,
+				} as GuestBody),
 			});
 			statuses.guestEmailsSent.status = true;
 			statuses.guestEmailsSent.message = await response.json();
@@ -152,8 +284,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	}
 
 	// Is this a first time booking?
-
-	if (ctx.query.answer_2 === "Yes") {
+	const firstTime: boolean = params.firstTime === "true" ? true : false;
+	if (firstTime && !customer.deleted) {
 		try {
 			const response = await fetch(`${server}/api/bookings/first-time`, {
 				method: "POST",
@@ -161,12 +293,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					session_id: ctx.query.session_id,
-					invitee_email: ctx.query.invitee_email,
-					invitee_full_name: ctx.query.invitee_full_name,
-					eventStartTime: ctx.query.event_start_time,
-					eventEndTime: ctx.query.event_end_time,
-					eventTypeName: ctx.query.event_type_name,
+					invitee_email: customer.email,
+					invitee_full_name: customer.name,
+					eventStartTime: params.eventTime,
+					eventTypeName: services[service].title,
 				}),
 			});
 			statuses.firstTimeEmailSent.status = true;
@@ -178,69 +308,29 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		}
 	}
 
-	if (ctx.query.event_type_name === "Consultation Session") {
-		try {
-			const response = await fetch(
-				`${server}/api/bookings/consultation`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						invitee_email: ctx.query.invitee_email,
-						invitee_full_name: ctx.query.invitee_full_name,
-						eventStartTime: ctx.query.event_start_time,
-						eventEndTime: ctx.query.event_end_time,
-						eventTypeName: ctx.query.event_type_name,
-					}),
-				}
-			);
-
-			statuses.consultationEmailSent.status = true;
-			statuses.consultationEmailSent.message = await response.json();
-		} catch (err: any) {
-			console.log(err);
-			statuses.consultationEmailSent.status = false;
-			statuses.consultationEmailSent.message = err;
-		}
-		if (statuses.consultationEmailSent.status) {
-			return {
-				props: {
-					bookingInfo: { ...ctx.query },
-				},
-			};
-		} else {
-			return {
-				notFound: true,
-			};
-		}
-	}
-
-	try {
-		const session = await stripe.checkout.sessions.retrieve(
-			ctx.query.session_id as string
-		);
-
-		const customer = await stripe.customers.retrieve(
-			session.customer as string
-		);
-
+	if (params.bundle) {
+		const bundle = parseInt(params.bundle as string);
 		return {
 			props: {
 				session,
 				customer,
-				event_start_time: ctx.query.event_start_time as string,
-				event_end_time: ctx.query.event_end_time as string,
-				event_type_name: ctx.query.event_type_name as string,
+				bundle,
+				service,
+				location,
+				eventTime: eventTime.toString(),
 			},
 		};
-	} catch (err) {
-		console.log(err);
-		return {
-			notFound: true,
-		};
 	}
+
+	return {
+		props: {
+			session,
+			customer,
+			service,
+			location,
+			eventTime: eventTime.toString(),
+		},
+	};
 };
 
 export default Success;

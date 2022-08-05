@@ -1,30 +1,26 @@
 import { NextPageWithLayout } from "../../types";
-import VsLogo from "/public/vslogo.svg";
 import Layout from "../../components/Layout";
-import { packages, services } from "../../data/services";
+import { bundles, services } from "../../data/services";
 import Link from "next/link";
-import PackageModal from "../../components/Bookings/PackageModal";
+import BundleModal from "../../components/Bookings/BundleModal";
 import { useState } from "react";
-
-import { setCookie } from "cookies-next";
+import Logo from "../../components/Logo";
 
 type Props = {};
 
 const Bookings: NextPageWithLayout = (props: Props) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const [selectedPackage, setSelectedPackage] = useState<string>("");
+	const [selectedBundle, setselectedBundle] = useState<number>();
 
 	return (
 		<section className="flex flex-col items-center justify-evenly p-4">
-			<PackageModal
+			<BundleModal
 				isOpen={isOpen}
 				setIsOpen={setIsOpen}
-				selectedPackage={selectedPackage}
+				selectedBundle={selectedBundle}
 			/>
 
-			<div className="w-3/4 bg-white p-3 shadow-lg shadow-black md:w-1/4">
-				<VsLogo />
-			</div>
+			<Logo />
 			<h2 className="py-6 text-center text-secondary">Services</h2>
 
 			<div className="flex w-full flex-col items-center justify-evenly space-y-6 md:flex-row md:flex-wrap md:gap-6 md:space-y-0">
@@ -50,40 +46,33 @@ const Bookings: NextPageWithLayout = (props: Props) => {
 					Book a <br /> Free Consultation!
 				</h2>
 
-				<a href="https://calendly.com/bpvoicestudio/consultation-session">
+				<Link href="/bookings/consultation" passHref>
 					<button>Schedule time with me</button>
-				</a>
+				</Link>
 			</div>
 
 			<hr className="my-6 h-1 w-full rounded-lg bg-slate-200 opacity-30" />
 
 			<h2 className="pb-3 text-center text-secondary">Packages</h2>
 			<div className="flex w-full flex-col items-center justify-evenly space-y-6 md:flex-row md:space-x-6 md:space-y-0">
-				{packages.map((lessonPackage) => {
+				{bundles.map((bundle, index) => {
 					return (
 						<div
-							key={lessonPackage.title}
+							key={bundle.title}
 							className="flex flex-col items-center justify-center space-y-3 rounded-lg bg-secondary p-6 shadow-md "
 						>
-							<h4 className="text-center">
-								{lessonPackage.title}
-							</h4>
+							<h4 className="text-center">{bundle.title}</h4>
 							<p className="text-center text-primary">
-								{lessonPackage.discount}
+								{bundle.discount}
 							</p>
 							<p className="text-center text-3xl font-bold text-primary">
-								${lessonPackage.price}
+								${bundle.price}
 							</p>
 							<button
 								className="cursor-pointer bg-primary text-secondary"
 								onClick={(e) => {
 									setIsOpen(true);
-									setSelectedPackage(lessonPackage.title);
-									setCookie("packageInfo", lessonPackage, {
-										maxAge: 60 * 30,
-										sameSite: "strict",
-										secure: true,
-									});
+									setselectedBundle(index);
 								}}
 							>
 								Reserve Now!

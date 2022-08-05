@@ -25,6 +25,8 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Script from "next/script";
 
+export { reportWebVitals } from "next-axiom";
+
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
 	const router = useRouter();
 	const handleRouteChange = (url: URL) => {

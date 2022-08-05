@@ -93,6 +93,9 @@ label {
 	.completed p {
 		@apply first-of-type:uppercase first-of-type:text-primary first-of-type:opacity-40 last-of-type:text-gray-800;
 	}
+	.logo {
+		@apply bg-white shadow-lg shadow-black;
+	}
 }
 
 .ham {

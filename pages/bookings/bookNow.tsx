@@ -1,15 +1,15 @@
-import Layout from "../../components/Layout";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { InlineWidget, useCalendlyEventListener } from "react-calendly";
+import BookingsLayout from "../../components/BookingsLayout";
+import Logo from "../../components/Logo";
 import { bundleServices, services } from "../../data/services";
 import {
 	CalendlyEvent,
 	CalendlyEventInvitee,
 	NextPageWithLayout,
 } from "../../types";
-import { InlineWidget, useCalendlyEventListener } from "react-calendly";
-import { useRouter } from "next/router";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import Logo from "../../components/Logo";
 
 type Params = {
 	service: number;
@@ -129,8 +129,10 @@ const Page: NextPageWithLayout = () => {
 					styles={{ height: "40em" }}
 					url={
 						bundle
-							? bundleServices[service].url[location]
-							: services[service].url[location]
+							? bundleServices[service].url[location] +
+							  "?hide_gdpr_banner=1"
+							: services[service].url[location] +
+							  "?hide_gdpr_banner=1"
 					}
 					// url="https://calendly.com/kentonduprey/30min"
 				/>
@@ -141,4 +143,11 @@ const Page: NextPageWithLayout = () => {
 
 export default Page;
 
-Page.getLayout = (page) => <Layout>{page}</Layout>;
+Page.getLayout = (page) => (
+	<BookingsLayout
+		title="Barrett Penrod Voice Studio"
+		description="Book in for voice, audition, acting lessons or singing voice specialist sessions."
+	>
+		{page}
+	</BookingsLayout>
+);

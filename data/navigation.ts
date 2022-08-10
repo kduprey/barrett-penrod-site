@@ -54,10 +54,14 @@ export const menus: NavMenu[] = [
 	},
 	{
 		name: "News",
-		path: "/news",
+		path: "/#news",
 	},
 	{
 		name: "Contact",
 		path: "/#contact",
+	},
+	{
+		name: "Voice Studio",
+		path: "/bookings",
 	},
 ];

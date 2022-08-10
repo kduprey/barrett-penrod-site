@@ -1,6 +1,6 @@
 import {
-	faTwitter,
 	faInstagram,
+	faTwitter,
 	faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -161,7 +161,7 @@ const Footer = (props: Props) => {
 
 					<button
 						type="submit"
-						className="bg-secondary"
+						className="mt-3 bg-secondary"
 						disabled={loading}
 					>
 						Submit

@@ -1,11 +1,11 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
-import { NavMenu } from "../../types";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import { Link } from "react-scroll";
 import * as gtag from "../../lib/analytics";
-import { useRouter } from "next/router";
+import { NavMenu } from "../../types";
 
 type Props = {
 	menu: NavMenu;
@@ -68,7 +68,18 @@ const Submenu = ({ menu }: Props) => {
 
 						return (
 							<NextLink key={index} href={sublink.path}>
-								<a className="cursor-pointer text-secondary underline-offset-2 hover:text-white hover:underline">
+								<a
+									className="cursor-pointer text-secondary underline-offset-2 hover:text-white hover:underline"
+									onClick={() => {
+										gtag.pageview(
+											new URL(
+												window.location.href +
+													router.route +
+													menu.path
+											)
+										);
+									}}
+								>
 									{sublink.name}
 								</a>
 							</NextLink>
@@ -78,13 +89,33 @@ const Submenu = ({ menu }: Props) => {
 			</li>
 		);
 	}
-
+	if (!menu.path?.includes("#") && menu.path) {
+		return (
+			<NextLink href={menu.path}>
+				<a
+					onClick={() => {
+						gtag.pageview(
+							new URL(
+								window.location.href + router.route + menu.path
+							)
+						);
+					}}
+					className="cursor-pointer pb-3 text-xl font-thin text-white underline-offset-2 hover:text-slate-300 hover:underline"
+				>
+					{menu.name}
+				</a>
+			</NextLink>
+		);
+	}
 	return (
 		<Link
 			as="a"
 			className="cursor-pointer pb-3 text-xl font-thin text-white hover:text-slate-300"
 			onClick={() => {
 				setIsOpen(false);
+				gtag.pageview(
+					new URL(window.location.href + router.route + menu.path)
+				);
 			}}
 			to={
 				menu.name.toLowerCase() === "home"

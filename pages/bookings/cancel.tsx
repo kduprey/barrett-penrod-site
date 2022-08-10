@@ -1,6 +1,5 @@
-import { NextPageWithLayout } from "../../types";
-import Layout from "../../components/Layout";
 import Stripe from "stripe";
+import { NextPageWithLayout } from "../../types";
 
 type Props = {
 	session?: Stripe.Checkout.Session;
@@ -35,11 +34,19 @@ const Cancel: NextPageWithLayout = (props: Props) => {
 
 export default Cancel;
 
-Cancel.getLayout = (page) => <Layout>{page}</Layout>;
+Cancel.getLayout = (page) => (
+	<BookingsLayout
+		title="Barrett Penrod Voice Studio"
+		description="Book in for voice, audition, acting lessons or singing voice specialist sessions."
+	>
+		{page}
+	</BookingsLayout>
+);
 
 // You should use getServerSideProps when:
 // - Only if you need to pre-render a page whose data must be fetched at request time
 import { GetServerSideProps } from "next";
+import BookingsLayout from "../../components/BookingsLayout";
 import { stripe } from "../../config";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {

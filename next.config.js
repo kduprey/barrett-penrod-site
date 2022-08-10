@@ -29,6 +29,11 @@ const nextConfig = withAxiom({
 				destination: "/cancellation-policy.pdf",
 				permanent: true,
 			},
+			{
+				source: "/cookie-policy",
+				destination: "/cookie-policy.pdf",
+				permanent: true,
+			},
 		];
 	},
 	async headers() {

@@ -1,10 +1,9 @@
-import VsLogo from "/public/vslogo.svg";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import BookingsLayout from "../../components/BookingsLayout";
 import { services } from "../../data/services";
 import { NextPageWithLayout } from "../../types";
-import Layout from "../../components/Layout";
-import { useState } from "react";
-import { useRouter } from "next/router";
-import Logo from "../../components/Logo";
+import VsLogo from "/public/vslogo.svg";
 
 type Props = {};
 
@@ -38,12 +37,12 @@ const Individual: NextPageWithLayout = (props: Props) => {
 	// TODO: Remove margin on mobile view of logo
 
 	return (
-		<section className="flex flex-col items-center justify-center space-y-4 p-4 md:flex-row">
-			<div className="logo w-5/6 p-3 md:w-1/4 ">
+		<section className="flex flex-col items-center justify-center space-y-4 p-4 md:my-auto md:flex-row">
+			<div className="logo w-5/6 p-6 md:w-1/4">
 				<VsLogo />
 				{/* <Logo /> */}
 			</div>
-			<div className="flex flex-col items-center justify-center space-y-4 md:pl-6">
+			<div className="flex flex-col items-center justify-center space-y-4 md:space-y-10 md:pl-6">
 				<h3 className=" text-center text-secondary">
 					Book your individual session
 				</h3>
@@ -221,10 +220,10 @@ const Individual: NextPageWithLayout = (props: Props) => {
 export default Individual;
 
 Individual.getLayout = (page) => (
-	<Layout
+	<BookingsLayout
 		title="Barrett Penrod Voice Studio"
 		description="Book in for voice, audition, acting lessons or singing voice specialist sessions."
 	>
 		{page}
-	</Layout>
+	</BookingsLayout>
 );

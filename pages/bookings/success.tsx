@@ -1,6 +1,5 @@
-import { Contact, Guest, GuestBody, NextPageWithLayout } from "../../types";
-import Layout from "../../components/Layout";
 import Stripe from "stripe";
+import { Contact, Guest, GuestBody, NextPageWithLayout } from "../../types";
 
 type Props = {
 	eventTime: string;
@@ -105,6 +104,7 @@ const Success: NextPageWithLayout = (props: Props) => {
 // You should use getServerSideProps when:
 // - Only if you need to pre-render a page whose data must be fetched at request time
 import { GetServerSideProps } from "next";
+import BookingsLayout from "../../components/BookingsLayout";
 import { server, stripe } from "../../config";
 import { bundles, services } from "../../data/services";
 
@@ -334,4 +334,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 export default Success;
-Success.getLayout = (page) => <Layout>{page}</Layout>;
+Success.getLayout = (page) => (
+	<BookingsLayout
+		title="Barrett Penrod Voice Studio"
+		description="Book in for voice, audition, acting lessons or singing voice specialist sessions."
+	>
+		{page}
+	</BookingsLayout>
+);

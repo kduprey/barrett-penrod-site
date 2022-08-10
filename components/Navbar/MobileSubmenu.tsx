@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { NavMenu } from "../../types";
 import { motion, useAnimation } from "framer-motion";
 import NextLink from "next/link";
-import { Link } from "react-scroll";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import { Link } from "react-scroll";
 import * as gtag from "../../lib/analytics";
+import { NavMenu } from "../../types";
 
 type Props = {
 	menu: NavMenu;
@@ -107,6 +107,25 @@ const MobileSubmenu = ({ menu, setIsNavOpen }: Props) => {
 					})}
 				</motion.div>
 			</>
+		);
+	}
+
+	if (!menu.path?.includes("#") && menu.path) {
+		return (
+			<NextLink href={menu.path}>
+				<a
+					onClick={() => {
+						gtag.pageview(
+							new URL(
+								window.location.href + router.route + menu.path
+							)
+						);
+					}}
+					className="cursor-pointer pb-3 text-xl font-thin text-white underline-offset-2 hover:text-slate-300 hover:underline"
+				>
+					{menu.name}
+				</a>
+			</NextLink>
 		);
 	}
 

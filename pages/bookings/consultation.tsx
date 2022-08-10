@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import { InlineWidget, useCalendlyEventListener } from "react-calendly";
-import Layout from "../../components/Layout";
+import BookingsLayout from "../../components/BookingsLayout";
 import { server } from "../../config";
 import {
 	CalendlyEvent,
@@ -85,7 +85,7 @@ const Consultation: NextPageWithLayout = () => {
 	});
 
 	return (
-		<section className="p-4">
+		<section className="my-auto p-4">
 			<h1 className="pb-4 text-center text-secondary">
 				Book your Consultation
 			</h1>
@@ -93,7 +93,7 @@ const Consultation: NextPageWithLayout = () => {
 			<div className="overflow-hidden rounded-lg">
 				<InlineWidget
 					styles={{ height: "40em" }}
-					url="https://calendly.com/bpvoicestudio/consultation-session"
+					url="https://calendly.com/bpvoicestudio/consultation-session?hide_gdpr_banner=1"
 				/>
 			</div>
 		</section>
@@ -102,7 +102,14 @@ const Consultation: NextPageWithLayout = () => {
 
 export default Consultation;
 
-Consultation.getLayout = (page) => <Layout>{page}</Layout>;
+Consultation.getLayout = (page) => (
+	<BookingsLayout
+		title="Barrett Penrod Voice Studio"
+		description="Book in for voice, audition, acting lessons or singing voice specialist sessions."
+	>
+		{page}
+	</BookingsLayout>
+);
 function instanceOfZoomLocation(object: any): object is ZoomLocation {
 	return true;
 }

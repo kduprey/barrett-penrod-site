@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import BundleModal from "../../components/Bookings/BundleModal";
-import Layout from "../../components/Layout";
+import BookingsLayout from "../../components/BookingsLayout";
 import Logo from "../../components/Logo";
 import { bundles, services } from "../../data/services";
 import { NextPageWithLayout } from "../../types";
@@ -21,17 +21,18 @@ const Bookings: NextPageWithLayout = (props: Props) => {
 			/>
 
 			<Logo />
-			<h2 className="py-6 text-center text-secondary">Services</h2>
+
+			<h2 className="py-6 pt-10 text-center text-secondary">Services</h2>
 
 			<div className="flex w-full flex-col items-center justify-evenly space-y-6 md:flex-row md:flex-wrap md:gap-6 md:space-y-0">
 				{services.map((service) => {
 					return (
 						<div
 							key={service.title}
-							className="w-[18em] space-y-3 rounded-lg bg-secondary p-5 shadow-md md:w-[24em]"
+							className="flex flex-col items-center justify-between rounded-lg bg-secondary p-8 shadow-md md:h-[20em] md:w-[22em] lg:h-[22em]"
 						>
-							<h5 className="text-center">{service.title}</h5>
-							<p className="text-primary">
+							<h5 className=" text-center">{service.title}</h5>
+							<p className="my-auto text-center text-primary">
 								{service.description}
 							</p>
 						</div>
@@ -41,8 +42,8 @@ const Bookings: NextPageWithLayout = (props: Props) => {
 
 			<hr className="my-6 h-1 w-full rounded-lg bg-slate-200 opacity-30" />
 
-			<div className="flex flex-col items-center justify-center">
-				<h2 className="py-3 text-center text-secondary">
+			<div className="flex flex-col items-center justify-center rounded-lg border-4 p-5">
+				<h2 className="py-5 text-center text-secondary">
 					Book a <br /> Free Consultation!
 				</h2>
 
@@ -51,9 +52,11 @@ const Bookings: NextPageWithLayout = (props: Props) => {
 				</Link>
 			</div>
 
-			<hr className="my-6 h-1 w-full rounded-lg bg-slate-200 opacity-30" />
+			<hr className="mt-6 h-1 w-full rounded-lg bg-slate-200 opacity-30" />
 
-			<h2 className="pb-3 text-center text-secondary">Packages</h2>
+			<h2 className="py-10 text-center text-secondary">
+				Discount Packages
+			</h2>
 			<div className="flex w-full flex-col items-center justify-evenly space-y-6 md:flex-row md:space-x-6 md:space-y-0">
 				{bundles.map((bundle, index) => {
 					return (
@@ -99,10 +102,10 @@ const Bookings: NextPageWithLayout = (props: Props) => {
 export default Bookings;
 
 Bookings.getLayout = (page) => (
-	<Layout
+	<BookingsLayout
 		title="Barrett Penrod Voice Studio"
 		description="Book in for voice, audition, acting lessons or singing voice specialist sessions."
 	>
 		{page}
-	</Layout>
+	</BookingsLayout>
 );

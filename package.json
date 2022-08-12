@@ -17,7 +17,7 @@
 		"@headlessui/react": "^1.6.4",
 		"@sendgrid/mail": "^7.7.0",
 		"axios": "^0.27.2",
-		"framer-motion": "^7.0.0",
+		"framer-motion": "^7.1.0",
 		"mongodb": "^4.8.0",
 		"next": "^12.2.3",
 		"next-axiom": "^0.11.1",

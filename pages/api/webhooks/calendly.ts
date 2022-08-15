@@ -1,7 +1,8 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import crypto from "crypto";
-import { CalendlyEventInvitee, InviteeResource } from "../../../types";
 import axios from "axios";
+import crypto from "crypto";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { server } from "../../../config/index";
+import { CalendlyEventInvitee, InviteeResource } from "../../../types";
 
 type Data = {};
 
@@ -15,8 +16,10 @@ const calendlyWebhook = async (
 	// Extract the timestamp and signature from the header
 
 	const calendlySignature = req.headers[
-		"Calendly-Webhook-Signature"
+		"calendly-webhook-signature"
 	] as string;
+	console.log(req.headers);
+	console.log(calendlySignature);
 
 	const { t, signature } = calendlySignature?.split(",").reduce(
 		(acc, currentValue) => {
@@ -70,13 +73,13 @@ const calendlyWebhook = async (
 	// Signature is valid!
 
 	if (req.body.event === "invitee.created") {
-		const invitee: InviteeResource = req.body.data.payload;
+		const invitee: InviteeResource = req.body.payload;
 		const eventInvitee: CalendlyEventInvitee = {
 			resource: invitee,
 		};
 
 		const response = await axios.post(
-			"/api/db/eventInvitees",
+			`${server}/api/db/eventInvitee`,
 			eventInvitee
 		);
 
@@ -90,13 +93,13 @@ const calendlyWebhook = async (
 	}
 
 	if (req.body.event === "invitee.canceled") {
-		const invitee: InviteeResource = req.body.data.payload;
+		const invitee: InviteeResource = req.body.payload;
 		const eventInvitee: CalendlyEventInvitee = {
 			resource: invitee,
 		};
 
 		const response = await axios.post(
-			"/api/db/eventInvitees",
+			`${server}/api/db/eventInvitee`,
 			eventInvitee
 		);
 

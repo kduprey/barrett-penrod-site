@@ -1,11 +1,11 @@
-import type { ReactElement, ReactNode } from "react";
+import { ObjectId } from "mongodb";
 import type {
-	NextPage,
-	InferGetServerSidePropsType,
 	GetServerSideProps,
+	InferGetServerSidePropsType,
+	NextPage,
 } from "next";
 import type { AppProps } from "next/app";
-import { ObjectId } from "mongodb";
+import type { ReactElement, ReactNode } from "react";
 import Stripe from "stripe";
 
 export interface Page {
@@ -344,11 +344,11 @@ export interface Settings {
 	global_dial_in_numbers: GlobalDialInNumber[];
 }
 
-export interface CalendlyEventInvitee {
-	resource: InviteeResource;
+export interface CalendlyEventPayload {
+	resource: EventPayload;
 }
 
-export interface InviteeResource {
+export interface EventPayload {
 	cancel_url: string;
 	created_at: Date;
 	email: string;

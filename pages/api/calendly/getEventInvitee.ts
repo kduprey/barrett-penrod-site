@@ -1,12 +1,12 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
-import { CalendlyEventInvitee } from "../../../types";
+import { CalendlyInviteePayload } from "../../../types";
 
 type Data = {};
 
 const getEventInvitee = async (
 	req: NextApiRequest,
-	res: NextApiResponse<CalendlyEventInvitee | Data>
+	res: NextApiResponse<CalendlyInviteePayload | Data>
 ) => {
 	const { uri } = req.body as { uri: string };
 
@@ -20,7 +20,7 @@ const getEventInvitee = async (
 		res.status(500).json(inviteeRes);
 	}
 
-	const invitee: CalendlyEventInvitee = inviteeRes.data;
+	const invitee: CalendlyInviteePayload = inviteeRes.data;
 	res.status(200).json(invitee);
 };
 

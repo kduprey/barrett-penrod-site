@@ -7,7 +7,7 @@ import Logo from "../../components/Logo";
 import { bundleServices, services } from "../../data/services";
 import {
 	CalendlyEvent,
-	CalendlyEventInvitee,
+	CalendlyInviteePayload,
 	NextPageWithLayout,
 } from "../../types";
 
@@ -55,7 +55,7 @@ const Page: NextPageWithLayout = () => {
 					uri: e.data.payload.invitee.uri,
 				}
 			);
-			const invitee: CalendlyEventInvitee = inviteeRes.data;
+			const invitee: CalendlyInviteePayload = inviteeRes.data;
 
 			// Get checkout page URL
 			const checkoutRes = await axios.post("/api/checkout", {

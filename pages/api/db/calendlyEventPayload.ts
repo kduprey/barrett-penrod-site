@@ -7,7 +7,7 @@ import {
 } from "mongodb";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { collections, connectToDatabase } from "../../../lib/database.service";
-import { CalendlyEventInvitee } from "../../../types";
+import { CalendlyInviteePayload } from "../../../types";
 
 type Data = {
 	err: Error;
@@ -17,9 +17,9 @@ export default async function handler(
 	req: NextApiRequest,
 	res: NextApiResponse<
 		| Data
-		| WithId<CalendlyEventInvitee>[]
-		| InsertOneResult<CalendlyEventInvitee>
-		| ModifyResult<CalendlyEventInvitee>
+		| WithId<CalendlyInviteePayload>[]
+		| InsertOneResult<CalendlyInviteePayload>
+		| ModifyResult<CalendlyInviteePayload>
 		| DeleteResult
 	>
 ) {
@@ -60,7 +60,7 @@ export default async function handler(
 	}
 
 	if (req.method === "POST") {
-		const { ...invitee } = req.body as CalendlyEventInvitee;
+		const { ...invitee } = req.body as CalendlyInviteePayload;
 		if (!invitee) {
 			return res.status(400).json({
 				err: new Error("Error: Missing client info"),

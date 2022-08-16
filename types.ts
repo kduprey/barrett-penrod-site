@@ -344,11 +344,11 @@ export interface Settings {
 	global_dial_in_numbers: GlobalDialInNumber[];
 }
 
-export interface CalendlyEventPayload {
-	resource: EventPayload;
+export interface CalendlyInviteePayload {
+	resource: Invitee;
 }
 
-export interface EventPayload {
+export interface Invitee {
 	cancel_url: string;
 	created_at: Date;
 	email: string;

@@ -2,7 +2,7 @@ import axios from "axios";
 import crypto from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { server } from "../../../config/index";
-import { CalendlyEventPayload, EventPayload } from "../../../types";
+import { CalendlyInviteePayload, Invitee } from "../../../types";
 
 type Data = {};
 
@@ -73,9 +73,9 @@ const calendlyWebhook = async (
 	// Signature is valid!
 
 	if (req.body.event === "invitee.created") {
-		const eventpayload: EventPayload = req.body.payload;
-		const eventInfo: CalendlyEventPayload = {
-			resource: eventpayload,
+		const invitee: Invitee = req.body.payload;
+		const eventInfo: CalendlyInviteePayload = {
+			resource: invitee,
 		};
 
 		const response = await axios.post(
@@ -93,9 +93,9 @@ const calendlyWebhook = async (
 	}
 
 	if (req.body.event === "invitee.canceled") {
-		const eventPayload: EventPayload = req.body.payload;
-		const eventInfo: CalendlyEventPayload = {
-			resource: eventPayload,
+		const invitee: Invitee = req.body.payload;
+		const eventInfo: CalendlyInviteePayload = {
+			resource: invitee,
 		};
 
 		const response = await axios.post(

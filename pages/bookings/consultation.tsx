@@ -5,7 +5,7 @@ import BookingsLayout from "../../components/BookingsLayout";
 import { server } from "../../config";
 import {
 	CalendlyEvent,
-	CalendlyEventInvitee,
+	CalendlyInviteePayload,
 	NextPageWithLayout,
 	ZoomLocation,
 } from "../../types";
@@ -32,7 +32,7 @@ const Consultation: NextPageWithLayout = () => {
 					uri: e.data.payload.invitee.uri,
 				}
 			);
-			const invitee: CalendlyEventInvitee = inviteeRes.data;
+			const invitee: CalendlyInviteePayload = inviteeRes.data;
 
 			// Redirect to Success Page
 			const successURL = new URL(`${server}/bookings/success`);

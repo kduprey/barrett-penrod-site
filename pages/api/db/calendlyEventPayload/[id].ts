@@ -4,7 +4,7 @@ import {
 	collections,
 	connectToDatabase,
 } from "../../../../lib/database.service";
-import { CalendlyEventPayload } from "../../../../types";
+import { CalendlyInviteePayload } from "../../../../types";
 
 type Data = {
 	message: string;
@@ -12,7 +12,7 @@ type Data = {
 
 export default async function handler(
 	req: NextApiRequest,
-	res: NextApiResponse<Data | WithId<CalendlyEventPayload>>
+	res: NextApiResponse<Data | WithId<CalendlyInviteePayload>>
 ) {
 	if (req.method !== "GET") {
 		res.setHeader("Allow", "GET");

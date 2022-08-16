@@ -2,7 +2,7 @@ import { Collection, Db, MongoClient } from "mongodb";
 import { db, dbURL } from "../config";
 import {
 	BookingInfo,
-	CalendlyEventPayload,
+	CalendlyInviteePayload,
 	ClientInfo,
 	stripeCustomer,
 } from "../types";
@@ -11,7 +11,7 @@ export const collections: {
 	clients?: Collection<ClientInfo>;
 	stripeCustomers?: Collection<stripeCustomer>;
 	bookings?: Collection<BookingInfo>;
-	eventInvitees?: Collection<CalendlyEventPayload>;
+	eventInvitees?: Collection<CalendlyInviteePayload>;
 } = {};
 
 export async function connectToDatabase() {
@@ -32,9 +32,8 @@ export async function connectToDatabase() {
 	const stripeCustomers: Collection<stripeCustomer> =
 		database.collection("stripeCustomers");
 	const bookings: Collection<BookingInfo> = database.collection("bookings");
-	const eventInvitees: Collection<CalendlyEventPayload> = database.collection(
-		"calendlyEventPayloads"
-	);
+	const eventInvitees: Collection<CalendlyInviteePayload> =
+		database.collection("calendlyInviteePayloads");
 
 	collections.clients = clients;
 	collections.stripeCustomers = stripeCustomers;

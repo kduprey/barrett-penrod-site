@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { stripe, server, stripeMode } from "../../config/index";
 import Stripe from "stripe";
-import { Guest } from "../../types";
+import { server, stripe, stripeMode } from "../../config/index";
 import { bundles, Prices } from "../../data/services";
+import { Guest } from "../../types";
 
 type Data = {
 	url?: string;
@@ -133,6 +133,9 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 		if (customerSearch.data.length > 0) {
 			// If user is previous client, use that customer id for checkout session
 			sessionTemplate.customer = customerSearch.data[0].id;
+			sessionTemplate.customer_update = {
+				address: "auto",
+			};
 		} else {
 			// If user is new client, set session to use email from booking and create customer
 			sessionTemplate.customer_email = `${email}`;

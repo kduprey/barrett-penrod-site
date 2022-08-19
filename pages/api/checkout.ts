@@ -30,7 +30,7 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 		eventTime,
 		firstTime,
 		guests,
-	}: Body = req.body.data;
+	}: Body = req.body;
 
 	console.log(email);
 

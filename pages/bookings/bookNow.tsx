@@ -59,27 +59,22 @@ const Page: NextPageWithLayout = () => {
 
 			// Get checkout page URL
 			const checkoutRes = await axios.post("/api/checkout", {
-				Headers: {
-					"Content-Type": "application/json",
-				},
-				data: {
-					service,
-					location,
-					bundle,
-					email: invitee.resource.email,
-					name: invitee.resource.name,
-					eventTime: event.resource.start_time,
-					firstTime:
-						invitee.resource.questions_and_answers.filter((e) => {
-							return (
-								e.question ===
-								"Is this your first lesson with Barrett?"
-							);
-						})[0].answer === "Yes"
-							? true
-							: false,
-					guests: event.resource.event_guests,
-				},
+				service,
+				location,
+				bundle,
+				email: invitee.resource.email,
+				name: invitee.resource.name,
+				eventTime: event.resource.start_time,
+				firstTime:
+					invitee.resource.questions_and_answers.filter((e) => {
+						return (
+							e.question ===
+							"Is this your first lesson with Barrett?"
+						);
+					})[0].answer === "Yes"
+						? true
+						: false,
+				guests: event.resource.event_guests,
 			});
 			checkoutRes.status === 200
 				? router.push(checkoutRes.data.url)

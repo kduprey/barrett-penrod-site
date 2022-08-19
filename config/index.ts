@@ -3,7 +3,7 @@ import Stripe from "stripe";
 const dev = process.env.NODE_ENV !== "production";
 
 export const server = dev
-	? "https://3f1e-108-27-247-65.ngrok.io"
+	? "https://3fb9-2601-180-c200-c710-e1ff-7424-83ff-1b1e.ngrok.io"
 	: "https://barrettpenrod.com";
 
 export const db = dev ? "test" : "production";

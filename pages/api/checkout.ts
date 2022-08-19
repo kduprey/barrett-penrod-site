@@ -121,6 +121,7 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 				allow_promotion_codes: true,
 			},
 		},
+		billing_address_collection: "required",
 	};
 
 	// Look for a customer with the email address or name in Stripe and create one if it doesn't exist

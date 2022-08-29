@@ -122,9 +122,6 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 			},
 		},
 		billing_address_collection: "required",
-		customer_update: {
-			address: "auto",
-		},
 	};
 
 	// Look for a customer with the email address or name in Stripe and create one if it doesn't exist
@@ -137,6 +134,9 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 		if (customerSearch.data.length > 0) {
 			// If user is previous client, use that customer id for checkout session
 			sessionTemplate.customer = customerSearch.data[0].id;
+			sessionTemplate.customer_update = {
+				address: "auto",
+			};
 		} else {
 			// If user is new client, set session to use email from booking and create customer
 			sessionTemplate.customer_email = `${email}`;

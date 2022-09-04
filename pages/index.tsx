@@ -1,20 +1,20 @@
-import Photos from "../components/Photos";
-import Showreel from "../components/Showreel";
 import About from "../components/About";
 import Headline from "../components/Headline";
+import Photos from "../components/Photos";
+import Showreel from "../components/Showreel";
 
 import Image from "next/image";
+import Headshot from "../components/Headshot";
+import Layout from "../components/Layout";
+import News from "../components/News";
+import ResumeTable from "../components/ResumeTable";
+import * as gtag from "../lib/analytics";
 import headshot1 from "../public/headshot1.jpg";
 import headshot2 from "../public/headshot2.jpg";
 import headshot3 from "../public/headshot3.jpg";
 import headshot4 from "../public/headshot4.jpg";
 import headshot5 from "../public/headshot5.jpg";
 import headshot6 from "../public/headshot6.jpg";
-import Headshot from "../components/Headshot";
-import ResumeTable from "../components/ResumeTable";
-import News from "../components/News";
-import * as gtag from "../lib/analytics";
-import Layout from "../components/Layout";
 import { NextPageWithLayout } from "../types";
 
 const headshots = [
@@ -67,7 +67,6 @@ const Page: NextPageWithLayout = () => {
 				</div>
 				<a
 					href="https://files.kduprey.com/barrettpenrod/BarrettPenrodHeadshots.zip"
-					download={true}
 					className="bg-secondary px-4 py-2 text-slate-800 hover:bg-slate-300 hover:no-underline"
 					onClick={() => {
 						gtag.event({
@@ -95,7 +94,6 @@ const Page: NextPageWithLayout = () => {
 				<div className="flex justify-center pb-6">
 					<a
 						href="https://files.kduprey.com/barrettpenrod/Barrett_Penrod_Resume.pdf"
-						download={true}
 						className="bg-secondary px-4 py-2 text-slate-800 hover:bg-slate-300 hover:no-underline"
 						onClick={() => {
 							gtag.event({

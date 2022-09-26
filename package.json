@@ -3,9 +3,9 @@
 	"private": true,
 	"scripts": {
 		"dev": "doppler run next dev",
-		"build": "doppler run next build",
-		"start": "doppler run next start",
-		"lint": "doppler run next lint"
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint"
 	},
 	"dependencies": {
 		"@fontsource/montserrat": "^4.5.11",

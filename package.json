@@ -2,10 +2,10 @@
 	"name": "barrett-penrod-site",
 	"private": true,
 	"scripts": {
-		"dev": "next dev",
-		"build": "next build",
-		"start": "next start",
-		"lint": "next lint"
+		"dev": "doppler run next dev",
+		"build": "doppler run next build",
+		"start": "doppler run next start",
+		"lint": "doppler run next lint"
 	},
 	"dependencies": {
 		"@fontsource/montserrat": "^4.5.11",

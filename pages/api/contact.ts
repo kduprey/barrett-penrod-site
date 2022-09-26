@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next/types";
 
-const API_KEY = process.env.AIRTABLE_API_KEY;
+const API_KEY = process.env["AIRTABLE_API_KEY"];
 
 const contact = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { name, email, message, age } = req.body;

@@ -1,12 +1,7 @@
+import { MailDataRequired } from "@sendgrid/mail";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { TemplateMessage } from "../../../types";
-
-const sendgrid = require("@sendgrid/mail");
-if (process.env.NODE_ENV === "production") {
-	sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
-} else {
-	sendgrid.setApiKey(process.env.SENDGRID_DEV_API_KEY);
-}
+import { sendgrid } from "../../../config/index";
+import { PackageTemplateData } from "../../../types";
 
 type Data = {};
 
@@ -34,14 +29,14 @@ const packageConfirmation = async (
 ) => {
 	const data: Body = req.body;
 
-	const template_id: string = "d-368ad77a4b3d4fb9ac48daa0b10eb63e";
+	const templateId: string = "d-368ad77a4b3d4fb9ac48daa0b10eb63e";
 
-	const message: TemplateMessage = {
+	const message: MailDataRequired = {
 		from: {
 			email: "barrett@barrettpenrod.com",
 			name: "Barrett Penrod Voice Studio",
 		},
-		reply_to: {
+		replyTo: {
 			email: "barrettpenrod@gmail.com",
 			name: "Barrett Penrod",
 		},
@@ -53,7 +48,7 @@ const packageConfirmation = async (
 						name: data.invitee_full_name,
 					},
 				],
-				dynamic_template_data: {
+				dynamicTemplateData: {
 					bulkSessionDiscountPackage: data.bulkSessionDiscountPackage,
 					dateOfFirstSession: new Date(
 						data.dateOfFirstSession
@@ -80,10 +75,10 @@ const packageConfirmation = async (
 						}
 					),
 					bookingLocation: data.bookingLocation,
-				},
+				} as PackageTemplateData,
 			},
 		],
-		template_id,
+		templateId,
 	};
 
 	try {

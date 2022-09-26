@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import getRawBody from "raw-body";
-import { server } from "../../../config";
+import { server, stripe } from "../../../config";
 import { stripeCustomer } from "../../../types";
-import { stripe } from "../../../config";
 
 type Data = {
 	message: string;
@@ -38,7 +37,7 @@ const webhookHandler = async (
 		event = stripe.webhooks.constructEvent(
 			rawBody,
 			sig,
-			`${process.env.STRIPE_WEBHOOK_SECRET}`
+			`${process.env["STRIPE_WEBHOOK_SECRET"]}`
 		);
 	} catch (err: any) {
 		return res.status(400).send(`Webhook Error: ${err.message}`);

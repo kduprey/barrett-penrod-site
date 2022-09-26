@@ -1,3 +1,4 @@
+import { MailService } from "@sendgrid/mail";
 import Stripe from "stripe";
 
 const dev = process.env.NODE_ENV !== "production";
@@ -10,14 +11,21 @@ export const db = dev ? "test" : "production";
 
 export const stripeMode = dev ? "test" : "live";
 
-export const dbURL = process.env.PRODUCTION_DB_URL;
+export const dbURL = process.env["PRODUCTION_DB_URL"];
 
 export const stripe = new Stripe(
 	process.env.NODE_ENV === "production"
-		? `${process.env.STRIPE_SECRET_KEY}`
-		: `${process.env.STRIPE_TEST_SECRET_KEY}`,
+		? `${process.env["STRIPE_SECRET_KEY"]}`
+		: `${process.env["STRIPE_TEST_SECRET_KEY"]}`,
 	{
-		// @ts-ignore
-		apiVersion: null,
+		apiVersion: "2022-08-01",
 	}
 );
+
+const sendgridClient: MailService = require("@sendgrid/mail");
+if (process.env.NODE_ENV === "production") {
+	sendgridClient.setApiKey(process.env["SENDGRID_API_KEY"] as string);
+} else {
+	sendgridClient.setApiKey(process.env.SENDGRID_DEV_API_KEY as string);
+}
+export const sendgrid = sendgridClient;

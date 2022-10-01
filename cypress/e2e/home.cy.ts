@@ -1,7 +1,5 @@
 /// <reference types="cypress" />
 
-import path = require("path");
-
 describe("Homepage", () => {
 	beforeEach(() => {
 		cy.visit("/");

@@ -17,7 +17,11 @@
 		"@headlessui/react": "^1.7.2",
 		"@sendgrid/mail": "^7.7.0",
 		"axios": "^0.27.2",
+<<<<<<< HEAD
 		"framer-motion": "^7.5.0",
+=======
+		"framer-motion": "^7.3.6",
+>>>>>>> 42d0d9b (Bump mongodb from 4.9.1 to 4.10.0)
 		"mongodb": "^4.10.0",
 		"next": "^12.3.1",
 		"next-axiom": "^0.14.0",

@@ -1,5 +1,5 @@
 describe("Homepage API Endpoints", () => {
-	it.only("/api/contact should return 200", () => {
+	it("/api/contact should return 200", () => {
 		cy.request("/api/contact", {
 			name: "Test",
 			email: "email@test.com",

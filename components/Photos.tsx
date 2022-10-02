@@ -1,11 +1,11 @@
 import Image from "next/image";
-import seussical from "/public/seussical.png";
-import maywest from "/public/maywest.png";
-import mamamia from "/public/mamamia.jpeg";
-import knightensemble from "/public/knightensemble.png";
-import springawakening from "/public/springawakening.png";
 import gaycity from "/public/gaycity.jpeg";
+import knightensemble from "/public/knightensemble.png";
+import mamamia from "/public/mamamia.jpeg";
+import maywest from "/public/maywest.png";
+import seussical from "/public/seussical.png";
 import soldierensemble from "/public/soldierensemble.jpeg";
+import springawakening from "/public/springawakening.png";
 
 type Props = {
 	// ...
@@ -15,6 +15,7 @@ const Photos = (props: Props) => {
 	return (
 		<div
 			id="production-photos"
+			data-cy="production-photos"
 			className="flex flex-col items-center justify-center space-y-4 bg-slate-100 py-6"
 		>
 			<h2>Production Photos</h2>

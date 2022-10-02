@@ -105,6 +105,7 @@ const Page: NextPageWithLayout = () => {
 								value: 1,
 							});
 						}}
+						data-cy="download-resume"
 					>
 						Download Resume
 					</a>

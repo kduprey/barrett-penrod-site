@@ -7,6 +7,7 @@ const Showreel = (props: Props) => {
 		<div
 			id="video-sound-demo"
 			className="flex flex-col items-center justify-center space-y-4 bg-slate-100 py-6 md:justify-evenly"
+			data-cy="showreel"
 		>
 			<h2>Video/Sound Demo</h2>
 			<div className="w-5/6 grid-cols-2 gap-3 space-y-4 md:grid md:w-auto md:space-y-0">
@@ -69,7 +70,7 @@ const Showreel = (props: Props) => {
 				</div>
 			</div>
 
-			<h3>Sound Demos Coming August 2022!</h3>
+			<h3>Sound Demos Coming October 2022!</h3>
 		</div>
 	);
 };

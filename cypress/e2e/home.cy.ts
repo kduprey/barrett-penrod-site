@@ -155,8 +155,7 @@ describe("Homepage", () => {
 
 			cy.getByData("contact-form-name").type("Barrett Penrod");
 			cy.getByData("contact-form-message").type("This is a test message");
-			cy.getByData("contact-form-submit").click();
-			cy.getByData("error-message").should("exist");
+			cy.getByData("contact-form-submit").should("be.disabled");
 		});
 	});
 });

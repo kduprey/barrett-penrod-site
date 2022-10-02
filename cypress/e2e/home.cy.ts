@@ -158,4 +158,15 @@ describe("Homepage", () => {
 			cy.getByData("contact-form-submit").should("be.disabled");
 		});
 	});
+
+	context("Navbar", () => {
+		it("should have a navbar", () => {
+			cy.getByData("navbar").should("exist");
+		});
+
+		it("should navigate to Voice Studio when clicked", () => {
+			cy.getByData("navbar").contains("Voice Studio").click();
+			cy.url().should("include", "/bookings");
+		});
+	});
 });

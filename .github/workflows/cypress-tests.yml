@@ -33,17 +33,3 @@ jobs:
               with:
                   name: cypress-videos
                   path: cypress/videos
-        firefox:
-            runs-on: ubuntu-latest
-            container:
-                image: "cypress/browsers:node12.16.1-chrome80-ff73"
-                options: "--user 1001"
-                steps:
-                    - uses: actions/checkout@v2
-                    - uses: cypress-io/github-action@v4.2.0
-                      with:
-                          browser: firefox
-                          start: npm start
-                          wait-on: "http://localhost:3000"
-                          env:
-                              GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

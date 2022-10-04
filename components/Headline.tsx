@@ -8,7 +8,10 @@ type Props = {
 const Headline = (props: Props) => {
 	return (
 		<>
-			<div className="flex flex-col justify-center space-y-4 py-4 px-6 md:hidden">
+			<div
+				data-cy="hero"
+				className="flex flex-col justify-center space-y-4 py-4 px-6 md:hidden"
+			>
 				<h2 className="font-normal text-secondary">Hey, I&apos;m</h2>
 				<h1 className="text-6xl font-extrabold text-white ">
 					Barrett Penrod
@@ -29,7 +32,11 @@ const Headline = (props: Props) => {
 				</div>
 				{/* Image */}
 				<div className="z-10 flex w-1/4 border">
-					<Image src={headshot5} alt="Barret Penrod" />
+					<Image
+						data-cy="hero-headshot"
+						src={headshot5}
+						alt="Barret Penrod"
+					/>
 				</div>
 			</div>
 		</>

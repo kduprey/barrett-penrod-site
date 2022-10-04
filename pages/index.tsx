@@ -51,6 +51,7 @@ const Page: NextPageWithLayout = () => {
 			<div
 				className="flex flex-col items-center justify-center space-y-3 pb-4"
 				id="headshots"
+				data-cy="headshots"
 			>
 				<h2 className="py-6 text-secondary">Headshots</h2>
 
@@ -76,6 +77,8 @@ const Page: NextPageWithLayout = () => {
 							value: 1,
 						});
 					}}
+					download
+					data-cy="download-headshots"
 				>
 					Download Headshots
 				</a>
@@ -103,6 +106,7 @@ const Page: NextPageWithLayout = () => {
 								value: 1,
 							});
 						}}
+						data-cy="download-resume"
 					>
 						Download Resume
 					</a>

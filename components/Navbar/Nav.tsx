@@ -1,6 +1,6 @@
+import { menus } from "../../data/navigation";
 import MobileSubmenu from "./MobileSubmenu";
 import Submenu from "./Submenu";
-import { menus } from "../../data/navigation";
 
 type Props = {
 	isNavOpen: boolean;
@@ -29,7 +29,10 @@ const Nav = ({ isNavOpen, setIsNavOpen }: Props) => {
 				</ul>
 			</nav>
 			{/* Medium */}
-			<nav className="hidden w-full bg-primary py-3 px-8 md:sticky md:top-14 md:z-50 md:block">
+			<nav
+				data-cy="navbar"
+				className="hidden w-full bg-primary py-3 px-8 md:sticky md:top-14 md:z-50 md:block"
+			>
 				<ul className="flex space-x-5 ">
 					{menus.map((menu) => (
 						<Submenu key={menu.name} menu={menu} />

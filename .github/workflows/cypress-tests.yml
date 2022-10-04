@@ -6,6 +6,13 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v2
+            - name: Cypress install
+              uses: cypress-io/github-action@v4.x.x # use the explicit version number
+              with:
+                  # Disable running of tests within install job
+                  runTests: false
+                  build: vercel build
+
             - name: Save build folder
               uses: actions/upload-artifact@v2
               with:

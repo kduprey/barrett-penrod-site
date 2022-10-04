@@ -20,7 +20,7 @@ const Headshot = (props: Props) => {
 			></div>
 			<div
 				className={`fixed left-0 right-0 z-40 mx-auto w-2/3 rounded-lg bg-secondary py-4 px-4 transition-all duration-300 ease-in-out md:w-[35%] ${
-					isOpen ? "top-1/4  md:top-[15%]" : "-top-full "
+					isOpen ? "top-1/4 md:top-[20%]" : "-top-full "
 				}`}
 				data-cy="headshot-modal"
 			>

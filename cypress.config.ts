@@ -1,4 +1,6 @@
 import { defineConfig } from "cypress";
+import fs from "fs";
+import path from "path";
 
 const execa = require("execa");
 const findBrowser = () => {
@@ -31,8 +33,22 @@ const findBrowser = () => {
 export default defineConfig({
 	projectId: "kzgfbk",
 	fixturesFolder: false,
+	chromeWebSecurity: false,
 	e2e: {
 		setupNodeEvents(on, config) {
+			on("task", {
+				findFile(fileName) {
+					const downloadsFolder = config.downloadsFolder;
+					const filePath = path.resolve(downloadsFolder, fileName);
+
+					if (fs.existsSync(filePath)) {
+						return true;
+					}
+
+					return false;
+				},
+			});
+
 			return findBrowser().then(
 				(browser: ConcatArray<Cypress.Browser>) => {
 					return {

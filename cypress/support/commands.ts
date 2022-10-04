@@ -1,3 +1,5 @@
+import "@testing-library/cypress/add-commands";
+
 export const getByData = (
 	selector: any,
 	options: Partial<

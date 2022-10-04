@@ -26,37 +26,45 @@ describe("Homepage", () => {
 			cy.getByData("headshots").should("exist");
 		});
 		it("should open when clicked", () => {
-			cy.get(":nth-child(2) > .absolute > .mb-5").click();
-			cy.get(
-				':nth-child(2) > [data-cy="headshot-modal"] > [style="box-sizing:border-box;display:inline-block;overflow:hidden;width:initial;height:initial;background:none;opacity:1;border:0;margin:0;padding:0;position:relative;max-width:100%"] > [alt="Barrett Penrod - Headshot"]'
-			).should("be.visible");
+			cy.getByData("headshot-modal-button").eq(2).click();
+			cy.getByData("headshot-modal").eq(2).should("be.visible");
 		});
 
 		it("should close when clicked", () => {
-			cy.get(":nth-child(2) > .absolute > .mb-5").click();
-			cy.get(':nth-child(2) > [data-cy="headshot-modal"]').should(
-				"be.visible"
-			);
-			cy.get(':nth-child(2) > [data-cy="headshot-overlay"]').click(
-				50,
-				400,
-				{ force: true }
-			);
-			cy.get(':nth-child(2) > [data-cy="headshot-modal"]').should(
-				"not.be.visible"
-			);
+			cy.getByData("headshot-modal-button").eq(2).click();
+			cy.getByData("headshot-modal").eq(2).wait(500).should("be.visible");
+			cy.getByData("headshot-overlay")
+				.eq(2)
+				.click(50, 400, { force: true });
+			cy.getByData("headshot-modal").eq(2).should("not.be.visible");
 		});
 
-		it("should download when clicked", () => {
-			cy.document().then((doc) => {
-				const downloadURL = doc
-					.querySelector("[data-cy=download-headshots]")
-					.getAttribute("href");
-
-				cy.request(downloadURL).then((response) => {
-					expect(response.status).to.eq(200);
-				});
+		it("should download when clicked", { browser: "!firefox" }, () => {
+			Cypress.on("uncaught:exception", (error) => {
+				if (
+					error.message.includes(
+						"Timed out after waiting `5000ms` for your remote page to load"
+					)
+				) {
+					return false;
+				}
 			});
+
+			Cypress.on("fail", (error) => {
+				if (
+					error.message.includes(
+						"Timed out after waiting `5000ms` for your remote page to load"
+					)
+				) {
+					return false;
+				}
+
+				throw error;
+			});
+
+			cy.getByData("download-headshots").click();
+
+			cy.task("findFile", "BarrettPenrodHeadshots.zip").should("be.true");
 		});
 	});
 
@@ -65,16 +73,13 @@ describe("Homepage", () => {
 			cy.getByData("resume").should("exist");
 		});
 
-		it("should download when clicked", () => {
-			cy.document().then((doc) => {
-				const downloadURL = doc
-					.querySelector("[data-cy=download-resume]")
-					.getAttribute("href");
+		it("should open resume when clicked", () => {
+			cy.getByData("download-resume").click();
 
-				cy.request(downloadURL).then((response) => {
-					expect(response.status).to.eq(200);
-				});
-			});
+			cy.location("pathname").should(
+				"be.equal",
+				"/barrettpenrod/Barrett_Penrod_Resume.pdf"
+			);
 		});
 	});
 

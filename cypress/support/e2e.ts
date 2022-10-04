@@ -3,6 +3,7 @@
 
 import { getByData } from "./commands";
 
+// @ts-ignore
 Cypress.Commands.add("getByData", getByData);
 
 export {};

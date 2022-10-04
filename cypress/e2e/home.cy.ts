@@ -170,3 +170,5 @@ describe("Homepage", () => {
 		});
 	});
 });
+
+export {};

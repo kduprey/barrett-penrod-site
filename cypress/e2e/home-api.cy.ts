@@ -10,3 +10,5 @@ describe("Homepage API Endpoints", () => {
 		});
 	});
 });
+
+export {};

@@ -18,8 +18,8 @@ jobs:
                   browser: chrome
                   start: npm start
                   wait-on: "http://localhost:3000"
-                  env:
-                      GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+              env:
+                  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
             - name: Uploading Screenshots
               uses: actions/upload-artifact@v2
               if: failure()

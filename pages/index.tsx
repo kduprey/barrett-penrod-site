@@ -77,6 +77,7 @@ const Page: NextPageWithLayout = () => {
 							value: 1,
 						});
 					}}
+					download
 					data-cy="download-headshots"
 				>
 					Download Headshots

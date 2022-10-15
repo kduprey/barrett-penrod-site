@@ -6,7 +6,6 @@ export default defineConfig({
 	projectId: "kzgfbk",
 	fixturesFolder: false,
 	chromeWebSecurity: false,
-
 	e2e: {
 		baseUrl: "http://localhost:3000",
 		specPattern: "cypress/e2e/**/*.cy.{js,jsx,ts,tsx}",

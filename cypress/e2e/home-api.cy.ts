@@ -7,7 +7,7 @@ describe("Homepage API Endpoints", () => {
 		}).then((response) => {
 			cy.wait(1000);
 			expect(response.status).to.eq(200);
-			expect(response.body).to.have.property("id");
+			expect(response.body.records[0]).to.have.property("id");
 		});
 	});
 });

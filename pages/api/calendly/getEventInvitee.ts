@@ -12,7 +12,7 @@ const getEventInvitee = async (
 
 	const inviteeRes = await axios.get(uri, {
 		headers: {
-			Authorization: `Bearer ${process.env.CALENDLY_API_KEY}`,
+			Authorization: `Bearer ${process.env["CALENDLY_API_KEY"]}`,
 		},
 	});
 

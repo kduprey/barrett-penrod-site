@@ -6,6 +6,7 @@ describe("Homepage API Endpoints", () => {
 			message: "This is a test message",
 		}).then((response) => {
 			cy.wait(3000);
+			console.log(response);
 			expect(response.status).to.eq(200);
 			expect(response.body).to.have.property("records");
 		});

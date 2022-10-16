@@ -39,7 +39,7 @@ describe("Homepage", () => {
 			cy.getByData("headshot-modal").eq(2).should("not.be.visible");
 		});
 
-		it.only("should download when clicked", { browser: "!firefox" }, () => {
+		it.skip("should download when clicked", { browser: "!firefox" }, () => {
 			Cypress.on("uncaught:exception", (error) => {
 				if (
 					error.message.includes(

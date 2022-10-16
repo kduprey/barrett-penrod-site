@@ -5,7 +5,7 @@ describe("Homepage API Endpoints", () => {
 			email: "email@test.com",
 			message: "This is a test message",
 		}).then((response) => {
-			cy.wait(1000);
+			cy.wait(3000);
 			expect(response.status).to.eq(200);
 			expect(response.body.records[0]).to.have.property("id");
 		});

@@ -35,9 +35,16 @@ const contact = async (req: NextApiRequest, res: NextApiResponse) => {
 			}
 		);
 
-		const data = await response.json();
+		if (response.ok) {
+			const data = await response.json();
 
-		return res.status(200).json(data);
+			return res.status(200).json(data);
+		} else {
+			return res.status(500).json({
+				error: "Something went wrong",
+				message: response.body,
+			});
+		}
 	}
 
 	const data = {

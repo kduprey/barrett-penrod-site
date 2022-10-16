@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next/types";
 
-const API_KEY = process.env.AIRTABLE_API_KEY;
+const API_KEY = process.env["AIRTABLE_API_KEY"];
 
-type Body = {
+export type ContactFormBody = {
 	name: string;
 	email: string;
 	message: string;
@@ -10,7 +10,7 @@ type Body = {
 };
 
 const contact = async (req: NextApiRequest, res: NextApiResponse) => {
-	const { name, email, message, age } = req.body as Body;
+	const { name, email, message, age } = req.body as ContactFormBody;
 	const base = `appgICv9x4N8ACmHB`;
 	const table = `Contact%20Form`;
 
@@ -35,9 +35,16 @@ const contact = async (req: NextApiRequest, res: NextApiResponse) => {
 			}
 		);
 
-		const data = await response.json();
+		if (response.ok) {
+			const data = await response.json();
 
-		return res.status(200).json(data.records[0]);
+			return res.status(200).json(data);
+		} else {
+			return res.status(500).json({
+				error: "Something went wrong",
+				message: response.body,
+			});
+		}
 	}
 
 	const data = {

@@ -1,7 +1,7 @@
 import Image from "next/image";
-import headshot1 from "/public/headshot1.jpg";
 import groupPhoto from "/public/groupPhoto.jpg";
 import halloween from "/public/halloween.jpg";
+import headshot1 from "/public/headshot1.jpg";
 import postWorkout from "/public/postWorkout.jpg";
 import yankeeGame from "/public/yankeeGame.jpg";
 
@@ -13,6 +13,7 @@ const About = (props: Props) => {
 	return (
 		<div
 			id="about-me"
+			data-cy="about"
 			className="flex flex-col items-center justify-center space-y-4 bg-slate-200 py-6 px-8 md:flex-row md:justify-evenly md:space-y-0"
 		>
 			<div className="flex flex-col sm:w-1/4 md:space-y-10">

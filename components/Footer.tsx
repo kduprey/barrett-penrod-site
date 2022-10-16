@@ -88,12 +88,14 @@ const Footer = (props: Props) => {
 	return (
 		<div
 			id="contact"
+			data-cy="contact"
 			className="mt-auto flex flex-col flex-wrap items-center justify-center space-y-4 bg-primary py-6 "
 		>
 			<h3 className="w-full text-center text-secondary">Contact</h3>
 
 			<div className="w-full ">
 				<form
+					data-cy="contact-form"
 					className={` flex flex-col items-center justify-center transition-all duration-300 ease-in-out  ${
 						loading ? "opacity-50" : ""
 					} ${success ? "h-0 opacity-0" : "h-auto opacity-100"}`}
@@ -115,6 +117,8 @@ const Footer = (props: Props) => {
 									id="name"
 									value={name}
 									onChange={handleChange}
+									data-cy="contact-form-name"
+									required
 								/>
 							</div>
 							<div className="flex flex-col items-center space-y-3 md:flex-row md:space-y-0 md:space-x-3">
@@ -131,6 +135,8 @@ const Footer = (props: Props) => {
 									id="email"
 									value={email}
 									onChange={handleChange}
+									data-cy="contact-form-email"
+									required
 								/>
 							</div>
 						</div>
@@ -146,6 +152,8 @@ const Footer = (props: Props) => {
 								rows={5}
 								value={message}
 								onChange={handleChange}
+								data-cy="contact-form-message"
+								required
 							/>
 						</div>
 					</div>
@@ -161,22 +169,35 @@ const Footer = (props: Props) => {
 
 					<button
 						type="submit"
-						className="mt-3 bg-secondary"
-						disabled={loading}
+						className="mt-3 bg-secondary disabled:opacity-20"
+						disabled={
+							loading ||
+							name === "" ||
+							email === "" ||
+							message === "" ||
+							email.match(/@/) === null
+						}
+						data-cy="contact-form-submit"
 					>
 						Submit
 					</button>
 				</form>
 				<div>
 					{success ? (
-						<div className="text-center text-secondary">
+						<div
+							className="text-center text-secondary"
+							data-cy="success-message"
+						>
 							<FontAwesomeIcon icon={faCheck} size="3x" />
 							<h4 className="text-secondary">
 								Your message has been sent!
 							</h4>
 						</div>
 					) : error ? (
-						<div className="text-center text-secondary">
+						<div
+							className="text-center text-secondary"
+							data-cy="error-message"
+						>
 							<FontAwesomeIcon icon={faTimes} size="3x" />
 							<h4 className="text-secondary">
 								There was an error sending your message.

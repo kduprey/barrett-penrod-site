@@ -39,3 +39,9 @@ yarn-error.log*
 
 
 .dccache
+
+cypress/videos
+cypress/screenshots
+cypress/downloads
+
+.scannerwork

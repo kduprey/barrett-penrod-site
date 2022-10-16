@@ -30,7 +30,8 @@ export { reportWebVitals } from "next-axiom";
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
 	const router = useRouter();
 	const handleRouteChange = (url: URL) => {
-		window.gtag("config", process.env["NEXT_PUBLIC_GA_ID"] as string, {
+		// @ts-ignore
+		window.gtag("config", process.env.NEXT_PUBLIC_GA_ID as string, {
 			page_path: url,
 		});
 	};

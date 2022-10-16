@@ -12,7 +12,7 @@ const eventInfo = async (
 
 	const eventRes = await axios.get(uri, {
 		headers: {
-			Authorization: `Bearer ${process.env.CALENDLY_API_KEY}`,
+			Authorization: `Bearer ${process.env["CALENDLY_API_KEY"]}`,
 		},
 	});
 	if (eventRes.status !== 200) {

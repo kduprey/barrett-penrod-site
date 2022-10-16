@@ -1,11 +1,7 @@
+import { MailDataRequired } from "@sendgrid/mail";
 import { NextApiRequest, NextApiResponse } from "next";
-import { TemplateMessage } from "../../../types";
-const sendgrid = require("@sendgrid/mail");
-if (process.env.NODE_ENV === "production") {
-	sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
-} else {
-	sendgrid.setApiKey(process.env.SENDGRID_DEV_API_KEY);
-}
+import { sendgrid } from "../../../config/index";
+import { ConsultationTemplateData } from "../../../types";
 type Data = {
 	message: any;
 };
@@ -24,14 +20,14 @@ const consultation = async (
 ) => {
 	const data: Body = req.body;
 
-	const template_id: string = "d-4a2d850cce134d40bdd662e3fe2a96b3";
+	const templateId: string = "d-4a2d850cce134d40bdd662e3fe2a96b3";
 
-	const message: TemplateMessage = {
+	const message: MailDataRequired = {
 		from: {
 			email: "barrett@barrettpenrod.com",
 			name: "Barrett Penrod Voice Studio",
 		},
-		reply_to: {
+		replyTo: {
 			email: "barrettpenrod@gmail.com",
 			name: "Barrett Penrod",
 		},
@@ -43,7 +39,7 @@ const consultation = async (
 						name: data.invitee_full_name,
 					},
 				],
-				dynamic_template_data: {
+				dynamicTemplateData: {
 					bookingTime: new Date(
 						data.eventStartTime
 					).toLocaleTimeString([], {
@@ -60,10 +56,10 @@ const consultation = async (
 					}),
 					bookingName: data.eventTypeName,
 					zoomLink: data.zoomLink,
-				},
+				} as ConsultationTemplateData,
 			},
 		],
-		template_id,
+		templateId,
 	};
 
 	try {

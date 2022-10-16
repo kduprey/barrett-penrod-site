@@ -181,8 +181,8 @@ export const Prices: Price[] = [
 	{
 		name: "Open Jar Booking Fee",
 		priceID: {
-			test: { price: "price_1LPn53AMm0G1mbCt5MtVjvox", quantity: 1 },
-			live: { price: "price_1LPn4aAMm0G1mbCtwDPP0yWq", quantity: 1 },
+			test: { price: "price_1LmGq9AMm0G1mbCtMLd52ryM", quantity: 1 },
+			live: { price: "price_1LjwkaAMm0G1mbCtmfRqq7Io", quantity: 1 },
 		},
 	},
 ];

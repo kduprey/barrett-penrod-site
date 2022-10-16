@@ -81,7 +81,7 @@ export interface GuestAttendeeTemplateData {
 	bookingName: string;
 }
 
-export interface PackageTemplateData extends EmailLocationData {
+export interface PackageTemplateData extends EmailTemplateData {
 	bulkSessionDiscountPackage: string;
 	dateOfFirstSession: string;
 	bookingTime: string;
@@ -89,8 +89,14 @@ export interface PackageTemplateData extends EmailLocationData {
 	bookingLocation: string;
 }
 
-export interface EmailLocationData {
-	zoomLink?: string;
+export interface ConsultationTemplateData extends EmailTemplateData {
+	zoomLink: string;
+}
+
+export interface EmailTemplateData {
+	bookingTime: string;
+	bookingDate: string;
+	bookingName: string;
 }
 
 export interface GuestBody {

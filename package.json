@@ -8,20 +8,24 @@
 		"lint": "next lint",
 		"prisma:studio": "doppler run --mount .env -- npx prisma studio",
 		"prisma:migrate": "doppler run --mount .env -- npx prisma migrate dev",
-		"prisma:deploy": "doppler run --mount .env -- npx prisma migrate deploy"
+		"prisma:deploy": "doppler run --mount .env -- npx prisma migrate deploy",
+		"vercel:dev": "vercel dev",
+		"cy:run": "cypress run",
+		"cy:open": "cypress open",
+		"test": "jest"
 	},
 	"dependencies": {
-		"@fontsource/montserrat": "^4.5.11",
+		"@fontsource/montserrat": "^4.5.13",
 		"@fortawesome/fontawesome-svg-core": "^6.1.1",
 		"@fortawesome/free-brands-svg-icons": "^6.1.1",
 		"@fortawesome/free-regular-svg-icons": "^6.1.1",
 		"@fortawesome/free-solid-svg-icons": "^6.1.1",
 		"@fortawesome/react-fontawesome": "^0.2.0",
-		"@headlessui/react": "^1.7.2",
+		"@headlessui/react": "^1.7.3",
 		"@prisma/client": "^4.3.1",
 		"@sendgrid/mail": "^7.7.0",
 		"axios": "^0.27.2",
-		"framer-motion": "^7.3.6",
+		"framer-motion": "^7.5.0",
 		"mongodb": "^4.10.0",
 		"next": "^12.3.1",
 		"next-axiom": "^0.14.0",
@@ -32,23 +36,26 @@
 		"react-dom": "18.2.0",
 		"react-scroll": "^1.8.7",
 		"remove-trailing-slash": "^0.1.1",
-		"stripe": "^10.11.0"
+		"sharp": "^0.31.1",
+		"stripe": "^10.14.0"
 	},
 	"devDependencies": {
-		"@svgr/webpack": "^6.3.1",
+		"@svgr/webpack": "^6.4.0",
 		"@tailwindcss/forms": "^0.5.2",
-		"@types/gtag.js": "^0.0.11",
-		"@types/node": "^18.7.21",
+		"@testing-library/cypress": "^8.0.3",
+		"@types/gtag.js": "^0.0.12",
+		"@types/node": "^18.8.5",
 		"@types/react": "^18.0.21",
 		"@types/react-scroll": "^1.8.4",
 		"autoprefixer": "^10.4.12",
-		"eslint": "^8.24.0",
+		"cypress": "^10.10.0",
+		"prisma": "^4.3.1",
+		"eslint": "^8.25.0",
 		"eslint-config-next": "^12.3.1",
-		"postcss": "^8.4.14",
+		"postcss": "^8.4.18",
 		"prettier": "^2.7.1",
 		"prettier-plugin-tailwindcss": "^0.1.12",
-		"prisma": "^4.3.1",
 		"tailwindcss": "^3.1.7",
-		"typescript": "^4.8.3"
+		"typescript": "^4.8.4"
 	}
 }

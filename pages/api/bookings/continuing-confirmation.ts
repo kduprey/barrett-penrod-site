@@ -3,7 +3,7 @@ import { TemplateMessage } from "../../../types";
 
 const sendgrid = require("@sendgrid/mail");
 if (process.env.NODE_ENV === "production") {
-	sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
+	sendgrid.setApiKey(process.env["SENDGRID_API_KEY"]);
 } else {
 	sendgrid.setApiKey(process.env.SENDGRID_DEV_API_KEY);
 }

@@ -2,7 +2,7 @@ type Props = {};
 
 const News = (props: Props) => {
 	return (
-		<div className="pt-3" id="news">
+		<div className="pt-3" id="news" data-cy="news">
 			<h1 className="text-center text-secondary">News</h1>
 
 			<h3 className="pt-3 text-center italic text-secondary">

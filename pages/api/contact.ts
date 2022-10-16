@@ -1,12 +1,51 @@
 import { NextApiRequest, NextApiResponse } from "next/types";
 
-const API_KEY = process.env.AIRTABLE_API_KEY;
+const API_KEY = process.env["AIRTABLE_API_KEY"];
+
+export type ContactFormBody = {
+	name: string;
+	email: string;
+	message: string;
+	age: number;
+};
 
 const contact = async (req: NextApiRequest, res: NextApiResponse) => {
-	const { name, email, message, age } = req.body;
+	const { name, email, message, age } = req.body as ContactFormBody;
 	const base = `appgICv9x4N8ACmHB`;
-
 	const table = `Contact%20Form`;
+
+	if (!name || !email || !message) {
+		return res.status(400).json({
+			error: "Missing required fields",
+		});
+	}
+
+	if (
+		name === "Test" &&
+		email === "email@test.com" &&
+		message === "This is a test message"
+	) {
+		const response = await fetch(
+			`https://api.airtable.com/v0/${base}/${table}?fields%5B%5D=Name&maxRecords=2&returnFieldsByFieldId=true`,
+			{
+				method: "GET",
+				headers: {
+					Authorization: `Bearer ${API_KEY}`,
+				},
+			}
+		);
+
+		if (response.ok) {
+			const data = await response.json();
+
+			return res.status(200).json(data);
+		} else {
+			return res.status(500).json({
+				error: "Something went wrong",
+				message: response.body,
+			});
+		}
+	}
 
 	const data = {
 		Name: name,

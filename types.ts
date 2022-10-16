@@ -8,6 +8,13 @@ import type { AppProps } from "next/app";
 import type { ReactElement, ReactNode } from "react";
 import Stripe from "stripe";
 
+export enum Locations {
+	LOCATION_CHOSEN_BY_CLIENT = "Location Chosen By Client",
+	OPEN_JAR = "Open Jar",
+	HOME_STUDIO = "Home Studio",
+	VIRTUAL = "Virtual",
+}
+
 export interface Page {
 	name: string;
 	id: string;
@@ -412,4 +419,11 @@ export interface Tracking {
 	utm_content: string | null;
 	utm_term: string | null;
 	salesforce_uuid: string | null;
+}
+
+export interface ServiceType {
+	title: string;
+	description: string;
+	locations: Locations[];
+	url: string[];
 }

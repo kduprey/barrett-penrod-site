@@ -12,7 +12,7 @@ export default defineConfig({
 		supportFile: "cypress/support/e2e.{js,jsx,ts,tsx}",
 		setupNodeEvents(on, config) {
 			on("task", {
-				findFile(fileName) {
+				findFile(fileName: string) {
 					const downloadsFolder = config.downloadsFolder;
 					const filePath = path.resolve(downloadsFolder, fileName);
 

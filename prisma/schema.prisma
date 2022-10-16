@@ -1,11 +1,231 @@
 generator client {
   provider = "prisma-client-js"
 }
+
 datasource db {
-  provider = "cockroachdb"
-  url      = env("DB_URL")
+  provider = "mongodb"
+  url      = env("ATLAS_DB")
 }
 
-model Widget {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+type CalendlyInviteePayloadsResource {
+  cancel_url              String
+  cancellation            CalendlyInviteePayloadsResourceCancellation?
+  created_at              DateTime                                             @db.Date
+  email                   String
+  event                   String
+  first_name              String
+  last_name               String
+  name                    String
+  new_invitee             String?
+  no_show                 NoShow?
+  old_invitee             String?
+  payment                 Payment?
+  questions_and_answers   CalendlyInviteePayloadsResourceQuestionsAndAnswers[]
+  reconfirmation          Reconfirmation?
+  reschedule_url          String
+  rescheduled             Boolean
+  routing_form_submission String?
+  status                  String
+  text_reminder_number    String?
+  timezone                String
+  tracking                CalendlyInviteePayloadsResourceTracking
+  updated_at              DateTime                                             @db.Date
+  uri                     String
+}
+
+type Reconfirmation {
+  created_at DateTime @db.Date
+  confirmed_at DateTime @db.Date
+}
+
+type Payment {
+  external_id String
+  provider String
+  amount Float
+  currency String
+  terms String
+  successful Boolean
+}
+
+type NoShow {
+  uri String
+  created_at DateTime @db.Date
+}
+
+type CalendlyInviteePayloadsResourceCancellation {
+  canceled_by   String
+  canceler_type String
+  reason        String
+}
+
+type CalendlyInviteePayloadsResourceQuestionsAndAnswers {
+  answer   String
+  position Int
+  question String
+}
+
+type CalendlyInviteePayloadsResourceTracking {
+  salesforce_uuid String?
+  utm_campaign    String?
+  utm_content     String?
+  utm_medium      String?
+  utm_source      String?
+  utm_term        String?
+}
+
+type StripeCustomersAddress {
+  city        String
+  country     String
+  line1       String
+  line2       String?
+  postal_code String
+  state       String
+}
+
+type StripeCustomersInvoiceSettings {
+  custom_fields          StripeCustomersInvoiceSettingsCustomFields?
+  default_payment_method String
+  footer                 String?
+  rendering_options      StripeCustomersInvoiceSettingsRenderingOptions?
+}
+
+type StripeCustomersInvoiceSettingsRenderingOptions {
+  amount_tax_display    String
+}
+
+type StripeCustomersInvoiceSettingsCustomFields {
+  name  String
+  value String
+}
+
+type StripeCustomersMetadata {
+  Active_Member           String? @map("Active Member")
+  Last_Lesson             String? @map("Last Lesson")
+  Lessons_Remaining       String? @map("Lessons Remaining")
+  Preferred_Lesson_Format String? @map("Preferred Lesson Format")
+  Start_Date_with_Studio  String? @map("Start Date with Studio")
+  Total_Lessons           String? @map("Total Lessons")
+}
+
+type StripeCustomersShipping {
+  address StripeCustomersShippingAddress
+  name    String
+  phone   String
+}
+
+type StripeCustomersShippingAddress {
+  city        String
+  country     String
+  line1       String
+  line2       String
+  postal_code String
+  state       String
+}
+
+model bookings {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  answer_2          String?
+  assigned_to       String
+  event_end_time    DateTime @db.Date
+  event_start_time  DateTime @db.Date
+  event_type_name   String
+  event_type_uuid   String
+  invitee_email     String
+  invitee_full_name String
+  invitee_uuid      String
+  session_id        String?
+}
+
+model calendlyInviteePayloads {
+  id       String                          @id @default(auto()) @map("_id") @db.ObjectId
+  resource CalendlyInviteePayloadsResource
+  client clients? @relation(fields: [clientId], references: [id])
+  clientId String?
+}
+
+model clients {
+  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+  activeMember          Boolean
+  email                 String
+  dateJoined            DateTime @db.Date
+  firstLesson           DateTime @db.Date
+  lastLesson            DateTime @db.Date
+  nextLesson            DateTime? @db.Date
+  lessonsRemaining      Int
+  name                  String @unique
+  notes                 String?
+  paymentCount          Int
+  preferredLessonFormat String
+  pronouns              String
+  refundedVolume        Int
+  stripe_cus_id         String
+  totalLessons          Int
+  totalSpend            Float
+  stripeCustomer        stripeCustomers? @relation(fields: [stripe_customer_id], references: [id_])
+  stripe_customer_id    String? @unique
+  bookings              calendlyInviteePayloads[]
+}
+
+type StripeCustomersDiscount {
+  id        String
+  object    String
+  checkout_session String?
+  coupon    StripeCustomersDiscountCoupon
+  customer  String
+  end      DateTime? @db.Date
+  invoice String?
+  invoice_item String?
+  promotion_code String?
+  start    DateTime @db.Date
+  subscription String?
+}
+
+type StripeCustomersDiscountCoupon {
+  id          String
+  object      String
+  amount_off  Int?
+  created     DateTime @db.Date
+  currency    String?
+  duration    String
+  duration_in_months Int?
+  livemode    Boolean
+  max_redemptions Int?
+  metadata    StripeCustomersDiscountCouponMetadata
+  name        String
+  percent_off Int?
+  redeem_by   DateTime @db.Date
+  times_redeemed Int
+  valid       Boolean
+}
+
+type StripeCustomersDiscountCouponMetadata {
+  description String
+}
+
+model stripeCustomers {
+  id                    String                         @id @default(auto()) @map("_id") @db.ObjectId
+  address               StripeCustomersAddress
+  balance               Int
+  created               Int
+  currency              String?
+  default_currency      String?
+  default_source        String?
+  delinquent            Boolean
+  description           String?
+  discount              StripeCustomersDiscount?
+  email                 String
+  id_                   String                         @map("id") @unique
+  invoice_prefix        String
+  invoice_settings      StripeCustomersInvoiceSettings
+  livemode              Boolean
+  metadata              StripeCustomersMetadata
+  name                  String
+  next_invoice_sequence Int
+  object                String
+  phone                 String
+  preferred_locales     String[]
+  shipping              StripeCustomersShipping?
+  tax_exempt            String
+  test_clock            String?
+  client                clients?
 }

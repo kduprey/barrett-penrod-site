@@ -27,8 +27,6 @@ config.autoAddCss = false;
 
 export { reportWebVitals } from "next-axiom";
 
-export { reportWebVitals } from "next-axiom";
-
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
 	const router = useRouter();
 	const handleRouteChange = (url: URL) => {

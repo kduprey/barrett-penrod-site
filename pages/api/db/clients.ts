@@ -1,83 +1,102 @@
-import { InsertOneResult, ModifyResult, ObjectId } from "mongodb";
+import { clients } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { collections, connectToDatabase } from "../../../lib/database.service";
-import { ClientInfo } from "../../../types";
-
-type Data = {
-	message: string;
-};
+import prisma from "../../../lib/prisma";
 
 export default async function handler(
 	req: NextApiRequest,
-	res: NextApiResponse<
-		| Data
-		| ClientInfo[]
-		| ClientInfo
-		| InsertOneResult<ClientInfo>
-		| ModifyResult<ClientInfo>
-		| unknown
-	>
+	res: NextApiResponse
 ) {
-	if (req.method === "GET" && req.query.filter) {
-		const query = await JSON.parse(req.query.filter as string);
-		console.log(query);
+	if (req.method === "GET") {
+		if (req.query.searchString) {
+			const { searchString } = req.query;
 
-		try {
-			await connectToDatabase();
-			const client = await collections.clients?.find(query).toArray();
-			if (!client) {
-				return res.status(404).json({
-					message: "Error: No clients found",
+			try {
+				const result = await prisma.clients.findMany({
+					where: {
+						OR: [
+							{
+								name: {
+									contains: searchString as string,
+								},
+							},
+
+							{
+								email: {
+									contains: searchString as string,
+								},
+							},
+							{
+								stripe_customer_id: {
+									contains: searchString as string,
+								},
+							},
+						],
+					},
+				});
+
+				if (!result) {
+					return res.status(204);
+				}
+
+				return res.status(200).json(result);
+			} catch (error) {
+				console.error(error);
+				return res.status(500).json({
+					message: "Error: Internal server error",
+					error,
 				});
 			}
-
-			console.log(client);
-
-			return res.status(200).json(client);
-		} catch (error: any) {
-			console.log(error);
-
-			return res.status(500).json(error);
 		}
-	}
 
-	if (req.method === "GET") {
-		await connectToDatabase();
-		const clients = await collections.clients?.find({}).toArray();
-		if (!clients) {
-			return res.status(404).json({
-				message: "Error: No clients found",
+		try {
+			const result = await prisma.clients.findMany();
+
+			if (!result) {
+				return res.status(204);
+			}
+
+			return res.status(200).json(result);
+		} catch (error) {
+			console.error(error);
+			return res.status(500).json({
+				message: "Error: Internal server error",
+				error,
 			});
 		}
-		return res.status(200).json(clients);
 	}
 
 	if (req.method === "POST") {
-		const { ...ClientInfo } = req.body;
+		const { ...ClientInfo } = req.body as clients;
 		if (!ClientInfo) {
 			return res.status(400).json({
 				message: "Error: Missing client info",
 			});
 		}
+
 		try {
-			await connectToDatabase();
-			const client = await collections.clients?.insertOne(ClientInfo);
-			if (!client) {
-				return res.status(404).json({
-					message: "Error: Could not insert client",
+			const result = await prisma.clients.create({
+				data: ClientInfo,
+			});
+
+			if (!result) {
+				return res.status(500).json({
+					message: "Error: Failed to insert client",
 				});
 			}
-			return res.status(200).json(client);
-		} catch (err) {
+
+			return res.status(200).json(result);
+		} catch (error) {
+			console.error(error);
 			return res.status(500).json({
-				message: "Error: Could not insert client",
+				message: "Error: Internal server error",
+				error,
 			});
 		}
 	}
 
 	if (req.method === "PUT") {
 		const { id } = req.query;
-		const { ...ClientInfo } = req.body;
+		const { ...ClientInfo } = req.body as clients;
 		if (!id) {
 			return res.status(400).json({
 				message: "Error: Missing id",
@@ -88,21 +107,27 @@ export default async function handler(
 				message: "Error: Missing client info",
 			});
 		}
+
 		try {
-			await connectToDatabase();
-			const query = { _id: new ObjectId(id.toString()) };
-			const client = await collections.clients?.findOneAndUpdate(query, {
-				$set: ClientInfo,
+			const result = await prisma.clients.update({
+				where: {
+					id: id as string,
+				},
+				data: ClientInfo,
 			});
-			if (!client) {
-				return res.status(404).json({
-					message: "Error: Could not update client",
+
+			if (!result) {
+				return res.status(500).json({
+					message: "Error: Failed to update client",
 				});
 			}
-			return res.status(200).json(client);
-		} catch (err) {
+
+			return res.status(200).json(result);
+		} catch (error) {
+			console.error(error);
 			return res.status(500).json({
-				message: "Error: Could not update client",
+				message: "Error: Internal server error",
+				error,
 			});
 		}
 	}
@@ -114,20 +139,32 @@ export default async function handler(
 				message: "Error: Missing id",
 			});
 		}
+
 		try {
-			await connectToDatabase();
-			const query = { _id: new ObjectId(id.toString()) };
-			const client = await collections.clients?.findOneAndDelete(query);
-			if (!client) {
-				return res.status(404).json({
-					message: "Error: Could not delete client",
+			const result = await prisma.clients.delete({
+				where: {
+					id: id as string,
+				},
+			});
+
+			if (!result) {
+				return res.status(500).json({
+					message: "Error: Failed to delete client",
 				});
 			}
-			return res.status(200).json(client);
-		} catch (err) {
+
+			return res.status(200).json(result);
+		} catch (error) {
+			console.error(error);
 			return res.status(500).json({
-				message: "Error: Could not delete client",
+				message: "Error: Internal server error",
+				error,
 			});
 		}
 	}
+
+	res.setHeader("Allow", "GET, POST, PUT, DELETE");
+	return res.status(405).json({
+		message: "Error: Invalid method",
+	});
 }

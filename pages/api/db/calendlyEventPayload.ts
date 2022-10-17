@@ -1,88 +1,97 @@
-import {
-	DeleteResult,
-	InsertOneResult,
-	ModifyResult,
-	ObjectId,
-	WithId,
-} from "mongodb";
-import type { NextApiRequest, NextApiResponse } from "next";
-import { collections, connectToDatabase } from "../../../lib/database.service";
-import { CalendlyInviteePayload } from "../../../types";
+import { calendlyInviteePayloads, Prisma } from "@prisma/client";
+import prisma from "../../../lib/prisma";
 
-type Data = {
-	err: Error;
-};
+import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
 	req: NextApiRequest,
-	res: NextApiResponse<
-		| Data
-		| WithId<CalendlyInviteePayload>[]
-		| InsertOneResult<CalendlyInviteePayload>
-		| ModifyResult<CalendlyInviteePayload>
-		| DeleteResult
-	>
+	res: NextApiResponse
 ) {
 	if (req.method === "GET") {
-		if (req.query.filter) {
-			const filter = JSON.parse(req.query.filter as string);
-			console.log(filter);
+		if (req.query.searchString) {
+			const { searchString } = req.query;
 
 			try {
-				await connectToDatabase();
-				const client = await collections.eventInvitees
-					?.find(filter)
-					.toArray();
-				if (!client) {
-					return res.status(404).json({
-						err: new Error("Error: No clients found"),
-					});
+				const result = await prisma.calendlyInviteePayloads.findMany({
+					where: {
+						OR: [
+							{
+								email: {
+									contains: searchString as string,
+								},
+							},
+							{
+								name: {
+									contains: searchString as string,
+								},
+							},
+						],
+					},
+				});
+
+				if (!result) {
+					return res.status(204);
 				}
 
-				console.log(client);
-
-				return res.status(200).json(client);
-			} catch (error: any) {
-				console.log(error);
-
-				return res.status(500).json(error);
+				return res.status(200).json(result);
+			} catch (error) {
+				console.error(error);
+				return res.status(500).json({
+					message: "Error: Internal server error",
+					error,
+				});
 			}
 		}
 
-		await connectToDatabase();
-		const clients = await collections.eventInvitees?.find({}).toArray();
-		if (!clients) {
-			return res.status(404).json({
-				err: new Error("Error: No clients found"),
+		try {
+			const result = await prisma.calendlyInviteePayloads.findMany();
+
+			if (!result) {
+				return res.status(204);
+			}
+
+			return res.status(200).json(result);
+		} catch (error) {
+			console.error(error);
+			return res.status(500).json({
+				message: "Error: Internal server error",
+				error,
 			});
 		}
-		return res.status(200).json(clients);
 	}
 
 	if (req.method === "POST") {
-		const { ...invitee } = req.body as CalendlyInviteePayload;
+		const { ...invitee } = req.body as calendlyInviteePayloads;
 		if (!invitee) {
 			return res.status(400).json({
 				err: new Error("Error: Missing client info"),
 			});
 		}
-		invitee.resource.created_at = new Date(invitee.resource.created_at);
-		invitee.resource.updated_at = new Date(invitee.resource.updated_at);
 
-		await connectToDatabase();
-		const result = await collections.eventInvitees?.insertOne(invitee);
-		if (!result) {
+		try {
+			const result = await prisma.calendlyInviteePayloads.create({
+				data: invitee,
+			});
+
+			if (!result) {
+				return res.status(500).json({
+					err: new Error("Error: Failed to insert client"),
+				});
+			}
+
+			return res.status(200).json(result);
+		} catch (error) {
+			console.error(error);
 			return res.status(500).json({
-				err: new Error("Error: Failed to insert client"),
+				message: "Error: Internal server error",
+				error,
 			});
 		}
-		return res.status(200).json(result);
 	}
 
 	if (req.method === "PUT") {
 		const id = req.query.id;
-		const { ...invitee } = req.body;
-
+		const { ...invitee } = req.body as calendlyInviteePayloads;
 		if (!id) {
 			return res.status(400).json({
 				err: new Error("Error: Missing client id"),
@@ -95,28 +104,27 @@ export default async function handler(
 			});
 		}
 
-		invitee.event_start_time = new Date(invitee.event_start_time);
-		invitee.event_end_time = new Date(invitee.event_end_time);
-
 		try {
-			await connectToDatabase();
-			const query = { _id: new ObjectId(id.toString()) };
-			const result = await collections.eventInvitees?.findOneAndUpdate(
-				query,
-				{
-					$set: invitee,
-				}
-			);
+			const result = await prisma.calendlyInviteePayloads.update({
+				where: {
+					id: id as string,
+				},
+				data: invitee,
+			});
+
 			if (!result) {
-				return res.status(500).json({
-					err: new Error("Error: Failed to update client"),
+				return res.status(400).json({
+					err: new Error("Error: Could not update client"),
 				});
 			}
-			return res.status(200).json(result);
-		} catch (error: any) {
-			console.log(error);
 
-			return res.status(500).json(error);
+			return res.status(200).json(result);
+		} catch (error) {
+			console.error(error);
+			return res.status(500).json({
+				message: "Error: Internal server error",
+				error,
+			});
 		}
 	}
 
@@ -129,24 +137,30 @@ export default async function handler(
 		}
 
 		try {
-			await connectToDatabase();
-			const result = await collections.eventInvitees?.deleteOne({
-				_id: new ObjectId(id.toString()),
+			const result = await prisma.calendlyInviteePayloads.delete({
+				where: {
+					id: id as string,
+				},
 			});
+
 			if (!result) {
-				return res.status(500).json({
-					err: new Error("Error: Failed to delete client"),
+				return res.status(400).json({
+					err: new Error("Error: Could not delete client"),
 				});
 			}
-			return res.status(200).json(result);
-		} catch (error: any) {
-			console.log(error);
 
-			return res.status(500).json(error);
+			return res.status(200).json(result);
+		} catch (error) {
+			console.error(error);
+			return res.status(500).json({
+				message: "Error: Internal server error",
+				error,
+			});
 		}
 	}
 
-	return res.status(404).json({
-		err: new Error("Error: Not found"),
+	res.setHeader("Allow", "GET, POST, PUT, DELETE");
+	return res.status(405).json({
+		message: "Error: Invalid method",
 	});
 }

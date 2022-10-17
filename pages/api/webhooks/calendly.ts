@@ -1,3 +1,4 @@
+import { calendlyInviteePayloads } from "@prisma/client";
 import axios from "axios";
 import crypto from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -73,14 +74,11 @@ const calendlyWebhook = async (
 	// Signature is valid!
 
 	if (req.body.event === "invitee.created") {
-		const invitee: Invitee = req.body.payload;
-		const eventInfo: CalendlyInviteePayload = {
-			resource: invitee,
-		};
+		const invitee: calendlyInviteePayloads = req.body.payload;
 
 		const response = await axios.post(
 			`${server}/api/db/calendlyEventPayload`,
-			eventInfo
+			invitee
 		);
 
 		if (response.status === 200) {
@@ -93,14 +91,11 @@ const calendlyWebhook = async (
 	}
 
 	if (req.body.event === "invitee.canceled") {
-		const invitee: Invitee = req.body.payload;
-		const eventInfo: CalendlyInviteePayload = {
-			resource: invitee,
-		};
+		const invitee: calendlyInviteePayloads = req.body.payload;
 
 		const response = await axios.post(
 			`${server}/api/db/calendlyEventPayload`,
-			eventInfo
+			invitee
 		);
 
 		if (response.status === 200) {

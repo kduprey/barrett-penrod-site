@@ -1,3 +1,4 @@
+import { stripeCustomers } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 import getRawBody from "raw-body";
 import { server, stripe } from "../../../config";
@@ -69,7 +70,7 @@ const webhookHandler = async (
 			return res.status(200).json(createResult);
 
 		case "customer.deleted":
-			const customerDeleted = event.data.object as stripeCustomer;
+			const customerDeleted = event.data.object as stripeCustomers;
 			// Then define and call a function to handle the event customer.deleted
 			console.log(customerDeleted);
 			const customerInfo = await fetch(
@@ -90,14 +91,14 @@ const webhookHandler = async (
 				});
 			}
 			const customerInfoResult =
-				(await customerInfo.json()) as stripeCustomer[];
+				(await customerInfo.json()) as stripeCustomers[];
 			if (!customerInfoResult) {
 				return res.status(404).json({
 					message: "Error: Could not parse customer info",
 				});
 			}
 			const deleteResponse = await fetch(
-				`${server}/api/db/stripeCustomers?id=${customerInfoResult[0]._id}`,
+				`${server}/api/db/stripeCustomers?id=${customerInfoResult[0].id_}`,
 				{
 					method: "DELETE",
 					headers: {
@@ -115,7 +116,7 @@ const webhookHandler = async (
 			return res.status(200).json(deleteResult);
 
 		case "customer.updated":
-			const customerUpdated = event.data.object as stripeCustomer;
+			const customerUpdated = event.data.object as stripeCustomers;
 			// Then define and call a function to handle the event customer.updated
 			console.log("Customer updated: ", customerUpdated);
 			const customerInfoToUpdate = await fetch(
@@ -134,7 +135,7 @@ const webhookHandler = async (
 				return res.status(500).json(customerInfoToUpdate);
 			}
 			const customerInfoToUpdateResult =
-				(await customerInfoToUpdate.json()) as stripeCustomer[];
+				(await customerInfoToUpdate.json()) as stripeCustomers[];
 			if (!customerInfoToUpdateResult) {
 				return res.status(404).json({
 					message: "Error: Could not parse customer info",
@@ -143,7 +144,7 @@ const webhookHandler = async (
 			}
 
 			const updateResponse = await fetch(
-				`${server}/api/db/stripeCustomers?id=${customerInfoToUpdateResult[0]._id}`,
+				`${server}/api/db/stripeCustomers?id=${customerInfoToUpdateResult[0].id_}`,
 				{
 					method: "PUT",
 					body: JSON.stringify(customerUpdated),

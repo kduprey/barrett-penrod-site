@@ -1,7 +1,9 @@
-import { stripeCustomers } from "@prisma/client";
+import { clients } from "@prisma/client";
+import { ObjectID } from "bson";
 import type { NextApiRequest, NextApiResponse } from "next";
 import getRawBody from "raw-body";
-import { server, stripe } from "../../../config";
+import Stripe from "stripe";
+import { server, stripe, stripeWebhookSecret } from "../../../config";
 import { stripeCustomer } from "../../../types";
 
 type Data = {
@@ -38,7 +40,7 @@ const webhookHandler = async (
 		event = stripe.webhooks.constructEvent(
 			rawBody,
 			sig,
-			`${process.env["STRIPE_WEBHOOK_SECRET"]}`
+			stripeWebhookSecret as string
 		);
 	} catch (err: any) {
 		return res.status(400).send(`Webhook Error: ${err.message}`);
@@ -46,8 +48,28 @@ const webhookHandler = async (
 
 	switch (event.type) {
 		case "customer.created":
-			const customerCreated: stripeCustomer = event.data
-				.object as stripeCustomer;
+			const customerCreated = event.data.object as Stripe.Customer;
+
+			const newClient: clients = {
+				id: new ObjectID().toString(),
+				name: customerCreated.name || "",
+				email: customerCreated.email || "",
+				activeMember: true,
+				archived: false,
+				notes: null,
+				dateJoined: new Date(),
+				firstLesson: null,
+				nextLesson: null,
+				lastLesson: null,
+				lessonsRemaining: 0,
+				preferredLessonFormat: null,
+				pronouns: null,
+				refundedVolume: 0,
+				totalLessons: 0,
+				totalSpend: 0,
+				stripe_customer_id: customerCreated.id,
+			};
+
 			// Then define and call a function to handle the event customer.created
 			console.log(customerCreated);
 			const createResponse = await fetch(

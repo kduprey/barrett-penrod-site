@@ -34,7 +34,6 @@ model calendlyInviteePayloads {
   uri                             String                                               @unique
   client                          clients?                                             @relation(fields: [clientId], references: [id])
   clientId                        String?
-  CalendlyInviteePayloadsResource CalendlyInviteePayloadsResource[]
 }
 
 model clients {
@@ -56,34 +55,6 @@ model clients {
   totalSpend            Float                     @default(0)
   stripe_customer_id    String?                   @unique
   bookings              calendlyInviteePayloads[]
-}
-
-model CalendlyInviteePayloadsResource {
-  cancel_url                String
-  cancellation              CalendlyInviteePayloadsResourceCancellation?
-  created_at                DateTime                                             @db.Date
-  email                     String
-  event                     String
-  first_name                String?
-  last_name                 String?
-  name                      String
-  new_invitee               String?
-  no_show                   NoShow?
-  old_invitee               String?
-  payment                   Payment?
-  questions_and_answers     CalendlyInviteePayloadsResourceQuestionsAndAnswers[]
-  reconfirmation            Reconfirmation?
-  reschedule_url            String
-  rescheduled               Boolean
-  routing_form_submission   String?
-  status                    String
-  text_reminder_number      String?
-  timezone                  String
-  tracking                  CalendlyInviteePayloadsResourceTracking
-  updated_at                DateTime                                             @db.Date
-  uri                       String                                               @id @map("_id")
-  calendlyInviteePayload    calendlyInviteePayloads?                             @relation(fields: [calendlyInviteePayloadsId], references: [id])
-  calendlyInviteePayloadsId String?                                              @db.ObjectId
 }
 
 type CalendlyInviteePayloadsCancellation {

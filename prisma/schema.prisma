@@ -40,50 +40,22 @@ model calendlyInviteePayloads {
 model clients {
   id                    String                    @id @default(auto()) @map("_id") @db.ObjectId
   activeMember          Boolean
+  archived              Boolean                   @default(false)
   email                 String
   dateJoined            DateTime                  @default("2001-01-01T00:00:00-05:00") @db.Date
-  firstLesson           DateTime                  @db.Date
-  lastLesson            DateTime                  @db.Date
+  firstLesson           DateTime?                  @db.Date
+  lastLesson            DateTime?                  @db.Date
   nextLesson            DateTime?                 @db.Date
-  lessonsRemaining      Int
+  lessonsRemaining      Int                      @default(0)    
   name                  String                    @unique
   notes                 String?
-  preferredLessonFormat String
-  pronouns              String
-  refundedVolume        Int
-  totalLessons          Int
-  totalSpend            Float
-  stripeCustomer        stripeCustomers?          @relation(fields: [stripe_customer_id], references: [id_])
+  preferredLessonFormat String?
+  pronouns              String?
+  refundedVolume        Int                       @default(0)
+  totalLessons          Int                       @default(0)
+  totalSpend            Float                     @default(0)
   stripe_customer_id    String?                   @unique
   bookings              calendlyInviteePayloads[]
-}
-
-model stripeCustomers {
-  id                    String                         @id @default(auto()) @map("_id") @db.ObjectId
-  address               StripeCustomersAddress
-  balance               Int
-  created               Int
-  currency              String?
-  default_currency      String?
-  default_source        String?
-  delinquent            Boolean
-  description           String?
-  discount              StripeCustomersDiscount?
-  email                 String
-  id_                   String                         @unique @map("id")
-  invoice_prefix        String
-  invoice_settings      StripeCustomersInvoiceSettings
-  livemode              Boolean
-  metadata              StripeCustomersMetadata
-  name                  String
-  next_invoice_sequence Int
-  object                String
-  phone                 String
-  preferred_locales     String[]
-  shipping              StripeCustomersShipping?
-  tax_exempt            String
-  test_clock            String?
-  client                clients?
 }
 
 model CalendlyInviteePayloadsResource {
@@ -126,15 +98,6 @@ type CalendlyInviteePayloadsQuestionsAndAnswers {
   question String
 }
 
-type StripeCustomersMetadata {
-  Active_Member           String? @map("Active Member")
-  Last_Lesson             String? @map("Last Lesson")
-  Lessons_Remaining       String? @map("Lessons Remaining")
-  Preferred_Lesson_Format String? @map("Preferred Lesson Format")
-  Start_Date_with_Studio  String? @map("Start Date with Studio")
-  Total_Lessons           String? @map("Total Lessons")
-}
-
 type Reconfirmation {
   created_at   DateTime @db.Date
   confirmed_at DateTime @db.Date
@@ -173,80 +136,4 @@ type CalendlyInviteePayloadsResourceTracking {
   utm_medium      String?
   utm_source      String?
   utm_term        String?
-}
-
-type StripeCustomersAddress {
-  city        String
-  country     String
-  line1       String
-  line2       String?
-  postal_code String
-  state       String
-}
-
-type StripeCustomersInvoiceSettings {
-  custom_fields          StripeCustomersInvoiceSettingsCustomFields?
-  default_payment_method String
-  footer                 String?
-  rendering_options      StripeCustomersInvoiceSettingsRenderingOptions?
-}
-
-type StripeCustomersInvoiceSettingsRenderingOptions {
-  amount_tax_display String
-}
-
-type StripeCustomersInvoiceSettingsCustomFields {
-  name  String
-  value String
-}
-
-type StripeCustomersShipping {
-  address StripeCustomersShippingAddress
-  name    String
-  phone   String
-}
-
-type StripeCustomersShippingAddress {
-  city        String
-  country     String
-  line1       String
-  line2       String
-  postal_code String
-  state       String
-}
-
-type StripeCustomersDiscount {
-  id               String
-  object           String
-  checkout_session String?
-  coupon           StripeCustomersDiscountCoupon
-  customer         String
-  end              DateTime?                     @db.Date
-  invoice          String?
-  invoice_item     String?
-  promotion_code   String?
-  start            DateTime                      @db.Date
-  subscription     String?
-}
-
-type StripeCustomersDiscountCoupon {
-  id                 String
-  object             String
-  amount_off         Int?
-  created            DateTime                              @db.Date
-  currency           String?
-  duration           String
-  duration_in_months Int?
-  livemode           Boolean
-  max_redemptions    Int?
-  metadata           StripeCustomersDiscountCouponMetadata
-  name               String
-  percent_off        Int?
-  redeem_by          DateTime                              @db.Date
-  times_redeemed     Int
-  valid              Boolean
-}
-
-type StripeCustomersDiscountCouponMetadata {
-  description String
 }

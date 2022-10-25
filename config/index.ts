@@ -3,7 +3,7 @@ import Stripe from "stripe";
 const dev = process.env.VERCEL_ENV !== "production";
 
 export const server = dev
-	? "https://3fb9-2601-180-c200-c710-e1ff-7424-83ff-1b1e.ngrok.io"
+	? "http://localhost:3000"
 	: "https://barrettpenrod.com";
 
 export const db = dev ? "test" : "production";
@@ -20,6 +20,10 @@ export const stripe = new Stripe(
 		apiVersion: "2022-08-01",
 	}
 );
+
+export const stripeWebhookSecret = dev
+	? process.env["STRIPE_TEST_WEBHOOK_SECRET"]
+	: process.env["STRIPE_WEBHOOK_SECRET"];
 
 import sendgridClient from "@sendgrid/mail";
 if (process.env.VERCEL_ENV === "production") {

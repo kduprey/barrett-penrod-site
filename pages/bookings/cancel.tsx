@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import { NextPageWithLayout } from "../../types";
+import { NextPageWithLayout } from "../../types/types";
 
 type Props = {
 	session?: Stripe.Checkout.Session;

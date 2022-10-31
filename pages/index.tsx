@@ -15,7 +15,7 @@ import headshot3 from "../public/headshot3.jpg";
 import headshot4 from "../public/headshot4.jpg";
 import headshot5 from "../public/headshot5.jpg";
 import headshot6 from "../public/headshot6.jpg";
-import { NextPageWithLayout } from "../types";
+import { NextPageWithLayout } from "../types/types";
 
 const headshots = [
 	headshot1,

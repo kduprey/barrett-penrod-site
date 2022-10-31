@@ -22,7 +22,7 @@ import { useRouter } from "next/router";
 import Script from "next/script";
 import { useEffect } from "react";
 import "../styles/globals.css";
-import { AppPropsWithLayout } from "../types";
+import { AppPropsWithLayout } from "../types/types";
 config.autoAddCss = false;
 
 export { reportWebVitals } from "next-axiom";

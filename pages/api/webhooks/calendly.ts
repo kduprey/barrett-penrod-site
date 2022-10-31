@@ -3,7 +3,7 @@ import axios from "axios";
 import crypto from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { server } from "../../../config/index";
-import { CalendlyInviteePayload, Invitee } from "../../../types";
+import { CalendlyInviteePayload, Invitee } from "../../../types/types";
 
 type Data = {};
 

@@ -5,7 +5,7 @@ import {
 	CalendlyInviteePayload,
 	ClientInfo,
 	stripeCustomer,
-} from "../types";
+} from "../types/types";
 
 export const collections: {
 	clients?: Collection<ClientInfo>;

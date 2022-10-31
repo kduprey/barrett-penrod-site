@@ -2,7 +2,7 @@ import { useState } from "react";
 import PackageModal from "../../components/Bookings/BundleModal";
 import BookingsLayout from "../../components/BookingsLayout";
 import { bundles } from "../../data/services";
-import { NextPageWithLayout } from "../../types";
+import { NextPageWithLayout } from "../../types/types";
 import VsLogo from "/public/vslogo.svg";
 
 type Props = {};

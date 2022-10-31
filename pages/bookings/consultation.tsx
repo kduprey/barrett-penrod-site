@@ -8,7 +8,7 @@ import {
 	CalendlyInviteePayload,
 	NextPageWithLayout,
 	ZoomLocation,
-} from "../../types";
+} from "../../types/types";
 
 const Consultation: NextPageWithLayout = () => {
 	const router = useRouter();

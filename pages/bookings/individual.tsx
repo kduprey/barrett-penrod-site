@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import BookingsLayout from "../../components/BookingsLayout";
 import { services } from "../../data/services";
-import { NextPageWithLayout } from "../../types";
+import { NextPageWithLayout } from "../../types/types";
 import VsLogo from "/public/vslogo.svg";
 
 type Props = {};

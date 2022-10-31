@@ -4,7 +4,7 @@ import BundleModal from "../../components/Bookings/BundleModal";
 import BookingsLayout from "../../components/BookingsLayout";
 import Logo from "../../components/Logo";
 import { bundles, services } from "../../data/services";
-import { NextPageWithLayout } from "../../types";
+import { NextPageWithLayout } from "../../types/types";
 
 type Props = {};
 

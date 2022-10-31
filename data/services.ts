@@ -1,4 +1,4 @@
-import { LessonBundle, Locations, Price, ServiceType } from "../types";
+import { LessonBundle, Locations, Price, ServiceType } from "../types/types";
 
 const bookingLink = (title: string, location: string): string => {
 	return (

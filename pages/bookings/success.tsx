@@ -1,5 +1,10 @@
 import Stripe from "stripe";
-import { Contact, Guest, GuestBody, NextPageWithLayout } from "../../types";
+import {
+	Contact,
+	Guest,
+	GuestBody,
+	NextPageWithLayout,
+} from "../../types/types";
 
 type Props = {
 	eventTime: string;

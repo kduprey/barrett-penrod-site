@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { Link } from "react-scroll";
 import * as gtag from "../../lib/analytics";
-import { NavMenu } from "../../types";
+import { NavMenu } from "../../types/types";
 
 type Props = {
 	menu: NavMenu;

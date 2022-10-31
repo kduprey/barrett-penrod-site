@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import { server, stripe, stripeMode } from "../../config/index";
 import { bundles, Prices } from "../../data/services";
-import { Guest } from "../../types";
+import { Guest } from "../../types/types";
 
 type Data = {
 	url?: string;

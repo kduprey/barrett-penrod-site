@@ -1,4 +1,3 @@
-import { ObjectId } from "mongodb";
 import type {
 	GetServerSideProps,
 	InferGetServerSidePropsType,
@@ -47,69 +46,6 @@ export interface Service {
 	deposit: number;
 	description: string;
 	calendarLink: string;
-}
-
-export interface TemplateMessage {
-	from: Contact;
-	reply_to?: Contact;
-	personalizations: TemplatePersonalization[];
-	template_id: string;
-}
-
-export interface Content {
-	type: string;
-	value: string;
-}
-
-export interface Contact {
-	email: string;
-	name?: string;
-}
-
-export interface TemplatePersonalization {
-	to?: Contact[];
-	cc?: Contact[];
-	bcc?: Contact[];
-	from?: Contact;
-	dynamic_template_data: GuestAttendeeTemplateData | PackageTemplateData;
-	send_at?: number;
-	custom_args?: {
-		[key: string]: string;
-	};
-	headers?: {
-		[key: string]: string;
-	};
-	subject?: string;
-}
-
-export interface GuestAttendeeTemplateData {
-	bookingTime: string;
-	bookingDate: string;
-	bookingName: string;
-}
-
-export interface PackageTemplateData extends EmailTemplateData {
-	bulkSessionDiscountPackage: string;
-	dateOfFirstSession: string;
-	bookingTime: string;
-	bookingDate: string;
-	bookingLocation: string;
-}
-
-export interface ConsultationTemplateData extends EmailTemplateData {
-	zoomLink: string;
-}
-
-export interface EmailTemplateData {
-	bookingTime: string;
-	bookingDate: string;
-	bookingName: string;
-}
-
-export interface GuestBody {
-	guests: Contact[];
-	eventStartTime: string;
-	eventTypeName: string;
 }
 
 export interface EventType {

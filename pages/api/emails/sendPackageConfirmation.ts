@@ -2,6 +2,7 @@ import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { sendgrid } from "../../../config/index";
 import { PackageEmailTemplateData } from "../../../types/emailTypes";
+import { invalidMethod } from "../../../utils/responseDefaults";
 
 type PackageConfirmationEmailParams = {
 	email: string;
@@ -80,8 +81,8 @@ const sendPackageConfirmationEmail = async ({
 export { sendPackageConfirmationEmail };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	if (req.method !== "POST")
-		res.status(405).json({ message: "Method not allowed" });
+	invalidMethod("POST", req, res);
+
 	try {
 		const response = await sendPackageConfirmationEmail(
 			req.body as PackageConfirmationEmailParams

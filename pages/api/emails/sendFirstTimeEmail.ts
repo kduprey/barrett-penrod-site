@@ -2,6 +2,7 @@ import { MailDataRequired } from "@sendgrid/mail";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { sendgrid } from "../../../config";
 import { EmailTemplateData } from "../../../types/emailTypes";
+import { invalidMethod } from "../../../utils/responseDefaults";
 
 // Example for template data
 // {
@@ -76,8 +77,7 @@ const sendFirstTimeEmail = async ({
 export { sendFirstTimeEmail };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	if (req.method !== "POST")
-		res.status(405).json({ message: "Method not allowed" });
+	invalidMethod("POST", req, res);
 
 	try {
 		const response = await sendFirstTimeEmail(

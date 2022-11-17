@@ -44,7 +44,7 @@
 		"@types/react": "^18.0.25",
 		"@types/react-scroll": "^1.8.5",
 		"autoprefixer": "^10.4.13",
-		"cypress": "^11.0.1",
+		"cypress": "^11.1.0",
 		"eslint": "^8.27.0",
 		"eslint-config-next": "^13.0.3",
 		"postcss": "^8.4.19",

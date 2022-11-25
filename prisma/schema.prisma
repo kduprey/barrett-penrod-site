@@ -8,44 +8,44 @@ datasource db {
 }
 
 model calendlyInviteePayloads {
-  id                              String                                               @id @default(auto()) @map("_id") @db.ObjectId
-  cancel_url                      String
-  cancellation                    CalendlyInviteePayloadsResourceCancellation?
-  created_at                      DateTime                                             @db.Date
-  email                           String
-  event                           String
-  first_name                      String?
-  last_name                       String?
-  name                            String
-  new_invitee                     String?
-  no_show                         NoShow?
-  old_invitee                     String?
-  payment                         Payment?
-  questions_and_answers           CalendlyInviteePayloadsResourceQuestionsAndAnswers[]
-  reconfirmation                  Reconfirmation?
-  reschedule_url                  String
-  rescheduled                     Boolean
-  routing_form_submission         String?
-  status                          String
-  text_reminder_number            String?
-  timezone                        String
-  tracking                        CalendlyInviteePayloadsResourceTracking
-  updated_at                      DateTime                                             @db.Date
-  uri                             String                                               @unique
-  client                          clients?                                             @relation(fields: [clientId], references: [id])
-  clientId                        String?
+  id                      String                                               @id @default(auto()) @map("_id") @db.ObjectId
+  cancel_url              String
+  cancellation            CalendlyInviteePayloadsResourceCancellation?
+  created_at              DateTime                                             @db.Date
+  email                   String
+  event                   String
+  first_name              String?
+  last_name               String?
+  name                    String
+  new_invitee             String?
+  no_show                 NoShow?
+  old_invitee             String?
+  payment                 Payment?
+  questions_and_answers   CalendlyInviteePayloadsResourceQuestionsAndAnswers[]
+  reconfirmation          Reconfirmation?
+  reschedule_url          String
+  rescheduled             Boolean
+  routing_form_submission String?
+  status                  String
+  text_reminder_number    String?
+  timezone                String
+  tracking                CalendlyInviteePayloadsResourceTracking
+  updated_at              DateTime                                             @db.Date
+  uri                     String                                               @unique
+  client                  clients?                                             @relation(fields: [clientId], references: [id])
+  clientId                String?
 }
 
 model clients {
   id                    String                    @id @default(auto()) @map("_id") @db.ObjectId
   activeMember          Boolean
   archived              Boolean                   @default(false)
-  email                 String
+  email                 String                    @unique
   dateJoined            DateTime                  @default("2001-01-01T00:00:00-05:00") @db.Date
-  firstLesson           DateTime?                  @db.Date
-  lastLesson            DateTime?                  @db.Date
+  firstLesson           DateTime?                 @db.Date
+  lastLesson            DateTime?                 @db.Date
   nextLesson            DateTime?                 @db.Date
-  lessonsRemaining      Int                      @default(0)    
+  lessonsRemaining      Int                       @default(0)
   name                  String                    @unique
   notes                 String?
   preferredLessonFormat String?

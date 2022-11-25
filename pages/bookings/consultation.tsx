@@ -1,15 +1,8 @@
-import axios from "axios";
 import { useRouter } from "next/router";
 import { InlineWidget, useCalendlyEventListener } from "react-calendly";
 import BookingsLayout from "../../components/BookingsLayout";
 import { server } from "../../config";
-import {
-	CalendlyEvent,
-	CalendlyInvitee,
-	NextPageWithLayout,
-	ZoomLocation,
-} from "../../types/types";
-import { instanceOfZoomLocation } from "../../utils/isZoomLocation";
+import { NextPageWithLayout } from "../../types/types";
 
 const Consultation: NextPageWithLayout = () => {
 	const router = useRouter();

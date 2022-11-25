@@ -1,12 +1,7 @@
-import {
-	faInstagram,
-	faTwitter,
-	faYoutube,
-} from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactNode } from "react";
 import CookieBanner from "./CookieBanner";
 import Header from "./Header";
+import Logo from "./Logo";
 import BookingNavbar from "./Navbar/BookingNavbar";
 import SocialBar from "./SocialBar";
 
@@ -34,27 +29,9 @@ const BookingsLayout = (props: Props) => {
 			<SocialBar />
 			{props.children}
 			<CookieBanner />
-			{/* Social Media Links */}
-			<div className="mt-auto flex w-4/5 items-center justify-evenly self-center bg-secondary p-3 md:w-1/4">
-				<a
-					href="https://twitter.com/penrodbarrett"
-					className="text-primary"
-				>
-					<FontAwesomeIcon icon={faTwitter} />
-				</a>
-				<a
-					href="https://instagram.com/barrettpenrod"
-					className="text-primary"
-				>
-					<FontAwesomeIcon icon={faInstagram} />
-				</a>
-				<a
-					href="https://www.youtube.com/channel/UCgGtle_abxJQUnCFLYg5Gyg"
-					className="text-primary"
-				>
-					<FontAwesomeIcon icon={faYoutube} />
-				</a>
-			</div>
+			<footer className="flex flex-col items-center justify-center p-4 text-primary">
+				<Logo />
+			</footer>
 		</main>
 	);
 };

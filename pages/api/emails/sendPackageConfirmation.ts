@@ -10,7 +10,7 @@ type PackageConfirmationEmailParams = {
 	packageName: string;
 	bookingDate: string;
 	bookingLocation: string;
-	zoomLink: string;
+	zoomLink?: string;
 };
 
 // Example of email template data:
@@ -21,6 +21,17 @@ type PackageConfirmationEmailParams = {
 //     "bookingLocation": "Virtual via Zoom",
 //     "zoomLink": "https://zoom.us/testLink"
 // }
+
+/**
+ * This endpoint is used to send a package confirmation email to a client after booking a package.
+ * @param email - The email address of the client.
+ * @param name - The name of the client.
+ * @param packageName - The name of the package that was booked.
+ * @param bookingDate - The date and time of the first lesson in the package.
+ * @param bookingLocation - The location of the first lesson in the package.
+ * @param zoomLink - The zoom link for the first lesson in the package.
+ * @returns - The response from SendGrid
+ */
 
 const sendPackageConfirmationEmail = async ({
 	email,

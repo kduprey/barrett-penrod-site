@@ -1,4 +1,4 @@
-import { MailDataRequired } from "@sendgrid/mail";
+import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { sendgrid } from "../../../config";
 import { EmailTemplateData } from "../../../types/emailTypes";
@@ -19,13 +19,23 @@ type SingleBookingEmailParams = {
 //     "zoomLink": "https://zoom.us/testlink"
 // }
 
+/**
+ * This endpoint is used to send a single booking email to a client after booking a session.
+ * @param email - The email address of the client
+ * @param name - The name of the client
+ * @param bookingDate - The date of the event
+ * @param bookingName - The name of the booking
+ * @param zoomLink - The zoom link for the event
+ * @returns - The response from SendGrid
+ */
+
 const sendSingleBookingEmail = async ({
 	email,
 	name,
 	bookingDate,
 	bookingName,
 	zoomLink,
-}: SingleBookingEmailParams) => {
+}: SingleBookingEmailParams): Promise<[ClientResponse, {}]> => {
 	const templateId: string = "d-d3b1109a7bd44612b10c3e60ed9024da";
 
 	const message: MailDataRequired = {

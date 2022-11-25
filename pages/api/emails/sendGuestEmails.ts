@@ -1,4 +1,4 @@
-import { MailDataRequired } from "@sendgrid/mail";
+import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { sendgrid } from "../../../config";
 import { Contact, EmailTemplateData } from "../../../types/emailTypes";
@@ -6,7 +6,7 @@ import { invalidMethod } from "../../../utils/responseDefaults";
 
 // Template Data
 // {
-//     "bookingTime": "2:00 pm",
+//     "bookingDate": "2:00 pm",
 //     "bookingDate": "June 26, 2022",
 //     "bookingName": "Voice Lesson - Virtual",
 //     "zoomLink": "https://zoom.us/testlink"
@@ -14,17 +14,26 @@ import { invalidMethod } from "../../../utils/responseDefaults";
 
 type GuestEmailsParams = {
 	guests: Contact[];
-	bookingTime: string;
+	bookingDate: string;
 	bookingName: string;
 	zoomLink?: string;
 };
 
+/**
+ * This endpoint is used to send a guest email to a list of guests whom are attending a session.
+ * @param guests - The guests to send the email to
+ * @param bookingDate - The time of the booking
+ * @param bookingName - The name of the booking
+ * @param zoomLink - The zoom link for the booking
+ * @returns The response from SendGrid
+ */
+
 const sendGuestEmails = async ({
 	guests,
-	bookingTime,
+	bookingDate,
 	bookingName,
 	zoomLink,
-}: GuestEmailsParams) => {
+}: GuestEmailsParams): Promise<[ClientResponse, {}]> => {
 	const templateId: string = "d-b628680e34354157b553625c036e2836";
 
 	const message: MailDataRequired = {
@@ -40,11 +49,11 @@ const sendGuestEmails = async ({
 			{
 				to: [...guests],
 				dynamicTemplateData: {
-					bookingTime: new Date(bookingTime).toLocaleTimeString([], {
+					bookingTime: new Date(bookingDate).toLocaleTimeString([], {
 						hour: "2-digit",
 						minute: "2-digit",
 					}),
-					bookingDate: new Date(bookingTime).toLocaleDateString([], {
+					bookingDate: new Date(bookingDate).toLocaleDateString([], {
 						weekday: "long",
 						month: "short",
 						day: "numeric",

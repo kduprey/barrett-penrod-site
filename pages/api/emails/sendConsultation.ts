@@ -15,15 +15,25 @@ import { invalidMethod } from "../../../utils/responseDefaults";
 type ConsultationEmailParams = {
 	email: string;
 	name: string;
-	startTime: string;
+	bookingDate: string;
 	bookingName: string;
 	zoomLink: string;
 };
 
+/**
+ * This endpoint is used to send a confirmation email to a client after booking a consultation.
+ * @param email - The email address of the client
+ * @param name - The name of the client
+ * @param bookingDate - The start time of the consultation
+ * @param bookingName - The name of the consultation
+ * @param zoomLink - The link to the Zoom meeting
+ * @returns The response from SendGrid
+ */
+
 const sendConsultationEmail = async ({
 	email,
 	name,
-	startTime,
+	bookingDate,
 	bookingName,
 	zoomLink,
 }: ConsultationEmailParams): Promise<[ClientResponse, {}]> => {
@@ -47,11 +57,11 @@ const sendConsultationEmail = async ({
 					},
 				],
 				dynamicTemplateData: {
-					bookingTime: new Date(startTime).toLocaleTimeString([], {
+					bookingTime: new Date(bookingDate).toLocaleTimeString([], {
 						hour: "2-digit",
 						minute: "2-digit",
 					}),
-					bookingDate: new Date(startTime).toLocaleDateString([], {
+					bookingDate: new Date(bookingDate).toLocaleDateString([], {
 						weekday: "long",
 						month: "short",
 						day: "numeric",

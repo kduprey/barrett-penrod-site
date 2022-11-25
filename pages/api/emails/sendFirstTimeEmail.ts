@@ -1,4 +1,4 @@
-import { MailDataRequired } from "@sendgrid/mail";
+import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { sendgrid } from "../../../config";
 import { EmailTemplateData } from "../../../types/emailTypes";
@@ -15,18 +15,28 @@ import { invalidMethod } from "../../../utils/responseDefaults";
 type FirstTimeEmailParams = {
 	email: string;
 	name: string;
-	eventDate: string;
+	bookingDate: string;
 	bookingName: string;
 	zoomLink?: string;
 };
 
+/**
+ * This endpoint is used to send a first time email to a client after booking a session.
+ * @param email The email address of the client
+ * @param name The name of the client
+ * @param bookingDate The date of the event
+ * @param bookingName The name of the booking
+ * @param zoomLink The zoom link for the event
+ * @returns The response from SendGrid
+ */
+
 const sendFirstTimeEmail = async ({
 	email,
 	name,
-	eventDate,
+	bookingDate,
 	bookingName,
 	zoomLink,
-}: FirstTimeEmailParams) => {
+}: FirstTimeEmailParams): Promise<[ClientResponse, {}]> => {
 	const templateId: string = "d-c859a7aa6e04450b952a683aeb9ded1d";
 
 	const message: MailDataRequired = {
@@ -47,11 +57,11 @@ const sendFirstTimeEmail = async ({
 					},
 				],
 				dynamicTemplateData: {
-					bookingTime: new Date(eventDate).toLocaleTimeString([], {
+					bookingTime: new Date(bookingDate).toLocaleTimeString([], {
 						hour: "2-digit",
 						minute: "2-digit",
 					}),
-					bookingDate: new Date(eventDate).toLocaleDateString([], {
+					bookingDate: new Date(bookingDate).toLocaleDateString([], {
 						weekday: "long",
 						month: "short",
 						day: "numeric",

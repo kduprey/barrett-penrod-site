@@ -1,15 +1,13 @@
-import { clients } from "@prisma/client";
-import { ObjectID } from "bson";
 import type { NextApiRequest, NextApiResponse } from "next";
 import getRawBody from "raw-body";
 import Stripe from "stripe";
-import { server, stripe, stripeWebhookSecret } from "../../../config";
-import { stripeCustomer } from "../../../types";
-
-type Data = {
-	message: string;
-	data?: stripeCustomer;
-};
+import { stripe, stripeWebhookSecret } from "../../../config";
+import prisma from "../../../lib/prisma";
+import getNumLessonsFromLineItems from "../../../utils/getNumLessonsFromLineItems";
+import sendCheckoutEmails from "../../../utils/sendCheckoutEmails";
+import { cancelEvent } from "../calendly/cancelEvent";
+import { getEventInfo } from "../calendly/getEventInfo";
+import { getEventInvitee } from "../calendly/getEventInvitee";
 
 // Tell Next.js to disable parsing body by default,
 // as Stripe requires the raw body to validate the event
@@ -21,7 +19,7 @@ export const config = {
 
 const webhookHandler = async (
 	req: NextApiRequest,
-	res: NextApiResponse<Data | string | Response>
+	res: NextApiResponse
 ): Promise<void> => {
 	if (req.method != "POST") {
 		res.setHeader("Allow", "POST");
@@ -47,144 +45,195 @@ const webhookHandler = async (
 	}
 
 	switch (event.type) {
-		case "customer.created":
-			const customerCreated = event.data.object as Stripe.Customer;
+		case "checkout.session.completed":
+			const session = event.data.object as Stripe.Checkout.Session;
 
-			const newClient: clients = {
-				id: new ObjectID().toString(),
-				name: customerCreated.name || "",
-				email: customerCreated.email || "",
-				activeMember: true,
-				archived: false,
-				notes: null,
-				dateJoined: new Date(),
-				firstLesson: null,
-				nextLesson: null,
-				lastLesson: null,
-				lessonsRemaining: 0,
-				preferredLessonFormat: null,
-				pronouns: null,
-				refundedVolume: 0,
-				totalLessons: 0,
-				totalSpend: 0,
-				stripe_customer_id: customerCreated.id,
-			};
+			try {
+				const lineItems = await stripe.checkout.sessions.listLineItems(
+					session.id
+				);
+				const bookingData = await getEventInfo(
+					session.client_reference_id as string
+				);
+				const inviteeData = await getEventInvitee(
+					session.metadata?.inviteeURI as string
+				);
 
-			// Then define and call a function to handle the event customer.created
-			console.log(customerCreated);
-			const createResponse = await fetch(
-				`${server}/api/db/stripeCustomers`,
-				{
-					method: "POST",
-					body: JSON.stringify(customerCreated),
-					headers: {
-						"Content-Type": "application/json",
+				const customer = session.customer as string;
+
+				// Check database for pre-existing customer
+				const existingCustomer = await prisma.clients.findUnique({
+					where: {
+						stripe_customer_id: customer,
 					},
+				});
+
+				// If customer exists, update their purchase/booking data
+				if (existingCustomer) {
+					try {
+						await prisma.calendlyInviteePayloads.update({
+							where: {
+								uri: session.client_reference_id as string,
+							},
+							data: {
+								clientId: existingCustomer.id,
+							},
+						});
+					} catch (err) {
+						console.error("Error updating invitee payload", err);
+					}
+
+					try {
+						// Update client data
+						const updatedCustomer = await prisma.clients.update({
+							where: {
+								stripe_customer_id: customer,
+							},
+							data: {
+								nextLesson:
+									bookingData.data.resource.start_time,
+								activeMember: true,
+								totalSpend:
+									existingCustomer.totalSpend +
+									(session.amount_total as number),
+
+								lessonsRemaining:
+									existingCustomer.lessonsRemaining +
+									getNumLessonsFromLineItems(lineItems.data),
+							},
+						});
+						console.info("Updated Customer", updatedCustomer);
+					} catch (err) {
+						console.error("Error updating client data", err);
+					}
 				}
-			);
 
-			if (!createResponse.ok) {
-				return res.status(500).json({
-					message: "Error: Could not create customer",
-				});
-			}
-			const createResult = await createResponse.json();
-			return res.status(200).json(createResult);
+				// If customer doesn't exist, create a new one
+				if (!existingCustomer) {
+					try {
+						// Create new client
+						const newCustomer = await prisma.clients.create({
+							data: {
+								activeMember: true,
+								archived: false,
+								email: inviteeData.data.resource.email,
+								dateJoined:
+									bookingData.data.resource.start_time,
+								firstLesson:
+									bookingData.data.resource.start_time,
+								lastLesson:
+									bookingData.data.resource.start_time,
+								nextLesson:
+									bookingData.data.resource.start_time,
+								lessonsRemaining: getNumLessonsFromLineItems(
+									lineItems.data
+								),
+								name: inviteeData.data.resource.name,
+								totalSpend: session.amount_total as number,
+								stripe_customer_id: customer,
+							},
+						});
+						console.info("Created new customer", newCustomer);
 
-		case "customer.deleted":
-			const customerDeleted = event.data.object as stripeCustomers;
-			// Then define and call a function to handle the event customer.deleted
-			console.log(customerDeleted);
-			const customerInfo = await fetch(
-				`${server}/api/db/stripeCustomers?filter=${JSON.stringify({
-					id: customerDeleted.id,
-				})}`,
-				{
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-					},
+						try {
+							await prisma.calendlyInviteePayloads.update({
+								where: {
+									uri: session.client_reference_id as string,
+								},
+								data: {
+									clientId: newCustomer.id,
+								},
+							});
+						} catch (err) {
+							console.error(
+								"Error updating invitee payload",
+								err
+							);
+						}
+					} catch (err) {
+						console.error("Error creating new client", err);
+					}
 				}
-			);
 
-			if (!customerInfo.ok) {
-				return res.status(500).json({
-					message: "Error: Could not find customer",
-				});
-			}
-			const customerInfoResult =
-				(await customerInfo.json()) as stripeCustomers[];
-			if (!customerInfoResult) {
-				return res.status(404).json({
-					message: "Error: Could not parse customer info",
-				});
-			}
-			const deleteResponse = await fetch(
-				`${server}/api/db/stripeCustomers?id=${customerInfoResult[0].id_}`,
-				{
-					method: "DELETE",
-					headers: {
-						"Content-Type": "application/json",
-					},
+				// Send checkout emails
+				try {
+					const emailsResponse = await sendCheckoutEmails(session);
+					if (emailsResponse === true) {
+						return res.status(200).send({
+							emails: "Checkout emails sent",
+							database: "Database updated",
+						});
+					} else {
+						console.error(emailsResponse);
+
+						return res.status(500).send({
+							message: "Error sending checkout emails",
+						});
+					}
+				} catch (err) {
+					console.error("Error sending checkout emails", err);
+					return res.status(500).send({
+						message: "Error sending checkout emails",
+					});
 				}
-			);
-
-			if (!deleteResponse.ok) {
-				return res.status(500).json({
-					message: "Error: Could not delete customer",
+			} catch (err) {
+				console.error("Error executing webhook", err);
+				return res.status(500).send({
+					message: "Error executing webhook",
 				});
 			}
-			const deleteResult = await deleteResponse.json();
-			return res.status(200).json(deleteResult);
+			break;
+		case "checkout.session.expired":
+			const errors: any[] = [];
+			// Handle expired checkout sessions
+			const sessionExpired = event.data.object as Stripe.Checkout.Session;
 
-		case "customer.updated":
-			const customerUpdated = event.data.object as stripeCustomers;
-			// Then define and call a function to handle the event customer.updated
-			console.log("Customer updated: ", customerUpdated);
-			const customerInfoToUpdate = await fetch(
-				`${server}/api/db/stripeCustomers?filter=${JSON.stringify({
-					id: customerUpdated.id,
-				})}`,
-				{
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-					},
+			// Pull Calendly event info from API with client_reference_id field
+			try {
+				const eventInfo = await getEventInfo(
+					sessionExpired.client_reference_id as string
+				);
+
+				// Call cancellation Calendly API endpoint
+				try {
+					const cancellationResponse = await cancelEvent(
+						eventInfo.data.resource.uri
+					);
+					console.info("Cancelled event", cancellationResponse);
+				} catch (err) {
+					console.error("Error cancelling event", err);
+					errors.push(err);
 				}
-			);
 
-			if (!customerInfoToUpdate.ok) {
-				return res.status(500).json(customerInfoToUpdate);
-			}
-			const customerInfoToUpdateResult =
-				(await customerInfoToUpdate.json()) as stripeCustomers[];
-			if (!customerInfoToUpdateResult) {
-				return res.status(404).json({
-					message: "Error: Could not parse customer info",
-					data: customerInfoToUpdateResult,
-				});
-			}
-
-			const updateResponse = await fetch(
-				`${server}/api/db/stripeCustomers?id=${customerInfoToUpdateResult[0].id_}`,
-				{
-					method: "PUT",
-					body: JSON.stringify(customerUpdated),
-					headers: {
-						"Content-Type": "application/json",
-					},
+				// Update client in database respectively
+				try {
+					const updateClient = await prisma.clients.update({
+						where: {
+							stripe_customer_id:
+								sessionExpired.customer as string,
+						},
+						data: {
+							nextLesson: null,
+						},
+					});
+					console.info("Updated client", updateClient);
+				} catch (error) {
+					console.error("Error updating client", error);
+					errors.push(error);
 				}
-			);
 
-			if (!updateResponse.ok) {
-				return res.status(500).json({
-					message: "Error: Could not update customer",
+				return res.status(200).send({
+					message: "Checkout session expired",
+					errors,
+				});
+			} catch (err) {
+				console.error("Error executing webhook", err);
+				return res.status(500).send({
+					message: "Error executing webhook",
 				});
 			}
-			const updateResult = await updateResponse.json();
-			return res.status(200).json(updateResult);
 
-		// ... handle other event types
+			break;
 		default:
 			console.log(`Unhandled event type ${event.type}`);
 			return res.status(400).send(`Unhandled event type ${event.type}`);

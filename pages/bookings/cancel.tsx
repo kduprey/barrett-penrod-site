@@ -1,15 +1,49 @@
+import { GetServerSideProps } from "next";
 import Stripe from "stripe";
+import BookingsLayout from "../../components/BookingsLayout";
+import { stripe } from "../../config";
 import { NextPageWithLayout } from "../../types/types";
+import { getEventInvitee } from "../api/calendly/getEventInvitee";
 
 type Props = {
 	session?: Stripe.Checkout.Session;
+	name: string;
 };
 
-const Cancel: NextPageWithLayout = (props: Props) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+	try {
+		const session = await stripe.checkout.sessions.retrieve(
+			ctx.query.session_id as string
+		);
+
+		const {
+			data: {
+				resource: { name },
+			},
+		} = await getEventInvitee(session?.metadata?.inviteeURI as string);
+
+		return {
+			props: {
+				session,
+				name,
+			},
+		};
+	} catch (error) {
+		console.log(error);
+		return {
+			notFound: true,
+		};
+	}
+};
+
+const Cancel: NextPageWithLayout = ({ session, name }: Props) => {
 	return (
 		<div className="flex flex-grow flex-col items-center justify-center space-y-4 p-4">
 			<h2 className="text-center text-secondary">Booking Cancelled</h2>
 			<div className="m-3 flex flex-col items-center justify-center space-y-4 rounded bg-secondary p-6 shadow-lg md:w-1/2">
+				<h4 className="text-primary">
+					Hey, {name.substring(0, name.indexOf(" "))}
+				</h4>
 				<p className="text-center text-primary">
 					Downpayment is required to confirm booking. Booking will be
 					cancelled within the hour pending no downpayment is
@@ -17,9 +51,9 @@ const Cancel: NextPageWithLayout = (props: Props) => {
 				</p>
 				<a
 					href={
-						props.session?.url
-							? props.session.url
-							: (props.session?.after_expiration?.recovery
+						session?.url
+							? session.url
+							: (session?.after_expiration?.recovery
 									?.url as string)
 					}
 					className="text-center text-primary underline"
@@ -42,28 +76,3 @@ Cancel.getLayout = (page) => (
 		{page}
 	</BookingsLayout>
 );
-
-// You should use getServerSideProps when:
-// - Only if you need to pre-render a page whose data must be fetched at request time
-import { GetServerSideProps } from "next";
-import BookingsLayout from "../../components/BookingsLayout";
-import { stripe } from "../../config";
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-	try {
-		const session = await stripe.checkout.sessions.retrieve(
-			ctx.query.session_id as string
-		);
-
-		return {
-			props: {
-				session,
-			},
-		};
-	} catch (error) {
-		console.log(error);
-		return {
-			notFound: true,
-		};
-	}
-};

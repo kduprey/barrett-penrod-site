@@ -5,11 +5,7 @@ import { InlineWidget, useCalendlyEventListener } from "react-calendly";
 import BookingsLayout from "../../components/BookingsLayout";
 import Logo from "../../components/Logo";
 import { bundleServices, services } from "../../data/services";
-import {
-	CalendlyEvent,
-	CalendlyInviteePayload,
-	NextPageWithLayout,
-} from "../../types";
+import { NextPageWithLayout } from "../../types/types";
 
 type Params = {
 	service: number;
@@ -42,39 +38,14 @@ const Page: NextPageWithLayout = () => {
 		onEventTypeViewed: () => console.log("onEventTypeViewed"),
 		onEventScheduled: async (e) => {
 			setIsScheduled(true);
-			// Fetch event Info from Calendly
-			const eventRes = await axios.post("/api/calendly/eventInfo", {
-				uri: e.data.payload.event.uri,
-			});
-			let event: CalendlyEvent = eventRes.data;
 
-			// Fetch invitee info from Calendly
-			const inviteeRes = await axios.post(
-				"/api/calendly/getEventInvitee",
-				{
-					uri: e.data.payload.invitee.uri,
-				}
-			);
-			const invitee: CalendlyInviteePayload = inviteeRes.data;
-
-			// Get checkout page URL
+			// Create checkout page URL
 			const checkoutRes = await axios.post("/api/checkout", {
 				service,
 				location,
 				bundle,
-				email: invitee.resource.email,
-				name: invitee.resource.name,
-				eventTime: event.resource.start_time,
-				firstTime:
-					invitee.resource.questions_and_answers.filter((e) => {
-						return (
-							e.question ===
-							"Is this your first lesson with Barrett?"
-						);
-					})[0].answer === "Yes"
-						? true
-						: false,
-				guests: event.resource.event_guests,
+				eventURI: e.data.payload.event.uri,
+				inviteeURI: e.data.payload.invitee.uri,
 			});
 			checkoutRes.status === 200
 				? router.push(checkoutRes.data.url)

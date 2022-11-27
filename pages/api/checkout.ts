@@ -2,46 +2,27 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import { server, stripe, stripeMode } from "../../config/index";
 import { bundles, Prices } from "../../data/services";
-import { Guest } from "../../types";
-
-type Data = {
-	url?: string;
-	error?: string;
-};
+import { invalidMethod } from "../../utils/responseDefaults";
+import { getEventInvitee } from "./calendly/getEventInvitee";
 
 type Body = {
 	service: number;
 	location: number;
 	bundle?: number;
-	email: string;
-	name: string;
-	eventTime: string;
-	firstTime: boolean;
-	guests: string[];
+	eventURI: string;
+	inviteeURI: string;
 };
 
-const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-	const {
-		service,
-		location,
-		bundle,
-		email,
-		name,
-		eventTime,
-		firstTime,
-		guests,
-	}: Body = req.body;
-
-	console.log(email);
-
-	let guestsObj: Guest[] = [];
-	if (guests)
-		guestsObj = guests.map((guest: string) => ({
-			email: guest,
-			created_at: new Date().toISOString(),
-			updated_at: new Date().toISOString(),
-		}));
-
+const createCheckoutSession = async ({
+	service,
+	location,
+	bundle,
+	eventURI,
+	inviteeURI,
+}: Body): Promise<{
+	url?: string;
+	error?: any;
+}> => {
 	let line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
 	// if is a bundle purchase, add the bundle to the line items
@@ -64,44 +45,14 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
 	// Create success url
 	const successURL: URL = new URL(server + "/bookings/success");
-	// Add the event time to the success url
-	successURL.searchParams.append("eventTime", new Date(eventTime).toString());
-	// Add the service to the success url
-	successURL.searchParams.append("service", Number(service).toString());
-	// Add the location to the success url
-	successURL.searchParams.append("location", Number(location).toString());
-	// Add the bundle to the success url, if it exists
-	if (bundle)
-		successURL.searchParams.append("bundle", Number(bundle).toString());
-	// Add isFirstTime to the success url
-	successURL.searchParams.append("firstTime", Boolean(firstTime).toString());
-	// If there are guests, add them to the success url
-	if (guestsObj.length > 0) {
-		successURL.searchParams.append("guests", JSON.stringify(guests));
-	}
 
 	// Create cancel url
 	const cancelURL: URL = new URL(server + "/bookings/cancel");
-	// Add the event time to the cancel url
-	cancelURL.searchParams.append("eventTime", new Date(eventTime).toString());
-	// Add the service to the cancel url
-	cancelURL.searchParams.append("service", Number(service).toString());
-	// Add the location to the cancel url
-	cancelURL.searchParams.append("location", Number(location).toString());
-	// Add the bundle to the cancel url, if it exists
-	if (bundle)
-		cancelURL.searchParams.append("bundle", Number(bundle).toString());
-	// Add isFirstTime to the cancel url
-	cancelURL.searchParams.append("firstTime", Boolean(firstTime).toString());
-	// If there are guests, add them to the cancel url
-	if (guestsObj.length > 0) {
-		cancelURL.searchParams.append("guests", JSON.stringify(guestsObj));
-	}
 
 	// Create the Checkout Session Template
 	let sessionTemplate: Stripe.Checkout.SessionCreateParams = {
-		success_url: successURL.href + "&session_id={CHECKOUT_SESSION_ID}",
-		cancel_url: cancelURL.href + "&session_id={CHECKOUT_SESSION_ID}",
+		success_url: successURL.href + "?session_id={CHECKOUT_SESSION_ID}",
+		cancel_url: cancelURL.href + "?session_id={CHECKOUT_SESSION_ID}",
 		mode: "payment",
 		automatic_tax: {
 			enabled: true,
@@ -122,13 +73,20 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 			},
 		},
 		billing_address_collection: "required",
+		client_reference_id: eventURI,
+		metadata: {
+			inviteeURI: inviteeURI,
+		},
 	};
+
+	// Get the event invitee info
+	const { data: inviteeInfo } = await getEventInvitee(inviteeURI);
 
 	// Look for a customer with the email address or name in Stripe and create one if it doesn't exist
 	try {
 		// Check if user is previous client
 		const customerSearch = await stripe.customers.search({
-			query: `email:"${email}" OR name~"${name}"`,
+			query: `email:"${inviteeInfo.resource.email}" OR name~"${inviteeInfo.resource.name}"`,
 		});
 
 		if (customerSearch.data.length > 0) {
@@ -139,13 +97,13 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 			};
 		} else {
 			// If user is new client, set session to use email from booking and create customer
-			sessionTemplate.customer_email = `${email}`;
+			sessionTemplate.customer_email = `${inviteeInfo.resource.email}`;
 			sessionTemplate.customer_creation = "always";
 		}
 	} catch (err) {
 		console.log(err);
 		// If error finding client, set session to use email from booking and create customer
-		sessionTemplate.customer_email = `${email}`;
+		sessionTemplate.customer_email = `${inviteeInfo.resource.email}`;
 		sessionTemplate.customer_creation = "always";
 	}
 
@@ -154,15 +112,31 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 		// Create checkout session
 		const session = await stripe.checkout.sessions.create(sessionTemplate);
 
-		session.url
-			? res.status(200).json({ url: session.url })
-			: res
-					.status(404)
-					.json({ error: "Error creating checkout session" });
+		if (session.url)
+			// Return the session URL
+			return { url: session.url };
+		// If no session URL, return error
+		else return { error: "Error creating checkout session" };
+	} catch (e: any) {
+		console.error(e);
+		return { error: e.message };
+	}
+};
+
+export { createCheckoutSession };
+
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+	invalidMethod("POST", req, res);
+
+	try {
+		// Create checkout session
+		const session = await createCheckoutSession(req.body as Body);
+		if (!session.error) res.status(200).json({ url: session.url });
+		else res.status(404).json({ error: "Error creating checkout session" });
 	} catch (e: any) {
 		console.error(e);
 		res.status(404).json({ error: e.message });
 	}
 };
 
-export default checkout;
+export default handler;

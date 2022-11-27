@@ -15,32 +15,12 @@ type Body = {
 	bundle?: number;
 	email: string;
 	name: string;
-	eventTime: string;
-	firstTime: boolean;
-	guests: string[];
 };
 
 const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-	const {
-		service,
-		location,
-		bundle,
-		email,
-		name,
-		eventTime,
-		firstTime,
-		guests,
-	}: Body = req.body;
+	const { service, location, bundle, email, name }: Body = req.body;
 
 	console.log(email);
-
-	let guestsObj: Guest[] = [];
-	if (guests)
-		guestsObj = guests.map((guest: string) => ({
-			email: guest,
-			created_at: new Date().toISOString(),
-			updated_at: new Date().toISOString(),
-		}));
 
 	let line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
@@ -64,44 +44,14 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
 	// Create success url
 	const successURL: URL = new URL(server + "/bookings/success");
-	// Add the event time to the success url
-	successURL.searchParams.append("eventTime", new Date(eventTime).toString());
-	// Add the service to the success url
-	successURL.searchParams.append("service", Number(service).toString());
-	// Add the location to the success url
-	successURL.searchParams.append("location", Number(location).toString());
-	// Add the bundle to the success url, if it exists
-	if (bundle)
-		successURL.searchParams.append("bundle", Number(bundle).toString());
-	// Add isFirstTime to the success url
-	successURL.searchParams.append("firstTime", Boolean(firstTime).toString());
-	// If there are guests, add them to the success url
-	if (guestsObj.length > 0) {
-		successURL.searchParams.append("guests", JSON.stringify(guests));
-	}
 
 	// Create cancel url
 	const cancelURL: URL = new URL(server + "/bookings/cancel");
-	// Add the event time to the cancel url
-	cancelURL.searchParams.append("eventTime", new Date(eventTime).toString());
-	// Add the service to the cancel url
-	cancelURL.searchParams.append("service", Number(service).toString());
-	// Add the location to the cancel url
-	cancelURL.searchParams.append("location", Number(location).toString());
-	// Add the bundle to the cancel url, if it exists
-	if (bundle)
-		cancelURL.searchParams.append("bundle", Number(bundle).toString());
-	// Add isFirstTime to the cancel url
-	cancelURL.searchParams.append("firstTime", Boolean(firstTime).toString());
-	// If there are guests, add them to the cancel url
-	if (guestsObj.length > 0) {
-		cancelURL.searchParams.append("guests", JSON.stringify(guestsObj));
-	}
 
 	// Create the Checkout Session Template
 	let sessionTemplate: Stripe.Checkout.SessionCreateParams = {
-		success_url: successURL.href + "&session_id={CHECKOUT_SESSION_ID}",
-		cancel_url: cancelURL.href + "&session_id={CHECKOUT_SESSION_ID}",
+		success_url: successURL.href + "?session_id={CHECKOUT_SESSION_ID}",
+		cancel_url: cancelURL.href + "?session_id={CHECKOUT_SESSION_ID}",
 		mode: "payment",
 		automatic_tax: {
 			enabled: true,

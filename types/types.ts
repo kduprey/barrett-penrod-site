@@ -48,29 +48,6 @@ export interface Service {
 	calendarLink: string;
 }
 
-export interface EventType {
-	active: boolean;
-	bookingMethod: string;
-	color: string;
-	createdAt: Date;
-	customQuestions: CustomQuestion[];
-	deletedAt: null;
-	descriptionHTML: string;
-	descriptionPlain: string;
-	duration: number;
-	internalNote: null;
-	kind: string;
-	name: string;
-	poolingType: null;
-	profile: Profile;
-	schedulingURL: string;
-	secret: boolean;
-	slug: string;
-	type: string;
-	updatedAt: Date;
-	uri: string;
-}
-
 export interface CustomQuestion {
 	answerChoices: string[];
 	enabled: boolean;
@@ -79,51 +56,6 @@ export interface CustomQuestion {
 	position: number;
 	required: boolean;
 	type: string;
-}
-
-export interface Profile {
-	name: string;
-	owner: string;
-	type: string;
-}
-
-export interface ClientInfo {
-	_id?: ObjectId;
-	activeMember: boolean;
-	email: string;
-	lessonsRemaining: number;
-	name: string;
-	paymentCount: number;
-	preferredLessonFormat: string;
-	refundedVolume: number;
-	totalLessons: number;
-	totalSpend: number;
-	stripe_cus_id?: string;
-	lastLesson: Date;
-	firstLesson: Date;
-}
-
-export interface LessonType {
-	active: boolean;
-	booking_method: string;
-	color: string;
-	created_at: Date;
-	custom_questions: Array<string[]>;
-	deleted_at: null;
-	description_html: string;
-	description_plain: string;
-	duration: number;
-	internal_note: null;
-	kind: string;
-	name: string;
-	pooling_type: null;
-	profile: Profile;
-	scheduling_url: string;
-	secret: boolean;
-	slug: string;
-	type: string;
-	updated_at: Date;
-	uri: string;
 }
 
 export interface Profile {
@@ -151,93 +83,34 @@ export interface Price {
 	};
 }
 
-export interface stripeCustomer {
-	_id?: ObjectId;
-	id: string;
-	object: string;
-	address: Address;
-	balance: number;
-	created: number;
-	currency: null;
-	default_source: null;
-	delinquent: boolean;
-	description: null;
-	discount: null;
-	email: string;
-	invoice_prefix: string;
-	invoice_settings: InvoiceSettings;
-	livemode: boolean;
-	metadata: Metadata;
-	name: string;
-	next_invoice_sequence: number;
-	phone: string;
-	preferred_locales: string[];
-	shipping: null;
-	tax_exempt: string;
-	test_clock: null;
-}
-
-export interface Address {
-	city: string;
-	country: string;
-	line1: string;
-	line2: null;
-	postal_code: string;
-	state: string;
-}
-
-export interface InvoiceSettings {
-	custom_fields: null;
-	default_payment_method: string;
-	footer: null;
-	rendering_options: null;
-}
-
-export interface Metadata {
-	"Lessons Remaining": string;
-	"Last Lesson": string;
-	"Total Lessons": string;
-	"Preferred Lesson Format": string;
-	"Active Member": string;
-}
-
-export interface BookingInfo {
-	_id?: ObjectId;
-	answer_1?: string;
-	answer_2?: string;
-	assigned_to: string;
-	event_end_time: Date;
-	event_start_time: Date;
-	event_type_name: string;
-	event_type_uuid: string;
-	"guests[]"?: string[];
-	invitee_email: string;
-	invitee_full_name: string;
-	invitee_uuid: string;
-}
-
 export interface CalendlyEvent {
-	resource: EventResource;
+	resource: Event;
 }
 
-export interface EventResource {
-	created_at: Date;
-	end_time: Date;
+export interface CalendarEvent {
+	external_id: string;
+	kind: string;
+}
+
+export interface Event {
+	calendar_event: CalendarEvent;
+	created_at: string;
+	end_time: string;
 	event_guests: Guest[];
 	event_memberships: EventMembership[];
 	event_type: string;
 	invitees_counter: InviteesCounter;
 	location: ZoomLocation | InPersonLocation;
 	name: string;
-	start_time: Date;
+	start_time: string;
 	status: string;
-	updated_at: Date;
+	updated_at: string;
 	uri: string;
 	cancellation?: Cancellation;
 }
 
 export interface Cancellation {
-	cancelled_by: string;
+	canceled_by: string;
 	reason: string;
 	canceler_type: "host" | "invitee";
 }
@@ -259,22 +132,22 @@ export interface InviteesCounter {
 }
 
 export interface InPersonLocation {
-	type: string;
+	type: "physical";
 	location: string;
 }
 
 export interface ZoomLocation {
 	data?: LocationData;
 	join_url: string;
-	status: string;
-	type: string;
+	status: "initiated" | "processing" | "failed" | "pushed";
+	type: "zoom_conference" | "zoom";
 }
 
 export interface LocationData {
 	id: number;
 	settings: Settings;
 	password: string;
-	extra: ExtraData;
+	extra: ExtraData | null;
 }
 
 export interface ExtraData {
@@ -290,16 +163,16 @@ export interface GlobalDialInNumber {
 }
 
 export interface Settings {
-	global_dial_in_numbers: GlobalDialInNumber[];
+	global_dial_in_numbers?: GlobalDialInNumber[];
 }
 
-export interface CalendlyInviteePayload {
+export interface CalendlyInvitee {
 	resource: Invitee;
 }
 
 export interface Invitee {
 	cancel_url: string;
-	created_at: Date;
+	created_at: string;
 	email: string;
 	event: string;
 	first_name: string | null;
@@ -309,7 +182,7 @@ export interface Invitee {
 	no_show: NoShow | null;
 	old_invitee: string | null;
 	payment: Payment | null;
-	questions_and_answers: QuestionsAndAnswer[];
+	questions_and_answers: Array<FirstLessonQuestion | AdditionalInfoQuestion>;
 	reconfirmation: Reconfirmation | null;
 	reschedule_url: string;
 	rescheduled: boolean;
@@ -318,19 +191,19 @@ export interface Invitee {
 	text_reminder_number: string | null;
 	timezone: string;
 	tracking: Tracking;
-	updated_at: Date;
+	updated_at: string;
 	uri: string;
 	cancellation?: Cancellation;
 }
 
 export interface Reconfirmation {
-	created_at: Date;
-	confirmed_at: Date;
+	created_at: string;
+	confirmed_at: string;
 }
 
 export interface NoShow {
 	uri: string;
-	created_at: Date;
+	created_at: string;
 }
 
 export interface Payment {
@@ -342,10 +215,16 @@ export interface Payment {
 	successful: boolean;
 }
 
-export interface QuestionsAndAnswer {
-	question: string;
-	answer: string;
-	position: "1" | "2";
+export interface FirstLessonQuestion {
+	question: "Is this your first lesson with Barrett?";
+	answer: "Yes" | "No";
+	position: string;
+}
+
+export interface AdditionalInfoQuestion {
+	question: "Please share anything that will help prepare for our meeting.";
+	answer?: string;
+	position: string;
 }
 
 export interface Tracking {
@@ -362,4 +241,12 @@ export interface ServiceType {
 	description: string;
 	locations: Locations[];
 	url: string[];
+}
+
+export interface CalendlyCancel {
+	resource: {
+		canceled_by: string;
+		reason: string;
+		canceler_type: "host" | "invitee";
+	};
 }

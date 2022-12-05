@@ -2,26 +2,27 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import { server, stripe, stripeMode } from "../../config/index";
 import { bundles, Prices } from "../../data/services";
-import { Guest } from "../../types/types";
-
-type Data = {
-	url?: string;
-	error?: string;
-};
+import { invalidMethod } from "../../utils/responseDefaults";
+import { getEventInvitee } from "./calendly/getEventInvitee";
 
 type Body = {
 	service: number;
 	location: number;
 	bundle?: number;
-	email: string;
-	name: string;
+	eventURI: string;
+	inviteeURI: string;
 };
 
-const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-	const { service, location, bundle, email, name }: Body = req.body;
-
-	console.log(email);
-
+const createLongerCheckoutSession = async ({
+	service,
+	location,
+	bundle,
+	eventURI,
+	inviteeURI,
+}: Body): Promise<{
+	url?: string;
+	error?: any;
+}> => {
 	let line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
 	// if is a bundle purchase, add the bundle to the line items
@@ -74,13 +75,20 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 			},
 		},
 		billing_address_collection: "required",
+		client_reference_id: eventURI,
+		metadata: {
+			inviteeURI: inviteeURI,
+		},
 	};
+
+	// Get the event invitee info
+	const { data: inviteeInfo } = await getEventInvitee(inviteeURI);
 
 	// Look for a customer with the email address or name in Stripe and create one if it doesn't exist
 	try {
 		// Check if user is previous client
 		const customerSearch = await stripe.customers.search({
-			query: `email:"${email}" OR name~"${name}"`,
+			query: `email:"${inviteeInfo.resource.email}" OR name~"${inviteeInfo.resource.name}"`,
 		});
 
 		if (customerSearch.data.length > 0) {
@@ -91,13 +99,13 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 			};
 		} else {
 			// If user is new client, set session to use email from booking and create customer
-			sessionTemplate.customer_email = `${email}`;
+			sessionTemplate.customer_email = `${inviteeInfo.resource.email}`;
 			sessionTemplate.customer_creation = "always";
 		}
 	} catch (err) {
 		console.log(err);
 		// If error finding client, set session to use email from booking and create customer
-		sessionTemplate.customer_email = `${email}`;
+		sessionTemplate.customer_email = `${inviteeInfo.resource.email}`;
 		sessionTemplate.customer_creation = "always";
 	}
 
@@ -106,15 +114,31 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 		// Create checkout session
 		const session = await stripe.checkout.sessions.create(sessionTemplate);
 
-		session.url
-			? res.status(200).json({ url: session.url })
-			: res
-					.status(404)
-					.json({ error: "Error creating checkout session" });
+		if (session.url)
+			// Return the session URL
+			return { url: session.url };
+		// If no session URL, return error
+		else return { error: "Error creating checkout session" };
+	} catch (e: any) {
+		console.error(e);
+		return { error: e.message };
+	}
+};
+
+export { createLongerCheckoutSession };
+
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+	invalidMethod("POST", req, res);
+
+	try {
+		// Create checkout session
+		const session = await createLongerCheckoutSession(req.body as Body);
+		if (!session.error) res.status(200).json({ url: session.url });
+		else res.status(404).json({ error: "Error creating checkout session" });
 	} catch (e: any) {
 		console.error(e);
 		res.status(404).json({ error: e.message });
 	}
 };
 
-export default checkout;
+export default handler;

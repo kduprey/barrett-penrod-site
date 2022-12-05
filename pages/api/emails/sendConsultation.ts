@@ -36,7 +36,7 @@ const sendConsultationEmail = async ({
 	bookingDate,
 	bookingName,
 	zoomLink,
-}: ConsultationEmailParams): Promise<[ClientResponse, {}]> => {
+}: ConsultationEmailParams): Promise<[ClientResponse, {}] | Error> => {
 	const templateId: string = "d-4a2d850cce134d40bdd662e3fe2a96b3";
 
 	const message: MailDataRequired = {
@@ -76,17 +76,35 @@ const sendConsultationEmail = async ({
 	};
 
 	try {
-		const response = await sendgrid.send(message);
-		return response;
-	} catch (error: any) {
-		console.error(error.body);
-		return error;
+		return await sendgrid.send(message);
+	} catch (error) {
+		console.error(error);
+		return new Error("Error sending email");
 	}
 };
 
 export { sendConsultationEmail };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+	const { email, name, bookingDate, bookingName, zoomLink } = req.body;
+
+	// If one of the required fields is missing, return an error
+	if (
+		!email ||
+		typeof email !== "string" ||
+		!name ||
+		typeof name !== "string" ||
+		!bookingDate ||
+		typeof bookingDate !== "string" ||
+		!bookingName ||
+		typeof bookingName !== "string" ||
+		!zoomLink ||
+		typeof zoomLink !== "string"
+	) {
+		res.status(400).json({ message: "Missing required field" });
+		return;
+	}
+
 	invalidMethod("POST", req, res);
 
 	try {

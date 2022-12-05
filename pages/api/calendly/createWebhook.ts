@@ -1,7 +1,6 @@
 import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 import { dev } from "../../../config";
-import { calendlyWebhooks } from "../../../data/calendlyWebhooks";
 import {
 	CalendlyGetWebhook,
 	CalendlyPostWebhook,

@@ -1,18 +1,25 @@
-import { calendlyInviteePayloads } from "@prisma/client";
+import { calendlyInviteePayloads, Prisma } from "@prisma/client";
+import { ClientResponse } from "@sendgrid/mail";
 import axios from "axios";
 import crypto from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { server } from "../../../config/index";
-import { CalendlyInviteePayload, Invitee } from "../../../types/types";
+import { GetCalendlyEvent } from "../../../types/calendlyTypes";
+import {
+	CalendarEvent,
+	CalendlyEvent,
+	CalendlyInvitee,
+	Invitee,
+} from "../../../types/types";
+import getZoomLink from "../../../utils/getZoomLink";
+import { instanceOfZoomLocation } from "../../../utils/isZoomLocation";
+import { getEventInfo } from "../calendly/getEventInfo";
+import { sendConsultationEmail } from "../emails/sendConsultation";
 
-type Data = {};
-
-const calendlyWebhook = async (
-	req: NextApiRequest,
-	res: NextApiResponse<Data>
-) => {
-	const webhookSigningKey = process.env
-		.CALENDLY_WEBHOOK_SIGNING_KEY as string;
+const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
+	const webhookSigningKey = process.env[
+		"CALENDLY_WEBHOOK_SIGNING_KEY"
+	] as string;
 
 	// Extract the timestamp and signature from the header
 
@@ -76,18 +83,35 @@ const calendlyWebhook = async (
 	if (req.body.event === "invitee.created") {
 		const invitee: calendlyInviteePayloads = req.body.payload;
 
-		const response = await axios.post(
-			`${server}/api/db/calendlyEventPayload`,
-			invitee
-		);
+		let emailRes,
+			eventData: CalendlyEvent | null = null,
+			db: calendlyInviteePayloads | null = null;
 
-		if (response.status === 200) {
-			return res.status(200).json(response.data);
+		// If consultation is booked, send consultation email to client
+		try {
+			eventData = (await getEventInfo(invitee.event)).data.resource;
+			if (eventData.name.includes("Consultation"))
+				emailRes = await sendConsultationEmail({
+					email: invitee.email,
+					name: invitee.name,
+					bookingDate: eventData.start_time,
+					bookingName: eventData.name,
+					zoomLink: (await getZoomLink(invitee.uri)) as string,
+				});
+		} catch (error) {
+			console.log(error);
 		}
-		return res.status(500).json({
-			err: new Error("Error: Failed to insert client"),
-			response,
-		});
+
+		// Add invitee data to database
+		try {
+			db = await prisma.calendlyInviteePayloads.create({
+				data: invitee,
+			});
+		} catch (error) {
+			console.log(error);
+		}
+
+		res.status(200).json({ emailRes, eventData, db });
 	}
 
 	if (req.body.event === "invitee.canceled") {

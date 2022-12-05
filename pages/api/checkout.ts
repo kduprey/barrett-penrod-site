@@ -11,6 +11,7 @@ type Body = {
 	bundle?: number;
 	eventURI: string;
 	inviteeURI: string;
+	isLonger?: boolean;
 };
 
 const createCheckoutSession = async ({
@@ -19,6 +20,7 @@ const createCheckoutSession = async ({
 	bundle,
 	eventURI,
 	inviteeURI,
+	isLonger,
 }: Body): Promise<{
 	url?: string;
 	error?: any;
@@ -65,7 +67,9 @@ const createCheckoutSession = async ({
 		},
 		allow_promotion_codes: true,
 		submit_type: "book",
-		expires_at: Math.floor(new Date(Date.now() + 3600000).getTime() / 1000),
+		expires_at: isLonger
+			? Math.floor(new Date(Date.now() + 86400000).getTime() / 1000)
+			: Math.floor(new Date(Date.now() + 3600000).getTime() / 1000),
 		after_expiration: {
 			recovery: {
 				enabled: true,
@@ -127,6 +131,13 @@ export { createCheckoutSession };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	invalidMethod("POST", req, res);
+
+	const { service, location, bundle, eventURI, inviteeURI } = req.body;
+
+	if (!service || !location || !eventURI || !inviteeURI) {
+		res.status(400).json({ error: "Missing required fields" });
+		return;
+	}
 
 	try {
 		// Create checkout session

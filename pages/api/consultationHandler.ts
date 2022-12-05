@@ -146,6 +146,20 @@ export { consultationHandler };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	invalidMethod("POST", req, res);
+
+	const { event, invitee } = req.body;
+
+	if (!event || !invitee) {
+		return res.status(400).json({ message: "Missing data" });
+	}
+
+	try {
+		const response = await consultationHandler(event, invitee);
+		return res.status(200).json(response);
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({ message: "Error processing request" });
+	}
 };
 
 export default handler;

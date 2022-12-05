@@ -19,6 +19,12 @@ type Props = {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const params = ctx.query;
+
+	if (!params.session_id) {
+		return {
+			notFound: true,
+		};
+	}
 	let packageName: string | null = null,
 		zoomLink: string | null = null;
 

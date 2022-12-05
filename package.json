@@ -30,7 +30,7 @@
 		"bson": "^4.7.0",
 		"framer-motion": "^7.6.1",
 		"next": "^12.3.1",
-		"next-axiom": "^0.14.0",
+		"next-axiom": "^0.16.0",
 		"next-connect": "^0.13.0",
 		"raw-body": "^2.5.1",
 		"react": "18.2.0",
@@ -39,7 +39,7 @@
 		"react-scroll": "^1.8.8",
 		"remove-trailing-slash": "^0.1.1",
 		"sharp": "^0.31.1",
-		"stripe": "^10.15.0"
+		"stripe": "^11.1.0"
 	},
 	"devDependencies": {
 		"@svgr/webpack": "^6.4.0",
@@ -51,13 +51,13 @@
 		"@types/react-scroll": "^1.8.4",
 		"@typescript-eslint/eslint-plugin": "^5.43.0",
 		"autoprefixer": "^10.4.12",
-		"cypress": "^10.10.0",
+		"cypress": "^11.2.0",
 		"eslint": "^8.26.0",
 		"eslint-config-next": "^12.3.1",
 		"eslint-plugin-tsdoc": "^0.2.17",
 		"postcss": "^8.4.18",
 		"prettier": "^2.7.1",
-		"prettier-plugin-tailwindcss": "^0.1.12",
+		"prettier-plugin-tailwindcss": "^0.2.0",
 		"prisma": "^4.3.1",
 		"tailwindcss": "^3.2.1",
 		"typescript": "^4.8.4"

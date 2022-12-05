@@ -2,7 +2,7 @@ import { clients } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import { stripe } from "../../config";
-import { Event, Invitee, ZoomLocation } from "../../types/types";
+import { CalendlyEvent, Invitee, ZoomLocation } from "../../types/types";
 import { instanceOfZoomLocation } from "../../utils/isZoomLocation";
 import { invalidMethod } from "../../utils/responseDefaults";
 import { getEventInfo } from "./calendly/getEventInfo";
@@ -11,7 +11,7 @@ import { sendConsultationEmail } from "./emails/sendConsultation";
 import { sendGuestEmails } from "./emails/sendGuestEmails";
 
 const consultationHandler = async (eventURI: string, inviteeURI: string) => {
-	let event: Event,
+	let event: CalendlyEvent,
 		invitee: Invitee,
 		existingCustomer: clients | null,
 		zoomLink: string = "";

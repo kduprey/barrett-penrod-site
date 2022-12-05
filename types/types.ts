@@ -83,16 +83,12 @@ export interface Price {
 	};
 }
 
-export interface CalendlyEvent {
-	resource: Event;
-}
-
 export interface CalendarEvent {
 	external_id: string;
 	kind: string;
 }
 
-export interface Event {
+export interface CalendlyEvent {
 	calendar_event: CalendarEvent;
 	created_at: string;
 	end_time: string;

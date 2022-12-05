@@ -1,6 +1,6 @@
-import { CalendlyEvent } from "../types/types";
+import { GetCalendlyEvent } from "../types/calendlyTypes";
 
-const testResponses: CalendlyEvent[] = [
+const testResponses: GetCalendlyEvent[] = [
 	{
 		resource: {
 			calendar_event: {
@@ -81,7 +81,7 @@ const testResponses: CalendlyEvent[] = [
 	},
 ];
 
-const getBookongLocation = (bookingData: CalendlyEvent) => {
+const getBookongLocation = (bookingData: GetCalendlyEvent) => {
 	const bookingLocation = bookingData.resource.name.substring(
 		bookingData.resource.name.indexOf("-") + 2
 	);

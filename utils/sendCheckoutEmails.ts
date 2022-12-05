@@ -3,27 +3,21 @@ import Stripe from "stripe";
 import { dev, stripe } from "../config";
 import { getEventInfo } from "../pages/api/calendly/getEventInfo";
 import { getEventInvitee } from "../pages/api/calendly/getEventInvitee";
-import { sendConsultationEmail } from "../pages/api/emails/sendConsultation";
 import { sendFirstTimeEmail } from "../pages/api/emails/sendFirstTimeEmail";
 import { sendGuestEmails } from "../pages/api/emails/sendGuestEmails";
 import { sendPackageConfirmationEmail } from "../pages/api/emails/sendPackageConfirmation";
-import {
-	CalendlyEvent,
-	CalendlyInvitee,
-	Invitee,
-	ZoomLocation,
-} from "../types/types";
+import { GetCalendlyEvent } from "../types/calendlyTypes";
+import { CalendlyInvitee } from "../types/types";
 import getBookongLocation from "./getBookingLocation";
 import getPackageName from "./getPackageName";
 import getZoomLink from "./getZoomLink";
 import isDownpaymentCheckout from "./isDownpaymentCheckout";
 import isPackageCheckout from "./isPackageCheckout";
-import { instanceOfZoomLocation } from "./isZoomLocation";
 
 const sendCheckoutEmails = async (
 	session: Stripe.Checkout.Session
 ): Promise<any[] | boolean> => {
-	let bookingInfo: AxiosResponse<CalendlyEvent>,
+	let bookingInfo: AxiosResponse<GetCalendlyEvent>,
 		inviteeInfo: AxiosResponse<CalendlyInvitee>,
 		zoomLink: string | null = null;
 	const errors = [];

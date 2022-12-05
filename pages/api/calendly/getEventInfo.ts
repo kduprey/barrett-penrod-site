@@ -1,12 +1,12 @@
 import axios, { AxiosResponse } from "axios";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { CalendlyEvent } from "../../../types/types";
+import { GetCalendlyEvent } from "../../../types/calendlyTypes";
 import { invalidMethod } from "../../../utils/responseDefaults";
 
 const getEventInfo = async (
 	uri: string
-): Promise<AxiosResponse<CalendlyEvent>> => {
-	return await axios.get<CalendlyEvent>(uri, {
+): Promise<AxiosResponse<GetCalendlyEvent>> => {
+	return await axios.get<GetCalendlyEvent>(uri, {
 		headers: {
 			Authorization: `Bearer ${process.env["CALENDLY_API_KEY"]}`,
 		},

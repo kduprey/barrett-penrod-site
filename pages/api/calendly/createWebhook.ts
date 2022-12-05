@@ -42,6 +42,7 @@ const createWebhook = async (
 		console.error(err);
 		console.error("Error getting webhooks");
 	}
+	console.log(webhooks);
 
 	// Check if testing webhook already exists
 	const oldWebhookURI = webhooks.find((e) => {
@@ -51,7 +52,15 @@ const createWebhook = async (
 	// Remove old webhook
 	try {
 		if (oldWebhookURI)
-			console.log((await axios.delete(oldWebhookURI)).data);
+			console.log(
+				(
+					await axios.delete(oldWebhookURI, {
+						headers: {
+							Authorization: `Bearer ${process.env["CALENDLY_API_KEY"]}`,
+						},
+					})
+				).data
+			);
 		else console.info("No old webhook to delete");
 	} catch (error) {
 		console.error(error);
@@ -64,7 +73,7 @@ const createWebhook = async (
 		} = await axios.post<CalendlyPostWebhook>(
 			"https://api.calendly.com/webhook_subscriptions",
 			{
-				url,
+				url: url + "/api/webhooks/calendly",
 				events: ["invitee.created", "invitee.canceled"],
 				organization,
 				scope: "organization",

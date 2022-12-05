@@ -14,6 +14,7 @@ import {
 import getZoomLink from "../../../utils/getZoomLink";
 import { instanceOfZoomLocation } from "../../../utils/isZoomLocation";
 import { getEventInfo } from "../calendly/getEventInfo";
+import { consultationHandler } from "../consultationHandler";
 import { sendConsultationEmail } from "../emails/sendConsultation";
 
 const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -91,13 +92,7 @@ const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 		try {
 			eventData = (await getEventInfo(invitee.event)).data.resource;
 			if (eventData.name.includes("Consultation"))
-				emailRes = await sendConsultationEmail({
-					email: invitee.email,
-					name: invitee.name,
-					bookingDate: eventData.start_time,
-					bookingName: eventData.name,
-					zoomLink: (await getZoomLink(invitee.uri)) as string,
-				});
+				consultationHandler(invitee.event, invitee.uri);
 		} catch (error) {
 			console.log(error);
 		}

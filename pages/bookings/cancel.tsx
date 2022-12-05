@@ -11,6 +11,14 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
+	const { sessionId } = ctx.query;
+
+	if (!sessionId) {
+		return {
+			notFound: true,
+		};
+	}
+
 	try {
 		const session = await stripe.checkout.sessions.retrieve(
 			ctx.query.session_id as string

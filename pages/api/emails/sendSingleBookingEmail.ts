@@ -88,10 +88,22 @@ export { sendSingleBookingEmail };
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	invalidMethod("POST", req, res);
 
+	const { email, name, bookingDate, bookingName, zoomLink } = req.body;
+
+	if (!email || !name || !bookingDate || !bookingName) {
+		return res.status(400).json({
+			message: "Missing required parameters",
+		});
+	}
+
 	try {
-		const response = await sendSingleBookingEmail(
-			req.body as SingleBookingEmailParams
-		);
+		const response = await sendSingleBookingEmail({
+			email,
+			name,
+			bookingDate,
+			bookingName,
+			zoomLink,
+		});
 		res.status(200).json({ message: response });
 	} catch (error: any) {
 		console.log(error);

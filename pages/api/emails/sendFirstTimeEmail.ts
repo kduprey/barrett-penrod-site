@@ -89,10 +89,23 @@ export { sendFirstTimeEmail };
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	invalidMethod("POST", req, res);
 
+	const { email, name, bookingDate, bookingName, zoomLink } = req.body;
+
+	if (!email || !name || !bookingDate || !bookingName) {
+		res.status(400).json({
+			error: "Missing required parameters",
+		});
+		return;
+	}
+
 	try {
-		const response = await sendFirstTimeEmail(
-			req.body as FirstTimeEmailParams
-		);
+		const response = await sendFirstTimeEmail({
+			email,
+			name,
+			bookingDate,
+			bookingName,
+			zoomLink,
+		});
 		res.status(200).json({
 			message: response,
 		});

@@ -94,10 +94,31 @@ export { sendPackageConfirmationEmail };
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	invalidMethod("POST", req, res);
 
+	const {
+		email,
+		name,
+		packageName,
+		bookingDate,
+		bookingLocation,
+		zoomLink,
+	}: PackageConfirmationEmailParams = req.body;
+
+	if (!email || !name || !packageName || !bookingDate || !bookingLocation) {
+		res.status(400).json({
+			message: "Missing required parameters",
+		});
+		return;
+	}
+
 	try {
-		const response = await sendPackageConfirmationEmail(
-			req.body as PackageConfirmationEmailParams
-		);
+		const response = await sendPackageConfirmationEmail({
+			email,
+			name,
+			packageName,
+			bookingDate,
+			bookingLocation,
+			zoomLink,
+		});
 		res.status(200).json(response);
 	} catch (error: any) {
 		console.log(error);

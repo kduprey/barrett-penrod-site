@@ -82,8 +82,21 @@ export { sendGuestEmails };
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	invalidMethod("POST", req, res);
 
+	const { guests, bookingDate, bookingName, zoomLink } = req.body;
+
+	if (!guests || !bookingDate || !bookingName) {
+		res.status(400).json({
+			error: "Missing required fields",
+		});
+	}
+
 	try {
-		const response = await sendGuestEmails(req.body as GuestEmailsParams);
+		const response = await sendGuestEmails({
+			guests,
+			bookingDate,
+			bookingName,
+			zoomLink,
+		});
 		console.log(response);
 		res.status(200).json({ message: response });
 	} catch (error: any) {

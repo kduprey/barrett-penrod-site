@@ -1,6 +1,8 @@
 import { GetServerSideProps } from "next";
+import { useEffect, useState } from "react";
 import Stripe from "stripe";
 import BookingsLayout from "../../components/BookingsLayout";
+import Loading from "../../components/Loading";
 import { stripe } from "../../config";
 import { NextPageWithLayout } from "../../types/types";
 import getPackageName from "../../utils/getPackageName";
@@ -28,41 +30,49 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	let packageName: string | null = null,
 		zoomLink: string | null = null;
 
-	const session: Stripe.Checkout.Session =
-		(await stripe.checkout.sessions.retrieve(
-			params.session_id as string
-		)) as Stripe.Checkout.Session;
+	try {
+		const session: Stripe.Checkout.Session =
+			(await stripe.checkout.sessions.retrieve(
+				params.session_id as string
+			)) as Stripe.Checkout.Session;
 
-	const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+		const lineItems = await stripe.checkout.sessions.listLineItems(
+			session.id
+		);
 
-	const {
-		data: {
-			resource: { name: eventName, start_time },
-		},
-	} = await getEventInfo(session.client_reference_id as string);
-	const {
-		data: {
-			resource: { name },
-		},
-	} = await getEventInvitee(session?.metadata?.inviteeURI as string);
+		const {
+			data: {
+				resource: { name: eventName, start_time },
+			},
+		} = await getEventInfo(session.client_reference_id as string);
+		const {
+			data: {
+				resource: { name },
+			},
+		} = await getEventInvitee(session?.metadata?.inviteeURI as string);
 
-	// Get package name if it's a bundle
-	if (await isPackageCheckout(session)) {
-		packageName = getPackageName(lineItems.data as Stripe.LineItem[]);
+		// Get package name if it's a bundle
+		if (await isPackageCheckout(session)) {
+			packageName = getPackageName(lineItems.data as Stripe.LineItem[]);
+		}
+
+		// Get zoom link
+		zoomLink = await getZoomLink(session.client_reference_id as string);
+		return {
+			props: {
+				name,
+				start_time,
+				zoomLink,
+				packageName: packageName,
+				sessionTitle: eventName,
+			} as Props,
+		};
+	} catch (err) {
+		console.error(err);
+		return {
+			notFound: true,
+		};
 	}
-
-	// Get zoom link
-	zoomLink = await getZoomLink(session.client_reference_id as string);
-
-	return {
-		props: {
-			name,
-			start_time: start_time.toString(),
-			zoomLink,
-			packageName: packageName,
-			sessionTitle: eventName,
-		} as Props,
-	};
 };
 
 const Success: NextPageWithLayout = ({
@@ -72,8 +82,31 @@ const Success: NextPageWithLayout = ({
 	packageName,
 	sessionTitle,
 }: Props) => {
+	const [date, setDate] = useState<string>(start_time);
+	const [time, setTime] = useState<string>(start_time);
+
+	useEffect(() => {
+		const tempDate = new Date(start_time).toLocaleDateString([], {
+			weekday: "long",
+			month: "short",
+			day: "numeric",
+			year: "numeric",
+		});
+
+		const tempTime = new Date(start_time).toLocaleTimeString([], {
+			hour: "numeric",
+			minute: "numeric",
+			hour12: true,
+		});
+
+		setDate(tempDate);
+		setTime(tempTime);
+	}, [start_time]);
+
+	if (date === "" || time === "") return <Loading />;
+
 	return (
-		<div className="flex flex-grow flex-col items-center justify-center space-y-4 py-6">
+		<section className="flex flex-grow flex-col items-center justify-center space-y-4 py-6">
 			<h2 className="text-center text-secondary">Booking Confirmed</h2>
 			<div className="m-3 flex flex-col items-center justify-center space-y-4 rounded bg-secondary p-8 shadow-lg">
 				<p className="text-2xl text-primary">Thank you, {name}</p>
@@ -92,17 +125,7 @@ const Success: NextPageWithLayout = ({
 				</p>
 
 				<p className="font-semibold text-primary">
-					{new Date(start_time).toLocaleTimeString([], {
-						hour: "numeric",
-						minute: "2-digit",
-					})}{" "}
-					on{" "}
-					{new Date(start_time).toLocaleDateString([], {
-						weekday: "long",
-						month: "short",
-						day: "numeric",
-						year: "numeric",
-					})}
+					{time} on {date}
 				</p>
 
 				{zoomLink && (
@@ -115,7 +138,7 @@ const Success: NextPageWithLayout = ({
 					Please check your email for confirmation.
 				</p>
 			</div>
-		</div>
+		</section>
 	);
 };
 

@@ -1,5 +1,7 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { useEffect, useState } from "react";
 import BookingsLayout from "../../components/BookingsLayout";
+import Loading from "../../components/Loading";
 import { NextPageWithLayout } from "../../types/types";
 import getZoomLink from "../../utils/getZoomLink";
 import { instanceOfZoomLocation } from "../../utils/isZoomLocation";
@@ -15,26 +17,45 @@ type Props = {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	const { eventURI, inviteeURI } = ctx.query;
 
-	const {
-		data: {
-			resource: { start_time, location },
-		},
-	} = await getEventInfo(eventURI as string);
-	const {
-		data: {
-			resource: { name },
-		},
-	} = await getEventInvitee(inviteeURI as string);
+	if (!eventURI || !inviteeURI) {
+		return {
+			notFound: true,
+		};
+	}
 
-	const zoomLink = await getZoomLink(eventURI as string);
+	try {
+		const response = await getEventInfo(eventURI as string);
+		if (response.status !== 200) {
+			console.error(response);
+			return {
+				notFound: true,
+			};
+		}
 
-	return {
-		props: {
-			name,
-			start_time,
-			zoomLink,
-		} as Props,
-	};
+		const eventResponse = await getEventInvitee(inviteeURI as string);
+		if (eventResponse.status !== 200) {
+			console.error(eventResponse);
+			return {
+				notFound: true,
+			};
+		}
+
+		const zoomLink = await getZoomLink(eventURI as string);
+
+		return {
+			props: {
+				name: eventResponse.data.resource.name,
+				start_time: response.data.resource.start_time,
+				zoomLink,
+			} as Props,
+		};
+	} catch (error) {
+		console.error(error);
+
+		return {
+			notFound: true,
+		};
+	}
 };
 
 const ConsultationSuccess: NextPageWithLayout = ({
@@ -42,6 +63,29 @@ const ConsultationSuccess: NextPageWithLayout = ({
 	start_time,
 	zoomLink,
 }: Props) => {
+	const [date, setDate] = useState<string>(start_time);
+	const [time, setTime] = useState<string>(start_time);
+
+	useEffect(() => {
+		const tempDate = new Date(start_time).toLocaleDateString([], {
+			weekday: "long",
+			month: "short",
+			day: "numeric",
+			year: "numeric",
+		});
+
+		const tempTime = new Date(start_time).toLocaleTimeString([], {
+			hour: "numeric",
+			minute: "numeric",
+			hour12: true,
+		});
+
+		setDate(tempDate);
+		setTime(tempTime);
+	}, [start_time]);
+
+	if (date === "" || time === "") return <Loading />;
+
 	return (
 		<section className="flex flex-grow flex-col items-center justify-center space-y-4 py-6">
 			<h2 className="text-center text-secondary">
@@ -51,18 +95,8 @@ const ConsultationSuccess: NextPageWithLayout = ({
 			<div className="m-3 flex flex-col items-center justify-center space-y-4 rounded bg-secondary p-6 shadow-lg">
 				<p className="text-primary">Thank you, {name}</p>
 				<p className="text-center text-primary">
-					Your consultation session has been scheduled for{" "}
-					{new Date(start_time).toLocaleString([], {
-						hour: "numeric",
-						minute: "2-digit",
-					})}{" "}
-					on{" "}
-					{new Date(start_time).toLocaleDateString([], {
-						weekday: "long",
-						month: "short",
-						day: "numeric",
-						year: "numeric",
-					})}
+					Your consultation session has been scheduled for {time} on{" "}
+					{date}
 				</p>
 				<div className="flex flex-col items-center justify-center">
 					<p className="text-primary">

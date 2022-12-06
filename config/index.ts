@@ -5,7 +5,7 @@ import Stripe from "stripe";
 export const dev = process.env.VERCEL_ENV !== "production";
 
 export const server = dev
-	? "https://3d8e-24-103-41-10.ngrok.io"
+	? "https://2f11-2600-4040-9a9b-9200-bc5d-dbc1-5777-a055.ngrok.io"
 	: "https://barrettpenrod.com";
 
 export const db = dev ? "test" : "production";
@@ -19,7 +19,7 @@ export const stripe = new Stripe(
 		? `${process.env["STRIPE_SECRET_KEY"]}`
 		: `${process.env["STRIPE_TEST_SECRET_KEY"]}`,
 	{
-		apiVersion: "2022-08-01",
+		apiVersion: "2022-11-15",
 	}
 );
 

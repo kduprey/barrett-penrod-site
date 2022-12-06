@@ -1,22 +1,12 @@
 import { calendlyInviteePayloads, Prisma } from "@prisma/client";
-import { ClientResponse } from "@sendgrid/mail";
 import axios from "axios";
 import crypto from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { server } from "../../../config/index";
-import { GetCalendlyEvent } from "../../../types/calendlyTypes";
-import {
-	CalendarEvent,
-	CalendlyEvent,
-	CalendlyInvitee,
-	Invitee,
-} from "../../../types/types";
-import getZoomLink from "../../../utils/getZoomLink";
-import { instanceOfZoomLocation } from "../../../utils/isZoomLocation";
+import prisma from "../../../lib/prisma";
+import { CalendlyEvent } from "../../../types/types";
 import { getEventInfo } from "../calendly/getEventInfo";
 import { consultationHandler } from "../consultationHandler";
-import { sendConsultationEmail } from "../emails/sendConsultation";
-
 const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 	const webhookSigningKey = process.env[
 		"CALENDLY_WEBHOOK_SIGNING_KEY"

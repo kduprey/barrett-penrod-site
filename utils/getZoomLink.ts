@@ -1,15 +1,19 @@
 import { getEventInfo } from "../pages/api/calendly/getEventInfo";
-import { ZoomLocation } from "../types/types";
+import { InPersonLocation, ZoomLocation } from "../types/types";
 import { instanceOfZoomLocation } from "./isZoomLocation";
 
 const getZoomLink = async (eventURI: string): Promise<string | null> => {
-	let {
-		data: {
-			resource: { location },
-		},
-	} = await getEventInfo(eventURI);
+	let location: ZoomLocation | InPersonLocation | undefined;
+	try {
+		const eventResponse = await getEventInfo(eventURI);
+		location = eventResponse.data.resource.location;
+	} catch (error) {
+		console.error(error);
+		return null;
+	}
+
 	// Make sure Zoom URL is available, if Zoom location
-	if (instanceOfZoomLocation(location)) {
+	if (instanceOfZoomLocation(location) && location !== undefined) {
 		while ((location as ZoomLocation).status === "initiated") {
 			console.log("Zoom URL not available, retrying...");
 			location = await (

@@ -5,7 +5,8 @@ import Stripe from "stripe";
 export const dev = process.env.VERCEL_ENV !== "production";
 
 export const server = dev
-	? "http://192.168.1.183:3000"
+	? process.env["VERCEL_URL"] ||
+	  "https://2f11-2600-4040-9a9b-9200-bc5d-dbc1-5777-a055.ngrok.io"
 	: "https://barrettpenrod.com";
 
 export const db = dev ? "test" : "production";
@@ -13,7 +14,7 @@ export const db = dev ? "test" : "production";
 export const stripeMode = dev ? "test" : "live";
 
 export const dbURL = process.env["PRODUCTION_DB_URL"];
-
+``;
 export const stripe = new Stripe(
 	process.env.VERCEL_ENV === "production"
 		? `${process.env["STRIPE_SECRET_KEY"]}`

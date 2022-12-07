@@ -4,11 +4,7 @@ import Stripe from "stripe";
 
 export const dev = process.env.VERCEL_ENV !== "production";
 
-export const server = dev
-	? process.env.VERCEL_URL
-		? process.env.VERCEL_URL
-		: "https://2f11-2600-4040-9a9b-9200-bc5d-dbc1-5777-a055.ngrok.io"
-	: "https://barrettpenrod.com";
+export const server = dev ? "" : "https://barrettpenrod.com";
 
 export const db = dev ? "test" : "production";
 

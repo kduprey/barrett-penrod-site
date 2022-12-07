@@ -1,14 +1,22 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import BundleModal from "../../components/Bookings/BundleModal";
 import BookingsLayout from "../../components/BookingsLayout";
 import Logo from "../../components/Logo";
 import { bundles, services } from "../../data/services";
 import { NextPageWithLayout } from "../../types";
+import handleQueryParams from "../../utils/handleQueryParams";
 
 type Props = {};
 
 const Bookings: NextPageWithLayout = (props: Props) => {
+	const router = useRouter();
+
+	useEffect(() => {
+		handleQueryParams(router.query);
+	}, [router.query]);
+
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedBundle, setselectedBundle] = useState<number>();
 

@@ -24,6 +24,7 @@
 		"@fortawesome/free-solid-svg-icons": "^6.2.1",
 		"@fortawesome/react-fontawesome": "^0.2.0",
 		"@headlessui/react": "^1.7.4",
+		"@prisma/client": "^4.7.1",
 		"@sendgrid/mail": "^7.7.0",
 		"@xata.io/client": "^0.21.3",
 		"axios": "^1.2.1",
@@ -32,6 +33,7 @@
 		"next": "^12.3.1",
 		"next-axiom": "^0.16.0",
 		"next-connect": "^0.13.0",
+		"prisma": "^4.7.1",
 		"raw-body": "^2.5.1",
 		"react": "18.2.0",
 		"react-calendly": "^4.0.1",
@@ -39,7 +41,7 @@
 		"react-scroll": "^1.8.8",
 		"remove-trailing-slash": "^0.1.1",
 		"sharp": "^0.31.2",
-		"stripe": "^10.17.0"
+		"stripe": "^11.2.0"
 	},
 	"devDependencies": {
 		"@svgr/webpack": "^6.5.1",

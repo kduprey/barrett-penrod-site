@@ -7,6 +7,15 @@ datasource db {
   url      = env("ATLAS_DB")
 }
 
+model qr_code_logs {
+  id           String            @id @default(auto()) @map("_id") @db.ObjectId
+  flyerSize    Int  
+  campaign     Int
+  designId     Int  
+  location     Int
+  timestamp    DateTime          @db.Date 
+}
+
 model calendlyInviteePayloads {
   id                      String                                               @id @default(auto()) @map("_id") @db.ObjectId
   cancel_url              String

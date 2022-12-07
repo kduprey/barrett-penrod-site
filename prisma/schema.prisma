@@ -12,6 +12,7 @@ model qr_code_logs {
   flyerSize    Int  
   campaign     Int
   designId     Int  
+  location     Int
   timestamp    DateTime          @db.Date 
 }
 

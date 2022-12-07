@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import BundleModal from "../../components/Bookings/BundleModal";
 import BookingsLayout from "../../components/BookingsLayout";
@@ -9,6 +10,10 @@ import { NextPageWithLayout } from "../../types";
 type Props = {};
 
 const Bookings: NextPageWithLayout = (props: Props) => {
+	const router = useRouter();
+
+	router.query;
+
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedBundle, setselectedBundle] = useState<number>();
 

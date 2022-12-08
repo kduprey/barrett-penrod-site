@@ -3,11 +3,23 @@ import prisma from "../../lib/prisma";
 
 const updateQRDR = async (qrID: string): Promise<boolean> => {
 	console.log("Updating QRDB");
+	let location: number, flyerSize: number, campaign: number, designId: number;
 
-	const location = Number.parseInt(qrID.split("")[0]);
-	const flyerSize = Number.parseInt(qrID.split("")[1]);
-	const campaign = Number.parseInt(qrID.split("")[2]);
-	const designId = Number.parseInt(qrID.split("")[3]);
+	// Check for old format
+	if (!qrID.includes("-")) {
+		const qrIDSplit = qrID.split("");
+		location = Number.parseInt(qrIDSplit[0]);
+		flyerSize = Number.parseInt(qrIDSplit[1]);
+		campaign = Number.parseInt(qrIDSplit[2]);
+		designId = Number.parseInt(qrIDSplit[3]);
+	} else {
+		// New format
+		const qrIDSplit = qrID.split("-");
+		location = Number.parseInt(qrIDSplit[0]);
+		flyerSize = Number.parseInt(qrIDSplit[1]);
+		campaign = Number.parseInt(qrIDSplit[2]);
+		designId = Number.parseInt(qrIDSplit[3]);
+	}
 
 	try {
 		await prisma.qr_code_logs.create({

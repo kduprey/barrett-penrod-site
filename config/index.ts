@@ -4,7 +4,9 @@ import Stripe from "stripe";
 
 export const dev = process.env.VERCEL_ENV !== "production";
 
-export const server = dev ? "" : "https://barrettpenrod.com";
+export const server = dev
+	? "https://c29e-216-250-210-0.ngrok.io"
+	: "https://barrettpenrod.com";
 
 export const db = dev ? "test" : "production";
 
@@ -26,9 +28,9 @@ export const stripeWebhookSecret = dev
 	: process.env["STRIPE_WEBHOOK_SECRET"];
 
 if (dev) {
-	sendgridClient.setApiKey(process.env["SENDGRID_API_KEY"] as string);
-} else {
 	sendgridClient.setApiKey(process.env["SENDGRID_DEV_API_KEY"] as string);
+} else {
+	sendgridClient.setApiKey(process.env["SENDGRID_API_KEY"] as string);
 }
 export const sendgrid = sendgridClient;
 

@@ -42,7 +42,6 @@ const createWebhook = async (
 		console.error(err);
 		console.error("Error getting webhooks");
 	}
-	console.log(webhooks);
 
 	// Check if testing webhook already exists
 	const oldWebhookURI = webhooks.find((e) => {
@@ -51,7 +50,7 @@ const createWebhook = async (
 
 	// Remove old webhook
 	try {
-		if (oldWebhookURI)
+		if (oldWebhookURI) {
 			console.log(
 				(
 					await axios.delete(oldWebhookURI, {
@@ -61,9 +60,13 @@ const createWebhook = async (
 					})
 				).data
 			);
-		else console.info("No old webhook to delete");
+		} else {
+			console.info("No old webhook to delete");
+		}
 	} catch (error) {
-		console.error(error);
+		console.error(
+			new Error("Error deleting old webhook", { cause: error })
+		);
 	}
 
 	// Create new webhook

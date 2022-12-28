@@ -2,7 +2,7 @@
 	"name": "barrett-penrod-site",
 	"private": true,
 	"scripts": {
-		"dev": "doppler run next dev",
+		"dev": "doppler run -- next dev -p 3008",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
@@ -11,7 +11,7 @@
 		"prisma:deploy": "doppler run --mount .env -- npx prisma migrate deploy",
 		"prisma:generate": "doppler run --mount .env -- npx prisma generate",
 		"prisma:format": "doppler run --mount .env -- npx prisma format",
-		"vercel:dev": "vercel dev",
+		"vercel:dev": "vercel dev -p 3008",
 		"cy:run": "cypress run",
 		"cy:open": "cypress open",
 		"test": "jest"

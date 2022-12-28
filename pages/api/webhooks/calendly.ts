@@ -17,8 +17,6 @@ const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 	const calendlySignature = req.headers[
 		"calendly-webhook-signature"
 	] as string;
-	console.log(req.headers);
-	console.log(calendlySignature);
 
 	const { t, signature } = calendlySignature?.split(",").reduce(
 		(acc, currentValue) => {
@@ -94,6 +92,24 @@ const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 			});
 		} catch (error) {
 			console.log(error);
+		}
+
+		// Check if invitee is already in database
+		try {
+			emailRes = await prisma.clients.findMany({
+				where: {
+					OR: [
+						{
+							email: invitee.email,
+						},
+						{
+							name: invitee.name,
+						},
+					],
+				},
+			});
+		} catch (error) {
+			console.error(error);
 		}
 
 		res.status(200).json({ emailRes, eventData, db });

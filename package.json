@@ -40,7 +40,7 @@
 		"react-dom": "18.2.0",
 		"react-scroll": "^1.8.9",
 		"remove-trailing-slash": "^0.1.1",
-		"sharp": "^0.31.2",
+		"sharp": "^0.31.3",
 		"stripe": "^11.5.0"
 	},
 	"devDependencies": {

@@ -136,6 +136,8 @@ const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 					</button>
 				</div>
 			</section>
+
+			<hr className="my-3 w-full rounded bg-secondary p-1" />
 			{/* Lesson Demo */}
 			<section>
 				<div className="hidden md:block">
@@ -148,6 +150,7 @@ const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 					</button>
 				</div>
 			</section>
+			<hr className="my-3 w-full rounded bg-secondary p-1" />
 
 			{/* Services */}
 			<section className="2xl:flex 2xl:h-full 2xl:w-full  2xl:justify-evenly">
@@ -175,7 +178,7 @@ const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 				</div>
 
 				{/* Consultation Section */}
-				<div className=" h-full py-8 2xl:justify-between 2xl:py-0">
+				<div className=" h-full py-8 2xl:justify-between 2xl:py-0 ">
 					{/* Info Section */}
 					<div className="  flex max-w-md flex-col  gap-3 rounded-lg bg-secondary p-8 md:max-w-lg lg:max-w-xl">
 						<h2 className="text-center text-primary md:text-3xl lg:text-4xl">

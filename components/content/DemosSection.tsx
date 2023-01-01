@@ -2,9 +2,9 @@ type Props = {};
 
 const DemosSection = (props: Props) => {
 	return (
-		<div className="about space-y-3 px-6 pt-4 md:pb-4">
+		<div className="about space-y-3 px-6 pt-4 md:pb-4 md:pt-0">
 			<div>
-				<h3 className="hidden py-4 text-center md:block">
+				<h3 className="hidden pb-4 text-center md:block">
 					Lesson Demo
 				</h3>
 

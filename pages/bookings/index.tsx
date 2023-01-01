@@ -94,12 +94,24 @@ const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 				<div className="flex max-w-md flex-col gap-3 lg:max-w-xl">
 					<h2>Welcome!</h2>
 					<p>
-						Hello! Welcome to my studio page I realize that this
-						visit to my website might be merely a brief stop for you
-						on a journey to find a voice teacher that meets your
-						needs. Whether you are new to working on your voice or a
-						seasoned professional, I would love to introduce myself
-						and offer what I can to assist you on your journey.
+						Thank you for visiting my studio page. I began the
+						Barrett Penrod Voice Studio officially in June 2022,
+						after completing my dual graduate degrees at New York
+						University. I&rsquo;ll be up front with you - I&rsquo;m
+						not like most other voice teachers. I&rsquo;m not going
+						to mold you into a packaged perfect sound, I&rsquo;m not
+						going to push you towards a particular method, and
+						I&rsquo;m not ever at any point going to tell you that
+						you sound bad. What I am going to do is give you the
+						tools and skills to become truly skilled, no matter what
+						your ability is at the start. If you&rsquo;re a pro and
+						happy with your sound, then we&rsquo;re going to make
+						keeping your voice how you need it to be astronomically
+						easier. If you wanna change, then we&rsquo;ll smash
+						through those barriers. If you&rsquo;re a beginner, then
+						you&rsquo;ll learn the tools that will open doors you
+						never thought possible. Book in with me, and let&rsquo;s
+						hear you do wonders!
 					</p>
 					<h4>My Philiosophy</h4>
 

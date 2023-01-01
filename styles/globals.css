@@ -6,6 +6,15 @@ main {
 	@apply font-sans;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	@apply text-secondary;
+}
+
 h1 {
 	@apply text-4xl font-bold md:text-6xl;
 }
@@ -35,7 +44,7 @@ td {
 }
 
 p {
-	@apply text-base font-normal text-slate-100 md:text-lg;
+	@apply text-base font-normal text-slate-100 lg:text-lg;
 }
 
 a {
@@ -54,11 +63,14 @@ label {
 	@apply text-lg text-gray-700;
 }
 
-.withTransition {
-	@apply transition-all duration-300 ease-in-out;
-}
-
 @layer utilities {
+	.link {
+		@apply withTransition cursor-pointer opacity-90 hover:text-white hover:underline hover:opacity-100;
+	}
+	.withTransition {
+		@apply transition-all duration-300 ease-in-out;
+	}
+
 	.medium-submenu {
 		@apply absolute w-auto space-y-2 border bg-primary px-4 py-4;
 	}
@@ -95,6 +107,17 @@ label {
 	}
 	.logo {
 		@apply bg-white shadow-lg shadow-black;
+	}
+
+	.about li {
+		@apply text-base font-light;
+	}
+	.about i {
+		@apply font-normal;
+	}
+
+	.booking nav p {
+		@apply md:text-base;
 	}
 }
 

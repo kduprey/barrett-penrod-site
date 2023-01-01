@@ -1,7 +1,6 @@
 import { PrismaClientOptions } from "@prisma/client/runtime";
 import sendgridClient from "@sendgrid/mail";
 import Stripe from "stripe";
-import { graphcms } from "./hygraphCMS";
 
 export const dev = process.env.VERCEL_ENV !== "production";
 

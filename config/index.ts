@@ -1,6 +1,7 @@
 import { PrismaClientOptions } from "@prisma/client/runtime";
 import sendgridClient from "@sendgrid/mail";
 import Stripe from "stripe";
+import { graphcms } from "./hygraphCMS";
 
 export const dev = process.env.VERCEL_ENV !== "production";
 
@@ -51,3 +52,5 @@ export const prismaConfig = dev
 			] as PrismaClientOptions["log"],
 			errorFormat: "minimal" as PrismaClientOptions["errorFormat"],
 	  };
+
+export { hygraphcms } from "./hygraphCMS";

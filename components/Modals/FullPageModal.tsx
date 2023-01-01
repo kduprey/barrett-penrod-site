@@ -1,7 +1,7 @@
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion as m, useAnimation } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
 	isOpen: boolean;
@@ -16,6 +16,23 @@ const FullPageModal = ({ isOpen, setIsOpen, header, children }: Props) => {
 		setIsOpen(false);
 		document.body.style.overflow = "unset";
 	};
+
+	const [windowWidth, setWindowWidth] = useState<number>(0);
+
+	useEffect(() => {
+		window.addEventListener("resize", () => {
+			setWindowWidth(window.innerWidth);
+		});
+	}, []);
+
+	useEffect(() => {
+		setWindowWidth(window.innerWidth);
+
+		if (windowWidth > 768) {
+			document.body.style.overflow = "auto";
+			setIsOpen(false);
+		}
+	}, [windowWidth, setIsOpen]);
 
 	useEffect(() => {
 		if (isOpen) {

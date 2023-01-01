@@ -117,10 +117,6 @@ const Page: NextPageWithLayout = () => {
 
 			<Showreel />
 
-			<div className="flex justify-center bg-slate-100 p-3">
-				<hr className="h-1 w-3/4 bg-slate-300" />
-			</div>
-
 			{/* Photos */}
 
 			<Photos />

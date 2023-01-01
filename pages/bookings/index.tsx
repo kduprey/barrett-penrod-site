@@ -1,20 +1,48 @@
+import { gql } from "graphql-request";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import AboutStudioModal from "../../components/AboutStudioModal";
 import BundleModal from "../../components/Bookings/BundleModal";
 import BookingsLayout from "../../components/BookingsLayout";
-import Demos from "../../components/Demos";
+import AboutStudioSection from "../../components/content/AboutStudioSection";
+import DemosSection from "../../components/content/DemosSection";
 import Logo from "../../components/Logo";
+import AboutStudioModal from "../../components/Modals/AboutStudioModal";
+import Demos from "../../components/Modals/DemosModal";
+import { hygraphcms } from "../../config";
 import { bundles, services } from "../../data/services";
 import headshot2 from "../../public/headshot2.jpg";
 import { NextPageWithLayout } from "../../types";
 import handleQueryParams from "../../utils/handleQueryParams";
 
-type Props = {};
+export const getStaticProps = async () => {
+	const QUERY = gql`
+		query PromoContents {
+			promoContents(stage: PUBLISHED) {
+				headerForPromo
+				promoSubheadingDescription
+			}
+		}
+	`;
 
-const Bookings: NextPageWithLayout = (props: Props) => {
+	const { promoContents } = await hygraphcms.request(QUERY);
+
+	return {
+		props: {
+			promoContents,
+		},
+	};
+};
+
+type Props = {
+	promoContents: {
+		headerForPromo: string;
+		promoSubheadingDescription: string;
+	}[];
+};
+
+const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 	const router = useRouter();
 
 	useEffect(() => {
@@ -27,7 +55,9 @@ const Bookings: NextPageWithLayout = (props: Props) => {
 	const [selectedBundle, setselectedBundle] = useState<number>();
 
 	return (
-		<section className={`container mx-auto px-6 sm:p-0 `}>
+		<section
+			className={` flex flex-col items-center justify-center gap-3 px-4`}
+		>
 			<BundleModal
 				isOpen={isOpen}
 				setIsOpen={setIsOpen}
@@ -36,138 +66,160 @@ const Bookings: NextPageWithLayout = (props: Props) => {
 			<Demos isOpen={isDemosOpen} setIsOpen={setIsDemosOpen} />
 			<AboutStudioModal isOpen={isAboutOpen} setIsOpen={setIsAboutOpen} />
 			{/* Promo Section */}
-			<div className="flex flex-col items-center justify-center gap-3 p-3">
-				<h1>Promo Now!</h1>
-				<h3 className="text-center">
-					Promo description text... Lorem ipsum dolor sit amet
-					consectetur adipisicing elit.
-				</h3>
-			</div>
+			{promoContents[0] && (
+				<div className="flex flex-col items-center justify-center gap-3 p-3">
+					<h1>{promoContents[0].headerForPromo}</h1>
+					<h3 className="text-center">
+						{promoContents[0].promoSubheadingDescription}
+					</h3>
+				</div>
+			)}
 			{/* Logo */}
-			<div className="flex justify-center">
+			<div className="w-full max-w-[25em] py-5">
 				<Logo />
-			</div>
-			{/* Headshot */}
-			<div className="my-5 mx-auto w-full">
-				<Image
-					loading="lazy"
-					placeholder="blur"
-					src={headshot2}
-					alt="Barret Penrod"
-					className="rounded-xl"
-				/>
 			</div>
 
 			{/* Bio & Philiosophy */}
-			<div className=" flex flex-col gap-3">
-				<h2 className="text-center">Philiosophy and Bio</h2>
-				<p>
-					Hello! Welcome to my studio page I realize that this visit
-					to my website might be merely a brief stop for you on a
-					journey to find a voice teacher that meets your needs.
-					Whether you are new to working on your voice or a seasoned
-					professional, I would love to introduce myself and offer
-					what I can to assist you on your journey.
-				</p>
-				<h4>My Philiosophy</h4>
+			<div className=" flex w-full flex-col items-center justify-center gap-3 md:flex-row md:justify-evenly md:gap-5 md:px-8">
+				{/* Headshot */}
+				<div className="mt-5 max-w-[20em]">
+					<Image
+						loading="lazy"
+						placeholder="blur"
+						src={headshot2}
+						alt="Barret Penrod"
+						className="rounded-xl"
+					/>
+				</div>
+				<div className="flex max-w-md flex-col gap-3 lg:max-w-xl">
+					<h2 className="text-center">Welcome!</h2>
+					<p>
+						Hello! Welcome to my studio page I realize that this
+						visit to my website might be merely a brief stop for you
+						on a journey to find a voice teacher that meets your
+						needs. Whether you are new to working on your voice or a
+						seasoned professional, I would love to introduce myself
+						and offer what I can to assist you on your journey.
+					</p>
+					<h4>My Philiosophy</h4>
 
-				<p>
-					Anyone<span className="italic">*</span> can become a skilled
-					singer. It&apos;s not about having talent. The price you pay
-					to train your voice is attention, time, and commitment. If
-					you really want it, I can help you achieve it.
-				</p>
-				<p className="text-justify text-xs italic text-gray-400">
-					*I fully acknowledge that, however uncommon, there are vocal
-					and neural pathologies that compromise functional use of the
-					human voice beyond habilitative instruction using Motor
-					Learning techniques. However, pathologies and neurological
-					challenges may still be worked through, and I will do my
-					best to guide and assist all who enter my studio.
-				</p>
-			</div>
-
-			{/* Lesson Demo */}
-			<div className="flex flex-col items-center gap-3 py-3">
-				<h3 className="text-center">Want to see a lesson?</h3>
-				<button onClick={() => setIsDemosOpen(true)}>Watch Now!</button>
+					<p>
+						Anyone<span className="italic">*</span> can become a
+						skilled singer. It&apos;s not about having talent. The
+						price you pay to train your voice is attention, time,
+						and commitment. If you really want it, I can help you
+						achieve it.
+					</p>
+					<p className="text-justify text-xs italic text-gray-400">
+						*I fully acknowledge that, however uncommon, there are
+						vocal and neural pathologies that compromise functional
+						use of the human voice beyond habilitative instruction
+						using Motor Learning techniques. However, pathologies
+						and neurological challenges may still be worked through,
+						and I will do my best to guide and assist all who enter
+						my studio.
+					</p>
+				</div>
 			</div>
 
 			{/* About The Studio */}
-			<section className="flex flex-col items-center justify-center gap-3 p-3">
-				<h3 className="text-center">
-					Want to learn more about my studio?
-				</h3>
-				<button onClick={() => setIsAboutOpen(true)}>
-					Learn More!
-				</button>
+			<section className="">
+				<div className="hidden md:block">
+					<AboutStudioSection />
+				</div>
+				<div className="flex flex-col items-center justify-center gap-3 p-3 md:hidden">
+					<h3 className="text-center">
+						Want to learn more about my studio?
+					</h3>
+					<button onClick={() => setIsAboutOpen(true)}>
+						Learn More!
+					</button>
+				</div>
+			</section>
+			{/* Lesson Demo */}
+			<section>
+				<div className="hidden md:block">
+					<DemosSection />
+				</div>
+				<div className="flex flex-col items-center gap-3 py-3 md:hidden">
+					<h3 className="text-center">Want to see a lesson?</h3>
+					<button onClick={() => setIsDemosOpen(true)}>
+						Watch Now!
+					</button>
+				</div>
 			</section>
 
 			{/* Services */}
-			<section>
-				<h2 className="pb-6 text-center text-secondary">Services</h2>
-				<div className="flex w-full flex-col items-center justify-evenly space-y-6 md:flex-row md:flex-wrap md:gap-6 md:space-y-0">
-					{services.map((service) => {
-						return (
-							<div
-								key={service.title}
-								className="flex flex-col items-center justify-between rounded-lg bg-secondary p-8 shadow-md md:h-[20em] md:w-[22em] lg:h-[22em]"
-							>
-								<h5 className="text-center text-primary">
-									{service.title}
-								</h5>
-								<p className="my-auto text-center text-primary">
-									{service.description}
-								</p>
-							</div>
-						);
-					})}
+			<section className="2xl:flex 2xl:h-full 2xl:w-full  2xl:justify-evenly">
+				<div>
+					<h2 className="pb-6 text-center text-secondary">
+						Services
+					</h2>
+					<div className="grid justify-center gap-6 sm:grid-cols-2">
+						{services.map((service) => {
+							return (
+								<div
+									key={service.title}
+									className="withTransition flex max-w-sm origin-center transform flex-col items-center rounded-lg bg-secondary p-6 shadow-md hover:scale-105 hover:opacity-90"
+								>
+									<h3 className="text-center text-lg leading-6 text-primary md:text-2xl md:tracking-tight">
+										{service.title}
+									</h3>
+									<p className="my-auto text-center text-primary md:text-lg">
+										{service.description}
+									</p>
+								</div>
+							);
+						})}
+					</div>
+				</div>
+
+				{/* Consultation Section */}
+				<div className=" h-full py-8 2xl:justify-between 2xl:py-0">
+					{/* Info Section */}
+					<div className="  flex max-w-md flex-col  gap-3 rounded-lg bg-secondary p-8 md:max-w-lg lg:max-w-xl">
+						<h2 className="text-center text-primary md:text-3xl lg:text-4xl">
+							Book a 20 min <br /> FREE consultation
+						</h2>
+						<p className="text-justify text-primary ">
+							A FREE 20 minute zoom meeting where you will meet
+							me, discuss your goals, wants, and needs for your
+							voice journey, and learn more about me, my
+							methodology and teaching style. At the end of the
+							consultation we will either book you for your first
+							session, or you will leave with a list contact info
+							for several of my colleagues who may be a closer
+							match! Book your free consultation here today!
+						</p>
+					</div>
+					{/* CTA Section */}
+					<div className="flex flex-col items-center justify-center ">
+						<h3 className=" py-5 text-center text-secondary">
+							Book a Free <br /> Consultation Today!
+						</h3>
+
+						<Link href="/bookings/consultation" passHref>
+							<button>Book Now</button>
+						</Link>
+					</div>
 				</div>
 			</section>
 
-			<hr className="my-6 h-1 w-full rounded-lg bg-slate-200 opacity-30" />
-			{/* Consultation Section */}
-			<div className="flex flex-col items-center justify-center">
-				{/* Info Section */}
-				<div className=" 2xl:1/2 flex flex-col items-center gap-3 rounded-lg bg-secondary p-8 md:w-5/6 lg:w-3/4">
-					<h2 className="text-center text-primary sm:text-4xl lg:text-5xl">
-						Book a 20 min <br /> FREE consultation
-					</h2>
-					<p className="text-justify text-primary ">
-						A FREE 20 minute zoom meeting where you will meet me,
-						discuss your goals, wants, and needs for your voice
-						journey, and learn more about me, my methodology and
-						teaching style. At the end of the consultation we will
-						either book you for your first session, or you will
-						leave with a list contact info for several of my
-						colleagues who may be a closer match! Book your free
-						consultation here today!
-					</p>
-				</div>
-				{/* CTA Section */}
-				<div className="flex flex-col items-center justify-center">
-					<h3 className=" py-3 text-center text-secondary">
-						Book a Free <br /> Consultation Today!
-					</h3>
-
-					<Link href="/bookings/consultation" passHref>
-						<button>Book Now</button>
-					</Link>
-				</div>
-			</div>
-			<hr className="mt-6 h-1 w-full rounded-lg bg-slate-200 opacity-30" />
-
 			{/* Discount Packages */}
 			<section>
-				<h2 className="py-10 text-center text-secondary">
+				<h2 className="pb-6 text-center text-secondary md:text-3xl lg:text-4xl xl:pt-5">
 					Discount Packages
 				</h2>
-				<div className="flex w-full flex-col items-center justify-evenly space-y-6 md:flex-row md:space-x-6 md:space-y-0">
+				<div className="grid gap-6 sm:grid-cols-2">
 					{bundles.map((bundle, index) => {
 						return (
 							<div
 								key={bundle.title}
-								className="flex flex-col items-center justify-center space-y-3 rounded-lg bg-secondary p-6 shadow-md "
+								className="withTransition flex max-w-sm flex-col items-center justify-center space-y-3 rounded-lg bg-secondary p-6 shadow-md hover:scale-105 hover:opacity-90"
+								onClick={(e) => {
+									setIsOpen(true);
+									setselectedBundle(index);
+								}}
 							>
 								<h4 className="text-center text-primary">
 									{bundle.title}
@@ -192,10 +244,8 @@ const Bookings: NextPageWithLayout = (props: Props) => {
 					})}
 				</div>
 			</section>
-
-			<hr className="my-6 h-1 w-full rounded-lg bg-slate-200 opacity-30" />
-			<div className="flex flex-col items-center justify-center pb-6">
-				<h2 className="pb-3 text-center text-secondary">
+			<div className="flex flex-col items-center justify-center py-6">
+				<h2 className="pb-3 text-center text-secondary md:text-3xl lg:text-4xl">
 					Book an <br /> Individual Session!
 				</h2>
 				<Link href="/bookings/individual">

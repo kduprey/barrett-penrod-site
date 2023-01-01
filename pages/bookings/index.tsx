@@ -92,7 +92,7 @@ const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 					/>
 				</div>
 				<div className="flex max-w-md flex-col gap-3 lg:max-w-xl">
-					<h2 className="text-center">Welcome!</h2>
+					<h2>Welcome!</h2>
 					<p>
 						Hello! Welcome to my studio page I realize that this
 						visit to my website might be merely a brief stop for you

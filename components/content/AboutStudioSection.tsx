@@ -36,32 +36,6 @@ const AboutStudioSection = (props: Props) => {
 							to train aspiring singers of all levels of
 							coordination, stylistic preference, and background.
 						</p>
-
-						<h3 className="font-medium md:text-2xl">
-							Technique - Style - Performance
-						</h3>
-
-						<p className="leading-relaxed">
-							My methodology addresses the three primary
-							components of singing:
-						</p>
-
-						<ul className=" list-inside list-decimal">
-							<li>
-								<i>Technique</i> - how we physically and
-								mentally coordinate our mind and body in order
-								to create the sounds we call singing.
-							</li>
-							<li>
-								<i>Style</i> - what we actually do with our
-								technique to make our singing unique or accurate
-								to a specific musical genre.
-							</li>
-							<li>
-								<i>Performance</i> - the artistic, dramatic, and
-								emotional connection and delivery of singing.
-							</li>
-						</ul>
 					</article>
 				</div>
 

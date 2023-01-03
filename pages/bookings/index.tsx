@@ -7,9 +7,9 @@ import BundleModal from "../../components/Bookings/BundleModal";
 import BookingsLayout from "../../components/BookingsLayout";
 import AboutStudioSection from "../../components/content/AboutStudioSection";
 import DemosSection from "../../components/content/DemosSection";
+import MoreAboutSection from "../../components/content/MoreAboutSection";
 import Logo from "../../components/Logo";
-import AboutStudioModal from "../../components/Modals/AboutStudioModal";
-import Demos from "../../components/Modals/DemosModal";
+import SidePanel from "../../components/Modals/SidePanel";
 import { hygraphcms } from "../../config";
 import { bundles, services } from "../../data/services";
 import headshot2 from "../../public/headshot2.jpg";
@@ -49,22 +49,34 @@ const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 		handleQueryParams(router.query);
 	}, [router.query]);
 
-	const [isOpen, setIsOpen] = useState(false);
+	const [isBundleModalOpen, setIsBundleModalOpen] = useState(false);
 	const [isDemosOpen, setIsDemosOpen] = useState(false);
-	const [isAboutOpen, setIsAboutOpen] = useState(false);
+	const [isMoreAboutOpen, setIsMoreAboutOpen] = useState(false);
 	const [selectedBundle, setselectedBundle] = useState<number>();
 
 	return (
 		<section
-			className={` flex flex-col items-center justify-center gap-3 px-4`}
+			className={` flex flex-col items-center justify-center gap-3 px-6`}
 		>
 			<BundleModal
-				isOpen={isOpen}
-				setIsOpen={setIsOpen}
+				isOpen={isBundleModalOpen}
+				setIsOpen={setIsBundleModalOpen}
 				selectedBundle={selectedBundle}
 			/>
-			<Demos isOpen={isDemosOpen} setIsOpen={setIsDemosOpen} />
-			<AboutStudioModal isOpen={isAboutOpen} setIsOpen={setIsAboutOpen} />
+			<SidePanel
+				isOpen={isDemosOpen}
+				setIsOpen={setIsDemosOpen}
+				header="Demos"
+			>
+				<DemosSection />
+			</SidePanel>
+			<SidePanel
+				isOpen={isMoreAboutOpen}
+				setIsOpen={setIsMoreAboutOpen}
+				header="More About Me"
+			>
+				<MoreAboutSection />
+			</SidePanel>
 			{/* Promo Section */}
 			{promoContents[0] && (
 				<div className="flex flex-col items-center justify-center gap-3 p-3">
@@ -80,9 +92,9 @@ const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 			</div>
 
 			{/* Bio & Philiosophy */}
-			<div className=" flex w-full flex-col items-center justify-center gap-3 md:flex-row md:justify-evenly md:gap-5 md:px-8">
+			<div className=" flex w-full max-w-screen-lg flex-col items-center justify-center  md:flex-row md:items-start md:justify-evenly md:gap-5 lg:max-w-screen-xl ">
 				{/* Headshot */}
-				<div className="mt-5 max-w-[20em]">
+				<div className=" max-w-[20em]">
 					<Image
 						loading="lazy"
 						placeholder="blur"
@@ -91,7 +103,7 @@ const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 						className="rounded-xl"
 					/>
 				</div>
-				<div className="flex max-w-md flex-col gap-3 lg:max-w-xl">
+				<div className="flex w-full max-w-md flex-col gap-5 lg:max-w-xl">
 					<h2>Welcome!</h2>
 					<p>
 						Thank you for visiting my studio page. I began the
@@ -113,38 +125,17 @@ const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 						never thought possible. Book in with me, and let&rsquo;s
 						hear you do wonders!
 					</p>
-					<h4>My Philiosophy</h4>
-
-					<p>
-						Anyone<span className="italic">*</span> can become a
-						skilled singer. It&apos;s not about having talent. The
-						price you pay to train your voice is attention, time,
-						and commitment. If you really want it, I can help you
-						achieve it.
-					</p>
-					<p className="text-justify text-xs italic text-gray-400">
-						*I fully acknowledge that, however uncommon, there are
-						vocal and neural pathologies that compromise functional
-						use of the human voice beyond habilitative instruction
-						using Motor Learning techniques. However, pathologies
-						and neurological challenges may still be worked through,
-						and I will do my best to guide and assist all who enter
-						my studio.
-					</p>
 				</div>
 			</div>
 
+			<hr className="my-3 w-full rounded bg-secondary p-1" />
+
 			{/* About The Studio */}
 			<section className="">
-				<div className="hidden md:block">
-					<AboutStudioSection />
-				</div>
-				<div className="flex flex-col items-center justify-center gap-3 p-3 md:hidden">
-					<h3 className="text-center">
-						Want to learn more about my studio?
-					</h3>
-					<button onClick={() => setIsAboutOpen(true)}>
-						Learn More!
+				<AboutStudioSection />
+				<div className="flex w-full justify-center pt-6">
+					<button onClick={() => setIsMoreAboutOpen(true)}>
+						Learn More
 					</button>
 				</div>
 			</section>
@@ -165,7 +156,7 @@ const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 			<hr className="my-3 w-full rounded bg-secondary p-1" />
 
 			{/* Services */}
-			<section className="2xl:flex 2xl:h-full 2xl:w-full  2xl:justify-evenly">
+			<section className="flex flex-wrap items-center justify-center gap-5 2xl:h-full 2xl:w-full 2xl:justify-evenly">
 				<div>
 					<h2 className="pb-6 text-center text-secondary">
 						Services
@@ -190,33 +181,26 @@ const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 				</div>
 
 				{/* Consultation Section */}
-				<div className=" h-full py-8 2xl:justify-between 2xl:py-0 ">
+				<div className=" flex h-full max-w-md flex-col gap-3 rounded-lg bg-secondary p-8 md:max-w-lg lg:max-w-xl  2xl:justify-between ">
 					{/* Info Section */}
-					<div className="  flex max-w-md flex-col  gap-3 rounded-lg bg-secondary p-8 md:max-w-lg lg:max-w-xl">
-						<h2 className="text-center text-primary md:text-3xl lg:text-4xl">
-							Book a 20 min <br /> FREE consultation
-						</h2>
-						<p className="text-justify text-primary ">
-							A FREE 20 minute zoom meeting where you will meet
-							me, discuss your goals, wants, and needs for your
-							voice journey, and learn more about me, my
-							methodology and teaching style. At the end of the
-							consultation we will either book you for your first
-							session, or you will leave with a list contact info
-							for several of my colleagues who may be a closer
-							match! Book your free consultation here today!
-						</p>
-					</div>
-					{/* CTA Section */}
-					<div className="flex flex-col items-center justify-center ">
-						<h3 className=" py-5 text-center text-secondary">
-							Book a Free <br /> Consultation Today!
-						</h3>
-
-						<Link href="/bookings/consultation" passHref>
-							<button>Book Now</button>
-						</Link>
-					</div>
+					<h2 className="text-center text-primary md:text-3xl lg:text-4xl">
+						Book a 20 min <br /> FREE consultation
+					</h2>
+					<p className="text-justify text-primary ">
+						A FREE 20 minute zoom meeting where you will meet me,
+						discuss your goals, wants, and needs for your voice
+						journey, and learn more about me, my methodology and
+						teaching style. At the end of the consultation we will
+						either book you for your first session, or you will
+						leave with a list contact info for several of my
+						colleagues who may be a closer match! Book your free
+						consultation here today!
+					</p>
+					<Link href="/bookings/consultation" passHref>
+						<button className="mx-auto bg-primary text-secondary">
+							Book Now
+						</button>
+					</Link>
 				</div>
 			</section>
 
@@ -232,7 +216,7 @@ const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 								key={bundle.title}
 								className="withTransition flex max-w-sm flex-col items-center justify-center space-y-3 rounded-lg bg-secondary p-6 shadow-md hover:scale-105 hover:opacity-90"
 								onClick={(e) => {
-									setIsOpen(true);
+									setIsBundleModalOpen(true);
 									setselectedBundle(index);
 								}}
 							>
@@ -248,7 +232,7 @@ const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 								<button
 									className="cursor-pointer bg-primary text-secondary"
 									onClick={(e) => {
-										setIsOpen(true);
+										setIsBundleModalOpen(true);
 										setselectedBundle(index);
 									}}
 								>

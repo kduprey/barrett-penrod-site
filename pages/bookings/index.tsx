@@ -115,15 +115,14 @@ const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 						going to push you towards a particular method, and
 						I&rsquo;m not ever at any point going to tell you that
 						you sound bad. What I am going to do is give you the
-						tools and skills to become truly skilled, no matter what
-						your ability is at the start. If you&rsquo;re a pro and
-						happy with your sound, then we&rsquo;re going to make
-						keeping your voice how you need it to be astronomically
-						easier. If you wanna change, then we&rsquo;ll smash
-						through those barriers. If you&rsquo;re a beginner, then
-						you&rsquo;ll learn the tools that will open doors you
-						never thought possible. Book in with me, and let&rsquo;s
-						hear you do wonders!
+						tools to become truly skilled, no matter what your
+						ability is at the start. If you&rsquo;re a pro and happy
+						with your sound, then we&rsquo;re going to keep your
+						voice how you need it to be. If you wanna change, then
+						we&rsquo;ll create the way you want to be heard. If
+						you&rsquo;re a beginner, then you&rsquo;ll learn the
+						tools that will open doors you never thought possible.
+						Book in with me, and let&rsquo;s hear you do wonders!
 					</p>
 				</div>
 			</div>

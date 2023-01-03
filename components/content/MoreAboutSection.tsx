@@ -6,7 +6,34 @@ const MoreAboutSection = (props: Props) => {
 			{/* Specialisations/Interests */}
 			<article className="space-y-2">
 				<h2 className="text-center md:text-3xl">
-					Specialisations/Interests
+					Technique, Style & Performance
+				</h2>
+
+				<p className="leading-relaxed">
+					My methodology addresses the three primary components of
+					singing:
+				</p>
+
+				<ul className=" list-inside list-decimal">
+					<li>
+						<i>Technique</i> - how we physically and mentally
+						coordinate our mind and body in order to create the
+						sounds we call singing.
+					</li>
+					<li>
+						<i>Style</i> - what we actually do with our technique to
+						make our singing unique or accurate to a specific
+						musical genre.
+					</li>
+					<li>
+						<i>Performance</i> - the artistic, dramatic, and
+						emotional connection and delivery of singing.
+					</li>
+				</ul>
+				<hr className="my-3 w-full rounded bg-secondary p-1" />
+
+				<h2 className="text-center md:text-3xl">
+					Specialisations & Interests
 				</h2>
 
 				<p>
@@ -53,6 +80,7 @@ const MoreAboutSection = (props: Props) => {
 					satisfaction with your voice is my priority.{" "}
 				</p>
 			</article>
+			<hr className="my-3 w-full rounded bg-secondary p-1" />
 
 			{/* Education & Training */}
 			<article className="space-y-2">
@@ -71,6 +99,7 @@ const MoreAboutSection = (props: Props) => {
 					<li>Somatic Voicework: Level I Completion</li>
 				</ul>
 			</article>
+			<hr className="my-3 w-full rounded bg-secondary p-1" />
 
 			{/* Notable Mentors */}
 			<article className="space-y-2">

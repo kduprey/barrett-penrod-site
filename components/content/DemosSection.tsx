@@ -2,14 +2,14 @@ type Props = {};
 
 const DemosSection = (props: Props) => {
 	return (
-		<div className="about space-y-3 px-6 pt-4 md:pb-4 md:pt-0">
+		<div className="">
 			<div>
 				<h3 className="hidden pb-4 text-center md:block">
 					Lesson Demo
 				</h3>
 
 				<iframe
-					className="h-[225px] w-full md:h-[225px] md:w-[400px]"
+					className="mx-auto h-[225px] w-full sm:w-[400px] md:h-[225px] "
 					src="https://www.youtube.com/embed/rDrEJ7v3EUk"
 					title="YouTube video player"
 					frameBorder={0}
@@ -23,7 +23,7 @@ const DemosSection = (props: Props) => {
 				<p className="text-center font-medium">Client - Nick B.</p>
 			</div>
 
-			<h3 className="py-7 text-center md:hidden">More to come!</h3>
+			<h3 className="py-7 text-center text-2xl">More to come!</h3>
 		</div>
 	);
 };

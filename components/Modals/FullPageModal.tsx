@@ -12,7 +12,7 @@ type Props = {
 
 const FullPageModal = ({ isOpen, setIsOpen, header, children }: Props) => {
 	const controls = useAnimation();
-	const handleCloseDemos = () => {
+	const handleClose = () => {
 		setIsOpen(false);
 		document.body.style.overflow = "unset";
 	};
@@ -62,12 +62,12 @@ const FullPageModal = ({ isOpen, setIsOpen, header, children }: Props) => {
 				>
 					{/* Modal Header */}
 					<div className="sticky z-[70] flex justify-center bg-primary py-3 shadow-lg">
-						<div className=" absolute left-3 text-3xl text-secondary">
+						<div
+							className=" absolute left-3 text-3xl text-secondary"
+							onClick={handleClose}
+						>
 							{/* Arrow */}
-							<FontAwesomeIcon
-								icon={faArrowLeft}
-								onClick={handleCloseDemos}
-							/>
+							<FontAwesomeIcon icon={faArrowLeft} />
 						</div>
 						<h1 className="text-center">{header}</h1>
 					</div>

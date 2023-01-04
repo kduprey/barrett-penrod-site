@@ -23,7 +23,7 @@ jobs:
               uses: cypress-io/github-action@v4.2.0
               with:
                   browser: chrome
-                  start: npm run ci:start
+                  start: vercel start --token=${{ secrets.VERCEL_TOKEN }}
                   wait-on: "http://localhost:3000"
               env:
                   GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

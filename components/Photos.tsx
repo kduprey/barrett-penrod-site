@@ -18,7 +18,7 @@ const Photos = (props: Props) => {
 			data-cy="production-photos"
 			className="flex flex-col items-center justify-center space-y-4 bg-slate-100 py-6"
 		>
-			<h2>Production Photos</h2>
+			<h2 className="text-primary">Production Photos</h2>
 			<div className="flex w-full flex-col items-center justify-center space-y-3 md:grid md:grid-cols-3 md:justify-items-center md:space-y-0">
 				<div className="w-3/4">
 					<Image

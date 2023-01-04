@@ -27,6 +27,9 @@ module.exports = {
 				primary: "#364249",
 				secondary: "#E3F2FC",
 			},
+			listStyleType: {
+				square: "square",
+			},
 		},
 	},
 	plugins: [

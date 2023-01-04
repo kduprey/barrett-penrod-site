@@ -7,7 +7,7 @@
 		"start": "next start",
 		"lint": "next lint",
 		"ci:build": "doppler run -- next build",
-		"ci:start": "vercel start --token=${{ secrets.VERCEL_TOKEN }}",
+		"ci:start": "doppler run -- next start",
 		"prisma:studio": "doppler run --mount .env -- npx prisma studio",
 		"prisma:migrate": "doppler run --mount .env -- npx prisma migrate dev",
 		"prisma:deploy": "doppler run --mount .env -- npx prisma migrate deploy",

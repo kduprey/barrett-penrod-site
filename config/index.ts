@@ -26,9 +26,9 @@ export const stripeWebhookSecret = dev
 	: process.env["STRIPE_WEBHOOK_SECRET"];
 
 if (dev) {
-	sendgridClient.setApiKey(process.env["SENDGRID_API_KEY"] as string);
-} else {
 	sendgridClient.setApiKey(process.env["SENDGRID_DEV_API_KEY"] as string);
+} else {
+	sendgridClient.setApiKey(process.env["SENDGRID_API_KEY"] as string);
 }
 export const sendgrid = sendgridClient;
 

@@ -6,6 +6,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
+		"action": "doppler run -- next start",
 		"prisma:studio": "doppler run --mount .env -- npx prisma studio",
 		"prisma:migrate": "doppler run --mount .env -- npx prisma migrate dev",
 		"prisma:deploy": "doppler run --mount .env -- npx prisma migrate deploy",

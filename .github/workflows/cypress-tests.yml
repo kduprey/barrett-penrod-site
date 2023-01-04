@@ -16,7 +16,7 @@ jobs:
               uses: cypress-io/github-action@v4.2.0
               with:
                   browser: chrome
-                  start: npm start
+                  start: npm run action
                   wait-on: "http://localhost:3000"
               env:
                   GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

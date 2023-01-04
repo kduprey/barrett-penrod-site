@@ -53,3 +53,5 @@ export const prismaConfig = dev
 			] as PrismaClientOptions["log"],
 			errorFormat: "minimal" as PrismaClientOptions["errorFormat"],
 	  };
+
+export { hygraphcms } from "./hygraphCMS";

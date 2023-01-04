@@ -1,3 +1,4 @@
+import { motion as m } from "framer-motion";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { bundleServices } from "../../data/services";
@@ -36,7 +37,7 @@ const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
 	};
 
 	return (
-		<div
+		<m.div
 			className={`withTransition fixed inset-0 h-full w-full overflow-y-auto bg-gray-600 bg-opacity-50 duration-500 ${
 				isOpen ? "z-[70] opacity-100" : "-z-[40] opacity-0"
 			}`}
@@ -46,6 +47,9 @@ const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
 					setIsOpen(false);
 				}
 			}}
+			animate={{ opacity: isOpen ? 1 : 0 }}
+			transition={{ duration: 0.5 }}
+			exit={{ opacity: 0 }}
 		>
 			<div
 				className={` withTransition relative top-20 m-6 mx-auto flex w-[95%] grow flex-col items-center rounded-lg bg-secondary py-6 px-4 md:order-1 md:h-[30em] md:w-1/2 ${
@@ -215,7 +219,7 @@ const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
 					</button>
 				</form>
 			</div>
-		</div>
+		</m.div>
 	);
 };
 

@@ -13,7 +13,7 @@ type Props = {
 
 const BookingsLayout = (props: Props) => {
 	return (
-		<main className={`flex min-h-screen flex-col bg-primary`}>
+		<main className={`flex h-full min-h-screen flex-col bg-primary`}>
 			<Header
 				title={
 					props.title ||

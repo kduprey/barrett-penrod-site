@@ -11,12 +11,12 @@ jobs:
               with:
                   # Disable running of tests within install job
                   runTests: false
-                  build: npm run build
+                  build: npm run ci:build
             - name: E2E on Chrome
               uses: cypress-io/github-action@v4.2.0
               with:
                   browser: chrome
-                  start: npm run action
+                  start: npm run ci:start
                   wait-on: "http://localhost:3000"
               env:
                   GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

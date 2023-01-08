@@ -130,10 +130,12 @@ const createCheckoutSession = async ({
 export { createCheckoutSession };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+	// Check for POST request
 	invalidMethod("POST", req, res);
 
 	const { service, location, bundle, eventURI, inviteeURI } = req.body;
 
+	// Check for required fields
 	if (!service || !location || !eventURI || !inviteeURI) {
 		res.status(400).json({ error: "Missing required fields" });
 		return;

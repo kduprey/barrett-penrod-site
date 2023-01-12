@@ -6,6 +6,7 @@ import {
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
+import { AirTableResponse } from "types/airtableTypes";
 
 type Props = {};
 
@@ -64,9 +65,9 @@ const Footer = (props: Props) => {
 			body: JSON.stringify(data),
 		})
 			.then((res) => res.json())
-			.then((res) => {
+			.then((res: AirTableResponse) => {
 				console.log(res);
-				if (res.id) {
+				if (res.records && res.records.length > 0) {
 					setName("");
 					setEmail("");
 					setMessage("");

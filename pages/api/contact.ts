@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { NextApiRequest, NextApiResponse } from "next/types";
+import type { NextApiRequest, NextApiResponse } from "next/types";
 import { AirTableResponse } from "types/airtableTypes";
 import { invalidMethod } from "utils/responseDefaults";
 
@@ -18,45 +18,48 @@ const contact = async ({
 	message,
 	age,
 }: ContactFormBody): Promise<AirTableResponse | Error> => {
-	const data = {
+	const messageData = {
 		Name: name,
 		Email: email,
 		Message: message,
 	};
 
-	if (age) {
+	if (age !== undefined) {
 		return new Error("Not a valid field");
 	}
 	try {
-		const response = await axios<AirTableResponse>(
+		const { data } = await axios.post<AirTableResponse>(
 			process.env["AIRTABLE_API_URL"] as string,
 			{
-				method: "POST",
+				records: [
+					{
+						fields: messageData,
+					},
+				],
+			},
+			{
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${API_KEY}`,
 				},
-				data: {
-					records: [
-						{
-							fields: data,
-						},
-					],
-				},
 			}
 		);
 
-		return response.data;
-	} catch (error) {
-		console.log(error);
+		return data;
+	} catch (error: any) {
+		if (axios.isAxiosError(error)) {
+			console.error(error);
+			return error;
+		} else {
+			console.error(error);
+			return new Error("Unexpected error");
+		}
 	}
-
-	return new Error("Error sending message");
 };
 
 export { contact };
 
-const handler = (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	invalidMethod("POST", req, res);
 
 	if (!req.body)
@@ -66,7 +69,7 @@ const handler = (req: NextApiRequest, res: NextApiResponse) => {
 		});
 
 	try {
-		const data = contact(req.body);
+		const data = await contact(req.body);
 		res.status(200).json(data);
 	} catch (error) {
 		res.status(500).json(error);

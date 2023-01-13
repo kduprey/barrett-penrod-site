@@ -1,13 +1,39 @@
-describe("Homepage API Endpoints", () => {
-	it.skip("/api/contact should return 200", () => {
-		cy.request("POST", "/api/contact", {
+/// <reference types="cypress" />
+
+import axios from "axios";
+
+import { contact } from "../../pages/api/contact";
+
+describe("Homepage API", () => {
+	it("Contact Method", async () => {
+		cy.stub(axios, "get").resolves(
+			Promise.resolve({
+				status: 200,
+				data: {
+					records: [
+						{
+							id: "rec1",
+						},
+					],
+				},
+			})
+		);
+
+		const response = await contact({
 			name: "Test",
-			email: "email@test.com",
-			message: "This is a test message",
-		}).then((response) => {
-			cy.log("Response", response);
-			expect(response.status).to.eq(200);
-			expect(response.body).to.have.property("records");
+			email: "Test",
+			message: "test",
+		});
+
+		expect(response).equal({
+			status: 200,
+			data: {
+				records: [
+					{
+						id: "rec1",
+					},
+				],
+			},
 		});
 	});
 });

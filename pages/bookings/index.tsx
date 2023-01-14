@@ -195,11 +195,14 @@ const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 						colleagues who may be a closer match! Book your free
 						consultation here today!
 					</p>
-					<Link href="/bookings/consultation" passHref>
-						<button className="mx-auto bg-primary text-secondary">
+					<button className="mx-auto bg-primary">
+						<Link
+							href="/bookings/consultation"
+							className="text-secondary"
+						>
 							Book Now
-						</button>
-					</Link>
+						</Link>
+					</button>
 				</div>
 			</section>
 

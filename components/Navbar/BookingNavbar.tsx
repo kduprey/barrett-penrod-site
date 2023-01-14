@@ -10,27 +10,28 @@ const BookingNavbar = (props: Props) => {
 	return (
 		<nav className="booking sticky top-0 left-0 z-[60] flex max-h-[6em] w-full items-center justify-between bg-primary p-5 shadow-lg md:justify-between md:pt-6">
 			<Link href={"/bookings"} passHref>
-				<h1 className=" w-full max-w-[12em]  text-lg font-light text-secondary hover:text-white sm:text-xl sm:font-medium lg:text-2xl">
+				<h1 className=" w-full min-w-[8em] max-w-[10em] grow text-lg font-light text-secondary hover:text-white sm:text-xl sm:font-medium md:max-w-[12em] lg:text-2xl">
 					<span>Barrett Penrod </span>
 					<span>Voice Studio</span>
 				</h1>
 			</Link>
-
-			<MenuButton isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
+			<div className="ml-auto ">
+				<MenuButton isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
+			</div>
 
 			<div className="hidden items-center justify-evenly text-center md:flex md:w-full">
 				<Link href={"/bookings/consultation"}>
-					<p>Free Consultation</p>
+					<p className="link">Free Consultation</p>
 				</Link>
 				<Link href={"/bookings/individual"}>
-					<p>Individual Bookings</p>
+					<p className="link">Individual Bookings</p>
 				</Link>
 				<Link href={"/bookings/bundles"}>
-					<p>Lesson Packages</p>
+					<p className="link">Lesson Packages</p>
 				</Link>
 			</div>
-			<Link href={"/"} passHref>
-				<p className="hidden max-w-[9em] whitespace-pre text-right md:block">
+			<Link href={"/"}>
+				<p className="link hidden max-w-[9em] whitespace-pre text-right md:block">
 					Back to <br /> Acting Portfolio
 				</p>
 			</Link>

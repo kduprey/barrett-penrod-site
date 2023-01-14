@@ -71,7 +71,6 @@ const MobileSubmenu = ({ menu, setIsNavOpen }: Props) => {
 						if (sublink.scrollTo) {
 							return (
 								<Link
-									as="a"
 									className="cursor-pointer pb-3 text-xl font-thin text-white hover:text-slate-300"
 									onClick={() => {
 										setIsNavOpen(false);
@@ -98,10 +97,9 @@ const MobileSubmenu = ({ menu, setIsNavOpen }: Props) => {
 								<NextLink
 									href={sublink.path}
 									key={sublink.name}
+									className="pb-3 text-xl font-thin text-white hover:text-slate-300"
 								>
-									<a className="pb-3 text-xl font-thin text-white hover:text-slate-300">
-										{sublink.name}
-									</a>
+									{sublink.name}
 								</NextLink>
 							);
 					})}
@@ -112,19 +110,16 @@ const MobileSubmenu = ({ menu, setIsNavOpen }: Props) => {
 
 	if (!menu.path?.includes("#") && menu.path) {
 		return (
-			<NextLink href={menu.path}>
-				<a
-					onClick={() => {
-						gtag.pageview(
-							new URL(
-								window.location.href + router.route + menu.path
-							)
-						);
-					}}
-					className="cursor-pointer pb-3 text-xl font-thin text-white underline-offset-2 hover:text-slate-300 hover:underline"
-				>
-					{menu.name}
-				</a>
+			<NextLink
+				href={menu.path}
+				onClick={() => {
+					gtag.pageview(
+						new URL(window.location.href + router.route + menu.path)
+					);
+				}}
+				className="cursor-pointer pb-3 text-xl font-thin text-white underline-offset-2 hover:text-slate-300 hover:underline"
+			>
+				{menu.name}
 			</NextLink>
 		);
 	}

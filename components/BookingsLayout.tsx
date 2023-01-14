@@ -29,7 +29,7 @@ const BookingsLayout = (props: Props) => {
 			<SocialBar />
 			{props.children}
 			<CookieBanner />
-			<footer className="flex flex-col items-center justify-center p-4 text-primary">
+			<footer className="w-full max-w-[18em] self-center py-5">
 				<Logo />
 			</footer>
 		</main>

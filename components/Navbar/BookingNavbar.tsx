@@ -10,7 +10,7 @@ const BookingNavbar = (props: Props) => {
 	return (
 		<nav className="booking sticky top-0 left-0 z-[60] flex max-h-[6em] w-full items-center justify-between bg-primary p-5 shadow-lg md:justify-between md:pt-6">
 			<Link href={"/bookings"} passHref>
-				<h1 className="max-w-[9em] text-lg font-light text-secondary hover:text-white sm:text-xl sm:font-medium lg:text-2xl">
+				<h1 className=" w-full max-w-[12em]  text-lg font-light text-secondary hover:text-white sm:text-xl sm:font-medium lg:text-2xl">
 					<span>Barrett Penrod </span>
 					<span>Voice Studio</span>
 				</h1>

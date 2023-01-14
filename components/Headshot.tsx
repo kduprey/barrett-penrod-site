@@ -3,7 +3,6 @@ import { useState } from "react";
 
 type Props = {
 	imageProps: ImageProps;
-	alt: string;
 };
 
 const Headshot = (props: Props) => {

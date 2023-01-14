@@ -28,8 +28,10 @@ const Headshots = () => {
 				{headshots.map((e, i) => {
 					return (
 						<Headshot
-							imageProps={{ src: e }}
-							alt="Barrett Penrod - Headshot"
+							imageProps={{
+								src: e,
+								alt: "Barrett Penrod - Headshot",
+							}}
 							key={i}
 						/>
 					);

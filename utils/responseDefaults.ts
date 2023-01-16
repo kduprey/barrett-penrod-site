@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { ApiError, sendError } from "next/dist/server/api-utils";
 
 /**
  * This is a helper function to check if the request method is valid.
@@ -15,11 +16,9 @@ const invalidMethod = (
 	req: NextApiRequest,
 	res: NextApiResponse
 ) => {
-	if (req.method !== reqMethod)
-		return res
-			.setHeader("Allow", reqMethod)
-			.status(405)
-			.end(`Method Type ${reqMethod} Not Allowed`);
+	if (req.method !== reqMethod) {
+		return res.status(405).end();
+	}
 };
 
 export { invalidMethod };

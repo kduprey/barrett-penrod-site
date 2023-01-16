@@ -1,6 +1,6 @@
 import axios from "axios";
 import { beforeEach, describe, expect, Mocked, vitest as vi } from "vitest";
-import handler, { contact } from "../contact";
+import handler, { contact } from "./contact";
 
 const data = {
 	records: [
@@ -47,7 +47,7 @@ describe("Contact should", () => {
 		expect(response).toEqual(Error("Unexpected error"));
 	});
 
-	it("Should fail the honepot", async () => {
+	it("Should fail the honeypot", async () => {
 		mockedAxios.post.mockResolvedValueOnce({ data });
 
 		const response = await contact({

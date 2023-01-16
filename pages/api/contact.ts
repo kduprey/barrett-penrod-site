@@ -1,7 +1,14 @@
-import axios, { AxiosResponse } from "axios";
-import type { NextApiRequest, NextApiResponse } from "next/types";
+import axios from "axios";
+import createHttpError from "http-errors";
+import type {
+	NextApiHandler,
+	NextApiRequest,
+	NextApiResponse,
+} from "next/types";
 import { AirTableResponse } from "types/airtableTypes";
-import { invalidMethod } from "utils/responseDefaults";
+import apiHandler from "utils/api";
+import { validateRequest } from "utils/yup";
+import * as Yup from "yup";
 
 const API_KEY = process.env["AIRTABLE_API_KEY"];
 
@@ -11,6 +18,12 @@ export type ContactFormBody = {
 	message: string;
 	age?: number;
 };
+
+const ContactFormBody = Yup.object().shape({
+	name: Yup.string().required("Name is required"),
+	email: Yup.string().email("Invalid email").required("Email is required"),
+	message: Yup.string().required("Message is required"),
+});
 
 const contact = async ({
 	name,
@@ -59,21 +72,20 @@ const contact = async ({
 
 export { contact };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	invalidMethod("POST", req, res);
+const POSTContact: NextApiHandler<AirTableResponse> = async (
+	req: NextApiRequest,
+	res: NextApiResponse
+) => {
+	const data = validateRequest(req.body, ContactFormBody);
+	const response = await contact(data);
 
-	if (!req.body)
-		res.status(400).json({
-			status: 400,
-			message: "Bad Request",
-		});
-
-	try {
-		const data = await contact(req.body);
-		res.status(200).json(data);
-	} catch (error) {
-		res.status(500).json(error);
+	if (response instanceof Error) {
+		throw new createHttpError.InternalServerError(response.message);
 	}
+
+	res.status(200).json(response);
 };
 
-export default handler;
+export default apiHandler({
+	POST: POSTContact,
+});

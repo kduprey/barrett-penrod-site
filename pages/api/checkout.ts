@@ -1,5 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import createHttpError from "http-errors";
+import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
+import apiHandler from "utils/api";
+import { validateRequest } from "utils/yup";
+import * as yup from "yup";
 import { server, stripe, stripeMode } from "../../config/index";
 import { bundles, Prices } from "../../data/services";
 import { invalidMethod } from "../../utils/responseDefaults";
@@ -129,27 +133,29 @@ const createCheckoutSession = async ({
 
 export { createCheckoutSession };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	// Check for POST request
-	invalidMethod("POST", req, res);
+const POSTCheckoutBody = yup.object().shape({
+	service: yup.number().required(),
+	location: yup.number().required(),
+	bundle: yup.number(),
+	eventURI: yup.string().required(),
+	inviteeURI: yup.string().required(),
+	isLonger: yup.boolean(),
+});
 
-	const { service, location, bundle, eventURI, inviteeURI } = req.body;
+const POSTCheckout: NextApiHandler<{ url: string }> = async (
+	req: NextApiRequest,
+	res: NextApiResponse
+) => {
+	const data = validateRequest(req.body, POSTCheckoutBody);
 
-	// Check for required fields
-	if (!service || !location || !eventURI || !inviteeURI) {
-		res.status(400).json({ error: "Missing required fields" });
-		return;
-	}
+	// Create checkout session
+	const session = await createCheckoutSession(data);
+	if (session.error)
+		throw new createHttpError.InternalServerError(session.error);
 
-	try {
-		// Create checkout session
-		const session = await createCheckoutSession(req.body as Body);
-		if (!session.error) res.status(200).json({ url: session.url });
-		else res.status(404).json({ error: "Error creating checkout session" });
-	} catch (e: any) {
-		console.error(e);
-		res.status(404).json({ error: e.message });
-	}
+	res.status(200).json({ url: session.url });
 };
 
-export default handler;
+export default apiHandler({
+	POST: POSTCheckout,
+});

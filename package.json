@@ -16,7 +16,7 @@
 		"vercel:dev": "vercel dev",
 		"cy:run": "cypress run",
 		"cy:open": "cypress open",
-		"test": "jest"
+		"test": "doppler run -- vitest"
 	},
 	"dependencies": {
 		"@fontsource/montserrat": "^4.5.13",

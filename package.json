@@ -16,7 +16,8 @@
 		"vercel:dev": "vercel dev",
 		"cy:run": "cypress run",
 		"cy:open": "cypress open",
-		"test": "doppler run -- vitest"
+		"test": "doppler run -- vitest",
+		"coverage": "doppler run -- vitest --coverage"
 	},
 	"dependencies": {
 		"@fontsource/montserrat": "^4.5.13",
@@ -59,6 +60,7 @@
 		"@types/react-scroll": "^1.8.5",
 		"@typescript-eslint/eslint-plugin": "^5.43.0",
 		"@vitejs/plugin-react": "^3.0.1",
+		"@vitest/coverage-c8": "^0.27.2",
 		"autoprefixer": "^10.4.13",
 		"cypress": "^12.3.0",
 		"eslint": "^8.31.0",

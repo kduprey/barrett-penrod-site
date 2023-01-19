@@ -140,22 +140,22 @@ export interface ZoomLocation {
 }
 
 export interface LocationData {
-	id: number;
-	settings: Settings;
-	password: string;
-	extra: ExtraData | null;
+	id?: number;
+	settings?: Settings;
+	password?: string;
+	extra?: ExtraData | null;
 }
 
 export interface ExtraData {
-	intl_numbers_url: string;
+	intl_numbers_url?: string;
 }
 
 export interface GlobalDialInNumber {
-	number: string;
-	type: string;
-	country: string;
-	city: string;
-	country_name: string;
+	number?: string;
+	type?: string;
+	country?: string;
+	city?: string;
+	country_name?: string;
 }
 
 export interface Settings {
@@ -214,13 +214,13 @@ export interface Payment {
 export interface FirstLessonQuestion {
 	question: "Is this your first lesson with Barrett?";
 	answer: "Yes" | "No";
-	position: string;
+	position: number;
 }
 
 export interface AdditionalInfoQuestion {
 	question: "Please share anything that will help prepare for our meeting.";
 	answer?: string;
-	position: string;
+	position: number;
 }
 
 export interface Tracking {

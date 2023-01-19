@@ -1,5 +1,7 @@
 import axios from "axios";
-import { NextApiRequest, NextApiResponse } from "next";
+import createHttpError from "http-errors";
+import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import apiHandler from "utils/api";
 import { dev } from "../../../config";
 import {
 	CalendlyGetWebhook,
@@ -14,10 +16,12 @@ import { invalidMethod } from "../../../utils/responseDefaults";
  * @returns The webhook that was created
  * @throws Error if the webhook could not be created
  */
-const createWebhook = async (
-	url: string
-): Promise<CalendlyWebhook | string> => {
-	if (!dev) return "Not Allowed";
+const createWebhook = async (url: string): Promise<CalendlyWebhook> => {
+	// Check if in development
+	if (!dev) throw new Error("Not allowed in production");
+
+	// Check if the URL is valid
+	if (url === undefined || url === "") throw new Error("Invalid URL");
 
 	const organization =
 		"https://api.calendly.com/organizations/ac748a68-67c0-4e4a-b0d8-4bd791a831ac";
@@ -39,8 +43,7 @@ const createWebhook = async (
 		);
 		webhooks = data.collection;
 	} catch (err) {
-		console.error(err);
-		console.error("Error getting webhooks");
+		console.warn("Error getting webhooks", err);
 	}
 
 	// Check if testing webhook already exists
@@ -49,25 +52,21 @@ const createWebhook = async (
 	})?.uri;
 
 	// Remove old webhook
-	try {
-		if (oldWebhookURI) {
-			console.log(
-				(
-					await axios.delete(oldWebhookURI, {
-						headers: {
-							Authorization: `Bearer ${process.env["CALENDLY_API_KEY"]}`,
-						},
-					})
-				).data
-			);
-		} else {
-			console.info("No old webhook to delete");
+	if (oldWebhookURI)
+		try {
+			const response = await axios.delete(oldWebhookURI, {
+				headers: {
+					Authorization: `Bearer ${process.env["CALENDLY_API_KEY"]}`,
+				},
+			});
+
+			if (response.status === 204)
+				console.info("Old webhook deleted", oldWebhookURI);
+			else console.warn("Old webhook not deleted", oldWebhookURI);
+		} catch (error) {
+			console.warn("Error deleting old webhook", { error });
 		}
-	} catch (error) {
-		console.error(
-			new Error("Error deleting old webhook", { cause: error })
-		);
-	}
+	else console.warn("No old webhook to delete");
 
 	// Create new webhook
 	try {
@@ -91,32 +90,34 @@ const createWebhook = async (
 
 		console.info("New webhook created", webhook);
 		return webhook;
-	} catch (error) {
-		console.error(error);
-		return "Error creating webhook";
+	} catch (error: any) {
+		throw new Error("Error creating webhook", error);
 	}
 };
 
 export { createWebhook };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const createWebhookHandler: NextApiHandler = async (
+	req: NextApiRequest,
+	res: NextApiResponse
+) => {
 	const { url } = req.body as { url: string };
 	if (!url || typeof url !== "string") {
-		res.status(400).json({ message: "Missing url" });
-		return;
+		throw new createHttpError[400]("Invalid URL");
 	}
-
-	if (!dev) res.status(400).json({ message: "Not Allowed" });
-
-	invalidMethod("POST", req, res);
 
 	try {
 		const webhook = await createWebhook(url);
 		res.status(200).json(webhook);
 	} catch (err) {
-		console.error(err);
-		res.status(500).json({ message: "Error creating webhook" });
+		console.error("Error creating webhook", err);
+		throw new createHttpError[500](
+			JSON.stringify({
+				message: "Error creating webhook",
+				error: err,
+			})
+		);
 	}
 };
 
-export default handler;
+export default apiHandler({ POST: createWebhookHandler });

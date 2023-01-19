@@ -37,27 +37,35 @@ describe("Contact should", () => {
 			new Error("Error sending message")
 		);
 
-		const response = await contact({
-			name: "test",
-			email: "",
-			message: "test",
-		});
+		try {
+			const response = await contact({
+				name: "test",
+				email: "",
+				message: "test",
+			});
 
-		expect(response).toBeInstanceOf(Error);
-		expect(response).toEqual(Error("Unexpected error"));
+			expect(response.records).toBeUndefined();
+		} catch (error) {
+			expect(error).toBeInstanceOf(Error);
+			expect(error).toEqual(Error("Not a valid input"));
+		}
 	});
 
 	it("Should fail the honeypot", async () => {
 		mockedAxios.post.mockResolvedValueOnce({ data });
 
-		const response = await contact({
-			name: "test",
-			email: "test@email.com",
-			message: "test",
-			age: 20,
-		});
+		try {
+			const response = await contact({
+				name: "test",
+				email: "test@email.com",
+				message: "test",
+				age: 20,
+			});
 
-		expect(response).toBeInstanceOf(Error);
-		expect(response).toEqual(Error("Not a valid field"));
+			expect(response.records).toBeUndefined();
+		} catch (error) {
+			expect(error).toBeInstanceOf(Error);
+			expect(error).toEqual(Error("Not a valid field"));
+		}
 	});
 });

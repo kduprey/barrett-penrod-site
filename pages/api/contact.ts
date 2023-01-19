@@ -30,15 +30,18 @@ const contact = async ({
 	email,
 	message,
 	age,
-}: ContactFormBody): Promise<AirTableResponse | Error> => {
+}: ContactFormBody): Promise<AirTableResponse> => {
 	const messageData = {
 		Name: name,
 		Email: email,
 		Message: message,
 	};
 
+	if (name === "" || email === "" || message === "")
+		throw new Error("Not a valid input");
+
 	if (age !== undefined) {
-		return new Error("Not a valid field");
+		throw new Error("Not a valid field");
 	}
 	try {
 		const { data } = await axios.post<AirTableResponse>(
@@ -60,13 +63,7 @@ const contact = async ({
 
 		return data;
 	} catch (error: any) {
-		if (axios.isAxiosError(error)) {
-			console.error(error);
-			return error;
-		} else {
-			console.error(error);
-			return new Error("Unexpected error");
-		}
+		throw new Error(error);
 	}
 };
 
@@ -77,13 +74,20 @@ const POSTContact: NextApiHandler<AirTableResponse> = async (
 	res: NextApiResponse
 ) => {
 	const data = validateRequest(req.body, ContactFormBody);
-	const response = await contact(data);
 
-	if (response instanceof Error) {
-		throw new createHttpError.InternalServerError(response.message);
+	try {
+		const response = await contact(data);
+
+		res.status(200).json(response);
+	} catch (error: any) {
+		console.error(error);
+		throw new createHttpError.InternalServerError(
+			JSON.stringify({
+				message: "Error sending message",
+				error,
+			})
+		);
 	}
-
-	res.status(200).json(response);
 };
 
 export default apiHandler({

@@ -109,7 +109,7 @@ const createCheckoutSession = async ({
 			sessionTemplate.customer_creation = "always";
 		}
 	} catch (err) {
-		console.log(err);
+		console.warn(err);
 		// If error finding client, set session to use email from booking and create customer
 		sessionTemplate.customer_email = `${inviteeInfo.resource.email}`;
 		sessionTemplate.customer_creation = "always";

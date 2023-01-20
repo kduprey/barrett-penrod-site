@@ -3,25 +3,27 @@ import createHttpError from "http-errors";
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import apiHandler from "utils/api";
 import { CalendlyCancel } from "../../../types/types";
-import { invalidMethod } from "../../../utils/responseDefaults";
 
 const cancelEvent = async (uri: string): Promise<CalendlyCancel> => {
 	if (uri === undefined || uri === "") throw new Error("Invalid URI");
 
 	try {
-		const response = await axios.post(`${uri}/cancellation`, {
-			headers: {
-				Authorization: `Bearer ${process.env["CALENDLY_API_KEY"]}`,
-			},
-			body: {
+		const { data } = await axios.post<CalendlyCancel>(
+			`${uri}/cancellation`,
+			{
 				reason: "The event was cancelled by the invitee.",
 			},
-		});
+			{
+				headers: {
+					Authorization: `Bearer ${process.env["CALENDLY_API_KEY"]}`,
+				},
+			}
+		);
 
-		return response.data;
-	} catch (err) {
-		console.error(err);
-		throw new Error("Error cancelling event");
+		return data;
+	} catch (error: any) {
+		console.error(error);
+		throw new Error(error);
 	}
 };
 

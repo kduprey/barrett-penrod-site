@@ -6,7 +6,11 @@ import { cancelEvent } from "./cancelEvent";
 vi.mock("axios");
 const mockedAxios = axios as Mocked<typeof axios>;
 
-describe("Contact should", () => {
+describe("cancelEvent should", () => {
+	afterEach(() => {
+		mockedAxios.post.mockReset();
+	});
+
 	it("Should handle a correct data submission", async () => {
 		mockedAxios.post.mockResolvedValueOnce({ data });
 
@@ -34,15 +38,17 @@ describe("Contact should", () => {
 	});
 
 	it("Should throw an error if axios fails", async () => {
-		mockedAxios.post.mockRejectedValueOnce({ status: 500 });
+		mockedAxios.post.mockRejectedValueOnce(
+			new Error("Error cancelling event")
+		);
 
 		try {
 			const response = await cancelEvent("test");
 
 			expect(response).toBeUndefined();
-		} catch (error) {
+		} catch (error: any) {
 			expect(error).toBeInstanceOf(Error);
-			expect(error).toEqual(Error("Error cancelling event"));
+			expect(error.message).contain(new Error("Error cancelling event"));
 		}
 	});
 });

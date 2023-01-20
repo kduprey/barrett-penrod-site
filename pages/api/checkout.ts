@@ -8,7 +8,7 @@ import * as yup from "yup";
 import { server, stripe, stripeMode } from "../../config/index";
 import { bundles, Prices, services } from "../../data/services";
 import { invalidMethod } from "../../utils/responseDefaults";
-import { getEventInvitee } from "./calendly/getEventInvitee";
+import { getEventInvitee } from "./calendly/eventInvitee";
 
 interface CheckoutParams {
 	service: number;
@@ -114,7 +114,7 @@ const createCheckoutSession = async (
 	// Look for a customer with the email address or name in Stripe and create one if it doesn't exist
 	try {
 		// Get the event invitee info to search Stripe
-		const { data: inviteeInfo } = await getEventInvitee(params.inviteeURI);
+		const inviteeInfo = await getEventInvitee(params.inviteeURI);
 		try {
 			// Check if user is previous client in Stripe
 			const customerSearch = await stripe.customers.search({

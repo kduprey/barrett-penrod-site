@@ -1,5 +1,5 @@
 import axios from "axios";
-import { describe, expect, it, Mocked, vitest as vi } from "vitest";
+import { afterEach, describe, expect, it, Mocked, vitest as vi } from "vitest";
 import { getInviteeResponse as data } from "../../../data/calendlyResponses/getInviteeResponse";
 import { getEventInfo } from "./eventInfo";
 import eventInvitee, { getEventInvitee } from "./eventInvitee";
@@ -8,6 +8,10 @@ vi.mock("axios");
 const mockedAxios = axios as Mocked<typeof axios>;
 
 describe("eventInfo should", () => {
+	afterEach(() => {
+		mockedAxios.post.mockReset();
+	});
+
 	it("Should handle a correct data submission", async () => {
 		mockedAxios.get.mockResolvedValueOnce({ data });
 
@@ -18,9 +22,7 @@ describe("eventInfo should", () => {
 	});
 
 	it("Should handle an incorrect data submission", async () => {
-		mockedAxios.get.mockRejectedValueOnce(
-			new Error("Error getting event info")
-		);
+		mockedAxios.get.mockRejectedValueOnce({ data });
 
 		try {
 			const response = await getEventInfo("");
@@ -28,6 +30,21 @@ describe("eventInfo should", () => {
 		} catch (error) {
 			expect(error).toBeInstanceOf(Error);
 			expect(error).toEqual(Error("Invalid URI"));
+		}
+	});
+
+	it("Should throw an error if axios fails", async () => {
+		mockedAxios.post.mockRejectedValueOnce(
+			new Error("Error getting event info")
+		);
+
+		try {
+			const response = await getEventInfo("test");
+
+			expect(response).toBeUndefined();
+		} catch (error: any) {
+			expect(error).toBeInstanceOf(Error);
+			expect(error.message).contain("Error getting event info");
 		}
 	});
 });

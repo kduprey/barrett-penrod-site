@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { beforeEach, describe, expect, Mocked, vitest as vi } from "vitest";
-import handler, { contact } from "./contact";
+import { contact } from "./contact";
 
 const data = {
 	records: [
@@ -19,6 +19,10 @@ vi.mock("axios");
 const mockedAxios = axios as Mocked<typeof axios>;
 
 describe("Contact should", () => {
+	afterEach(() => {
+		mockedAxios.post.mockReset();
+	});
+
 	it("Should handle a correct data submission", async () => {
 		mockedAxios.post.mockResolvedValueOnce({ data });
 
@@ -66,6 +70,25 @@ describe("Contact should", () => {
 		} catch (error) {
 			expect(error).toBeInstanceOf(Error);
 			expect(error).toEqual(Error("Not a valid field"));
+		}
+	});
+
+	it("Should throw an error if axios fails", async () => {
+		mockedAxios.post.mockRejectedValueOnce(
+			new Error("Error sending message")
+		);
+
+		try {
+			const response = await contact({
+				name: "test",
+				email: "test@test.com",
+				message: "test",
+			});
+
+			expect(response).toBeUndefined();
+		} catch (error: any) {
+			expect(error).toBeInstanceOf(Error);
+			expect(error.message).contain(new Error("Error sending message"));
 		}
 	});
 });

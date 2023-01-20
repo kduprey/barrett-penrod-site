@@ -10,6 +10,10 @@ vi.mock("axios");
 const mockedAxios = axios as Mocked<typeof axios>;
 
 describe("CreateWebhook should", () => {
+	afterEach(() => {
+		mockedAxios.post.mockReset();
+	});
+
 	it("Should handle a correct data submission", async () => {
 		mockedAxios.get.mockResolvedValueOnce({ getWebhooks });
 		mockedAxios.delete.mockResolvedValueOnce({ status: 204 });

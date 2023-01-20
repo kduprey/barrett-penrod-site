@@ -10,6 +10,10 @@ vi.mock("axios");
 const mockedAxios = axios as Mocked<typeof axios>;
 
 describe("Checkout should", () => {
+	afterEach(() => {
+		mockedAxios.post.mockReset();
+	});
+
 	it("create a successful checkout session for normal downpayment", async () => {
 		mockedAxios.get.mockResolvedValueOnce({ data: getInviteeResponse });
 

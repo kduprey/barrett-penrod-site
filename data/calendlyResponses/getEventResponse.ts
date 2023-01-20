@@ -1,6 +1,6 @@
-import { GetCalendlyEvent } from "types/calendlyTypes";
+import { CalendlyEvent } from "types/calendlyTypes";
 
-export const getEventResponse: GetCalendlyEvent = {
+export const getEventResponse: CalendlyEvent = {
 	resource: {
 		calendar_event: {
 			external_id: "29rbdjmvasfe8vg19o15onc1lc",

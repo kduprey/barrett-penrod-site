@@ -5,7 +5,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { server } from "../../../config/index";
 import prisma from "../../../lib/prisma";
 import { CalendlyEvent } from "../../../types/types";
-import { getEventInfo } from "../calendly/getEventInfo";
+import { getEventInfo } from "../calendly/eventInfo";
 import { consultationHandler } from "../consultationHandler";
 const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 	const webhookSigningKey = process.env[

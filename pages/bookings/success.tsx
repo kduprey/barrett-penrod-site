@@ -8,8 +8,8 @@ import { NextPageWithLayout } from "../../types/types";
 import getPackageName from "../../utils/getPackageName";
 import getZoomLink from "../../utils/getZoomLink";
 import isPackageCheckout from "../../utils/isPackageCheckout";
-import { getEventInfo } from "../api/calendly/getEventInfo";
-import { getEventInvitee } from "../api/calendly/getEventInvitee";
+import { getEventInfo } from "../api/calendly/eventInfo";
+import { getEventInvitee } from "../api/calendly/eventInvitee";
 
 type Props = {
 	name: string;

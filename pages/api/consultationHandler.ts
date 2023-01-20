@@ -5,8 +5,8 @@ import { stripe } from "../../config";
 import { CalendlyEvent, Invitee, ZoomLocation } from "../../types/types";
 import { instanceOfZoomLocation } from "../../utils/isZoomLocation";
 import { invalidMethod } from "../../utils/responseDefaults";
-import { getEventInfo } from "./calendly/getEventInfo";
-import { getEventInvitee } from "./calendly/getEventInvitee";
+import { getEventInfo } from "./calendly/eventInfo";
+import { getEventInvitee } from "./calendly/eventInvitee";
 import { sendConsultationEmail } from "./emails/sendConsultation";
 import { sendGuestEmails } from "./emails/sendGuestEmails";
 

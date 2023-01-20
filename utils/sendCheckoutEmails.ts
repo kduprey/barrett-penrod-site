@@ -1,12 +1,12 @@
 import { AxiosResponse } from "axios";
 import Stripe from "stripe";
 import { dev, stripe } from "../config";
-import { getEventInfo } from "../pages/api/calendly/getEventInfo";
-import { getEventInvitee } from "../pages/api/calendly/getEventInvitee";
+import { getEventInfo } from "../pages/api/calendly/eventInfo";
+import { getEventInvitee } from "../pages/api/calendly/eventInvitee";
 import { sendFirstTimeEmail } from "../pages/api/emails/sendFirstTimeEmail";
 import { sendGuestEmails } from "../pages/api/emails/sendGuestEmails";
 import { sendPackageConfirmationEmail } from "../pages/api/emails/sendPackageConfirmation";
-import { GetCalendlyEvent } from "../types/calendlyTypes";
+import { CalendlyEvent } from "../types/calendlyTypes";
 import { CalendlyInvitee } from "../types/types";
 import getBookongLocation from "./getBookingLocation";
 import getPackageName from "./getPackageName";
@@ -17,8 +17,8 @@ import isPackageCheckout from "./isPackageCheckout";
 const sendCheckoutEmails = async (
 	session: Stripe.Checkout.Session
 ): Promise<any[] | boolean> => {
-	let bookingInfo: AxiosResponse<GetCalendlyEvent>,
-		inviteeInfo: AxiosResponse<CalendlyInvitee>,
+	let bookingInfo: AxiosResponse<CalendlyEvent>,
+		inviteeInfo: CalendlyInvitee,
 		zoomLink: string | null = null;
 	const errors = [];
 	const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
@@ -33,8 +33,8 @@ const sendCheckoutEmails = async (
 		return err;
 	}
 
-	const name = inviteeInfo.data.resource.name;
-	const email = dev ? "kdtech18@gmail.com" : inviteeInfo.data.resource.email;
+	const name = inviteeInfo.resource.name;
+	const email = dev ? "kdtech18@gmail.com" : inviteeInfo.resource.email;
 	const bookingDate = bookingInfo.data.resource.start_time.toString();
 	const bookingName = bookingInfo.data.resource.name;
 
@@ -62,8 +62,8 @@ const sendCheckoutEmails = async (
 	// Is this a new customer?
 	// If so, send first-time customer email
 	// If not, send booking confirmation email
-	if (inviteeInfo.data.resource.questions_and_answers.length > 0)
-		inviteeInfo.data.resource.questions_and_answers.forEach(async (qna) => {
+	if (inviteeInfo.resource.questions_and_answers.length > 0)
+		inviteeInfo.resource.questions_and_answers.forEach(async (qna) => {
 			if (
 				qna.question === "Is this your first lesson with Barrett?" &&
 				qna.answer === "Yes"

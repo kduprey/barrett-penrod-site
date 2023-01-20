@@ -5,8 +5,8 @@ import Loading from "../../components/Loading";
 import { NextPageWithLayout } from "../../types/types";
 import getZoomLink from "../../utils/getZoomLink";
 import { instanceOfZoomLocation } from "../../utils/isZoomLocation";
-import { getEventInfo } from "../api/calendly/getEventInfo";
-import { getEventInvitee } from "../api/calendly/getEventInvitee";
+import { getEventInfo } from "../api/calendly/eventInfo";
+import { getEventInvitee } from "../api/calendly/eventInvitee";
 
 type Props = {
 	name: string;

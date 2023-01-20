@@ -1,4 +1,4 @@
-import { getEventInfo } from "../pages/api/calendly/getEventInfo";
+import { getEventInfo } from "../pages/api/calendly/eventInfo";
 import { InPersonLocation, ZoomLocation } from "../types/types";
 import { instanceOfZoomLocation } from "./isZoomLocation";
 

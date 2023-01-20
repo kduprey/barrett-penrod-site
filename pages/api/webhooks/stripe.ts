@@ -6,8 +6,8 @@ import prisma from "../../../lib/prisma";
 import getNumLessonsFromLineItems from "../../../utils/getNumLessonsFromLineItems";
 import sendCheckoutEmails from "../../../utils/sendCheckoutEmails";
 import { cancelEvent } from "../calendly/cancelEvent";
-import { getEventInfo } from "../calendly/getEventInfo";
-import { getEventInvitee } from "../calendly/getEventInvitee";
+import { getEventInfo } from "../calendly/eventInfo";
+import { getEventInvitee } from "../calendly/eventInvitee";
 
 // Tell Next.js to disable parsing body by default,
 // as Stripe requires the raw body to validate the event

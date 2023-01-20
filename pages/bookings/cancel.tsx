@@ -3,7 +3,7 @@ import Stripe from "stripe";
 import BookingsLayout from "../../components/BookingsLayout";
 import { stripe } from "../../config";
 import { NextPageWithLayout } from "../../types/types";
-import { getEventInvitee } from "../api/calendly/getEventInvitee";
+import { getEventInvitee } from "../api/calendly/eventInvitee";
 
 type Props = {
 	session?: Stripe.Checkout.Session;

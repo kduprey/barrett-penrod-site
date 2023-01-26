@@ -44,7 +44,7 @@
 		"react-scroll": "^1.8.9",
 		"remove-trailing-slash": "^0.1.1",
 		"sharp": "^0.31.3",
-		"stripe": "^11.5.0"
+		"stripe": "^11.7.0"
 	},
 	"devDependencies": {
 		"@svgr/webpack": "^6.5.1",

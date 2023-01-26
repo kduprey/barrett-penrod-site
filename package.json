@@ -39,7 +39,7 @@
 		"prisma": "^4.8.0",
 		"raw-body": "^2.5.1",
 		"react": "18.2.0",
-		"react-calendly": "^4.0.1",
+		"react-calendly": "^4.1.1",
 		"react-dom": "18.2.0",
 		"react-scroll": "^1.8.9",
 		"remove-trailing-slash": "^0.1.1",

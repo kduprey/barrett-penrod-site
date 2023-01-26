@@ -2,7 +2,10 @@ name: Cypress Tests
 env:
     VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
     VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_DEV }}
+    GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 on: [pull_request]
+    
 jobs:
     cypress-run:
         runs-on: ubuntu-latest
@@ -17,17 +20,12 @@ jobs:
                   # Disable running of tests within install job
                   runTests: false
                   build: npm run ci:build
-              env:
-                  DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_DEV }}
             - name: E2E on Chrome
               uses: cypress-io/github-action@v4.2.0
               with:
                   browser: chrome
                   start: npm run ci:start
                   wait-on: "http://localhost:3000"
-              env:
-                  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-                  DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_DEV }}
             - name: Uploading Screenshots
               uses: actions/upload-artifact@v2
               if: failure()

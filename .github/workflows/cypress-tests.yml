@@ -20,12 +20,12 @@ jobs:
               with:
                   # Disable running of tests within install job
                   runTests: false
-                  build: doppler run -t "$DOPPLER_TOKEN" -p barrett-penrod-site -c stg -- next build
+                  build: doppler run -t $DOPPLER_TOKEN -p barrett-penrod-site -c stg -- next build
             - name: E2E on Chrome
               uses: cypress-io/github-action@v4.2.0
               with:
                   browser: chrome
-                  start: doppler run -t "$DOPPLER_TOKEN" -p barrett-penrod-site -c stg -- next start
+                  start: doppler run -t $DOPPLER_TOKEN -p barrett-penrod-site -c stg -- next start
                   wait-on: "http://localhost:3000"
             - name: Uploading Screenshots
               uses: actions/upload-artifact@v2

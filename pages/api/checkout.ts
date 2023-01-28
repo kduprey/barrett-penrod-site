@@ -1,4 +1,3 @@
-import axios from "axios";
 import createHttpError from "http-errors";
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
@@ -7,7 +6,6 @@ import { validateRequest } from "utils/yup";
 import * as yup from "yup";
 import { server, stripe, stripeMode } from "../../config/index";
 import { bundles, Prices, services } from "../../data/services";
-import { invalidMethod } from "../../utils/responseDefaults";
 import { getEventInvitee } from "./calendly/eventInvitee";
 
 interface CheckoutParams {

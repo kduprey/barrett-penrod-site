@@ -1,41 +1,59 @@
 import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
-import type { NextApiRequest, NextApiResponse } from "next";
+import createHttpError from "http-errors";
+import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import {
+	SessionLocation,
+	SessionLocations,
+	SessionType,
+	SessionTypes,
+} from "types/types";
+import apiHandler from "utils/api";
+import { validateRequest } from "utils/yup";
+import * as yup from "yup";
 import { sendgrid } from "../../../config";
-import { EmailTemplateData } from "../../../types/emailTypes";
-import { invalidMethod } from "../../../utils/responseDefaults";
+import { clientSchema, singleEmail } from "../../../types/emailTypes";
 
-type SingleBookingEmailParams = {
-	email: string;
-	name: string;
-	bookingDate: string;
-	bookingName: string;
-	zoomLink?: string;
-};
 // Example of data for email template:
 // {
 //     "bookingTime": "2:00 pm",
 //     "bookingDate": "June 26, 2022",
-//     "service": "Virtual via Zoom",
+//     "sessionType": "Voice Lesson",
+//     "bookingLocation": "Virtual",
 //     "zoomLink": "https://zoom.us/testlink"
 // }
 
 /**
  * This endpoint is used to send a single booking email to a client after booking a session.
- * @param email - The email address of the client
- * @param name - The name of the client
+ * @param client - The email address and name of the client
+ * @param sessionType - The type of session
  * @param bookingDate - The date of the event
- * @param bookingName - The name of the booking
- * @param zoomLink - The zoom link for the event
+ * @param bookingLocation - The Location of the booking
+ * @param zoomLink - The zoom link for the event (optional)
  * @returns - The response from SendGrid
  */
 
+const schema: yup.SchemaOf<singleEmail> = yup.object({
+	client: clientSchema,
+	sessionType: yup
+		.mixed<SessionType>()
+		.oneOf([...SessionTypes])
+		.defined(),
+	bookingDate: yup.date().required(),
+	bookingLocation: yup
+		.mixed<SessionLocation>()
+		.oneOf([...SessionLocations])
+		.defined()
+		.required(),
+	zoomLink: yup.string().url(),
+});
+
 const sendSingleBookingEmail = async ({
-	email,
-	name,
+	client,
+	sessionType,
 	bookingDate,
-	bookingName,
+	bookingLocation,
 	zoomLink,
-}: SingleBookingEmailParams): Promise<[ClientResponse, {}]> => {
+}: singleEmail): Promise<[ClientResponse, {}]> => {
 	const templateId: string = "d-d3b1109a7bd44612b10c3e60ed9024da";
 
 	const message: MailDataRequired = {
@@ -49,13 +67,11 @@ const sendSingleBookingEmail = async ({
 		},
 		personalizations: [
 			{
-				to: [
-					{
-						email,
-						name,
-					},
-				],
+				to: {
+					...client,
+				},
 				dynamicTemplateData: {
+					sessionType,
 					bookingTime: new Date(bookingDate).toLocaleTimeString([], {
 						hour: "2-digit",
 						minute: "2-digit",
@@ -66,9 +82,9 @@ const sendSingleBookingEmail = async ({
 						day: "numeric",
 						year: "numeric",
 					}),
-					bookingName,
+					bookingLocation,
 					zoomLink,
-				} as EmailTemplateData,
+				},
 			},
 		],
 		templateId,
@@ -85,30 +101,26 @@ const sendSingleBookingEmail = async ({
 
 export { sendSingleBookingEmail };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	invalidMethod("POST", req, res);
-
-	const { email, name, bookingDate, bookingName, zoomLink } = req.body;
-
-	if (!email || !name || !bookingDate || !bookingName) {
-		return res.status(400).json({
-			message: "Missing required parameters",
-		});
-	}
+const handler: NextApiHandler = async (
+	req: NextApiRequest,
+	res: NextApiResponse
+) => {
+	const data = validateRequest(req.body, schema);
 
 	try {
-		const response = await sendSingleBookingEmail({
-			email,
-			name,
-			bookingDate,
-			bookingName,
-			zoomLink,
-		});
-		res.status(200).json({ message: response });
+		const response = await sendSingleBookingEmail(data);
+		res.status(200).json(response);
 	} catch (error: any) {
 		console.log(error);
-		res.status(500).json(error);
+		throw new createHttpError.InternalServerError(
+			JSON.stringify({
+				message: "There was an error sending the email.",
+				error,
+			})
+		);
 	}
 };
 
-export default handler;
+export default apiHandler({
+	POST: handler,
+});

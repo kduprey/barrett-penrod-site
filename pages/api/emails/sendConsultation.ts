@@ -1,42 +1,45 @@
 import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
+import createHttpError from "http-errors";
 import { NextApiRequest, NextApiResponse } from "next";
+import { clientSchema, ConsultationEmail } from "types/emailTypes";
+import apiHandler from "utils/api";
+import { validateRequest } from "utils/yup";
+import * as yup from "yup";
 import { sendgrid } from "../../../config/index";
-import { EmailTemplateData } from "../../../types/emailTypes";
-import { invalidMethod } from "../../../utils/responseDefaults";
 
 // Example for email template data:
 // {
 //     "bookingTime": "2:00 pm",
 //     "bookingDate": "June 26, 2022",
-//     "bookingName": "Virtual via Zoom",
 //     "zoomLink": "https://us06web.zoom.us/j/87847325639"
 // }
 
-type ConsultationEmailParams = {
-	email: string;
-	name: string;
-	bookingDate: string;
-	bookingName: string;
-	zoomLink: string;
-};
+const schema: yup.SchemaOf<ConsultationEmail> = yup.object({
+	client: clientSchema,
+	bookingDate: yup.date().required("Consultation date is required"),
+	zoomLink: yup
+		.string()
+		.url(
+			"Please enter a valid Zoom link (e.g. https://us06web.zoom.us/j/xxxxxx)"
+		)
+		.required(
+			"Zoom link for booking is required (e.g. https://us06web.zoom.us/j/xxxxxx)"
+		),
+});
 
 /**
  * This endpoint is used to send a confirmation email to a client after booking a consultation.
- * @param email - The email address of the client
- * @param name - The name of the client
+ * @param client - The client's email and name
  * @param bookingDate - The start time of the consultation
- * @param bookingName - The name of the consultation
  * @param zoomLink - The link to the Zoom meeting
  * @returns The response from SendGrid
  */
 
 const sendConsultationEmail = async ({
-	email,
-	name,
+	client,
 	bookingDate,
-	bookingName,
 	zoomLink,
-}: ConsultationEmailParams): Promise<[ClientResponse, {}] | Error> => {
+}: ConsultationEmail): Promise<[ClientResponse, {}]> => {
 	const templateId: string = "d-4a2d850cce134d40bdd662e3fe2a96b3";
 
 	const message: MailDataRequired = {
@@ -50,12 +53,7 @@ const sendConsultationEmail = async ({
 		},
 		personalizations: [
 			{
-				to: [
-					{
-						email,
-						name,
-					},
-				],
+				to: client,
 				dynamicTemplateData: {
 					bookingTime: new Date(bookingDate).toLocaleTimeString([], {
 						hour: "2-digit",
@@ -67,9 +65,8 @@ const sendConsultationEmail = async ({
 						day: "numeric",
 						year: "numeric",
 					}),
-					bookingName,
 					zoomLink,
-				} as EmailTemplateData,
+				},
 			},
 		],
 		templateId,
@@ -77,45 +74,31 @@ const sendConsultationEmail = async ({
 
 	try {
 		return await sendgrid.send(message);
-	} catch (error) {
+	} catch (error: any) {
 		console.error(error);
-		return new Error("Error sending email");
+		throw new Error("Error sending email", error);
 	}
 };
 
 export { sendConsultationEmail };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	const { email, name, bookingDate, bookingName, zoomLink } = req.body;
-
-	// If one of the required fields is missing, return an error
-	if (
-		!email ||
-		typeof email !== "string" ||
-		!name ||
-		typeof name !== "string" ||
-		!bookingDate ||
-		typeof bookingDate !== "string" ||
-		!bookingName ||
-		typeof bookingName !== "string" ||
-		!zoomLink ||
-		typeof zoomLink !== "string"
-	) {
-		res.status(400).json({ message: "Missing required field" });
-		return;
-	}
-
-	invalidMethod("POST", req, res);
+	const data = validateRequest(req.body, schema);
 
 	try {
-		const response = await sendConsultationEmail(
-			req.body as ConsultationEmailParams
-		);
-		res.status(200).json({ message: response });
+		const response = await sendConsultationEmail(data);
+		res.status(200).json(response);
 	} catch (error: any) {
 		console.error(error.body);
-		res.status(500).json(error);
+		throw new createHttpError.InternalServerError(
+			JSON.stringify({
+				message: "There was an error sending the email.",
+				error,
+			})
+		);
 	}
 };
 
-export default handler;
+export default apiHandler({
+	POST: handler,
+});

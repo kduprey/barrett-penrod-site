@@ -1,46 +1,54 @@
 import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
+import createHttpError from "http-errors";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { PackageType, PackageTypes } from "types/types";
+import apiHandler from "utils/api";
+import { validateRequest } from "utils/yup";
+import * as yup from "yup";
 import { sendgrid } from "../../../config/index";
-import { PackageEmailTemplateData } from "../../../types/emailTypes";
-import { invalidMethod } from "../../../utils/responseDefaults";
-
-type PackageConfirmationEmailParams = {
-	email: string;
-	name: string;
-	packageName: string;
-	bookingDate: string;
-	bookingLocation: string;
-	zoomLink?: string;
-};
+import {
+	emailDataSchema,
+	PackageConfirmationEmail,
+} from "../../../types/emailTypes";
 
 // Example of email template data:
 // {
 //     "packageName": "4 Session Package",
 //     "bookingDate": "June 26, 2022",
+//     "sessionType": "Voice Lesson",
 //     "bookingTime": "2:00 pm",
-//     "bookingLocation": "Virtual via Zoom",
+//     "bookingLocation": "Virtual",
 //     "zoomLink": "https://zoom.us/testLink"
 // }
 
 /**
  * This endpoint is used to send a package confirmation email to a client after booking a package.
- * @param email - The email address of the client.
- * @param name - The name of the client.
- * @param packageName - The name of the package that was booked.
- * @param bookingDate - The date and time of the first lesson in the package.
- * @param bookingLocation - The location of the first lesson in the package.
- * @param zoomLink - The zoom link for the first lesson in the package.
+ * @param client - The email address and name of the client
+ * @param packageName - The name of the package that was booked
+ * @param sessionType - The type of session in the package
+ * @param bookingDate - The date and time of the first lesson in the package
+ * @param bookingLocation - The location of the first lesson in the package
+ * @param zoomLink - The zoom link for the first lesson in the package
  * @returns - The response from SendGrid
  */
 
+const schema: yup.SchemaOf<PackageConfirmationEmail> = yup
+	.object({
+		packageName: yup
+			.mixed<PackageType>()
+			.oneOf([...PackageTypes])
+			.defined(),
+	})
+	.concat(emailDataSchema);
+
 const sendPackageConfirmationEmail = async ({
-	email,
-	name,
+	client,
 	packageName,
+	sessionType,
 	bookingDate,
 	bookingLocation,
 	zoomLink,
-}: PackageConfirmationEmailParams): Promise<[ClientResponse, {}]> => {
+}: PackageConfirmationEmail): Promise<[ClientResponse, {}]> => {
 	const templateId: string = "d-368ad77a4b3d4fb9ac48daa0b10eb63e";
 
 	const message: MailDataRequired = {
@@ -54,12 +62,7 @@ const sendPackageConfirmationEmail = async ({
 		},
 		personalizations: [
 			{
-				to: [
-					{
-						email,
-						name,
-					},
-				],
+				to: client,
 				dynamicTemplateData: {
 					packageName,
 					bookingDate: new Date(bookingDate).toLocaleDateString([], {
@@ -72,9 +75,10 @@ const sendPackageConfirmationEmail = async ({
 						hour: "2-digit",
 						minute: "2-digit",
 					}),
+					sessionType,
 					bookingLocation,
 					zoomLink,
-				} as PackageEmailTemplateData,
+				},
 			},
 		],
 		templateId,
@@ -85,45 +89,29 @@ const sendPackageConfirmationEmail = async ({
 		return response;
 	} catch (error: any) {
 		console.log(error);
-		return error;
+		throw new Error(error);
 	}
 };
 
 export { sendPackageConfirmationEmail };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	invalidMethod("POST", req, res);
-
-	const {
-		email,
-		name,
-		packageName,
-		bookingDate,
-		bookingLocation,
-		zoomLink,
-	}: PackageConfirmationEmailParams = req.body;
-
-	if (!email || !name || !packageName || !bookingDate || !bookingLocation) {
-		res.status(400).json({
-			message: "Missing required parameters",
-		});
-		return;
-	}
+	const data = validateRequest(req.body, schema);
 
 	try {
-		const response = await sendPackageConfirmationEmail({
-			email,
-			name,
-			packageName,
-			bookingDate,
-			bookingLocation,
-			zoomLink,
-		});
+		const response = await sendPackageConfirmationEmail(data);
 		res.status(200).json(response);
 	} catch (error: any) {
 		console.log(error);
-		res.status(500).json(error);
+		throw new createHttpError.InternalServerError(
+			JSON.stringify({
+				message: "There was an error sending the email.",
+				error,
+			})
+		);
 	}
 };
 
-export default handler;
+export default apiHandler({
+	POST: handler,
+});

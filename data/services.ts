@@ -1,4 +1,4 @@
-import { LessonBundle, Locations, Price, ServiceType } from "../types/types";
+import { LessonBundle, Price, Service, SessionLocations } from "../types/types";
 
 const bookingLink = (title: string, location: string): string => {
 	return (
@@ -11,12 +11,12 @@ const bookingLink = (title: string, location: string): string => {
 
 const baseURL = "https://calendly.com/bpvoicestudio/";
 
-export const services: ServiceType[] = [
+export const services: Service[] = [
 	{
 		title: "Voice Lesson",
 		description:
 			"One hour, one on one individualized voice lesson, where we work the coordination and function of the voice for singing technique, both genre specific and individual style, and performance.",
-		locations: Object.values(Locations),
+		locations: [...SessionLocations],
 		get url() {
 			const title = this.title;
 			return this.locations.map((location) => {
@@ -28,7 +28,7 @@ export const services: ServiceType[] = [
 		title: "Voice Coaching",
 		description:
 			"One hour, one on one individualized voice coaching, where we work the artistic interpretation of client chosen repertoire through the lens of musicality, stylistic choice, song analysis, personal authenticity in song, and acting in song. ",
-		locations: Object.values(Locations),
+		locations: [...SessionLocations],
 		get url() {
 			const title = this.title;
 			return this.locations.map((location) => {
@@ -40,11 +40,7 @@ export const services: ServiceType[] = [
 		title: "SVS Session",
 		description:
 			"One hour and fifteen minute habilitative session focused towards the singing voice for singers who are currently/formerly undergoing vocal rehabilitative treatment with a Speech Language Pathologist and Laryngologist.",
-		locations: [
-			Locations.LOCATION_CHOSEN_BY_CLIENT,
-			Locations.OPEN_JAR,
-			Locations.VIRTUAL,
-		],
+		locations: ["Location Chosen By Client", "Open Jar", "Virtual"],
 		get url() {
 			const title = this.title;
 			return this.locations.map((location) => {
@@ -56,7 +52,7 @@ export const services: ServiceType[] = [
 		title: "Audition Coaching",
 		description:
 			"A one hour, individual audition prep coaching for specific industry auditions or general audition skills, with additional audition book consultation.",
-		locations: Object.values(Locations),
+		locations: [...SessionLocations],
 		get url() {
 			const title = this.title;
 			return this.locations.map((location) => {
@@ -66,7 +62,7 @@ export const services: ServiceType[] = [
 	},
 ];
 
-export const bundleServices: ServiceType[] = services.filter((e) => {
+export const bundleServices: Service[] = services.filter((e) => {
 	return e.title !== "SVS Session";
 });
 

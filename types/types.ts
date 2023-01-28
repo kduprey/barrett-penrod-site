@@ -7,13 +7,39 @@ import type { AppProps } from "next/app";
 import type { ReactElement, ReactNode } from "react";
 import Stripe from "stripe";
 
-export enum Locations {
-	LOCATION_CHOSEN_BY_CLIENT = "Location Chosen By Client",
-	OPEN_JAR = "Open Jar",
-	HOME_STUDIO = "Home Studio",
-	VIRTUAL = "Virtual",
-}
+export const SessionLocations = [
+	"Location Chosen By Client",
+	"Open Jar",
+	"Home Studio",
+	"Virtual",
+] as const;
 
+export type SessionLocation = (typeof SessionLocations)[number];
+
+export const SessionTypes = [
+	"Voice Lesson",
+	"Voice Coaching",
+	"SVS Session",
+	"Audition Coaching",
+] as const;
+
+export type SessionType = (typeof SessionTypes)[number];
+
+export const PackageTypes = [
+	"4 Session Package",
+	"6 Session Package",
+	"8 Session Package",
+	"12 Session Package",
+] as const;
+
+export type PackageType = (typeof PackageTypes)[number];
+
+export interface Service {
+	title: SessionType;
+	description: string;
+	locations: SessionLocation[];
+	url: string[];
+}
 export interface Page {
 	name: string;
 	id: string;
@@ -39,15 +65,6 @@ export type AppPropsWithLayout = AppProps & {
 	Component: NextPageWithLayout;
 };
 
-export interface Service {
-	name: string;
-	id: string;
-	price: number;
-	deposit: number;
-	description: string;
-	calendarLink: string;
-}
-
 export interface CustomQuestion {
 	answerChoices: string[];
 	enabled: boolean;
@@ -66,7 +83,7 @@ export interface Profile {
 
 export interface LessonBundle {
 	amtSessions: number;
-	title: string;
+	title: PackageType;
 	discount: string;
 	price: string;
 	priceID: {
@@ -230,13 +247,6 @@ export interface Tracking {
 	utm_content: string | null;
 	utm_term: string | null;
 	salesforce_uuid: string | null;
-}
-
-export interface ServiceType {
-	title: string;
-	description: string;
-	locations: Locations[];
-	url: string[];
 }
 
 export interface CalendlyCancel {

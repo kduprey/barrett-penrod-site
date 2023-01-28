@@ -1,24 +1,23 @@
 import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
+import createHttpError from "http-errors";
 import type { NextApiRequest, NextApiResponse } from "next";
+import apiHandler from "utils/api";
+import { validateRequest } from "utils/yup";
 import { sendgrid } from "../../../config";
-import { EmailTemplateData } from "../../../types/emailTypes";
-import { invalidMethod } from "../../../utils/responseDefaults";
+import {
+	emailDataSchema,
+	EmailTemplateData,
+	firstTimeEmail,
+} from "../../../types/emailTypes";
 
 // Example for template data
 // {
 //     "bookingTime": "2:00 pm",
 //     "bookingDate": "June 26, 2022",
-//     "bookingName": "Virtual via Zoom",
-//     "zoomLink": "https://zoom.us/link"
+//     "sessionType": "Voice Lesson",
+//     "bookingLocation": "Virtual",
+//     "zoomLink": "https://zoom.us/testlink"
 // }
-
-type FirstTimeEmailParams = {
-	email: string;
-	name: string;
-	bookingDate: string;
-	bookingName: string;
-	zoomLink?: string;
-};
 
 /**
  * This endpoint is used to send a first time email to a client after booking a session.
@@ -31,12 +30,12 @@ type FirstTimeEmailParams = {
  */
 
 const sendFirstTimeEmail = async ({
-	email,
-	name,
+	client,
 	bookingDate,
-	bookingName,
+	sessionType,
+	bookingLocation,
 	zoomLink,
-}: FirstTimeEmailParams): Promise<[ClientResponse, {}]> => {
+}: firstTimeEmail): Promise<[ClientResponse, {}]> => {
 	const templateId: string = "d-c859a7aa6e04450b952a683aeb9ded1d";
 
 	const message: MailDataRequired = {
@@ -50,12 +49,7 @@ const sendFirstTimeEmail = async ({
 		},
 		personalizations: [
 			{
-				to: [
-					{
-						email,
-						name,
-					},
-				],
+				to: client,
 				dynamicTemplateData: {
 					bookingTime: new Date(bookingDate).toLocaleTimeString([], {
 						hour: "2-digit",
@@ -67,9 +61,10 @@ const sendFirstTimeEmail = async ({
 						day: "numeric",
 						year: "numeric",
 					}),
-					bookingName,
+					sessionType,
+					bookingLocation,
 					zoomLink,
-				} as EmailTemplateData,
+				},
 			},
 		],
 		templateId,
@@ -87,34 +82,22 @@ const sendFirstTimeEmail = async ({
 export { sendFirstTimeEmail };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	invalidMethod("POST", req, res);
-
-	const { email, name, bookingDate, bookingName, zoomLink } = req.body;
-
-	if (!email || !name || !bookingDate || !bookingName) {
-		res.status(400).json({
-			error: "Missing required parameters",
-		});
-		return;
-	}
+	const data = validateRequest(req.body, emailDataSchema);
 
 	try {
-		const response = await sendFirstTimeEmail({
-			email,
-			name,
-			bookingDate,
-			bookingName,
-			zoomLink,
-		});
-		res.status(200).json({
-			message: response,
-		});
+		const response = await sendFirstTimeEmail(data);
+		res.status(200).json(response);
 	} catch (error: any) {
 		console.error(error.body);
-		res.status(500).json({
-			message: error,
-		});
+		throw new createHttpError.InternalServerError(
+			JSON.stringify({
+				message: "There was an error sending the email.",
+				error,
+			})
+		);
 	}
 };
 
-export default handler;
+export default apiHandler({
+	POST: handler,
+});

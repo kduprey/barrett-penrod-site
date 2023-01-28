@@ -1,3 +1,4 @@
+import { SessionLocation, SessionLocations } from "types/types";
 import { CalendlyEvent } from "../types/calendlyTypes";
 
 const testResponses: CalendlyEvent[] = [
@@ -81,14 +82,26 @@ const testResponses: CalendlyEvent[] = [
 	},
 ];
 
-const getBookongLocation = (bookingData: CalendlyEvent) => {
-	const bookingLocation = bookingData.resource.name.substring(
+const getBookingLocation = (bookingData: CalendlyEvent): SessionLocation => {
+	const locationData = bookingData.resource.name.substring(
 		bookingData.resource.name.indexOf("-") + 2
 	);
-	return bookingLocation;
+
+	switch (locationData) {
+		case "Location Chosen By Client":
+			return SessionLocations[0];
+		case "Open Jar":
+			return SessionLocations[1];
+		case "Home Studio":
+			return SessionLocations[2];
+		case "Virtual":
+			return SessionLocations[3];
+		default:
+			throw new Error("Invalid location");
+	}
 };
 
-export default getBookongLocation;
+export default getBookingLocation;
 
-console.log(getBookongLocation(testResponses[0]));
-console.log(getBookongLocation(testResponses[1]));
+console.log(getBookingLocation(testResponses[0]));
+console.log(getBookingLocation(testResponses[1]));

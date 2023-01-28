@@ -5,7 +5,7 @@ env:
     DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_DEV }}
     GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 on: [pull_request]
-    
+
 jobs:
     cypress-run:
         runs-on: ubuntu-latest
@@ -19,12 +19,12 @@ jobs:
               with:
                   # Disable running of tests within install job
                   runTests: false
-                  build: npm run ci:build
+                  build: doppler run -t "$DOPPLER_TOKEN" -p barrett-penrod-site -c stg -- next build
             - name: E2E on Chrome
               uses: cypress-io/github-action@v4.2.0
               with:
                   browser: chrome
-                  start: npm run ci:start
+                  start: doppler run -t "$DOPPLER_TOKEN" -p barrett-penrod-site -c stg -- next start
                   wait-on: "http://localhost:3000"
             - name: Uploading Screenshots
               uses: actions/upload-artifact@v2

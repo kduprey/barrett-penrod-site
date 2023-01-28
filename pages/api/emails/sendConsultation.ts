@@ -5,7 +5,7 @@ import { clientSchema, ConsultationEmail } from "types/emailTypes";
 import apiHandler from "utils/api";
 import { validateRequest } from "utils/yup";
 import * as yup from "yup";
-import { sendgrid } from "../../../config/index";
+import { dev, sendgrid } from "../../../config/index";
 
 // Example for email template data:
 // {
@@ -70,6 +70,11 @@ const sendConsultationEmail = async ({
 			},
 		],
 		templateId,
+		mailSettings: {
+			sandboxMode: {
+				enable: dev,
+			},
+		},
 	};
 
 	try {

@@ -10,7 +10,7 @@ import {
 import apiHandler from "utils/api";
 import { validateRequest } from "utils/yup";
 import * as yup from "yup";
-import { sendgrid } from "../../../config";
+import { dev, sendgrid } from "../../../config";
 import {
 	clientSchema,
 	Contact,
@@ -111,6 +111,11 @@ const sendGuestEmails = async ({
 			},
 		],
 		templateId,
+		mailSettings: {
+			sandboxMode: {
+				enable: dev,
+			},
+		},
 	};
 
 	try {

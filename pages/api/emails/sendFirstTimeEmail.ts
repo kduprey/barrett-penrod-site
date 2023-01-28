@@ -3,7 +3,7 @@ import createHttpError from "http-errors";
 import type { NextApiRequest, NextApiResponse } from "next";
 import apiHandler from "utils/api";
 import { validateRequest } from "utils/yup";
-import { sendgrid } from "../../../config";
+import { dev, sendgrid } from "../../../config";
 import {
 	emailDataSchema,
 	EmailTemplateData,
@@ -68,6 +68,11 @@ const sendFirstTimeEmail = async ({
 			},
 		],
 		templateId,
+		mailSettings: {
+			sandboxMode: {
+				enable: dev,
+			},
+		},
 	};
 
 	try {

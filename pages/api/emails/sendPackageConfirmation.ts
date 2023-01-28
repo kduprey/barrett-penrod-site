@@ -5,7 +5,7 @@ import { PackageType, PackageTypes } from "types/types";
 import apiHandler from "utils/api";
 import { validateRequest } from "utils/yup";
 import * as yup from "yup";
-import { sendgrid } from "../../../config/index";
+import { dev, sendgrid } from "../../../config/index";
 import {
 	emailDataSchema,
 	PackageConfirmationEmail,
@@ -82,6 +82,11 @@ const sendPackageConfirmationEmail = async ({
 			},
 		],
 		templateId,
+		mailSettings: {
+			sandboxMode: {
+				enable: dev,
+			},
+		},
 	};
 
 	try {

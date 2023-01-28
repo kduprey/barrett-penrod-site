@@ -8,7 +8,7 @@ import { sendGuestEmails } from "../pages/api/emails/sendGuestEmails";
 import { sendPackageConfirmationEmail } from "../pages/api/emails/sendPackageConfirmation";
 import { CalendlyEvent } from "../types/calendlyTypes";
 import { CalendlyInvitee } from "../types/types";
-import getBookongLocation from "./getBookingLocation";
+import getBookingLocation from "./getBookingLocation";
 import getPackageName from "./getPackageName";
 import getZoomLink from "./getZoomLink";
 import isDownpaymentCheckout from "./isDownpaymentCheckout";
@@ -101,7 +101,7 @@ const sendCheckoutEmails = async (
 					lineItems.data as Stripe.LineItem[]
 				),
 				bookingDate,
-				bookingLocation: getBookongLocation(bookingInfo.data),
+				bookingLocation: getBookingLocation(bookingInfo.data),
 				zoomLink: zoomLink ? zoomLink : undefined,
 			});
 			console.info("Package Email Response: ", packageEmail);
@@ -121,7 +121,7 @@ const sendCheckoutEmails = async (
 					lineItems.data as Stripe.LineItem[]
 				),
 				bookingDate,
-				bookingLocation: getBookongLocation(bookingInfo.data),
+				bookingLocation: getBookingLocation(bookingInfo.data),
 				zoomLink: zoomLink ? zoomLink : undefined,
 			});
 			console.info("Single Session Email Response: ", singleSessionEmail);

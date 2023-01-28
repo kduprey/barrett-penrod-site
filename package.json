@@ -6,8 +6,8 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"ci:build": "doppler run -t $DOPPLER_TOKEN -p barrett-penrod-site -c stg -- next build",
-		"ci:start": "doppler run -t $DOPPLER_TOKEN -p barrett-penrod-site -c stg -- next start",
+		"ci:build": "doppler run -p barrett-penrod-site -c stg -- next build",
+		"ci:start": "doppler run -p barrett-penrod-site -c stg -- next start",
 		"prisma:studio": "doppler run --mount .env -- npx prisma studio",
 		"prisma:migrate": "doppler run --mount .env -- npx prisma migrate dev",
 		"prisma:deploy": "doppler run --mount .env -- npx prisma migrate deploy",
@@ -44,7 +44,7 @@
 		"react-scroll": "^1.8.9",
 		"remove-trailing-slash": "^0.1.1",
 		"sharp": "^0.31.3",
-		"stripe": "^11.5.0"
+		"stripe": "^11.7.0"
 	},
 	"devDependencies": {
 		"@svgr/webpack": "^6.5.1",

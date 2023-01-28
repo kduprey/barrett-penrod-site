@@ -16,7 +16,7 @@ jobs:
             - name: Install Doppler CLI
               uses: dopplerhq/cli-action@v2
             - name: Echo Doppler Token
-              run: echo "${{ env.DOPPLER_TOKEN }}"
+              run: echo "${{ secrets.DOPPLER_TOKEN_DEV }}"
             - name: Cypress install
               uses: cypress-io/github-action@v4.2.0 # use the explicit version number
               with:

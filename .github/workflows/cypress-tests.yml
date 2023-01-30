@@ -3,20 +3,19 @@ env:
     VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
     VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
     GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+    DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_DEV }}
 on: [pull_request]
 
 jobs:
     cypress-run:
         runs-on: ubuntu-latest
-        env:
-            DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_DEV }}
         steps:
             - name: Checkout
               uses: actions/checkout@v2
             - name: Install Doppler CLI
               uses: dopplerhq/cli-action@v2
             - name: Signin to Doppler
-              run: echo "$DOPPLER_TOKEN" | doppler configure set token --scope /
+              run:  echo "$DOPPLER_TOKEN" | doppler configure set token --scope /
             - name: Cypress install
               uses: cypress-io/github-action@v4.2.0 # use the explicit version number
               with:

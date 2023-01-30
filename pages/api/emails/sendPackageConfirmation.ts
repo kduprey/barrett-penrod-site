@@ -94,7 +94,7 @@ const sendPackageConfirmationEmail = async ({
 		return response;
 	} catch (error: any) {
 		console.log(error);
-		throw new Error(error);
+		throw new Error("Error sending email", error);
 	}
 };
 

@@ -1,5 +1,6 @@
 import * as yup from "yup";
 import {
+	PackageType,
 	SessionLocation,
 	SessionLocations,
 	SessionType,
@@ -54,7 +55,7 @@ export interface GuestEmails extends Omit<EmailData, "client"> {
 }
 
 export interface PackageConfirmationEmail extends EmailData {
-	packageName: string;
+	packageName: PackageType;
 }
 
 export interface firstTimeEmail extends EmailData {}

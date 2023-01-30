@@ -100,7 +100,7 @@ const sendSingleBookingEmail = async ({
 		return response;
 	} catch (error: any) {
 		console.log(error);
-		return error;
+		throw new Error("Error sending email", error);
 	}
 };
 

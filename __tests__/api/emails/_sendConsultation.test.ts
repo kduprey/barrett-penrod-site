@@ -70,13 +70,6 @@ describe("sendConsultationEmail", () => {
 			.fn()
 			.mockRejectedValue(new Error("Error sending email"));
 
-		const client = {
-			email: "test@example.com",
-			name: "Test User",
-		};
-		const bookingDate = new Date();
-		const zoomLink = "https://example.com";
-
 		await expect(
 			sendConsultationEmail({ client, bookingDate, zoomLink })
 		).rejects.toThrowError("Error sending email");

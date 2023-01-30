@@ -80,13 +80,6 @@ describe("sendFirstTimeEmail should", () => {
 			.fn()
 			.mockRejectedValue(new Error("Error sending email"));
 
-		const client = {
-			email: "test@example.com",
-			name: "Test User",
-		};
-		const bookingDate = new Date();
-		const zoomLink = "https://example.com";
-
 		await expect(
 			sendFirstTimeEmail({
 				client,

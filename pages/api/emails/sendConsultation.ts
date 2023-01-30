@@ -16,7 +16,20 @@ import { dev, sendgrid } from "../../../config/index";
 
 const schema: yup.SchemaOf<ConsultationEmail> = yup.object({
 	client: clientSchema,
-	bookingDate: yup.date().required("Consultation date is required"),
+	bookingDate: yup
+		.mixed()
+		.test("Testing Date", "Invalid date format", (value) => {
+			var date = new Date(value);
+			if (!(date instanceof Date && !isNaN(date.getTime()))) {
+				return false;
+			}
+
+			return true;
+		})
+		.transform((value) => {
+			return new Date(value);
+		})
+		.required(),
 	zoomLink: yup
 		.string()
 		.url(
@@ -55,11 +68,11 @@ const sendConsultationEmail = async ({
 			{
 				to: client,
 				dynamicTemplateData: {
-					bookingTime: new Date(bookingDate).toLocaleTimeString([], {
+					bookingTime: bookingDate.toLocaleTimeString([], {
 						hour: "2-digit",
 						minute: "2-digit",
 					}),
-					bookingDate: new Date(bookingDate).toLocaleDateString([], {
+					bookingDate: bookingDate.toLocaleDateString([], {
 						weekday: "long",
 						month: "short",
 						day: "numeric",
@@ -78,7 +91,8 @@ const sendConsultationEmail = async ({
 	};
 
 	try {
-		return await sendgrid.send(message);
+		const response = await sendgrid.send(message);
+		return response;
 	} catch (error: any) {
 		console.error(error);
 		throw new Error("Error sending email", error);
@@ -88,13 +102,15 @@ const sendConsultationEmail = async ({
 export { sendConsultationEmail };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+	console.log(req.body);
+
 	const data = validateRequest(req.body, schema);
 
 	try {
 		const response = await sendConsultationEmail(data);
 		res.status(200).json(response);
 	} catch (error: any) {
-		console.error(error.body);
+		console.error(error);
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "There was an error sending the email.",

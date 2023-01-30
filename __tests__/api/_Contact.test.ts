@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { beforeEach, describe, expect, Mocked, vitest as vi } from "vitest";
+import { beforeEach, describe, expect, it, Mocked, vitest as vi } from "vitest";
 import { contact } from "./contact";
 
 const data = {

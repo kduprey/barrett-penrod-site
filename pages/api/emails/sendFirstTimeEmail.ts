@@ -80,7 +80,7 @@ const sendFirstTimeEmail = async ({
 		return response;
 	} catch (error: any) {
 		console.error(error);
-		return error;
+		throw new Error("Error sending email", error);
 	}
 };
 

@@ -9,6 +9,7 @@ import { dev, sendgrid } from "../../../config/index";
 import {
 	emailDataSchema,
 	PackageConfirmationEmail,
+	validateBookingDate,
 } from "../../../types/emailTypes";
 
 // Example of email template data:
@@ -101,6 +102,7 @@ const sendPackageConfirmationEmail = async ({
 export { sendPackageConfirmationEmail };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+	req.body.bookingDate = validateBookingDate(req);
 	const data = validateRequest(req.body, schema);
 
 	try {

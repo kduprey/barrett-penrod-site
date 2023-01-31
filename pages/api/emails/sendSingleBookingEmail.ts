@@ -11,7 +11,12 @@ import apiHandler from "utils/api";
 import { validateRequest } from "utils/yup";
 import * as yup from "yup";
 import { dev, sendgrid } from "../../../config";
-import { clientSchema, singleEmail } from "../../../types/emailTypes";
+import {
+	clientSchema,
+	emailDataSchema,
+	singleEmail,
+	validateBookingDate,
+} from "../../../types/emailTypes";
 
 // Example of data for email template:
 // {
@@ -31,21 +36,6 @@ import { clientSchema, singleEmail } from "../../../types/emailTypes";
  * @param zoomLink - The zoom link for the event (optional)
  * @returns - The response from SendGrid
  */
-
-const schema: yup.SchemaOf<singleEmail> = yup.object({
-	client: clientSchema,
-	sessionType: yup
-		.mixed<SessionType>()
-		.oneOf([...SessionTypes])
-		.defined(),
-	bookingDate: yup.date().required(),
-	bookingLocation: yup
-		.mixed<SessionLocation>()
-		.oneOf([...SessionLocations])
-		.defined()
-		.required(),
-	zoomLink: yup.string().url(),
-});
 
 const sendSingleBookingEmail = async ({
 	client,
@@ -110,7 +100,8 @@ const handler: NextApiHandler = async (
 	req: NextApiRequest,
 	res: NextApiResponse
 ) => {
-	const data = validateRequest(req.body, schema);
+	req.body.bookingDate = validateBookingDate(req);
+	const data = validateRequest(req.body, emailDataSchema);
 
 	try {
 		const response = await sendSingleBookingEmail(data);

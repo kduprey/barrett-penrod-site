@@ -16,6 +16,7 @@ import {
 	Contact,
 	EmailTemplateData,
 	GuestEmails,
+	validateBookingDate,
 } from "../../../types/emailTypes";
 
 // Template Data
@@ -54,7 +55,11 @@ const schema: yup.SchemaOf<GuestEmails> = yup.object({
 		)
 		.defined()
 		.required(),
-	bookingDate: yup.date().required(),
+	bookingDate: yup
+		.date()
+		.required(
+			"Booking date and time is required (e.g. 2022-06-26T14:00:00.000Z)"
+		),
 	sessionType: yup
 		.mixed<SessionType>()
 		.oneOf([...SessionTypes])
@@ -131,6 +136,7 @@ const sendGuestEmails = async ({
 export { sendGuestEmails };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+	req.body.bookingDate = validateBookingDate(req);
 	const data = validateRequest(req.body, schema);
 
 	try {

@@ -1,7 +1,11 @@
 import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
 import createHttpError from "http-errors";
 import { NextApiRequest, NextApiResponse } from "next";
-import { clientSchema, ConsultationEmail } from "types/emailTypes";
+import {
+	clientSchema,
+	ConsultationEmail,
+	validateBookingDate,
+} from "types/emailTypes";
 import apiHandler from "utils/api";
 import { validateRequest } from "utils/yup";
 import * as yup from "yup";
@@ -17,19 +21,10 @@ import { dev, sendgrid } from "../../../config/index";
 const schema: yup.SchemaOf<ConsultationEmail> = yup.object({
 	client: clientSchema,
 	bookingDate: yup
-		.mixed()
-		.test("Testing Date", "Invalid date format", (value) => {
-			var date = new Date(value);
-			if (!(date instanceof Date && !isNaN(date.getTime()))) {
-				return false;
-			}
-
-			return true;
-		})
-		.transform((value) => {
-			return new Date(value);
-		})
-		.required(),
+		.date()
+		.required(
+			"Booking date and time is required (e.g. 2022-06-26T14:00:00.000Z)"
+		),
 	zoomLink: yup
 		.string()
 		.url(
@@ -102,8 +97,7 @@ const sendConsultationEmail = async ({
 export { sendConsultationEmail };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	console.log(req.body);
-
+	req.body.bookingDate = validateBookingDate(req);
 	const data = validateRequest(req.body, schema);
 
 	try {

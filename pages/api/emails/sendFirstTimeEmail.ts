@@ -8,6 +8,7 @@ import {
 	emailDataSchema,
 	EmailTemplateData,
 	firstTimeEmail,
+	validateBookingDate,
 } from "../../../types/emailTypes";
 
 // Example for template data
@@ -87,6 +88,7 @@ const sendFirstTimeEmail = async ({
 export { sendFirstTimeEmail };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+	req.body.bookingDate = validateBookingDate(req);
 	const data = validateRequest(req.body, emailDataSchema);
 
 	try {

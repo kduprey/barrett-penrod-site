@@ -1,3 +1,5 @@
+import createHttpError from "http-errors";
+import { NextApiRequest } from "next";
 import * as yup from "yup";
 import {
 	PackageType,
@@ -67,7 +69,11 @@ export const emailDataSchema: yup.SchemaOf<EmailData> = yup.object({
 		.mixed<SessionType>()
 		.oneOf([...SessionTypes])
 		.defined(),
-	bookingDate: yup.date().required(),
+	bookingDate: yup
+		.date()
+		.required(
+			"Booking date and time is required (e.g. 2022-06-26T14:00:00.000Z)"
+		),
 	bookingLocation: yup
 		.mixed<SessionLocation>()
 		.oneOf([...SessionLocations])
@@ -79,3 +85,17 @@ export const emailDataSchema: yup.SchemaOf<EmailData> = yup.object({
 			"Please enter a valid Zoom link (e.g. https://us06web.zoom.us/j/xxxxxx)"
 		),
 });
+
+export const validateBookingDate = (req: NextApiRequest): Date => {
+	if (!req.body.bookingDate) {
+		throw new createHttpError.BadRequest("Booking date is required");
+	}
+
+	const date = new Date(req.body.bookingDate);
+	if (isNaN(date.getTime())) {
+		throw new createHttpError.BadRequest(
+			`"${req.body.bookingDate}" is not a valid date string`
+		);
+	}
+	return date;
+};

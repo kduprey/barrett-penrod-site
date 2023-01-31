@@ -14,8 +14,12 @@ jobs:
               uses: actions/checkout@v3
             - name: Install Doppler CLI
               uses: dopplerhq/cli-action@v2
-            - name: Signin to Doppler
-              run:  echo "$DOPPLER_TOKEN" | doppler configure set token --scope /
+            # - name: Signin to Doppler
+            #   run:  echo "$DOPPLER_TOKEN" | doppler configure set token --scope /
+            - name: Doppler run
+              run: doppler configure set token --scope /
+              env:
+                  DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_DEV }}
             - name: Cypress install
               uses: cypress-io/github-action@v4.2.0 # use the explicit version number
               with:

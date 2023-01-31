@@ -1,170 +1,166 @@
-import { clients } from "@prisma/client";
-import type { NextApiRequest, NextApiResponse } from "next";
+import clientsCreateInput, { clients, Prisma } from ".prisma/client/index";
+import createHttpError from "http-errors";
+import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import apiHandler from "utils/api";
+import { validateRequest } from "utils/yup";
+import * as yup from "yup";
 import prisma from "../../../lib/prisma";
 
-export default async function handler(
+const GETHandler: NextApiHandler = async (
 	req: NextApiRequest,
 	res: NextApiResponse
-) {
-	if (req.method === "GET") {
-		if (req.query.searchString) {
-			const { searchString } = req.query;
+) => {
+	const data = validateRequest(
+		req.body,
+		new yup.ObjectSchema({
+			searchString: yup.string().optional(),
+		})
+	);
+	try {
+		const result = await GET(data.searchString);
+		return res.status(200).json(result);
+	} catch (error: any) {
+		console.error(error);
+		throw new createHttpError.InternalServerError(error);
+	}
+};
 
-			try {
-				const result = await prisma.clients.findMany({
-					where: {
-						OR: [
-							{
-								name: {
-									contains: searchString as string,
-								},
-							},
-
-							{
-								email: {
-									contains: searchString as string,
-								},
-							},
-							{
-								stripe_customer_id: {
-									contains: searchString as string,
-								},
-							},
-						],
-					},
-				});
-
-				if (!result) {
-					return res.status(204);
-				}
-
-				return res.status(200).json(result);
-			} catch (error) {
-				console.error(error);
-				return res.status(500).json({
-					message: "Error: Internal server error",
-					error,
-				});
-			}
-		}
-
+const GET = async (searchString?: string) => {
+	if (!searchString) {
 		try {
 			const result = await prisma.clients.findMany();
+			if (!result) return null;
 
-			if (!result) {
-				return res.status(204);
-			}
-
-			return res.status(200).json(result);
-		} catch (error) {
+			return result;
+		} catch (error: any) {
 			console.error(error);
-			return res.status(500).json({
-				message: "Error: Internal server error",
-				error,
-			});
+			throw new Error(error);
 		}
 	}
 
-	if (req.method === "POST") {
-		const { ...ClientInfo } = req.body as clients;
-		if (!ClientInfo) {
-			return res.status(400).json({
-				message: "Error: Missing client info",
-			});
-		}
+	try {
+		const result = await prisma.clients.findMany({
+			where: {
+				OR: [
+					{
+						name: {
+							contains: searchString,
+						},
+					},
 
-		try {
-			const result = await prisma.clients.create({
-				data: ClientInfo,
-			});
+					{
+						email: {
+							contains: searchString,
+						},
+					},
+					{
+						stripe_customer_id: {
+							contains: searchString,
+						},
+					},
+				],
+			},
+		});
+		if (!result) return null;
 
-			if (!result) {
-				return res.status(500).json({
-					message: "Error: Failed to insert client",
-				});
-			}
-
-			return res.status(200).json(result);
-		} catch (error) {
-			console.error(error);
-			return res.status(500).json({
-				message: "Error: Internal server error",
-				error,
-			});
-		}
+		return result;
+	} catch (error: any) {
+		console.error(error);
+		throw new Error(error);
 	}
+};
 
-	if (req.method === "PUT") {
-		const { id } = req.query;
-		const { ...ClientInfo } = req.body as clients;
-		if (!id) {
-			return res.status(400).json({
-				message: "Error: Missing id",
-			});
-		}
-		if (!ClientInfo) {
-			return res.status(400).json({
-				message: "Error: Missing client info",
-			});
-		}
+const POSTHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+	const data = Prisma.validator<Prisma.clientsCreateInput>()(req.body);
 
-		try {
-			const result = await prisma.clients.update({
-				where: {
-					id: id as string,
-				},
-				data: ClientInfo,
-			});
-
-			if (!result) {
-				return res.status(500).json({
-					message: "Error: Failed to update client",
-				});
-			}
-
-			return res.status(200).json(result);
-		} catch (error) {
-			console.error(error);
-			return res.status(500).json({
-				message: "Error: Internal server error",
-				error,
-			});
-		}
+	try {
+		const result = await POST(data);
+		return res.status(200).json(result);
+	} catch (error: any) {
+		console.error(error);
+		throw new createHttpError.InternalServerError(error);
 	}
+};
 
-	if (req.method === "DELETE") {
-		const { id } = req.query;
-		if (!id) {
-			return res.status(400).json({
-				message: "Error: Missing id",
-			});
-		}
+const POST = async (ClientInfo: clients): Promise<clients | null> => {
+	try {
+		const result = await prisma.clients.create({
+			data: ClientInfo,
+		});
 
-		try {
-			const result = await prisma.clients.delete({
-				where: {
-					id: id as string,
-				},
-			});
-
-			if (!result) {
-				return res.status(500).json({
-					message: "Error: Failed to delete client",
-				});
-			}
-
-			return res.status(200).json(result);
-		} catch (error) {
-			console.error(error);
-			return res.status(500).json({
-				message: "Error: Internal server error",
-				error,
-			});
-		}
+		return result;
+	} catch (error: any) {
+		console.error(error);
+		throw new Error(error);
 	}
+};
 
-	res.setHeader("Allow", "GET, POST, PUT, DELETE");
-	return res.status(405).json({
-		message: "Error: Invalid method",
-	});
-}
+const PUTHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+	const data = Prisma.validator<Prisma.clientsUpdateInput>()(req.body);
+
+	try {
+		const result = await PUT(data.id, data);
+		return res.status(200).json(result);
+	} catch (error: any) {
+		console.error(error);
+		throw new createHttpError.InternalServerError(error);
+	}
+};
+
+const PUT = async (
+	id: string,
+	ClientInfo: clients
+): Promise<clients | null> => {
+	try {
+		const result = await prisma.clients.update({
+			where: {
+				id: id as string,
+			},
+			data: ClientInfo,
+		});
+
+		return result;
+	} catch (error: any) {
+		console.error(error);
+		throw new Error(error);
+	}
+};
+
+const DELETEHandler = async (req: NextApiRequest, res: NextApiResponse) => {
+	const data = validateRequest(
+		req.body,
+		new yup.ObjectSchema({
+			id: yup.string().required(),
+		})
+	);
+
+	try {
+		const result = await DELETE(data.id);
+		return res.status(200).json(result);
+	} catch (error: any) {
+		console.error(error);
+		throw new createHttpError.InternalServerError(error);
+	}
+};
+
+const DELETE = async (id: string): Promise<clients | null> => {
+	try {
+		const result = await prisma.clients.delete({
+			where: {
+				id: id as string,
+			},
+		});
+
+		return result;
+	} catch (error: any) {
+		console.error(error);
+		throw new Error(error);
+	}
+};
+
+export default apiHandler({
+	GET: GETHandler,
+	POST: POSTHandler,
+	PUT: PUTHandler,
+	DELETE: DELETEHandler,
+});

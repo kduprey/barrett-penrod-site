@@ -17,7 +17,7 @@ jobs:
             # - name: Signin to Doppler
             #   run:  echo "$DOPPLER_TOKEN" | doppler configure set token --scope /
             - name: Doppler run
-              run: doppler login --token $DOPPLER_TOKEN
+              run: doppler configure set token --scope
               env:
                   DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_DEV }}
             - name: Cypress install

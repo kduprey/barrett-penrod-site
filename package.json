@@ -28,7 +28,7 @@
 		"@headlessui/react": "^1.7.8",
 		"@prisma/client": "^4.9.0",
 		"@sendgrid/mail": "^7.7.0",
-		"@xata.io/client": "^0.21.6",
+		"@xata.io/client": "^0.22.0",
 		"axios": "^1.2.2",
 		"framer-motion": "^8.5.5",
 		"graphql-request": "^5.1.0",

@@ -1,9 +1,9 @@
 name: Cypress Tests
 env:
-    VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-    VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    VERCEL_ORG_ID: "${{ secrets.VERCEL_ORG_ID }}"
+    VERCEL_PROJECT_ID: "${{ secrets.VERCEL_PROJECT_ID }}"
     GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-    DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_DEV }}
+    DOPPLER_TOKEN: "${{ secrets.DOPPLER_TOKEN_DEV }}"
 on: [pull_request]
 
 jobs:

@@ -51,7 +51,7 @@
 		"@tailwindcss/forms": "^0.5.2",
 		"@testing-library/cypress": "^9.0.0",
 		"@types/gtag.js": "^0.0.12",
-		"@types/node": "^18.11.18",
+		"@types/node": "^18.13.0",
 		"@types/react": "^18.0.27",
 		"@types/react-scroll": "^1.8.5",
 		"autoprefixer": "^10.4.13",

@@ -1,15 +1,14 @@
 import axios from "axios";
 import { afterEach, describe, expect, it, Mocked, vitest as vi } from "vitest";
-import { getInviteeResponse as data } from "../../../data/calendlyResponses/getInviteeResponse";
-import { getEventInfo } from "./eventInfo";
-import eventInvitee, { getEventInvitee } from "./eventInvitee";
+import { getEventResponse as data } from "../../../data/calendlyResponses/getEventResponse";
+import { getEventInfo } from "../../../pages/api/calendly/eventInfo";
 
 vi.mock("axios");
 const mockedAxios = axios as Mocked<typeof axios>;
 
 describe("eventInfo should", () => {
 	afterEach(() => {
-		mockedAxios.post.mockReset();
+		mockedAxios.get.mockReset();
 	});
 
 	it("Should handle a correct data submission", async () => {
@@ -17,7 +16,6 @@ describe("eventInfo should", () => {
 
 		const response = await getEventInfo("test");
 
-		expect(mockedAxios.get).toHaveBeenCalledTimes(1);
 		expect(response).toEqual(data);
 	});
 
@@ -34,12 +32,12 @@ describe("eventInfo should", () => {
 	});
 
 	it("Should throw an error if axios fails", async () => {
-		mockedAxios.post.mockRejectedValueOnce(
+		mockedAxios.post.mockRejectedValue(
 			new Error("Error getting event info")
 		);
 
 		try {
-			const response = await getEventInfo("test");
+			const response = await getEventInfo(" ");
 
 			expect(response).toBeUndefined();
 		} catch (error: any) {

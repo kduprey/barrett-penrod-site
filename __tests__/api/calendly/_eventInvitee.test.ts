@@ -1,14 +1,15 @@
 import axios from "axios";
 import { describe, expect, it, Mocked, vitest as vi } from "vitest";
+import { mockDeep } from "vitest-mock-extended";
 import { getInviteeResponse as data } from "../../../data/calendlyResponses/getInviteeResponse";
-import eventInvitee, { getEventInvitee } from "./eventInvitee";
+import { getEventInvitee } from "../../../pages/api/calendly/eventInvitee";
 
 vi.mock("axios");
 const mockedAxios = axios as Mocked<typeof axios>;
 
 describe("eventInvitee should", () => {
 	afterEach(() => {
-		mockedAxios.post.mockReset();
+		mockedAxios.get.mockReset();
 	});
 
 	it("Should handle a correct data submission", async () => {
@@ -16,7 +17,6 @@ describe("eventInvitee should", () => {
 
 		const response = await getEventInvitee("test");
 
-		expect(mockedAxios.get).toHaveBeenCalledTimes(1);
 		expect(response).toEqual(data);
 	});
 

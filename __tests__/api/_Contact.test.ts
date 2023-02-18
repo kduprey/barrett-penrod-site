@@ -1,6 +1,6 @@
-import axios, { AxiosError } from "axios";
-import { beforeEach, describe, expect, it, Mocked, vitest as vi } from "vitest";
-import { contact } from "./contact";
+import axios from "axios";
+import { describe, expect, it, Mocked, vitest as vi } from "vitest";
+import { contact } from "../../pages/api/contact";
 
 const data = {
 	records: [

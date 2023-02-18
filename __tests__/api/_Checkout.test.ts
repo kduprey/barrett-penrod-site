@@ -3,6 +3,7 @@ import axios from "axios";
 import { stripe } from "config";
 import { getInviteeResponse } from "data/calendlyResponses/getInviteeResponse";
 import { bundles } from "data/services";
+import { CalendlyInvitee } from "types/types";
 import { describe, expect, it, Mocked } from "vitest";
 import { createCheckoutSession } from "../../pages/api/checkout";
 
@@ -205,7 +206,17 @@ describe("Checkout should", () => {
 	});
 
 	it("session should set customer creation to always if not in Stripe", async () => {
-		mockedAxios.get.mockResolvedValueOnce({ data: getInviteeResponse });
+		const responseWithNonExistantEmail: CalendlyInvitee = {
+			resource: {
+				...getInviteeResponse.resource,
+				name: "Test User 100",
+				email: "test100@email.com",
+			},
+		};
+
+		mockedAxios.get.mockResolvedValueOnce({
+			data: { ...responseWithNonExistantEmail },
+		});
 
 		const session = await createCheckoutSession({
 			service: 0,

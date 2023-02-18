@@ -3,14 +3,16 @@ import {
 	createWebhookResponse,
 	getWebhooks,
 } from "data/calendlyResponses/getWebhooks";
-import { beforeEach, describe, expect, Mocked, vitest as vi } from "vitest";
-import { createWebhook } from "./createWebhook";
+import { describe, expect, Mocked, vitest as vi } from "vitest";
+import { createWebhook } from "../../../pages/api/calendly/createWebhook";
 
 vi.mock("axios");
 const mockedAxios = axios as Mocked<typeof axios>;
 
 describe("CreateWebhook should", () => {
 	afterEach(() => {
+		mockedAxios.get.mockReset();
+		mockedAxios.delete.mockReset();
 		mockedAxios.post.mockReset();
 	});
 

@@ -113,6 +113,7 @@ const createCheckoutSession = async (
 	try {
 		// Get the event invitee info to search Stripe
 		const inviteeInfo = await getEventInvitee(params.inviteeURI);
+
 		try {
 			// Check if user is previous client in Stripe
 			const customerSearch = await stripe.customers.search({

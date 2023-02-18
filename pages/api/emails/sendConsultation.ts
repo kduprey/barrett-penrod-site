@@ -1,15 +1,15 @@
 import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
 import createHttpError from "http-errors";
 import { NextApiRequest, NextApiResponse } from "next";
+import * as yup from "yup";
+import { dev, sendgrid } from "../../../config/index";
 import {
 	clientSchema,
 	ConsultationEmail,
 	validateBookingDate,
-} from "types/emailTypes";
-import apiHandler from "utils/api";
-import { validateRequest } from "utils/yup";
-import * as yup from "yup";
-import { dev, sendgrid } from "../../../config/index";
+} from "../../../types/emailTypes";
+import apiHandler from "../../../utils/api";
+import { validateRequest } from "../../../utils/yup";
 
 // Example for email template data:
 // {

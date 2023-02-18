@@ -1,9 +1,6 @@
 import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
 import createHttpError from "http-errors";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PackageType, PackageTypes } from "types/types";
-import apiHandler from "utils/api";
-import { validateRequest } from "utils/yup";
 import * as yup from "yup";
 import { dev, sendgrid } from "../../../config/index";
 import {
@@ -11,6 +8,9 @@ import {
 	PackageConfirmationEmail,
 	validateBookingDate,
 } from "../../../types/emailTypes";
+import { PackageType, PackageTypes } from "../../../types/types";
+import apiHandler from "../../../utils/api";
+import { validateRequest } from "../../../utils/yup";
 
 // Example of email template data:
 // {

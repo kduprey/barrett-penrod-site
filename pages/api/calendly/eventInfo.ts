@@ -1,9 +1,8 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import createHttpError from "http-errors";
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import apiHandler from "utils/api";
 import { CalendlyEvent } from "../../../types/calendlyTypes";
-import { invalidMethod } from "../../../utils/responseDefaults";
 
 const getEventInfo = async (uri: string): Promise<CalendlyEvent> => {
 	if (uri === undefined || uri === "") throw new Error("Invalid URI");

@@ -7,8 +7,6 @@ import {
 	SessionType,
 	SessionTypes,
 } from "types/types";
-import apiHandler from "utils/api";
-import { validateRequest } from "utils/yup";
 import * as yup from "yup";
 import { dev, sendgrid } from "../../../config";
 import {
@@ -17,6 +15,8 @@ import {
 	singleEmail,
 	validateBookingDate,
 } from "../../../types/emailTypes";
+import apiHandler from "../../../utils/api";
+import { validateRequest } from "../../../utils/yup";
 
 // Example of data for email template:
 // {

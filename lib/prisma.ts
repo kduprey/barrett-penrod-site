@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { prismaConfig } from "../config";
+import { dev, prismaConfig } from "../config";
 
 declare global {
 	var prisma: PrismaClient;

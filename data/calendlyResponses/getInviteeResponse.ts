@@ -8,7 +8,7 @@ export const getInviteeResponse: CalendlyInvitee = {
 		event: "https://api.calendly.com/scheduled_events/fake",
 		first_name: null,
 		last_name: null,
-		name: "Unit Test",
+		name: "Test User 9",
 		new_invitee: null,
 		no_show: null,
 		old_invitee: null,

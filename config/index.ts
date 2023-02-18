@@ -34,24 +34,25 @@ if (dev) {
 }
 export const sendgrid = sendgridClient;
 
-export const prismaConfig = dev
-	? {
-			log: [
-				"query",
-				"info",
-				"warn",
-				"error",
-			] as PrismaClientOptions["log"],
-			errorFormat: "pretty" as PrismaClientOptions["errorFormat"],
-	  }
-	: {
-			log: [
-				"query",
-				"info",
-				"warn",
-				"error",
-			] as PrismaClientOptions["log"],
-			errorFormat: "minimal" as PrismaClientOptions["errorFormat"],
-	  };
+export const prismaConfig =
+	dev && !process.env.TEST_ENV
+		? {
+				log: [
+					"query",
+					"info",
+					"warn",
+					"error",
+				] as PrismaClientOptions["log"],
+				errorFormat: "pretty" as PrismaClientOptions["errorFormat"],
+		  }
+		: {
+				log: [
+					"query",
+					"info",
+					"warn",
+					"error",
+				] as PrismaClientOptions["log"],
+				errorFormat: "minimal" as PrismaClientOptions["errorFormat"],
+		  };
 
 export { hygraphcms } from "./hygraphCMS";

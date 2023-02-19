@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-const { withAxiom } = require("next-axiom");
+import { withAxiom } from "next-axiom";
 const nextConfig = withAxiom({
 	reactStrictMode: true,
 	async redirects() {
@@ -89,6 +89,9 @@ const nextConfig = withAxiom({
 		});
 		config.resolve.fallback = { fs: false };
 		return config;
+	},
+	eslint: {
+		dirs: ["."],
 	},
 });
 

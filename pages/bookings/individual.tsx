@@ -2,12 +2,10 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import BookingsLayout from "../../components/BookingsLayout";
 import { services } from "../../data/services";
-import { NextPageWithLayout } from "../../types";
+import { NextPageWithLayout } from "../../types/types";
 import VsLogo from "/public/vslogo.svg";
 
-type Props = {};
-
-const Individual: NextPageWithLayout = (props: Props) => {
+const Individual: NextPageWithLayout = () => {
 	const router = useRouter();
 	const [step, setStep] = useState<number[]>([1]);
 	const [service, setService] = useState(0);

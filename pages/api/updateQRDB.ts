@@ -1,28 +1,33 @@
+import { qr_code_logs } from "@prisma/client";
+import createHttpError from "http-errors";
 import { NextApiRequest, NextApiResponse } from "next";
+import apiHandler from "utils/api";
+import { validateRequest } from "utils/yup";
+import * as yup from "yup";
 import prisma from "../../lib/prisma";
 
-const updateQRDR = async (qrID: string): Promise<boolean> => {
+const updateQRDB = async (qrID: string): Promise<qr_code_logs> => {
 	console.log("Updating QRDB");
 	let location: number, flyerSize: number, campaign: number, designId: number;
 
 	// Check for old format
-	if (!qrID.includes("-")) {
-		const qrIDSplit = qrID.split("");
-		location = Number.parseInt(qrIDSplit[0]);
-		flyerSize = Number.parseInt(qrIDSplit[1]);
-		campaign = Number.parseInt(qrIDSplit[2]);
-		designId = Number.parseInt(qrIDSplit[3]);
-	} else {
+	if (qrID.includes("-")) {
 		// New format
 		const qrIDSplit = qrID.split("-");
 		location = Number.parseInt(qrIDSplit[0]);
 		flyerSize = Number.parseInt(qrIDSplit[1]);
 		campaign = Number.parseInt(qrIDSplit[2]);
 		designId = Number.parseInt(qrIDSplit[3]);
-	}
+	} else if (qrID.length === 4) {
+		const qrIDSplit = qrID.split("");
+		location = Number.parseInt(qrIDSplit[0]);
+		flyerSize = Number.parseInt(qrIDSplit[1]);
+		campaign = Number.parseInt(qrIDSplit[2]);
+		designId = Number.parseInt(qrIDSplit[3]);
+	} else throw new Error("Invalid QR ID");
 
 	try {
-		await prisma.qr_code_logs.create({
+		const response = await prisma.qr_code_logs.create({
 			data: {
 				flyerSize,
 				location,
@@ -31,39 +36,40 @@ const updateQRDR = async (qrID: string): Promise<boolean> => {
 				timestamp: new Date(),
 			},
 		});
-		return true;
+		return response;
 	} catch (error) {
 		console.log(error);
-		return false;
+		throw new Error("Error updating QRDB");
 	}
 };
 
-export { updateQRDR };
+export { updateQRDB };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	const { qrID } = req.body;
-
-	// Only allow POST requests
-	if (req.method !== "POST") {
-		res.status(405).json({ error: "Method not allowed" });
-	}
-
-	// Check for QR param
-	if (!qrID) {
-		res.status(400).json({ error: "Missing QR param" });
-	}
+const POSTUpdate = async (req: NextApiRequest, res: NextApiResponse) => {
+	const data = validateRequest(
+		req.body,
+		yup.object().shape({
+			qrID: yup.string().required("QR ID is required"),
+		})
+	);
 
 	// Update QRDB
 	try {
-		const status = await updateQRDR(qrID as string);
+		const status = await updateQRDB(data.qrID);
 		// Return status
 		res.status(200).json({ status });
 	} catch (error) {
 		// Log error
 		console.log(error);
-		// Return error
-		res.status(500).json({ error: "Internal server error" });
+		throw new createHttpError.InternalServerError(
+			JSON.stringify({
+				message: "Internal Server Error",
+				error: error,
+			})
+		);
 	}
 };
 
-export default handler;
+export default apiHandler({
+	POST: POSTUpdate,
+});

@@ -1,4 +1,4 @@
-import { NavMenu } from "../types";
+import { NavMenu } from "../types/types";
 
 const menu5: NavMenu = {
 	name: "Contact",

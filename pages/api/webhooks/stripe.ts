@@ -22,7 +22,7 @@ const webhookHandler = async (
 	req: NextApiRequest,
 	res: NextApiResponse
 ): Promise<void> => {
-	if (req.method != "POST") {
+	if (req.method !== "POST") {
 		res.setHeader("Allow", "POST");
 		res.status(405).end({
 			message: "Method not allowed",

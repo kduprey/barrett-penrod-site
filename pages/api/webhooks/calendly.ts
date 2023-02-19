@@ -1,8 +1,6 @@
-import { calendlyInviteePayloads, Prisma } from "@prisma/client";
-import axios from "axios";
+import { calendlyInviteePayloads } from "@prisma/client";
 import crypto from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { server } from "../../../config/index";
 import prisma from "../../../lib/prisma";
 import { CalendlyEventResource } from "../../../types/types";
 import { getEventInfo } from "../calendly/eventInfo";

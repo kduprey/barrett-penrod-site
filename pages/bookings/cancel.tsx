@@ -25,9 +25,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		);
 
 		const {
-			data: {
-				resource: { name },
-			},
+			resource: { name },
 		} = await getEventInvitee(session?.metadata?.inviteeURI as string);
 
 		return {

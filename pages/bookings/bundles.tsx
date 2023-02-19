@@ -5,9 +5,7 @@ import { bundles } from "../../data/services";
 import { NextPageWithLayout } from "../../types/types";
 import VsLogo from "/public/vslogo.svg";
 
-type Props = {};
-
-const Bundles: NextPageWithLayout = (props: Props) => {
+const Bundles: NextPageWithLayout = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedBundle, setselectedBundle] = useState<number>();
 
@@ -41,7 +39,7 @@ const Bundles: NextPageWithLayout = (props: Props) => {
 							</p>
 							<button
 								className="cursor-pointer bg-primary text-secondary"
-								onClick={(e) => {
+								onClick={() => {
 									setIsOpen(true);
 									setselectedBundle(index);
 								}}

@@ -3,7 +3,7 @@ import { dev, prismaConfig } from "config";
 import { dbCalendlyEventPayloads } from "./seedData/calendlyEventPayloads";
 import { dbClients } from "./seedData/clients";
 
-const prisma = global.prisma || new PrismaClient({ ...prismaConfig });
+const prisma = new PrismaClient({ ...prismaConfig });
 
 export const seedDB = async () => {
 	if (!dev)

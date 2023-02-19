@@ -41,14 +41,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		);
 
 		const {
-			data: {
-				resource: { name: eventName, start_time },
-			},
+			resource: { name: eventName, start_time },
 		} = await getEventInfo(session.client_reference_id as string);
 		const {
-			data: {
-				resource: { name },
-			},
+			resource: { name },
 		} = await getEventInvitee(session?.metadata?.inviteeURI as string);
 
 		// Get package name if it's a bundle

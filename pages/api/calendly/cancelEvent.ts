@@ -24,9 +24,8 @@ const cancelEvent = async (uri: string): Promise<CalendlyCancel> => {
 	} catch (error: unknown) {
 		console.error(error);
 		if (error instanceof Error) throw error;
+		throw new Error("Error cancelling event");
 	}
-
-	throw new Error("Error cancelling event");
 };
 
 export { cancelEvent };

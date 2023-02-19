@@ -1,10 +1,9 @@
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 import BookingsLayout from "../../components/BookingsLayout";
 import Loading from "../../components/Loading";
 import { NextPageWithLayout } from "../../types/types";
 import getZoomLink from "../../utils/getZoomLink";
-import { instanceOfZoomLocation } from "../../utils/isZoomLocation";
 import { getEventInfo } from "../api/calendly/eventInfo";
 import { getEventInvitee } from "../api/calendly/eventInvitee";
 
@@ -25,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 	try {
 		const response = await getEventInfo(eventURI as string);
-		if (response.status !== 200) {
+		if (!response) {
 			console.error(response);
 			return {
 				notFound: true,
@@ -33,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		}
 
 		const eventResponse = await getEventInvitee(inviteeURI as string);
-		if (eventResponse.status !== 200) {
+		if (!eventResponse) {
 			console.error(eventResponse);
 			return {
 				notFound: true,
@@ -44,8 +43,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 		return {
 			props: {
-				name: eventResponse.data.resource.name,
-				start_time: response.data.resource.start_time,
+				name: eventResponse.resource.name,
+				start_time: response.resource.start_time,
 				zoomLink,
 			} as Props,
 		};

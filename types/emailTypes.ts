@@ -49,8 +49,10 @@ export const clientSchema: yup.SchemaOf<Required<Contact>> = yup
 	.defined()
 	.required();
 
-export interface ConsultationEmail
-	extends Omit<Required<EmailData>, "bookingLocation" | "sessionType"> {}
+export type ConsultationEmail = Omit<
+	Required<EmailData>,
+	"bookingLocation" | "sessionType"
+>;
 
 export interface GuestEmails extends Omit<EmailData, "client"> {
 	guests: Contact[];
@@ -60,8 +62,8 @@ export interface PackageConfirmationEmail extends EmailData {
 	packageName: PackageType;
 }
 
-export interface firstTimeEmail extends EmailData {}
-export interface singleEmail extends EmailData {}
+export type firstTimeEmail = EmailData;
+export type singleEmail = EmailData;
 
 export const emailDataSchema: yup.SchemaOf<EmailData> = yup.object({
 	client: clientSchema,

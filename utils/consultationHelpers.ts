@@ -54,9 +54,9 @@ export const updateClient = async (
 				},
 			},
 		});
-	} catch (err) {
+	} catch (err: any) {
 		console.error(err);
-		throw new Error("Error updating existing customer");
+		throw new Error("Error updating existing customer", err);
 	}
 };
 

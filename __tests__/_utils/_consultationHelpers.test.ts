@@ -15,6 +15,8 @@ import {
 } from "utils/consultationHelpers";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
+// eslint-disable-next-line
+// @ts-ignore
 const prisma = global.prisma || new PrismaClient({ ...prismaConfig });
 
 describe("checkForClient should", () => {
@@ -86,8 +88,8 @@ describe("updateClient should", () => {
 	});
 
 	it("update a clients data", async () => {
-		await prisma.clients.createMany({
-			data: dbClients,
+		await prisma.clients.create({
+			data: dbClients[0],
 		});
 		const payload = await prisma.calendlyInviteePayloads.create({
 			data: dbCalendlyEventPayloads[1],

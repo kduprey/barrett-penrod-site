@@ -15,6 +15,9 @@ import {
 	updateCustomer,
 } from "../../utils/webhookUtils/stripe";
 
+// This is a workaround to make sure the prisma client is only instantiated once
+// eslint-disable-next-line
+// @ts-ignore
 const prisma = global.prisma || new PrismaClient({ ...prismaConfig });
 
 describe("updateCustomer after checkout", () => {

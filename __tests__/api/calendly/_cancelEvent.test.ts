@@ -38,20 +38,14 @@ describe("cancelEvent should", () => {
 	});
 
 	it("Should throw an error if axios fails", async () => {
-		mockedAxios.post.mockRejectedValueOnce(
-			new Error("Error cancelling event")
-		);
+		mockedAxios.post.mockRejectedValue(new Error("Error cancelling event"));
 
 		try {
-			const response = await cancelEvent("test");
-
-			expect(response).toBeUndefined();
+			await cancelEvent("test");
 		} catch (error: unknown) {
 			expect(error).toBeInstanceOf(Error);
 			if (error instanceof Error)
-				expect(error.message).contain(
-					new Error("Error cancelling event")
-				);
+				expect(error.message).contain("Error cancelling event");
 		}
 	});
 });

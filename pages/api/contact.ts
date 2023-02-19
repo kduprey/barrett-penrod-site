@@ -6,9 +6,9 @@ import type {
 	NextApiResponse,
 } from "next/types";
 import { AirTableResponse } from "types/airtableTypes";
-import apiHandler from "utils/api";
-import { validateRequest } from "utils/yup";
 import * as Yup from "yup";
+import apiHandler from "../../utils/api";
+import { validateRequest } from "../../utils/yup";
 
 const API_KEY = process.env["AIRTABLE_API_KEY"];
 

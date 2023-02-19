@@ -1,4 +1,5 @@
 import Stripe from "stripe";
+import { PackageType, PackageTypes } from "types/types";
 
 const tempLineItems: Stripe.LineItem[] = [
 	{
@@ -67,12 +68,23 @@ const tempLineItems: Stripe.LineItem[] = [
 	},
 ];
 
-const getPackageName = (lineItems: Stripe.LineItem[]): string => {
-	return (
-		lineItems.find((item) => {
-			return item.description.includes("Package");
-		})?.description || ""
-	);
+const getPackageName = (lineItems: Stripe.LineItem[]): PackageType => {
+	const packageName = lineItems.find((item) => {
+		return item.description.includes("Package");
+	})?.description;
+
+	switch (packageName) {
+		case PackageTypes[0]:
+			return PackageTypes[0];
+		case PackageTypes[1]:
+			return PackageTypes[1];
+		case PackageTypes[2]:
+			return PackageTypes[2];
+		case PackageTypes[3]:
+			return PackageTypes[3];
+		default:
+			throw new Error("Package not found");
+	}
 };
 
 export default getPackageName;

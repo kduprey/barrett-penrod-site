@@ -1,6 +1,6 @@
 import axios from "axios";
 import { cancelEventResponse as data } from "data/calendlyResponses/cancelEventResponse";
-import { beforeEach, describe, expect, Mocked, vitest as vi } from "vitest";
+import { describe, expect, Mocked, vitest as vi } from "vitest";
 import { cancelEvent } from "../../../pages/api/calendly/cancelEvent";
 
 vi.mock("axios");
@@ -46,9 +46,12 @@ describe("cancelEvent should", () => {
 			const response = await cancelEvent("test");
 
 			expect(response).toBeUndefined();
-		} catch (error: any) {
+		} catch (error: unknown) {
 			expect(error).toBeInstanceOf(Error);
-			expect(error.message).contain(new Error("Error cancelling event"));
+			if (error instanceof Error)
+				expect(error.message).contain(
+					new Error("Error cancelling event")
+				);
 		}
 	});
 });

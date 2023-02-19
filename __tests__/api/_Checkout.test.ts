@@ -250,10 +250,10 @@ describe("Checkout should", () => {
 			});
 
 			expect(session).to.be.undefined;
-		} catch (error: any) {
+		} catch (error: unknown) {
 			expect(error).toBeInstanceOf(Error);
-
-			expect(error.message).to.equal("Invalid service");
+			if (error instanceof Error)
+				expect(error.message).to.equal("Invalid service");
 		}
 	});
 
@@ -269,10 +269,10 @@ describe("Checkout should", () => {
 			});
 
 			expect(session).to.be.undefined;
-		} catch (error: any) {
+		} catch (error: unknown) {
 			expect(error).toBeInstanceOf(Error);
-
-			expect(error.message).to.equal("Invalid location");
+			if (error instanceof Error)
+				expect(error.message).to.equal("Invalid location");
 		}
 	});
 
@@ -289,10 +289,10 @@ describe("Checkout should", () => {
 			});
 
 			expect(session).to.be.undefined;
-		} catch (error: any) {
+		} catch (error: unknown) {
 			expect(error).toBeInstanceOf(Error);
-
-			expect(error.message).to.equal("Invalid bundle");
+			if (error instanceof Error)
+				expect(error.message).to.equal("Invalid bundle");
 		}
 	});
 
@@ -309,12 +309,12 @@ describe("Checkout should", () => {
 			});
 
 			expect(session).to.be.undefined;
-		} catch (error: any) {
+		} catch (error: unknown) {
 			expect(error).toBeInstanceOf(Error);
-
-			expect(error.message).to.equal(
-				"Cannot select bundle for SVS Session"
-			);
+			if (error instanceof Error)
+				expect(error.message).to.equal(
+					"Cannot select bundle for SVS Session"
+				);
 		}
 	});
 
@@ -330,10 +330,10 @@ describe("Checkout should", () => {
 			});
 
 			expect(session).to.be.undefined;
-		} catch (error: any) {
+		} catch (error: unknown) {
 			expect(error).toBeInstanceOf(Error);
-
-			expect(error.message).to.equal("Invalid location");
+			if (error instanceof Error)
+				expect(error.message).to.equal("Invalid location");
 		}
 	});
 
@@ -349,10 +349,10 @@ describe("Checkout should", () => {
 			});
 
 			expect(session).to.be.undefined;
-		} catch (error: any) {
+		} catch (error: unknown) {
 			expect(error).toBeInstanceOf(Error);
-
-			expect(error.message).to.equal("Invalid eventURI");
+			if (error instanceof Error)
+				expect(error.message).to.equal("Invalid eventURI");
 		}
 	});
 
@@ -368,10 +368,10 @@ describe("Checkout should", () => {
 			});
 
 			expect(session).to.be.undefined;
-		} catch (error: any) {
+		} catch (error: unknown) {
 			expect(error).toBeInstanceOf(Error);
-
-			expect(error.message).to.equal("Invalid inviteeURI");
+			if (error instanceof Error)
+				expect(error.message).to.equal("Invalid inviteeURI");
 		}
 	});
 });

@@ -36,7 +36,7 @@ describe("CreateWebhook should", () => {
 		mockedAxios.post.mockResolvedValueOnce({ createWebhookResponse });
 
 		try {
-			const response = await createWebhook("");
+			await createWebhook("");
 		} catch (error) {
 			expect(error).toBeInstanceOf(Error);
 			expect(error).toEqual(Error("Invalid URL"));

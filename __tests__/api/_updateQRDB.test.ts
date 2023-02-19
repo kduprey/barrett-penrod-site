@@ -7,7 +7,7 @@ const prisma = global.prisma || new PrismaClient({ ...prismaConfig });
 
 describe("updateQRDB should", () => {
 	it("return true", async () => {
-		const status = await updateQRDB("9-9-9-9");
+		await updateQRDB("9-9-9-9");
 
 		const check = await prisma.qr_code_logs.findMany({
 			where: {
@@ -39,9 +39,10 @@ describe("updateQRDB should", () => {
 		try {
 			const status = await updateQRDB("000000000");
 			expect(status).toBe(false);
-		} catch (error: any) {
+		} catch (error: unknown) {
 			expect(error).not.toBeNull();
-			expect(error.message).toBe("Invalid QR ID");
+			if (error instanceof Error)
+				expect(error.message).toBe("Invalid QR ID");
 		}
 		await prisma.qr_code_logs.deleteMany({});
 	});

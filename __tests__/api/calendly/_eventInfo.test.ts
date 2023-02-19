@@ -40,9 +40,10 @@ describe("eventInfo should", () => {
 			const response = await getEventInfo(" ");
 
 			expect(response).toBeUndefined();
-		} catch (error: any) {
+		} catch (error: unknown) {
 			expect(error).toBeInstanceOf(Error);
-			expect(error.message).contain("Error getting event info");
+			if (error instanceof Error)
+				expect(error.message).contain("Error getting event info");
 		}
 	});
 });

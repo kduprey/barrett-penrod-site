@@ -86,9 +86,12 @@ describe("Contact should", () => {
 			});
 
 			expect(response).toBeUndefined();
-		} catch (error: any) {
+		} catch (error: unknown) {
 			expect(error).toBeInstanceOf(Error);
-			expect(error.message).contain(new Error("Error sending message"));
+			if (error instanceof Error)
+				expect(error.message).contain(
+					new Error("Error sending message")
+				);
 		}
 	});
 });

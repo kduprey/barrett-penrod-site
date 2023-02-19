@@ -1,6 +1,5 @@
 import axios from "axios";
 import { describe, expect, it, Mocked, vitest as vi } from "vitest";
-import { mockDeep } from "vitest-mock-extended";
 import { getInviteeResponse as data } from "../../../data/calendlyResponses/getInviteeResponse";
 import { getEventInvitee } from "../../../pages/api/calendly/eventInvitee";
 
@@ -41,9 +40,10 @@ describe("eventInvitee should", () => {
 			const response = await getEventInvitee("test");
 
 			expect(response).toBeUndefined();
-		} catch (error: any) {
+		} catch (error: unknown) {
 			expect(error).toBeInstanceOf(Error);
-			expect(error.message).contain("Error getting invitee");
+			if (error instanceof Error)
+				expect(error.message).contain("Error getting invitee");
 		}
 	});
 });

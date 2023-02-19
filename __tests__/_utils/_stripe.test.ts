@@ -104,7 +104,7 @@ describe("createCustomer after checkout", () => {
 		await prisma.calendlyInviteePayloads.create({
 			data: dbCalendlyEventPayloads[0],
 		});
-		const client = await prisma.clients.create({
+		await prisma.clients.create({
 			data: dbClients[0],
 		});
 
@@ -152,7 +152,7 @@ describe("createCustomer after checkout", () => {
 		await prisma.calendlyInviteePayloads.create({
 			data: dbCalendlyEventPayloads[0],
 		});
-		const client = await prisma.clients.create({
+		await prisma.clients.create({
 			data: dbClients[0],
 		});
 

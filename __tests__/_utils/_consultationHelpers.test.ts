@@ -13,14 +13,7 @@ import {
 	createStripeCustomer,
 	updateClient,
 } from "utils/consultationHelpers";
-import {
-	afterAll,
-	beforeAll,
-	describe,
-	expect,
-	it,
-	vi as vitest,
-} from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 const prisma = global.prisma || new PrismaClient({ ...prismaConfig });
 
@@ -38,12 +31,6 @@ describe("checkForClient should", () => {
 	});
 
 	it("return a client if one exists by name", async () => {
-		// vi.mock("../../lib/prisma");
-
-		// prisma.clients.findUnique.mockResolvedValue({
-		// 	...dbClients[0],
-		// });
-
 		const client = await checkForClient("Test User 1", "none@email.com");
 
 		expect(client).not.toBeNull();
@@ -52,10 +39,6 @@ describe("checkForClient should", () => {
 	});
 
 	it("return a client if one exists by email", async () => {
-		// prisma.clients.findUnique.mockResolvedValue({
-		// 	...dbClients[0],
-		// });
-
 		const client = await checkForClient("none", "test@email.com");
 
 		expect(client).not.toBeNull();
@@ -64,26 +47,23 @@ describe("checkForClient should", () => {
 	});
 
 	it("return null if no client exists", async () => {
-		// prisma.clients.findUnique.mockResolvedValue(null);
-
 		const client = await checkForClient("none", "fake@email.com");
 
 		expect(client).toBeNull();
 	});
 
 	it("throw an error if the database returns an error", async () => {
-		// prisma.clients.findUnique.mockRejectedValue(new Error("DB error"));
 		try {
 			const response = await checkForClient("none", "falsy@email.com");
 			expect(response).toBeNull();
-		} catch (error: any) {
-			console.log("error: ", error);
-
-			expect(error).not.toBeNull();
-
-			expect(error.message).toBe(
-				"Error searching DB for existing customer"
-			);
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				console.log("error: ", error);
+				expect(error).not.toBeNull();
+				expect(error.message).toBe(
+					"Error searching DB for existing customer"
+				);
+			}
 		}
 	});
 });
@@ -170,9 +150,11 @@ describe("updateClient should", () => {
 			if (!payload) throw new Error("Payload not found");
 
 			await updateClient(client, consultationResponse, "2");
-		} catch (error: any) {
-			expect(error).not.toBeNull();
-			expect(error.message).toBe("Error updating existing customer");
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				expect(error).not.toBeNull();
+				expect(error.message).toBe("Error updating existing customer");
+			}
 		}
 	});
 });
@@ -197,9 +179,13 @@ describe("createStripeCustomer should", () => {
 					email: "fakeemail",
 				},
 			});
-		} catch (error: any) {
-			expect(error).not.toBeNull();
-			expect(error.message).toBe("Error creating new Stripe customer");
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				expect(error).not.toBeNull();
+				expect(error.message).toBe(
+					"Error creating new Stripe customer"
+				);
+			}
 		}
 	});
 });
@@ -275,10 +261,13 @@ describe("createClient should", () => {
 				stripeCustomer,
 				"2"
 			);
-		} catch (error: any) {
-			expect(error).not.toBeNull();
-			expect(error.message).toBe("Error creating new client in DB");
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				expect(error).not.toBeNull();
+				expect(error.message).toBe("Error creating new client in DB");
+			}
 		}
+
 		await prisma.calendlyInviteePayloads.deleteMany({});
 		await prisma.clients.deleteMany({});
 		await stripe.customers.del(stripeCustomer.id);

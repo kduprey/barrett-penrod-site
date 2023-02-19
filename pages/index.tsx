@@ -11,7 +11,6 @@ import News from "../components/News";
 import ResumeTable from "../components/ResumeTable";
 import * as gtag from "../lib/analytics";
 import headshot5 from "../public/headshot5.jpg";
-import { NextPageWithLayout } from "../types/types";
 
 const Page = () => {
 	return (

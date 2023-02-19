@@ -23,7 +23,7 @@ const createCheckoutSession = async (
 	url: string;
 	id: string;
 }> => {
-	let line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
+	const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
 	// Check if eventURI is valid
 	if (params.eventURI === undefined || params.eventURI === "")
@@ -78,7 +78,7 @@ const createCheckoutSession = async (
 	const cancelURL: URL = new URL(server + "/bookings/cancel");
 
 	// Create the Checkout Session Template
-	let sessionTemplate: Stripe.Checkout.SessionCreateParams = {
+	const sessionTemplate: Stripe.Checkout.SessionCreateParams = {
 		success_url: successURL.href + "?session_id={CHECKOUT_SESSION_ID}",
 		cancel_url: cancelURL.href + "?session_id={CHECKOUT_SESSION_ID}",
 		mode: "payment",
@@ -153,10 +153,11 @@ const createCheckoutSession = async (
 			return { url: session.url, id: session.id };
 		// If no session URL, return error
 		else throw new Error("No session URL");
-	} catch (e: any) {
+	} catch (e: unknown) {
 		console.error(e);
-		throw new Error(e);
+		if (e instanceof Error) throw e;
 	}
+	throw new Error("Unknown error");
 };
 
 export { createCheckoutSession };
@@ -181,9 +182,10 @@ const POSTCheckout: NextApiHandler = async (
 		const session = await createCheckoutSession(data);
 
 		res.status(200).json({ url: session.url, id: session.id });
-	} catch (e: any) {
+	} catch (e: unknown) {
 		console.error(e);
-		throw new createHttpError.InternalServerError(e);
+		if (e instanceof Error)
+			throw new createHttpError.InternalServerError(e.message);
 	}
 };
 

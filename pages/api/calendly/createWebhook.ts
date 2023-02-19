@@ -8,7 +8,6 @@ import {
 	CalendlyPostWebhook,
 	CalendlyWebhook,
 } from "../../../types/calendlyTypes";
-import { invalidMethod } from "../../../utils/responseDefaults";
 
 /**
  * Create a webhook for Calendly
@@ -90,9 +89,12 @@ const createWebhook = async (url: string): Promise<CalendlyWebhook> => {
 
 		console.info("New webhook created", webhook);
 		return webhook;
-	} catch (error: any) {
-		throw new Error("Error creating webhook", error);
+	} catch (error: unknown) {
+		if (error instanceof Error)
+			throw new Error("Error creating webhook", error);
 	}
+
+	throw new Error("Error creating webhook");
 };
 
 export { createWebhook };

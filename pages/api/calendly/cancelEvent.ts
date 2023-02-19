@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import createHttpError from "http-errors";
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import apiHandler from "utils/api";
@@ -21,10 +21,12 @@ const cancelEvent = async (uri: string): Promise<CalendlyCancel> => {
 		);
 
 		return data;
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.error(error);
-		throw new Error(error);
+		if (error instanceof Error) throw error;
 	}
+
+	throw new Error("Error cancelling event");
 };
 
 export { cancelEvent };

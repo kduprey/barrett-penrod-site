@@ -4,7 +4,7 @@ import crypto from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { server } from "../../../config/index";
 import prisma from "../../../lib/prisma";
-import { CalendlyEvent } from "../../../types/types";
+import { CalendlyEventResource } from "../../../types/types";
 import { getEventInfo } from "../calendly/eventInfo";
 import { consultationHandler } from "../consultation";
 const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -73,12 +73,12 @@ const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 		const invitee: calendlyInviteePayloads = req.body.payload;
 
 		let emailRes,
-			eventData: CalendlyEvent | null = null,
+			eventData: CalendlyEventResource | null = null,
 			db: calendlyInviteePayloads | null = null;
 
 		// If consultation is booked, send consultation email to client
 		try {
-			eventData = (await getEventInfo(invitee.event)).data.resource;
+			eventData = (await getEventInfo(invitee.event)).resource;
 			if (eventData.name.includes("Consultation"))
 				consultationHandler(invitee.event, invitee.uri);
 		} catch (error) {
@@ -117,19 +117,18 @@ const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	if (req.body.event === "invitee.canceled") {
 		const invitee: calendlyInviteePayloads = req.body.payload;
+		try {
+			const response = await prisma.calendlyInviteePayloads.create({
+				data: invitee,
+			});
 
-		const response = await axios.post(
-			`${server}/api/db/calendlyEventPayload`,
-			invitee
-		);
-
-		if (response.status === 200) {
-			return res.status(200).json(response.data);
+			return res.status(200).json(response);
+		} catch (error) {
+			console.error(error);
+			return res.status(500).json({
+				err: new Error("Error: Failed to insert client"),
+			});
 		}
-		return res.status(500).json({
-			err: new Error("Error: Failed to insert client"),
-			response,
-		});
 	}
 };
 

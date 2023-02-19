@@ -62,8 +62,9 @@ const contact = async ({
 		);
 
 		return data;
-	} catch (error: any) {
-		throw new Error(error);
+	} catch (error: unknown) {
+		if (error instanceof Error) throw error;
+		throw new Error("Error sending message");
 	}
 };
 
@@ -79,12 +80,19 @@ const POSTContact: NextApiHandler<AirTableResponse> = async (
 		const response = await contact(data);
 
 		res.status(200).json(response);
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.error(error);
+		if (error instanceof Error)
+			throw new createHttpError.InternalServerError(
+				JSON.stringify({
+					message: "Error sending message",
+					error,
+				})
+			);
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "Error sending message",
-				error,
+				error: "Unknown error",
 			})
 		);
 	}

@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios";
 import Stripe from "stripe";
 import { dev, stripe } from "../config";
 import { getEventInfo } from "../pages/api/calendly/eventInfo";
@@ -10,17 +9,18 @@ import { CalendlyEvent } from "../types/calendlyTypes";
 import { CalendlyInvitee } from "../types/types";
 import getBookingLocation from "./getBookingLocation";
 import getPackageName from "./getPackageName";
+import getSessionType from "./getSessionType";
 import getZoomLink from "./getZoomLink";
 import isDownpaymentCheckout from "./isDownpaymentCheckout";
 import isPackageCheckout from "./isPackageCheckout";
 
 const sendCheckoutEmails = async (
 	session: Stripe.Checkout.Session
-): Promise<any[] | boolean> => {
-	let bookingInfo: AxiosResponse<CalendlyEvent>,
+): Promise<Error[] | boolean> => {
+	let bookingInfo: CalendlyEvent,
 		inviteeInfo: CalendlyInvitee,
 		zoomLink: string | null = null;
-	const errors = [];
+	const errors: Error[] = [];
 	const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
 
 	try {
@@ -28,34 +28,36 @@ const sendCheckoutEmails = async (
 		inviteeInfo = await getEventInvitee(
 			session.metadata?.inviteeURI as string
 		);
-	} catch (err: any) {
-		errors.push(err);
-		return err;
+	} catch (err: unknown) {
+		console.error("Error getting booking info", err);
+		if (err instanceof Error) errors.push(err);
+		throw new Error("Error getting booking info");
 	}
 
 	const name = inviteeInfo.resource.name;
 	const email = dev ? "kdtech18@gmail.com" : inviteeInfo.resource.email;
-	const bookingDate = bookingInfo.data.resource.start_time.toString();
-	const bookingName = bookingInfo.data.resource.name;
+	const bookingDate = new Date(bookingInfo.resource.start_time);
 
 	zoomLink = await getZoomLink(session.client_reference_id as string);
 
 	// Are there guests?
 	// If so, send guest email
-	if (bookingInfo.data.resource.event_guests.length > 0) {
+	if (bookingInfo.resource.event_guests.length > 0) {
 		// Send guest email
 		try {
 			const guestEmail = await sendGuestEmails({
-				guests: bookingInfo.data.resource.event_guests,
+				guests: bookingInfo.resource.event_guests,
+				sessionType: getSessionType(bookingInfo),
+				bookingLocation: getBookingLocation(bookingInfo),
 				bookingDate,
-				bookingName,
 				zoomLink: zoomLink ? zoomLink : undefined,
 			});
 
 			console.info("Guest Email Response: ", guestEmail);
-		} catch (error: any) {
+		} catch (error: unknown) {
 			console.error("Error sending guest email", error);
-			errors.push(error);
+			if (error instanceof Error) errors.push(error);
+			throw new Error("Error sending guest email");
 		}
 	}
 
@@ -71,22 +73,27 @@ const sendCheckoutEmails = async (
 				// Send first-time customer email
 				try {
 					const firstTimeCustomerEmail = await sendFirstTimeEmail({
-						email,
-						name,
+						client: {
+							email,
+							name,
+						},
 						bookingDate,
-						bookingName,
+						sessionType: getSessionType(bookingInfo),
+						bookingLocation: getBookingLocation(bookingInfo),
 						zoomLink: zoomLink ? zoomLink : undefined,
 					});
 					console.info(
 						"First Time Customer Email Response: ",
 						firstTimeCustomerEmail
 					);
-				} catch (err: any) {
+				} catch (err: unknown) {
 					console.error(
 						"Error sending first-time customer email",
 						err
 					);
-					errors.push(err);
+					if (err instanceof Error) errors.push(err);
+
+					throw new Error("Error sending first-time customer email");
 				}
 		});
 
@@ -95,19 +102,21 @@ const sendCheckoutEmails = async (
 		// Send package email
 		try {
 			const packageEmail = await sendPackageConfirmationEmail({
-				email,
-				name,
+				client: { email, name },
 				packageName: getPackageName(
 					lineItems.data as Stripe.LineItem[]
 				),
+				sessionType: getSessionType(bookingInfo),
 				bookingDate,
-				bookingLocation: getBookingLocation(bookingInfo.data),
+				bookingLocation: getBookingLocation(bookingInfo),
 				zoomLink: zoomLink ? zoomLink : undefined,
 			});
 			console.info("Package Email Response: ", packageEmail);
-		} catch (error: any) {
+		} catch (error: unknown) {
 			console.error("Error sending package email", error);
-			errors.push(error);
+			if (error instanceof Error) errors.push(error);
+
+			throw new Error("Error sending package email");
 		}
 	}
 	// Is this a single session?
@@ -115,19 +124,21 @@ const sendCheckoutEmails = async (
 		// Send single session email
 		try {
 			const singleSessionEmail = await sendPackageConfirmationEmail({
-				email,
-				name,
+				client: { email, name },
 				packageName: getPackageName(
 					lineItems.data as Stripe.LineItem[]
 				),
+				sessionType: getSessionType(bookingInfo),
 				bookingDate,
-				bookingLocation: getBookingLocation(bookingInfo.data),
+				bookingLocation: getBookingLocation(bookingInfo),
 				zoomLink: zoomLink ? zoomLink : undefined,
 			});
 			console.info("Single Session Email Response: ", singleSessionEmail);
-		} catch (error: any) {
+		} catch (error: unknown) {
 			console.error("Error sending single session email", error);
-			errors.push(error);
+			if (error instanceof Error) errors.push(error);
+
+			throw new Error("Error sending single session email");
 		}
 	}
 

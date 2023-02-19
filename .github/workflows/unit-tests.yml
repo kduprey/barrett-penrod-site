@@ -1,0 +1,23 @@
+name: Unit Tests
+env:
+    GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+    DOPPLER_TOKEN: "${{ secrets.DOPPLER_TOKEN_DEV }}"
+    TEST_ENV: 1
+on: [pull_request]
+
+jobs:
+    cypress-run:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+            - name: Install Doppler CLI
+              uses: dopplerhq/cli-action@v2
+            - name: Doppler run
+              run: doppler configure set token --scope /
+              env:
+                  DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN_DEV }}
+            - name: Install dependencies
+              run: npm install
+            - name: Run Tests
+              run: npm run test:ci

@@ -105,7 +105,7 @@ export interface CalendarEvent {
 	kind: string;
 }
 
-export interface CalendlyEvent {
+export interface CalendlyEventResource {
 	calendar_event: CalendarEvent;
 	created_at: string;
 	end_time: string;
@@ -180,10 +180,10 @@ export interface Settings {
 }
 
 export interface CalendlyInvitee {
-	resource: Invitee;
+	resource: CalendlyInviteeResource;
 }
 
-export interface Invitee {
+export interface CalendlyInviteeResource {
 	cancel_url: string;
 	created_at: string;
 	email: string;

@@ -1,4 +1,4 @@
-import { CalendlyEvent as CalendlyEventResource } from "./types";
+import { CalendlyEventResource } from "./types";
 
 export type CalendlyGetWebhook = {
 	/** Array of CalendlyWebhook objects */

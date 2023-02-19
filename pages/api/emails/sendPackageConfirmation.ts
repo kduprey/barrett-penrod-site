@@ -49,8 +49,8 @@ const sendPackageConfirmationEmail = async ({
 	bookingDate,
 	bookingLocation,
 	zoomLink,
-}: PackageConfirmationEmail): Promise<[ClientResponse, {}]> => {
-	const templateId: string = "d-368ad77a4b3d4fb9ac48daa0b10eb63e";
+}: PackageConfirmationEmail): Promise<ClientResponse> => {
+	const templateId = "d-368ad77a4b3d4fb9ac48daa0b10eb63e";
 
 	const message: MailDataRequired = {
 		from: {
@@ -92,10 +92,13 @@ const sendPackageConfirmationEmail = async ({
 
 	try {
 		const response = await sendgrid.send(message);
-		return response;
-	} catch (error: any) {
+		return response[0];
+	} catch (error: unknown) {
 		console.log(error);
-		throw new Error("Error sending email", error);
+		if (error instanceof Error)
+			throw new Error("Error sending email", error);
+
+		throw new Error("Error sending email");
 	}
 };
 
@@ -108,12 +111,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
 		const response = await sendPackageConfirmationEmail(data);
 		res.status(200).json(response);
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.log(error);
+		if (error instanceof Error)
+			throw new createHttpError.InternalServerError(
+				JSON.stringify({
+					message: "There was an error sending the email.",
+					error,
+				})
+			);
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "There was an error sending the email.",
-				error,
 			})
 		);
 	}

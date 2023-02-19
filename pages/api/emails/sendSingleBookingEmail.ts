@@ -1,16 +1,8 @@
 import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
 import createHttpError from "http-errors";
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import {
-	SessionLocation,
-	SessionLocations,
-	SessionType,
-	SessionTypes,
-} from "types/types";
-import * as yup from "yup";
 import { dev, sendgrid } from "../../../config";
 import {
-	clientSchema,
 	emailDataSchema,
 	singleEmail,
 	validateBookingDate,
@@ -43,8 +35,8 @@ const sendSingleBookingEmail = async ({
 	bookingDate,
 	bookingLocation,
 	zoomLink,
-}: singleEmail): Promise<[ClientResponse, {}]> => {
-	const templateId: string = "d-d3b1109a7bd44612b10c3e60ed9024da";
+}: singleEmail): Promise<ClientResponse> => {
+	const templateId = "d-d3b1109a7bd44612b10c3e60ed9024da";
 
 	const message: MailDataRequired = {
 		from: {
@@ -87,10 +79,13 @@ const sendSingleBookingEmail = async ({
 
 	try {
 		const response = await sendgrid.send(message);
-		return response;
-	} catch (error: any) {
+		return response[0];
+	} catch (error: unknown) {
 		console.log(error);
-		throw new Error("Error sending email", error);
+		if (error instanceof Error)
+			throw new Error("Error sending email", error);
+
+		throw new Error("Error sending email");
 	}
 };
 
@@ -106,12 +101,19 @@ const handler: NextApiHandler = async (
 	try {
 		const response = await sendSingleBookingEmail(data);
 		res.status(200).json(response);
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.log(error);
+		if (error instanceof Error)
+			throw new createHttpError.InternalServerError(
+				JSON.stringify({
+					message: "There was an error sending the email.",
+					error,
+				})
+			);
+
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "There was an error sending the email.",
-				error,
 			})
 		);
 	}

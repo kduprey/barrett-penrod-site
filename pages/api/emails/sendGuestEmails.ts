@@ -77,8 +77,8 @@ const sendGuestEmails = async ({
 	bookingLocation,
 	bookingDate,
 	zoomLink,
-}: GuestEmails): Promise<[ClientResponse, {}]> => {
-	const templateId: string = "d-b628680e34354157b553625c036e2836";
+}: GuestEmails): Promise<ClientResponse> => {
+	const templateId = "d-b628680e34354157b553625c036e2836";
 
 	const message: MailDataRequired = {
 		from: {
@@ -120,10 +120,12 @@ const sendGuestEmails = async ({
 	try {
 		const response = await sendgrid.send(message);
 		console.log(response);
-		return response;
-	} catch (error: any) {
+		return response[0];
+	} catch (error: unknown) {
 		console.error(error);
-		throw new Error("Error sending email", error);
+		if (error instanceof Error)
+			throw new Error("Error sending email", error);
+		throw new Error("Error sending email");
 	}
 };
 
@@ -137,12 +139,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		const response = await sendGuestEmails(data as GuestEmails);
 		console.log(response);
 		res.status(200).json(response);
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.error(error);
+		if (error instanceof Error) {
+			throw new createHttpError.InternalServerError(
+				JSON.stringify({
+					message: "There was an error sending the email.",
+					error,
+				})
+			);
+		}
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "There was an error sending the email.",
-				error,
 			})
 		);
 	}

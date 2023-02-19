@@ -9,9 +9,7 @@ import axios from "axios";
 import { useState } from "react";
 import { AirTableResponse } from "types/airtableTypes";
 
-type Props = {};
-
-const Footer = (props: Props) => {
+const Footer = () => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [message, setMessage] = useState("");

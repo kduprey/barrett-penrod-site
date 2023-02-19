@@ -22,7 +22,7 @@ const Bundles = () => {
 						<div
 							key={bundle.title}
 							className="withTransition flex max-w-sm flex-col items-center justify-center space-y-3 rounded-lg bg-secondary p-6 shadow-md hover:scale-105 hover:opacity-90"
-							onClick={(e) => {
+							onClick={() => {
 								setIsBundleModalOpen(true);
 								setselectedBundle(index);
 							}}
@@ -38,7 +38,7 @@ const Bundles = () => {
 							</p>
 							<button
 								className="cursor-pointer bg-primary text-secondary"
-								onClick={(e) => {
+								onClick={() => {
 									setIsBundleModalOpen(true);
 									setselectedBundle(index);
 								}}

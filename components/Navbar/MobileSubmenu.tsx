@@ -23,7 +23,7 @@ const MobileSubmenu = ({ menu, setIsNavOpen }: Props) => {
 			<>
 				<div
 					className="relative cursor-pointer py-2 text-xl font-thin text-white"
-					onClick={(e) => {
+					onClick={() => {
 						if (!isOpen)
 							controls.start({
 								display: "flex",

@@ -39,7 +39,7 @@ const Headshot = (props: Props) => {
 			<div className="absolute top-0 z-20 flex h-full w-full items-end justify-center bg-slate-800 opacity-0 transition-all duration-300 ease-in-out hover:opacity-80">
 				<button
 					data-cy="headshot-modal-button"
-					onClick={(e) => setIsOpen(true)}
+					onClick={() => setIsOpen(true)}
 					className="mb-5 bg-secondary py-2 px-4"
 				>
 					Open

@@ -5,11 +5,7 @@ import headshot1 from "/public/headshot1.jpg";
 import postWorkout from "/public/postWorkout.jpg";
 import yankeeGame from "/public/yankeeGame.jpg";
 
-type Props = {
-	// ...
-};
-
-const About = (props: Props) => {
+const About = () => {
 	return (
 		<div
 			id="about-me"

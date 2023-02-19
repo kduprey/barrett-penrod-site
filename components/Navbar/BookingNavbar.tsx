@@ -2,9 +2,7 @@ import Link from "next/link";
 import { useState } from "react";
 import MenuButton from "../MenuButton";
 
-type Props = {};
-
-const BookingNavbar = (props: Props) => {
+const BookingNavbar = () => {
 	const [isNavOpen, setIsNavOpen] = useState(false);
 
 	return (

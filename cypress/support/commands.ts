@@ -1,7 +1,7 @@
 import "@testing-library/cypress/add-commands";
 
 export const getByData = (
-	selector: any,
+	selector: unknown,
 	options: Partial<
 		Cypress.Loggable &
 			Cypress.Timeoutable &

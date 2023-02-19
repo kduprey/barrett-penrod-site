@@ -1,10 +1,13 @@
 import { PrismaClient } from "@prisma/client";
-import { dev, prismaConfig } from "../config";
+import { prismaConfig } from "../config";
 
 declare global {
-	var prisma: PrismaClient;
+	let prisma: PrismaClient;
 }
 
+// Prevent multiple instances of Prisma Client in development
+// eslint-disable-next-line
+// @ts-ignore
 const prisma = global.prisma || new PrismaClient({ ...prismaConfig });
 
 export default prisma;

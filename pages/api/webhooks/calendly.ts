@@ -1,8 +1,10 @@
-import { calendlyInviteePayloads } from "@prisma/client";
+import { calendlyInviteePayloads, Prisma } from "@prisma/client";
 import crypto from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { CalendlyEvent } from "types/calendlyTypes";
+import getSessionType from "utils/getSessionType";
+import { createDbClient } from "utils/webhookUtils/calendly";
 import prisma from "../../../lib/prisma";
-import { CalendlyEventResource } from "../../../types/types";
 import { getEventInfo } from "../calendly/eventInfo";
 import { consultationHandler } from "../consultation";
 const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -15,7 +17,7 @@ const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 	const calendlySignature = req.headers[
 		"calendly-webhook-signature"
 	] as string;
-
+	if (!calendlySignature) throw new Error("Invalid Signature");
 	const { t, signature } = calendlySignature?.split(",").reduce(
 		(acc, currentValue) => {
 			const [key, value] = currentValue.split("=");
@@ -53,7 +55,7 @@ const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 		throw new Error("Invalid Signature");
 	}
 
-	const threeMinutes = 180000;
+	const threeMinutes = 360000;
 	const tolerance = threeMinutes;
 	const timestampMilliseconds = Number(t) * 1000;
 
@@ -68,49 +70,41 @@ const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 	// Signature is valid!
 
 	if (req.body.event === "invitee.created") {
-		const invitee: calendlyInviteePayloads = req.body.payload;
+		const payloadData: calendlyInviteePayloads = req.body.payload;
 
-		let emailRes,
-			eventData: CalendlyEventResource | null = null,
-			db: calendlyInviteePayloads | null = null;
+		let existingClient,
+			eventData: CalendlyEvent,
+			payloadDbEntry: Prisma.calendlyInviteePayloadsGetPayload<false>;
 
-		// If consultation is booked, send consultation email to client
+		// Add payload data to database
 		try {
-			eventData = (await getEventInfo(invitee.event)).resource;
-			if (eventData.name.includes("Consultation"))
-				consultationHandler(invitee.event, invitee.uri);
-		} catch (error) {
-			console.log(error);
-		}
-
-		// Add invitee data to database
-		try {
-			db = await prisma.calendlyInviteePayloads.create({
-				data: invitee,
+			payloadDbEntry = await prisma.calendlyInviteePayloads.create({
+				data: payloadData,
 			});
 		} catch (error) {
 			console.log(error);
+			throw new Error("Error adding payload to database");
 		}
 
-		// Check if invitee is already in database
+		// If consultation is booked, run consultation handler
 		try {
-			emailRes = await prisma.clients.findMany({
-				where: {
-					OR: [
-						{
-							email: invitee.email,
-						},
-						{
-							name: invitee.name,
-						},
-					],
-				},
-			});
+			eventData = await getEventInfo(payloadData.event);
+			if (eventData.resource.name.includes("Consultation"))
+				consultationHandler(
+					payloadData.event,
+					payloadData.uri,
+					payloadDbEntry.id
+				);
 		} catch (error) {
-			console.error(error);
+			console.log(error);
+			throw new Error("Error getting event info");
 		}
 
-		res.status(200).json({ emailRes, eventData, db });
+		res.status(200).json({
+			emailRes: existingClient,
+			eventData,
+			db: payloadDbEntry,
+		});
 	}
 
 	if (req.body.event === "invitee.canceled") {

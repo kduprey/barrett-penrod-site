@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { dev, prismaConfig } from "config";
+import { prismaConfig } from "config";
+import { dev } from "../config/dev";
 import { dbCalendlyEventPayloads } from "./seedData/calendlyEventPayloads";
 import { dbClients } from "./seedData/clients";
 

@@ -1,5 +1,6 @@
 import Stripe from "stripe";
-import { dev, stripe } from "../config";
+import { stripe } from "../config";
+import { dev } from "../config/dev";
 import { getEventInfo } from "../pages/api/calendly/eventInfo";
 import { getEventInvitee } from "../pages/api/calendly/eventInvitee";
 import { sendFirstTimeEmail } from "../pages/api/emails/sendFirstTimeEmail";

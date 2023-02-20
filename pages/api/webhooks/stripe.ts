@@ -4,7 +4,6 @@ import Stripe from "stripe";
 import { createCustomer, updateCustomer } from "utils/webhookUtils/stripe";
 import { stripe, stripeWebhookSecret } from "../../../config";
 import prisma from "../../../lib/prisma";
-import getNumLessonsFromLineItems from "../../../utils/getNumLessonsFromLineItems";
 import sendCheckoutEmails from "../../../utils/sendCheckoutEmails";
 import { cancelEvent } from "../calendly/cancelEvent";
 import { getEventInfo } from "../calendly/eventInfo";

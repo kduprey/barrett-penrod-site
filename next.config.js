@@ -83,14 +83,6 @@ const nextConfig = withAxiom({
 			},
 		];
 	},
-	webpack(config) {
-		config.module.rules.push({
-			test: /\.svg$/,
-			use: ["@svgr/webpack"],
-		});
-		config.resolve.fallback = { fs: false };
-		return config;
-	},
 	eslint: {
 		dirs: ["."],
 	},

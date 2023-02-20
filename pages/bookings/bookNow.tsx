@@ -26,8 +26,8 @@ const Page: NextPageWithLayout = () => {
 	const router = useRouter();
 
 	useEffect(() => {
-		setParams(router.query as unknown as Params);
-	}, [router.query]);
+		if (router.isReady) setParams(router.query as unknown as Params);
+	}, [router.query, router.isReady]);
 
 	useEffect(() => {
 		setIsLoading(false);
@@ -61,9 +61,11 @@ const Page: NextPageWithLayout = () => {
 	return (
 		<section className="flex flex-col p-6">
 			<div className="flex flex-col items-center justify-evenly p-3 md:flex-row">
-				<Logo />
+				<div className="w-full max-w-[18em] self-center ">
+					<Logo />
+				</div>
 				<h1 className="pt-3 text-center text-secondary">
-					Book Your Session Now
+					Book Your Session
 				</h1>
 			</div>
 

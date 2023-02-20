@@ -2,7 +2,7 @@ import axios from "axios";
 import createHttpError from "http-errors";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import apiHandler from "utils/api";
-import { dev } from "../../../config";
+import { dev } from "../../../config/dev";
 import {
 	CalendlyGetWebhook,
 	CalendlyPostWebhook,

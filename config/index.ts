@@ -1,12 +1,7 @@
 import { PrismaClientOptions } from "@prisma/client/runtime";
 import sendgridClient from "@sendgrid/mail";
 import Stripe from "stripe";
-
-export const dev = process.env.VERCEL_ENV !== "production";
-
-export const server = dev
-	? "https://4a70-72-132-95-70.ngrok.io"
-	: "https://barrettpenrod.com";
+import { dev } from "./dev";
 
 export const db = dev ? "test" : "production";
 

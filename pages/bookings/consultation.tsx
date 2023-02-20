@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { InlineWidget, useCalendlyEventListener } from "react-calendly";
 import BookingsLayout from "../../components/BookingsLayout";
-import { server } from "../../config";
+import { server } from "../../config/server";
 import { NextPageWithLayout } from "../../types/types";
 
 const Consultation: NextPageWithLayout = () => {

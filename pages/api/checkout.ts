@@ -4,7 +4,8 @@ import Stripe from "stripe";
 import apiHandler from "utils/api";
 import { validateRequest } from "utils/yup";
 import * as yup from "yup";
-import { server, stripe, stripeMode } from "../../config/index";
+import { stripe, stripeMode } from "../../config/index";
+import { server } from "../../config/server";
 import { bundles, Prices, services } from "../../data/services";
 import { getEventInvitee } from "./calendly/eventInvitee";
 

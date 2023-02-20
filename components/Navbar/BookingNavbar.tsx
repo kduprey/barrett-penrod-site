@@ -17,7 +17,7 @@ const BookingNavbar = () => {
 				<MenuButton isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
 			</div>
 
-			<div className="hidden items-center justify-evenly text-center md:flex md:w-full">
+			<div className="hidden items-center justify-evenly space-x-3 text-center md:flex md:w-full">
 				<Link href={"/bookings/consultation"}>
 					<p className="link">Free Consultation</p>
 				</Link>

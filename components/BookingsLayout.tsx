@@ -27,9 +27,9 @@ const BookingsLayout = (props: Props) => {
 			<BookingNavbar />
 
 			<SocialBar />
-			{props.children}
+			<div className="p-4">{props.children}</div>
 			<CookieBanner />
-			<footer className="w-full max-w-[18em] self-center py-5">
+			<footer className="mt-auto w-full max-w-[18em] self-center py-5">
 				<Logo />
 			</footer>
 		</main>

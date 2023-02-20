@@ -5,7 +5,11 @@ import headshot1 from "/public/headshot1.jpg";
 import postWorkout from "/public/postWorkout.jpg";
 import yankeeGame from "/public/yankeeGame.jpg";
 
-const About = () => {
+type Props = {
+	// ...
+};
+
+const About = (props: Props) => {
 	return (
 		<div
 			id="about-me"
@@ -16,10 +20,7 @@ const About = () => {
 				<h2 className="pb-4 text-center text-4xl text-primary md:hidden md:self-start">
 					About Me
 				</h2>
-				<div
-					className="mx-auto w-2/3 md:w-auto"
-					data-cy="about-headshot"
-				>
+				<div className="mx-auto w-2/3 md:w-auto">
 					<Image src={headshot1} alt="Barrett Penrod" />
 				</div>
 			</div>

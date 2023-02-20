@@ -1,4 +1,6 @@
-const MoreAboutSection = () => {
+type Props = {};
+
+const MoreAboutSection = (props: Props) => {
 	return (
 		<div>
 			{/* Specialisations/Interests */}

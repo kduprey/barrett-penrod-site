@@ -1,11 +1,13 @@
 import { useState } from "react";
 import PackageModal from "../../components/Bookings/BundleModal";
 import BookingsLayout from "../../components/BookingsLayout";
-import Logo from "../../components/Logo";
 import { bundles } from "../../data/services";
-import { NextPageWithLayout } from "../../types/types";
+import { NextPageWithLayout } from "../../types";
+import VsLogo from "/public/vslogo.svg";
 
-const Bundles: NextPageWithLayout = () => {
+type Props = {};
+
+const Bundles: NextPageWithLayout = (props: Props) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedBundle, setselectedBundle] = useState<number>();
 
@@ -17,22 +19,20 @@ const Bundles: NextPageWithLayout = () => {
 				selectedBundle={selectedBundle}
 			/>
 
-			<div className="mx-auto max-w-[18rem]">
-				<Logo />
+			<div className="w-3/4 bg-white p-6 shadow-lg shadow-black md:w-1/4">
+				<VsLogo />
 			</div>
 			<h2 className="py-6 text-center text-secondary">
 				Discount Packages
 			</h2>
-			<div className="flex w-full max-w-screen-lg  flex-row flex-wrap items-center justify-evenly">
+			<div className="flex w-full flex-col items-center justify-evenly space-y-6 md:flex-row md:space-x-6 md:space-y-0">
 				{bundles.map((bundle, index) => {
 					return (
 						<div
 							key={bundle.title}
-							className="withTransition m-2 flex flex-col items-center justify-center space-y-3 rounded-lg bg-secondary p-6 shadow-md hover:scale-105 hover:opacity-90 md:w-[18rem] lg:w-[22rem]"
+							className="flex flex-col items-center justify-center space-y-3 rounded-lg bg-secondary p-6 shadow-md "
 						>
-							<h4 className="text-center text-primary">
-								{bundle.title}
-							</h4>
+							<h4 className="text-center">{bundle.title}</h4>
 							<p className="text-center text-primary">
 								{bundle.discount}
 							</p>
@@ -41,7 +41,7 @@ const Bundles: NextPageWithLayout = () => {
 							</p>
 							<button
 								className="cursor-pointer bg-primary text-secondary"
-								onClick={() => {
+								onClick={(e) => {
 									setIsOpen(true);
 									setselectedBundle(index);
 								}}

@@ -1,4 +1,18 @@
-import { LessonBundle, Price, Service, SessionLocations } from "../types/types";
+import { LessonBundle, Price } from "../types";
+
+type ServiceType = {
+	title: string;
+	description: string;
+	locations: string[];
+	url: string[];
+};
+
+const locations: string[] = [
+	"Location Chosen By Client",
+	"Open Jar",
+	"Home Studio",
+	"Virtual",
+];
 
 const bookingLink = (title: string, location: string): string => {
 	return (
@@ -11,12 +25,51 @@ const bookingLink = (title: string, location: string): string => {
 
 const baseURL = "https://calendly.com/bpvoicestudio/";
 
-export const services: Service[] = [
+export const calendlyNames = [
+	{
+		title: "Voice Lesson",
+		names: [
+			"Voice Lesson - Location Chosen By Client",
+			"Voice Lesson - Open Jar",
+			"Voice Lesson - Home Studio",
+			"Voice Lesson - Virtual",
+		],
+	},
+	{
+		title: "Voice Coaching",
+		names: [
+			"Voice Coaching - Location Chosen By Client",
+			"Voice Coaching - Open Jar",
+			"Voice Coaching - Home Studio",
+			"Voice Coaching - Virtual",
+		],
+	},
+	{
+		title: "SVS Session",
+		name: [
+			"SVS Session - Location Chosen By Client",
+			"SVS Session - Open Jar",
+			"SVS Session - Home Studio",
+			"SVS Session - Virtual",
+		],
+	},
+	{
+		title: "Audition Coaching",
+		name: [
+			"Audition Coaching - Location Chosen By Client",
+			"Audition Coaching - Open Jar",
+			"Audition Coaching - Home Studio",
+			"Audition Coaching - Virtual",
+		],
+	},
+];
+
+export const services: ServiceType[] = [
 	{
 		title: "Voice Lesson",
 		description:
 			"One hour, one on one individualized voice lesson, where we work the coordination and function of the voice for singing technique, both genre specific and individual style, and performance.",
-		locations: [...SessionLocations],
+		locations,
 		get url() {
 			const title = this.title;
 			return this.locations.map((location) => {
@@ -28,7 +81,7 @@ export const services: Service[] = [
 		title: "Voice Coaching",
 		description:
 			"One hour, one on one individualized voice coaching, where we work the artistic interpretation of client chosen repertoire through the lens of musicality, stylistic choice, song analysis, personal authenticity in song, and acting in song. ",
-		locations: [...SessionLocations],
+		locations,
 		get url() {
 			const title = this.title;
 			return this.locations.map((location) => {
@@ -36,6 +89,7 @@ export const services: Service[] = [
 			});
 		},
 	},
+
 	{
 		title: "SVS Session",
 		description:
@@ -52,7 +106,7 @@ export const services: Service[] = [
 		title: "Audition Coaching",
 		description:
 			"A one hour, individual audition prep coaching for specific industry auditions or general audition skills, with additional audition book consultation.",
-		locations: [...SessionLocations],
+		locations,
 		get url() {
 			const title = this.title;
 			return this.locations.map((location) => {
@@ -62,7 +116,7 @@ export const services: Service[] = [
 	},
 ];
 
-export const bundleServices: Service[] = services.filter((e) => {
+export const bundleServices: ServiceType[] = services.filter((e) => {
 	return e.title !== "SVS Session";
 });
 

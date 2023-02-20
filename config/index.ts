@@ -1,7 +1,10 @@
 import { PrismaClientOptions } from "@prisma/client/runtime";
 import sendgridClient from "@sendgrid/mail";
 import Stripe from "stripe";
-import { dev } from "./dev";
+
+export const dev = process.env.VERCEL_ENV !== "production";
+
+export const server = dev ? "" : "https://barrettpenrod.com";
 
 export const db = dev ? "test" : "production";
 
@@ -29,25 +32,24 @@ if (dev) {
 }
 export const sendgrid = sendgridClient;
 
-export const prismaConfig =
-	dev && !process.env.TEST_ENV
-		? {
-				log: [
-					"query",
-					"info",
-					"warn",
-					"error",
-				] as PrismaClientOptions["log"],
-				errorFormat: "pretty" as PrismaClientOptions["errorFormat"],
-		  }
-		: {
-				log: [
-					"query",
-					"info",
-					"warn",
-					"error",
-				] as PrismaClientOptions["log"],
-				errorFormat: "minimal" as PrismaClientOptions["errorFormat"],
-		  };
+export const prismaConfig = dev
+	? {
+			log: [
+				"query",
+				"info",
+				"warn",
+				"error",
+			] as PrismaClientOptions["log"],
+			errorFormat: "pretty" as PrismaClientOptions["errorFormat"],
+	  }
+	: {
+			log: [
+				"query",
+				"info",
+				"warn",
+				"error",
+			] as PrismaClientOptions["log"],
+			errorFormat: "minimal" as PrismaClientOptions["errorFormat"],
+	  };
 
 export { hygraphcms } from "./hygraphCMS";

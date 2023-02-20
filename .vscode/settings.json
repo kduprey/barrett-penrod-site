@@ -1,3 +1,0 @@
-{
-	"vitest.commandLine": "doppler run -- npx vitest"
-}

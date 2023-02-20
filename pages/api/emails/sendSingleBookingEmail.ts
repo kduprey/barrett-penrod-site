@@ -1,7 +1,8 @@
 import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
 import createHttpError from "http-errors";
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { dev, sendgrid } from "../../../config";
+import { sendgrid } from "../../../config";
+import { dev } from "../../../config/dev";
 import {
 	emailDataSchema,
 	singleEmail,

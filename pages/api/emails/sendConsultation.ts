@@ -2,7 +2,8 @@ import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
 import createHttpError from "http-errors";
 import { NextApiRequest, NextApiResponse } from "next";
 import * as yup from "yup";
-import { dev, sendgrid } from "../../../config/index";
+import { dev } from "../../../config/dev";
+import { sendgrid } from "../../../config/index";
 import {
 	clientSchema,
 	ConsultationEmail,

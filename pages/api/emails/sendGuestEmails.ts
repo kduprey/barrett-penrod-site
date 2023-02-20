@@ -2,7 +2,8 @@ import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
 import createHttpError from "http-errors";
 import type { NextApiRequest, NextApiResponse } from "next";
 import * as yup from "yup";
-import { dev, sendgrid } from "../../../config";
+import { sendgrid } from "../../../config";
+import { dev } from "../../../config/dev";
 import { GuestEmails, validateBookingDate } from "../../../types/emailTypes";
 import {
 	SessionLocation,

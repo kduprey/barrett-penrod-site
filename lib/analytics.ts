@@ -1,5 +1,4 @@
 export const pageview = (url: URL) => {
-	// eslint-disable-next-line
 	// @ts-ignore
 	window.gtag("config", "G-KFM4XGBGYY", {
 		page_path: url,
@@ -16,7 +15,6 @@ type Props = {
 
 export const event = ({ action, category, label, value }: Props) => {
 	if (typeof window !== "undefined") {
-		// eslint-disable-next-line
 		// @ts-ignore
 		window.gtag("event", action, {
 			event_category: category,

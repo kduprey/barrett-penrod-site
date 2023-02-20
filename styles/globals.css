@@ -47,6 +47,10 @@ p {
 	@apply text-base font-normal text-slate-100 lg:text-lg;
 }
 
+a {
+	@apply text-blue-500 transition-all duration-150 ease-in-out hover:text-blue-600 hover:underline;
+}
+
 li {
 	@apply text-base font-light text-white lg:text-lg;
 }
@@ -83,23 +87,23 @@ label {
 		@apply md:text-sm;
 	}
 	.step {
-		@apply withTransition flex w-full flex-col;
+		@apply flex w-full flex-col;
 	}
 	.step hr {
-		@apply withTransition h-1 w-full border-gray-400;
+		@apply h-1 w-full border-gray-400;
 	}
 	.step p {
-		@apply withTransition font-light text-gray-400;
+		@apply font-light text-gray-400;
 	}
 	.completed {
-		@apply withTransition flex w-full cursor-pointer flex-col;
+		@apply flex w-full cursor-pointer flex-col;
 	}
 
 	.completed hr {
-		@apply withTransition h-1 w-full border-primary;
+		@apply h-1 w-full border-primary;
 	}
 	.completed p {
-		@apply withTransition first-of-type:uppercase first-of-type:text-primary first-of-type:opacity-40 last-of-type:text-gray-800;
+		@apply first-of-type:uppercase first-of-type:text-primary first-of-type:opacity-40 last-of-type:text-gray-800;
 	}
 	.logo {
 		@apply bg-white shadow-lg shadow-black;

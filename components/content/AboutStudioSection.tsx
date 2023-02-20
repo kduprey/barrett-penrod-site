@@ -4,7 +4,9 @@ import NATSLogo from "../../public/collegeLogos/natsLogo.png";
 import NYULogo from "../../public/collegeLogos/nyuLogo.jpg";
 import SomaticVoicework from "../../public/collegeLogos/somaticVoicework.jpg";
 
-const AboutStudioSection = () => {
+type Props = {};
+
+const AboutStudioSection = (props: Props) => {
 	return (
 		<div className="about mx-auto space-y-3 md:px-6 lg:max-w-4xl xl:max-w-6xl">
 			<div className="flex gap-4">

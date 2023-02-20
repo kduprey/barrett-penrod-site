@@ -1,239 +1,133 @@
-import { clients, Prisma } from ".prisma/client/index";
-import createHttpError from "http-errors";
-import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import apiHandler from "utils/api";
-import { validateRequest } from "utils/yup";
-import * as yup from "yup";
-import prisma from "../../../lib/prisma";
+import { InsertOneResult, ModifyResult, ObjectId } from "mongodb";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { collections, connectToDatabase } from "../../../lib/database.service";
+import { ClientInfo } from "../../../types";
 
-const GETHandler: NextApiHandler = async (
-	req: NextApiRequest,
-	res: NextApiResponse
-) => {
-	const data = validateRequest(
-		req.query,
-		new yup.ObjectSchema({
-			searchString: yup.string().optional(),
-		})
-	);
-
-	try {
-		const result = await GET(data.searchString);
-		return res.status(200).json(result);
-	} catch (error: unknown) {
-		console.error(error);
-		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(
-				JSON.stringify(error)
-			);
-		throw new createHttpError.InternalServerError(
-			JSON.stringify({
-				message: "Error getting clients",
-				error: "Unknown error",
-			})
-		);
-	}
+type Data = {
+	message: string;
 };
 
-const GET = async (searchString?: string) => {
-	if (!searchString) {
-		try {
-			const result = await prisma.clients.findMany();
-			if (!result) return null;
+export default async function handler(
+	req: NextApiRequest,
+	res: NextApiResponse<
+		| Data
+		| ClientInfo[]
+		| ClientInfo
+		| InsertOneResult<ClientInfo>
+		| ModifyResult<ClientInfo>
+		| unknown
+	>
+) {
+	if (req.method === "GET" && req.query.filter) {
+		const query = await JSON.parse(req.query.filter as string);
+		console.log(query);
 
-			return result;
-		} catch (error: unknown) {
-			console.error(error);
-			if (error instanceof Error) throw new Error(JSON.stringify(error));
-			throw new Error(
-				JSON.stringify({
-					message: "Error getting clients",
-					error: "Unknown error",
-				})
-			);
+		try {
+			await connectToDatabase();
+			const client = await collections.clients?.find(query).toArray();
+			if (!client) {
+				return res.status(404).json({
+					message: "Error: No clients found",
+				});
+			}
+
+			console.log(client);
+
+			return res.status(200).json(client);
+		} catch (error: any) {
+			console.log(error);
+
+			return res.status(500).json(error);
 		}
 	}
 
-	try {
-		const result = await prisma.clients.findMany({
-			where: {
-				OR: [
-					{
-						name: {
-							contains: searchString,
-						},
-					},
-
-					{
-						email: {
-							contains: searchString,
-						},
-					},
-					{
-						stripe_customer_id: {
-							contains: searchString,
-						},
-					},
-				],
-			},
-		});
-		if (!result) return null;
-
-		return result;
-	} catch (error: unknown) {
-		console.error(error);
-		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(
-				JSON.stringify(error)
-			);
-		throw new createHttpError.InternalServerError(
-			JSON.stringify({
-				message: "Error getting clients",
-				error: "Unknown error",
-			})
-		);
+	if (req.method === "GET") {
+		await connectToDatabase();
+		const clients = await collections.clients?.find({}).toArray();
+		if (!clients) {
+			return res.status(404).json({
+				message: "Error: No clients found",
+			});
+		}
+		return res.status(200).json(clients);
 	}
-};
 
-const POSTHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-	const data = Prisma.validator<Prisma.clientsCreateInput>()(req.body);
-
-	try {
-		const result = await POST(data);
-		return res.status(200).json(result);
-	} catch (error: unknown) {
-		console.error(error);
-		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(
-				JSON.stringify(error)
-			);
-		throw new createHttpError.InternalServerError(
-			JSON.stringify({
-				message: "Error creating client",
-				error: "Unknown error",
-			})
-		);
+	if (req.method === "POST") {
+		const { ...ClientInfo } = req.body;
+		if (!ClientInfo) {
+			return res.status(400).json({
+				message: "Error: Missing client info",
+			});
+		}
+		try {
+			await connectToDatabase();
+			const client = await collections.clients?.insertOne(ClientInfo);
+			if (!client) {
+				return res.status(404).json({
+					message: "Error: Could not insert client",
+				});
+			}
+			return res.status(200).json(client);
+		} catch (err) {
+			return res.status(500).json({
+				message: "Error: Could not insert client",
+			});
+		}
 	}
-};
 
-const POST = async (ClientInfo: clients): Promise<clients | null> => {
-	try {
-		const result = await prisma.clients.create({
-			data: ClientInfo,
-		});
-
-		return result;
-	} catch (error: unknown) {
-		console.error(error);
-		if (error instanceof Error) throw new Error(error.message);
-
-		throw new Error(
-			JSON.stringify({
-				message: "Error updating client",
-				error: "Unknown error",
-			})
-		);
+	if (req.method === "PUT") {
+		const { id } = req.query;
+		const { ...ClientInfo } = req.body;
+		if (!id) {
+			return res.status(400).json({
+				message: "Error: Missing id",
+			});
+		}
+		if (!ClientInfo) {
+			return res.status(400).json({
+				message: "Error: Missing client info",
+			});
+		}
+		try {
+			await connectToDatabase();
+			const query = { _id: new ObjectId(id.toString()) };
+			const client = await collections.clients?.findOneAndUpdate(query, {
+				$set: ClientInfo,
+			});
+			if (!client) {
+				return res.status(404).json({
+					message: "Error: Could not update client",
+				});
+			}
+			return res.status(200).json(client);
+		} catch (err) {
+			return res.status(500).json({
+				message: "Error: Could not update client",
+			});
+		}
 	}
-};
 
-const PUTHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-	const data = Prisma.validator<Prisma.clientsUpdateInput>()(req.body);
-
-	try {
-		const result = await PUT(data.id, data);
-		return res.status(200).json(result);
-	} catch (error: unknown) {
-		console.error(error);
-		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(
-				JSON.stringify(error)
-			);
-		throw new createHttpError.InternalServerError(
-			JSON.stringify({
-				message: "Error updating client",
-				error: "Unknown error",
-			})
-		);
+	if (req.method === "DELETE") {
+		const { id } = req.query;
+		if (!id) {
+			return res.status(400).json({
+				message: "Error: Missing id",
+			});
+		}
+		try {
+			await connectToDatabase();
+			const query = { _id: new ObjectId(id.toString()) };
+			const client = await collections.clients?.findOneAndDelete(query);
+			if (!client) {
+				return res.status(404).json({
+					message: "Error: Could not delete client",
+				});
+			}
+			return res.status(200).json(client);
+		} catch (err) {
+			return res.status(500).json({
+				message: "Error: Could not delete client",
+			});
+		}
 	}
-};
-
-const PUT = async (
-	id: string,
-	ClientInfo: clients
-): Promise<clients | null> => {
-	try {
-		const result = await prisma.clients.update({
-			where: {
-				id: id as string,
-			},
-			data: ClientInfo,
-		});
-
-		return result;
-	} catch (error: unknown) {
-		console.error(error);
-		if (error instanceof Error) throw new Error(error.message);
-
-		throw new Error(
-			JSON.stringify({
-				message: "Error updating client",
-				error: "Unknown error",
-			})
-		);
-	}
-};
-
-const DELETEHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-	const data = validateRequest(
-		req.body,
-		new yup.ObjectSchema({
-			id: yup.string().required(),
-		})
-	);
-
-	try {
-		const result = await DELETE(data.id);
-		return res.status(200).json(result);
-	} catch (error: unknown) {
-		console.error(error);
-		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(
-				JSON.stringify(error)
-			);
-		throw new createHttpError.InternalServerError(
-			JSON.stringify({
-				message: "Error deleting client",
-				error: "Unknown error",
-			})
-		);
-	}
-};
-
-const DELETE = async (id: string): Promise<clients | null> => {
-	try {
-		const result = await prisma.clients.delete({
-			where: {
-				id: id as string,
-			},
-		});
-
-		return result;
-	} catch (error: unknown) {
-		console.error(error);
-		if (error instanceof Error) throw new Error(error.message);
-
-		throw new Error(
-			JSON.stringify({
-				message: "Error deleting client",
-				error: "Unknown error",
-			})
-		);
-	}
-};
-
-export default apiHandler({
-	GET: GETHandler,
-	POST: POSTHandler,
-	PUT: PUTHandler,
-	DELETE: DELETEHandler,
-});
+}

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ParsedUrlQuery } from "querystring";
-import { server } from "../config/server";
+import { server } from "../config";
 
 const handleQueryParams = async (
 	query: ParsedUrlQuery

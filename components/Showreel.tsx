@@ -1,4 +1,8 @@
-const Showreel = () => {
+type Props = {
+	// ...
+};
+
+const Showreel = (props: Props) => {
 	return (
 		<div
 			id="video-sound-demo"

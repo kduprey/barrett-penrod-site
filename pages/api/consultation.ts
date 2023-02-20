@@ -19,16 +19,17 @@ import { sendConsultationEmail } from "./emails/sendConsultation";
 const consultationParams = Yup.object().shape({
 	eventURI: Yup.string().required("Event URI is required"),
 	inviteeURI: Yup.string().required("Invitee URI is required"),
+	calendlyPayloadId: Yup.string().required("Calendly payload ID is required"),
 });
 
 const consultationHandler = async (
 	eventURI: string,
-	inviteeURI: string
+	inviteeURI: string,
+	calendlyPayloadId: string
 ): Promise<string> => {
 	let zoomLink: string;
 	let event: CalendlyEvent;
 	let invitee: CalendlyInvitee;
-	let calendlyEventPayloadId: string;
 
 	try {
 		console.info("Getting Calendly event data");
@@ -41,22 +42,6 @@ const consultationHandler = async (
 		if (err instanceof Error)
 			throw new Error("Error getting consultation data", err);
 		else throw new Error("Error getting consultation data");
-	}
-
-	try {
-		// Get Calendly event payload ID
-		const dbItem = await prisma.calendlyInviteePayloads.findUnique({
-			where: {
-				uri: event.resource.uri,
-			},
-		});
-		if (!dbItem) throw new Error("Calendly event payload ID not found");
-		calendlyEventPayloadId = dbItem?.id;
-	} catch (err: unknown) {
-		console.error(err);
-		if (err instanceof Error)
-			throw new Error("Error getting Calendly event payload ID", err);
-		else throw new Error("Error getting Calendly event payload ID");
 	}
 
 	// Get Zoom link
@@ -75,17 +60,12 @@ const consultationHandler = async (
 
 	// If user is already a client, update their data
 	if (existingCustomer)
-		await updateClient(existingCustomer, event, calendlyEventPayloadId);
+		await updateClient(existingCustomer, event, calendlyPayloadId);
 	else {
 		// If not, create user in database and Stripe
 
 		const stripeCustomer = await createStripeCustomer(invitee);
-		await createClient(
-			event,
-			invitee,
-			stripeCustomer,
-			calendlyEventPayloadId
-		);
+		await createClient(event, invitee, stripeCustomer, calendlyPayloadId);
 	}
 
 	// Send consultation email
@@ -111,12 +91,16 @@ const handler: NextApiHandler = async (
 	req: NextApiRequest,
 	res: NextApiResponse
 ) => {
-	const { eventURI, inviteeURI } = validateRequest(
+	const { eventURI, inviteeURI, calendlyPayloadId } = validateRequest(
 		req.body,
 		consultationParams
 	);
 	try {
-		const response = await consultationHandler(eventURI, inviteeURI);
+		const response = await consultationHandler(
+			eventURI,
+			inviteeURI,
+			calendlyPayloadId
+		);
 		return res.status(200).json(response);
 	} catch (error) {
 		console.error(error);

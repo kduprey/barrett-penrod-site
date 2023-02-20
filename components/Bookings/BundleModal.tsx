@@ -52,11 +52,11 @@ const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
 			exit={{ opacity: 0 }}
 		>
 			<div
-				className={` withTransition relative top-20 m-6 mx-auto flex w-[95%] grow flex-col items-center rounded-lg bg-secondary py-6 px-4 md:order-1 md:h-[30em] md:w-1/2 ${
+				className={` withTransition relative top-20 m-6 mx-auto flex max-w-[95%] grow flex-col items-center rounded-lg bg-secondary py-6 px-4 lg:max-w-screen-md ${
 					isOpen ? "top-20" : "-top-full"
 				}`}
 			>
-				<h3 className="pb-3 text-center">
+				<h3 className="pb-3 text-center text-primary">
 					Confirm your First Lesson Details
 				</h3>
 				<div className="flex w-full items-start justify-evenly space-x-3">

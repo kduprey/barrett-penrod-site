@@ -83,23 +83,23 @@ label {
 		@apply md:text-sm;
 	}
 	.step {
-		@apply flex w-full flex-col;
+		@apply withTransition flex w-full flex-col;
 	}
 	.step hr {
-		@apply h-1 w-full border-gray-400;
+		@apply withTransition h-1 w-full border-gray-400;
 	}
 	.step p {
-		@apply font-light text-gray-400;
+		@apply withTransition font-light text-gray-400;
 	}
 	.completed {
-		@apply flex w-full cursor-pointer flex-col;
+		@apply withTransition flex w-full cursor-pointer flex-col;
 	}
 
 	.completed hr {
-		@apply h-1 w-full border-primary;
+		@apply withTransition h-1 w-full border-primary;
 	}
 	.completed p {
-		@apply first-of-type:uppercase first-of-type:text-primary first-of-type:opacity-40 last-of-type:text-gray-800;
+		@apply withTransition first-of-type:uppercase first-of-type:text-primary first-of-type:opacity-40 last-of-type:text-gray-800;
 	}
 	.logo {
 		@apply bg-white shadow-lg shadow-black;

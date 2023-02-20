@@ -1,4 +1,3 @@
-// import VsLogo from "/public/vslogo.svg";
 import Image from "next/image";
 import VSLogo from "/public/vslogo.jpg";
 

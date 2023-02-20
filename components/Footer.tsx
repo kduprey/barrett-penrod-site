@@ -5,11 +5,11 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import { useState } from "react";
+import { AirTableResponse } from "types/airtableTypes";
 
-type Props = {};
-
-const Footer = (props: Props) => {
+const Footer = () => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [message, setMessage] = useState("");
@@ -46,43 +46,43 @@ const Footer = (props: Props) => {
 		}
 	};
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setLoading(true);
-		const data = {
+		const messageData = {
 			name,
 			email,
 			message,
 			age,
 		};
+		try {
+			const { data } = await axios.post<AirTableResponse>(
+				"/api/contact",
+				messageData
+			);
 
-		fetch("/api/contact", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(data),
-		})
-			.then((res) => res.json())
-			.then((res) => {
-				console.log(res);
-				if (res.id) {
-					setName("");
-					setEmail("");
-					setMessage("");
-					setAge("");
-					setLoading(false);
-					setSuccess(true);
-				} else {
-					setError(true);
-					setLoading(false);
-				}
-			})
-			.catch((err) => {
-				console.log(err);
+			if (data.records && data.records.length > 0) {
+				setName("");
+				setEmail("");
+				setMessage("");
+				setAge("");
+				setLoading(false);
+				setSuccess(true);
+			} else {
 				setError(true);
 				setLoading(false);
-			});
+			}
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				console.error(error);
+				setError(true);
+				setLoading(false);
+			} else {
+				console.error(error);
+				setError(true);
+				setLoading(false);
+			}
+		}
 	};
 
 	return (

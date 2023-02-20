@@ -6,9 +6,7 @@ import {
 	faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 
-type Props = {};
-
-const SocialBar = (props: Props) => {
+const SocialBar = () => {
 	return (
 		<>
 			<div className="mx-6 flex items-center justify-evenly bg-secondary p-2 text-black md:hidden">

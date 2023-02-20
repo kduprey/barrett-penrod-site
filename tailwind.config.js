@@ -5,7 +5,7 @@ module.exports = {
 	],
 	theme: {
 		fontFamily: {
-			sans: ["Montserrat", "Arial", "sans-serif"],
+			sans: ["var(--font-montserrat)", "Arial", "sans-serif"],
 		},
 		extend: {
 			colors: {

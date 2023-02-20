@@ -130,7 +130,19 @@ describe("Homepage", () => {
 			cy.intercept("POST", "/api/contact", {
 				statusCode: 200,
 				body: {
-					id: "123",
+					records: [
+						{
+							id: "rec123",
+							createdTime: new Date(),
+							fields: {
+								Name: "Barrett Penrod",
+								Email: "test@emai.com",
+								Message: "This is a test message",
+								Status: "test",
+								Created: new Date(),
+							},
+						},
+					],
 				},
 			}).as("contactFormSubmit");
 

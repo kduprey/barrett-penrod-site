@@ -39,7 +39,7 @@
 		"next-axiom": "^0.17.0",
 		"next-connect": "^0.13.0",
 		"prisma": "^4.10.1",
-		"raw-body": "^2.5.1",
+		"raw-body": "^2.5.2",
 		"react": "18.2.0",
 		"react-calendly": "^4.1.1",
 		"react-dom": "18.2.0",

@@ -46,7 +46,7 @@
 		"react-scroll": "^1.8.9",
 		"remove-trailing-slash": "^0.1.1",
 		"sharp": "^0.31.3",
-		"stripe": "^11.10.0",
+		"stripe": "^11.12.0",
 		"yup": "^0.32.11"
 	},
 	"devDependencies": {

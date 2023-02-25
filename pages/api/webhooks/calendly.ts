@@ -1,26 +1,23 @@
-import axios from "axios";
+import { calendlyInviteePayloads, Prisma } from "@prisma/client";
 import crypto from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { server } from "../../../config/index";
-import { CalendlyInviteePayload, Invitee } from "../../../types";
-
-type Data = {};
-
-const calendlyWebhook = async (
-	req: NextApiRequest,
-	res: NextApiResponse<Data>
-) => {
-	const webhookSigningKey = process.env
-		.CALENDLY_WEBHOOK_SIGNING_KEY as string;
+import { CalendlyEvent } from "types/calendlyTypes";
+import getSessionType from "utils/getSessionType";
+import { createDbClient } from "utils/webhookUtils/calendly";
+import prisma from "../../../lib/prisma";
+import { getEventInfo } from "../calendly/eventInfo";
+import { consultationHandler } from "../consultation";
+const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
+	const webhookSigningKey = process.env[
+		"CALENDLY_WEBHOOK_SIGNING_KEY"
+	] as string;
 
 	// Extract the timestamp and signature from the header
 
 	const calendlySignature = req.headers[
 		"calendly-webhook-signature"
 	] as string;
-	console.log(req.headers);
-	console.log(calendlySignature);
-
+	if (!calendlySignature) throw new Error("Invalid Signature");
 	const { t, signature } = calendlySignature?.split(",").reduce(
 		(acc, currentValue) => {
 			const [key, value] = currentValue.split("=");
@@ -58,7 +55,7 @@ const calendlyWebhook = async (
 		throw new Error("Invalid Signature");
 	}
 
-	const threeMinutes = 180000;
+	const threeMinutes = 360000;
 	const tolerance = threeMinutes;
 	const timestampMilliseconds = Number(t) * 1000;
 
@@ -73,43 +70,57 @@ const calendlyWebhook = async (
 	// Signature is valid!
 
 	if (req.body.event === "invitee.created") {
-		const invitee: Invitee = req.body.payload;
-		const eventInfo: CalendlyInviteePayload = {
-			resource: invitee,
-		};
+		const payloadData: calendlyInviteePayloads = req.body.payload;
 
-		const response = await axios.post(
-			`${server}/api/db/calendlyEventPayload`,
-			eventInfo
-		);
+		let existingClient,
+			eventData: CalendlyEvent,
+			payloadDbEntry: Prisma.calendlyInviteePayloadsGetPayload<false>;
 
-		if (response.status === 200) {
-			return res.status(200).json(response.data);
+		// Add payload data to database
+		try {
+			payloadDbEntry = await prisma.calendlyInviteePayloads.create({
+				data: payloadData,
+			});
+		} catch (error) {
+			console.log(error);
+			throw new Error("Error adding payload to database");
 		}
-		return res.status(500).json({
-			err: new Error("Error: Failed to insert client"),
-			response,
+
+		// If consultation is booked, run consultation handler
+		try {
+			eventData = await getEventInfo(payloadData.event);
+			if (eventData.resource.name.includes("Consultation"))
+				consultationHandler(
+					payloadData.event,
+					payloadData.uri,
+					payloadDbEntry.id
+				);
+		} catch (error) {
+			console.log(error);
+			throw new Error("Error getting event info");
+		}
+
+		res.status(200).json({
+			emailRes: existingClient,
+			eventData,
+			db: payloadDbEntry,
 		});
 	}
 
 	if (req.body.event === "invitee.canceled") {
-		const invitee: Invitee = req.body.payload;
-		const eventInfo: CalendlyInviteePayload = {
-			resource: invitee,
-		};
+		const invitee: calendlyInviteePayloads = req.body.payload;
+		try {
+			const response = await prisma.calendlyInviteePayloads.create({
+				data: invitee,
+			});
 
-		const response = await axios.post(
-			`${server}/api/db/calendlyEventPayload`,
-			eventInfo
-		);
-
-		if (response.status === 200) {
-			return res.status(200).json(response.data);
+			return res.status(200).json(response);
+		} catch (error) {
+			console.error(error);
+			return res.status(500).json({
+				err: new Error("Error: Failed to insert client"),
+			});
 		}
-		return res.status(500).json({
-			err: new Error("Error: Failed to insert client"),
-			response,
-		});
 	}
 };
 

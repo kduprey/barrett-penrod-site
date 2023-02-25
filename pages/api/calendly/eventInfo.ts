@@ -1,26 +1,55 @@
 import axios from "axios";
-import type { NextApiRequest, NextApiResponse } from "next";
-import { CalendlyEvent } from "../../../types";
+import createHttpError from "http-errors";
+import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import apiHandler from "utils/api";
+import { CalendlyEvent } from "../../../types/calendlyTypes";
 
-type Data = {};
+const getEventInfo = async (uri: string): Promise<CalendlyEvent> => {
+	if (uri === undefined || uri === "") throw new Error("Invalid URI");
 
-const eventInfo = async (
-	req: NextApiRequest,
-	res: NextApiResponse<CalendlyEvent | Data>
-) => {
-	const { uri } = req.body as { uri: string };
+	try {
+		const { data } = await axios.get<CalendlyEvent>(uri, {
+			headers: {
+				Authorization: `Bearer ${process.env["CALENDLY_API_KEY"]}`,
+			},
+		});
 
-	const eventRes = await axios.get(uri, {
-		headers: {
-			Authorization: `Bearer ${process.env["CALENDLY_API_KEY"]}`,
-		},
-	});
-	if (eventRes.status !== 200) {
-		res.status(500).json(eventRes);
+		return data;
+	} catch (err) {
+		console.error(err);
+		throw new Error("Error getting event info");
 	}
+};
+export { getEventInfo };
 
-	const event: CalendlyEvent = eventRes.data;
-	res.status(200).json(event);
+const eventInfoHandler: NextApiHandler = async (
+	req: NextApiRequest,
+	res: NextApiResponse
+) => {
+	const { uri } = req.query;
+	if (
+		!uri ||
+		typeof uri !== "string" ||
+		uri.length === 0 ||
+		uri === "undefined" ||
+		uri === typeof Array
+	)
+		throw new createHttpError[400]("Invalid URI");
+
+	try {
+		const eventRes = await getEventInfo(uri);
+		res.status(200).json(eventRes);
+	} catch (err) {
+		console.error(err);
+		throw new createHttpError[500](
+			JSON.stringify({
+				message: "Error getting event info",
+				error: err,
+			})
+		);
+	}
 };
 
-export default eventInfo;
+export default apiHandler({
+	GET: eventInfoHandler,
+});

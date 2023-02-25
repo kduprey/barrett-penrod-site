@@ -58,7 +58,8 @@ export const checkout_session_completed: Stripe.Checkout.Session = {
 	livemode: false,
 	locale: null,
 	metadata: {
-		inviteeURI: "test",
+		inviteeURI:
+			"https://api.calendly.com/scheduled_events/3d344a74-9b56-4bb4-8607-d07a35ac46bc/invitees/26a90396-f48e-42b6-9cd5-78eb341b9737",
 	},
 	mode: "payment",
 	payment_intent: "pi_3Mcgt2AMm0G1mbCt3k1C7kp3",

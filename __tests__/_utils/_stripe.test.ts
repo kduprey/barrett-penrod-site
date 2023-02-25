@@ -48,7 +48,7 @@ describe("updateCustomer after checkout", () => {
 
 		const updatedPayload = await prisma.calendlyInviteePayloads.findUnique({
 			where: {
-				uri: checkout_session_completed.client_reference_id as string,
+				uri: checkout_session_completed.metadata?.inviteeURI as string,
 			},
 		});
 

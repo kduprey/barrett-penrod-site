@@ -57,7 +57,9 @@ export const checkout_session_completed: Stripe.Checkout.Session = {
 	},
 	livemode: false,
 	locale: null,
-	metadata: {},
+	metadata: {
+		inviteeURI: "test",
+	},
 	mode: "payment",
 	payment_intent: "pi_3Mcgt2AMm0G1mbCt3k1C7kp3",
 	payment_link: null,

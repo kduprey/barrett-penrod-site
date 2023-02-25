@@ -7,11 +7,7 @@ import seussical from "/public/seussical.png";
 import soldierensemble from "/public/soldierensemble.jpeg";
 import springawakening from "/public/springawakening.png";
 
-type Props = {
-	// ...
-};
-
-const Photos = (props: Props) => {
+const Photos = () => {
 	return (
 		<div
 			id="production-photos"

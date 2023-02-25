@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withAxiom } = require("next-axiom");
 const nextConfig = withAxiom({
 	reactStrictMode: true,
@@ -82,13 +83,8 @@ const nextConfig = withAxiom({
 			},
 		];
 	},
-	webpack(config) {
-		config.module.rules.push({
-			test: /\.svg$/,
-			use: ["@svgr/webpack"],
-		});
-		config.resolve.fallback = { fs: false };
-		return config;
+	eslint: {
+		dirs: ["."],
 	},
 });
 

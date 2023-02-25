@@ -1,11 +1,7 @@
 import Image from "next/image";
 import headshot5 from "/public/headshot5.jpg";
 
-type Props = {
-	// ...
-};
-
-const Headline = (props: Props) => {
+const Headline = () => {
 	return (
 		<>
 			<div

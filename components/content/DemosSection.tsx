@@ -1,6 +1,4 @@
-type Props = {};
-
-const DemosSection = (props: Props) => {
+const DemosSection = () => {
 	return (
 		<div className="">
 			<div>

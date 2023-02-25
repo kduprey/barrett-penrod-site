@@ -42,7 +42,7 @@ model calendlyInviteePayloads {
   updated_at              DateTime                                             @db.Date
   uri                     String                                               @unique
   client                  clients?                                             @relation(fields: [clientId], references: [id])
-  clientId                String?
+  clientId                String?                                             @db.ObjectId
 }
 
 model clients {

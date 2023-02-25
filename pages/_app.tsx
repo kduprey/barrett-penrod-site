@@ -1,35 +1,24 @@
-import "@fontsource/montserrat/100-italic.css";
-import "@fontsource/montserrat/100.css";
-import "@fontsource/montserrat/200-italic.css";
-import "@fontsource/montserrat/200.css";
-import "@fontsource/montserrat/300-italic.css";
-import "@fontsource/montserrat/300.css";
-import "@fontsource/montserrat/400-italic.css";
-import "@fontsource/montserrat/400.css";
-import "@fontsource/montserrat/500-italic.css";
-import "@fontsource/montserrat/500.css";
-import "@fontsource/montserrat/600-italic.css";
-import "@fontsource/montserrat/600.css";
-import "@fontsource/montserrat/700-italic.css";
-import "@fontsource/montserrat/700.css";
-import "@fontsource/montserrat/800-italic.css";
-import "@fontsource/montserrat/800.css";
-import "@fontsource/montserrat/900-italic.css";
-import "@fontsource/montserrat/900.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { Montserrat } from "@next/font/google";
 import { useRouter } from "next/router";
 import Script from "next/script";
 import { useEffect } from "react";
 import "../styles/globals.css";
-import { AppPropsWithLayout } from "../types";
+import { AppPropsWithLayout } from "../types/types";
 config.autoAddCss = false;
 
 export { reportWebVitals } from "next-axiom";
 
+const montserrat = Montserrat({
+	subsets: ["latin"],
+	variable: "--font-montserrat",
+});
+
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
 	const router = useRouter();
 	const handleRouteChange = (url: URL) => {
+		// eslint-disable-next-line
 		// @ts-ignore
 		window.gtag("config", process.env.NEXT_PUBLIC_GA_ID as string, {
 			page_path: url,
@@ -46,7 +35,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 	const getLayout = Component.getLayout || ((page) => page);
 
 	return (
-		<>
+		<main className={`${montserrat.variable}`}>
 			<Script
 				strategy="afterInteractive"
 				src="https://www.googletagmanager.com/gtag/js?id=G-KFM4XGBGYY"
@@ -63,6 +52,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
 				}}
 			/>
 			{getLayout(<Component {...pageProps} />)}
-		</>
+		</main>
 	);
 }

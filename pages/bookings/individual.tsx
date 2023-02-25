@@ -1,13 +1,11 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import BookingsLayout from "../../components/BookingsLayout";
+import Logo from "../../components/Logo";
 import { services } from "../../data/services";
-import { NextPageWithLayout } from "../../types";
-import VsLogo from "/public/vslogo.svg";
+import { NextPageWithLayout } from "../../types/types";
 
-type Props = {};
-
-const Individual: NextPageWithLayout = (props: Props) => {
+const Individual: NextPageWithLayout = () => {
 	const router = useRouter();
 	const [step, setStep] = useState<number[]>([1]);
 	const [service, setService] = useState(0);
@@ -37,29 +35,28 @@ const Individual: NextPageWithLayout = (props: Props) => {
 	// TODO: Remove margin on mobile view of logo
 
 	return (
-		<section className="flex flex-col items-center justify-center space-y-4 p-4 md:my-auto md:flex-row">
-			<div className="logo w-5/6 p-6 md:w-1/4">
-				<VsLogo />
-				{/* <Logo /> */}
+		<section className="space-y-7 lg:flex-row">
+			<div className="mx-auto max-w-[18rem]">
+				<Logo />
 			</div>
-			<div className="flex flex-col items-center justify-center space-y-4 md:space-y-10 md:pl-6">
+			<div className="flex flex-col items-center justify-center space-y-4 lg:space-y-7  ">
 				<h3 className=" text-center text-secondary">
-					Book your individual session
+					Book your Individual Session
 				</h3>
 
-				<div className="order-2 m-3 flex flex-col items-center rounded-lg bg-secondary py-6 px-4 md:order-1 ">
+				<div className="order-2 m-3 flex flex-col items-center rounded-lg bg-secondary py-6 px-4 lg:order-1 ">
 					<div className="flex w-full items-start justify-evenly space-x-3">
 						{/* Step 1 */}
 						<div
 							id="step1"
-							className={`${
+							className={`withTransition ${
 								step.includes(1) ? "completed" : "step"
 							}`}
 							onClick={(e) => handleBackStep(e, 1)}
 						>
-							<hr />
-							<p>Step 1</p>
-							<p>Select Service</p>
+							<hr className="withTransition" />
+							<p className="withTransition">Step 1</p>
+							<p className="withTransition">Select Service</p>
 							{step.includes(2) ? (
 								<span className="text-primary-800 font-bold">
 									{services[service].title}
@@ -103,8 +100,8 @@ const Individual: NextPageWithLayout = (props: Props) => {
 						<div
 							className={
 								step.includes(2)
-									? "hidden"
-									: "mt-6 flex flex-col items-center justify-center md:mt-0 md:flex-row"
+									? "withTransition hidden"
+									: "withTransition mt-6 flex flex-col items-center justify-center md:mt-0 md:flex-row"
 							}
 						>
 							<label
@@ -180,7 +177,7 @@ const Individual: NextPageWithLayout = (props: Props) => {
 						</div>
 
 						{step.includes(3) && (
-							<div className="m-2 flex flex-col items-center justify-center space-y-4 md:grow md:justify-evenly">
+							<div className="withTransition m-2 flex flex-col items-center justify-center space-y-4 md:grow md:justify-evenly">
 								<h4>Confirm Details:</h4>
 								<p className="text-2xl text-primary">
 									Service:{" "}
@@ -197,7 +194,7 @@ const Individual: NextPageWithLayout = (props: Props) => {
 							</div>
 						)}
 						<button
-							className="border border-black transition ease-in-out hover:opacity-70 md:text-xl"
+							className="withTransition border border-black  hover:opacity-70 md:text-xl"
 							onClick={(e) => {
 								e.preventDefault();
 								if (!step.includes(3)) handleContinue(e);

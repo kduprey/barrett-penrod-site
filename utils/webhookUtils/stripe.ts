@@ -15,7 +15,7 @@ export const updateCustomer = async (
 		console.info("Updating Calendly webhook payload");
 		await prisma.calendlyInviteePayloads.update({
 			where: {
-				uri: session.client_reference_id as string,
+				uri: session.metadata?.inviteeURI as string,
 			},
 			data: {
 				clientId: client.id,
@@ -80,7 +80,7 @@ export const createCustomer = async (
 		try {
 			await prisma.calendlyInviteePayloads.update({
 				where: {
-					uri: session.client_reference_id as string,
+					uri: session.metadata?.inviteeURI as string,
 				},
 				data: {
 					clientId: newCustomer.id,

@@ -164,9 +164,9 @@ const createCheckoutSession = async (
 export { createCheckoutSession };
 
 const POSTCheckoutBody = yup.object().shape({
-	service: yup.number().required(),
-	location: yup.number().required(),
-	bundle: yup.number(),
+	service: yup.string().required(),
+	location: yup.string().required(),
+	bundle: yup.string(),
 	eventURI: yup.string().required(),
 	inviteeURI: yup.string().required(),
 	isLonger: yup.boolean(),
@@ -177,10 +177,17 @@ const POSTCheckout: NextApiHandler = async (
 	res: NextApiResponse
 ) => {
 	const data = validateRequest(req.body, POSTCheckoutBody);
+	const parsedData = {
+		...data,
+		service: parseInt(data.service),
+		location: parseInt(data.location),
+		bundle: data.bundle ? parseInt(data.bundle) : undefined,
+		isLonger: data.isLonger ? true : false,
+	};
 
 	try {
 		// Create checkout session
-		const session = await createCheckoutSession(data);
+		const session = await createCheckoutSession(parsedData);
 
 		res.status(200).json({ url: session.url, id: session.id });
 	} catch (e: unknown) {

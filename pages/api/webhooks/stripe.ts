@@ -119,11 +119,18 @@ const webhookHandler = async (
 			// Handle expired checkout sessions
 			const sessionExpired = event.data.object as Stripe.Checkout.Session;
 
+			if (sessionExpired.client_reference_id === "test")
+				return res.status(200).send({
+					message: "Checkout session expired -- Unit test",
+					errors,
+				});
+			console.log("Checkout session expired", sessionExpired);
 			// Pull Calendly event info from API with client_reference_id field
 			try {
 				const eventInfo = await getEventInfo(
 					sessionExpired.client_reference_id as string
 				);
+				console.log("Event info", eventInfo);
 
 				// Call cancellation Calendly API endpoint
 				try {

@@ -1,3 +1,4 @@
+import { sendSingleBookingEmail } from "pages/api/emails/sendSingleBookingEmail";
 import Stripe from "stripe";
 import { stripe } from "../config";
 import { dev } from "../config/dev";
@@ -65,7 +66,13 @@ const sendCheckoutEmails = async (
 	// Is this a new customer?
 	// If so, send first-time customer email
 	// If not, send booking confirmation email
-	if (inviteeInfo.resource.questions_and_answers.length > 0)
+	if (
+		inviteeInfo.resource.questions_and_answers.find((e) => {
+			return e.question === "Is this your first lesson with Barrett?"
+				? true
+				: false;
+		})
+	)
 		inviteeInfo.resource.questions_and_answers.forEach(async (qna) => {
 			if (
 				qna.question === "Is this your first lesson with Barrett?" &&
@@ -99,7 +106,8 @@ const sendCheckoutEmails = async (
 		});
 
 	// Is this a package?
-	if (await isPackageCheckout(session)) {
+	const isPackage = await isPackageCheckout(session);
+	if (isPackage) {
 		// Send package email
 		try {
 			const packageEmail = await sendPackageConfirmationEmail({
@@ -120,15 +128,21 @@ const sendCheckoutEmails = async (
 			throw new Error("Error sending package email");
 		}
 	}
+
 	// Is this a single session?
-	if (await isDownpaymentCheckout(session)) {
+	const isDownpayment = await isDownpaymentCheckout(session);
+	if (
+		isDownpayment &&
+		!inviteeInfo.resource.questions_and_answers.find((e) => {
+			return e.question === "Is this your first lesson with Barrett?"
+				? true
+				: false;
+		})
+	) {
 		// Send single session email
 		try {
-			const singleSessionEmail = await sendPackageConfirmationEmail({
+			const singleSessionEmail = await sendSingleBookingEmail({
 				client: { email, name },
-				packageName: getPackageName(
-					lineItems.data as Stripe.LineItem[]
-				),
 				sessionType: getSessionType(bookingInfo),
 				bookingDate,
 				bookingLocation: getBookingLocation(bookingInfo),

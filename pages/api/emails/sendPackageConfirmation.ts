@@ -92,7 +92,11 @@ const sendPackageConfirmationEmail = async ({
 	};
 
 	try {
+		console.log("Sending package confirmation email...");
+
 		const response = await sendgrid.send(message);
+		console.log("Package confirmation email sent!");
+
 		return response[0];
 	} catch (error: unknown) {
 		console.log(error);

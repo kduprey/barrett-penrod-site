@@ -2,8 +2,6 @@ import { calendlyInviteePayloads, Prisma } from "@prisma/client";
 import crypto from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { CalendlyEvent } from "types/calendlyTypes";
-import getSessionType from "utils/getSessionType";
-import { createDbClient } from "utils/webhookUtils/calendly";
 import prisma from "../../../lib/prisma";
 import { getEventInfo } from "../calendly/eventInfo";
 import { consultationHandler } from "../consultation";
@@ -72,15 +70,16 @@ const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.body.event === "invitee.created") {
 		const payloadData: calendlyInviteePayloads = req.body.payload;
 
-		let existingClient,
-			eventData: CalendlyEvent,
+		let eventData: CalendlyEvent,
 			payloadDbEntry: Prisma.calendlyInviteePayloadsGetPayload<false>;
 
 		// Add payload data to database
 		try {
+			console.log("Adding payload to database...");
 			payloadDbEntry = await prisma.calendlyInviteePayloads.create({
 				data: payloadData,
 			});
+			console.log("Payload added to database", payloadDbEntry);
 		} catch (error) {
 			console.log(error);
 			throw new Error("Error adding payload to database");
@@ -88,23 +87,31 @@ const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 
 		// If consultation is booked, run consultation handler
 		try {
+			console.log("Getting event info...");
 			eventData = await getEventInfo(payloadData.event);
-			if (eventData.resource.name.includes("Consultation"))
-				consultationHandler(
+			if (eventData.resource.name.includes("Consultation")) {
+				const consultationHandlerResponse = await consultationHandler(
 					payloadData.event,
 					payloadData.uri,
 					payloadDbEntry.id
 				);
+				res.status(200).json({
+					eventData,
+					db: payloadDbEntry,
+					consultationHandlerResponse,
+				});
+			} else {
+				res.status(200).json({
+					eventData,
+					db: payloadDbEntry,
+				});
+			}
 		} catch (error) {
 			console.log(error);
-			throw new Error("Error getting event info");
+			res.status(500).json({
+				err: new Error("Error running consultation handler"),
+			});
 		}
-
-		res.status(200).json({
-			emailRes: existingClient,
-			eventData,
-			db: payloadDbEntry,
-		});
 	}
 
 	if (req.body.event === "invitee.canceled") {

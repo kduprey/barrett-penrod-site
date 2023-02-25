@@ -31,6 +31,8 @@ const consultationHandler = async (
 	let event: CalendlyEvent;
 	let invitee: CalendlyInvitee;
 
+	console.log("Consultation handler started...");
+
 	try {
 		console.info("Getting Calendly event data");
 		// Get Calendly event data

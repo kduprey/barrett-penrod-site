@@ -79,6 +79,8 @@ const sendSingleBookingEmail = async ({
 	};
 
 	try {
+		console.log("Sending single booking email...");
+
 		const response = await sendgrid.send(message);
 		return response[0];
 	} catch (error: unknown) {

@@ -87,12 +87,14 @@ const sendConsultationEmail = async ({
 	};
 
 	try {
+		console.log("Sending consultation email...");
 		const response = await sendgrid.send(message);
+		console.log("Consultation Email sent!");
 		return response[0];
 	} catch (error: unknown) {
 		console.error(error);
 		if (error instanceof Error)
-			throw new Error("Error sending email", error);
+			throw new Error("Error sending consultation email", error);
 
 		throw new Error("Error sending email");
 	}

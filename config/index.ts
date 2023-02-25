@@ -1,4 +1,4 @@
-import { PrismaClientOptions } from "@prisma/client/runtime";
+import { PrismaClientOptions } from "@prisma/client/runtime/library";
 import sendgridClient from "@sendgrid/mail";
 import Stripe from "stripe";
 import { dev } from "./dev";

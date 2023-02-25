@@ -72,6 +72,6 @@ describe("sendConsultationEmail", () => {
 
 		await expect(
 			sendConsultationEmail({ client, bookingDate, zoomLink })
-		).rejects.toEqual("rror sending consultation email");
+		).rejects.toThrowError("Error sending consultation email");
 	});
 });

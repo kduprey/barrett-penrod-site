@@ -11,9 +11,9 @@ type Props = {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-	const { sessionId } = ctx.query;
+	const { session_id } = ctx.query;
 
-	if (!sessionId) {
+	if (!session_id) {
 		return {
 			notFound: true,
 		};

@@ -1,6 +1,7 @@
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 import Stripe from "stripe";
+import { instanceOfZoomLocation } from "utils/isZoomLocation";
 import BookingsLayout from "../../components/BookingsLayout";
 import Loading from "../../components/Loading";
 import { stripe } from "../../config";
@@ -28,7 +29,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		};
 	}
 	let packageName: string | null = null,
-		zoomLink: string | null = null;
+		zoomLink = "";
 
 	try {
 		const session: Stripe.Checkout.Session =
@@ -41,7 +42,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		);
 
 		const {
-			resource: { name: eventName, start_time },
+			resource: { name: eventName, start_time, location },
 		} = await getEventInfo(session.client_reference_id as string);
 		const {
 			resource: { name },
@@ -52,13 +53,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			packageName = getPackageName(lineItems.data as Stripe.LineItem[]);
 		}
 
-		// Get zoom link
-		zoomLink = await getZoomLink(session.client_reference_id as string);
+		// Get zoom link if it's a zoom location
+		if (instanceOfZoomLocation(location))
+			zoomLink = await getZoomLink(session.client_reference_id as string);
+
 		return {
 			props: {
 				name,
 				start_time,
-				zoomLink,
+				zoomLink: zoomLink ? zoomLink : null,
 				packageName: packageName,
 				sessionTitle: eventName,
 			} as Props,

@@ -3,7 +3,6 @@
 
 import { getByData } from "./commands";
 
-// eslint-disable-next-line
 // @ts-ignore
 Cypress.Commands.add("getByData", getByData);
 

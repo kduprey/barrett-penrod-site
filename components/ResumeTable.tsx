@@ -8,7 +8,9 @@ import {
 } from "../data/resumeData";
 import headshot3 from "/public/headshot3.jpg";
 
-const ResumeTable = () => {
+type Props = {};
+
+const ResumeTable = (props: Props) => {
 	return (
 		<div className="p-6" data-cy="resume">
 			<div className="flex flex-col items-center justify-evenly space-y-3 ">

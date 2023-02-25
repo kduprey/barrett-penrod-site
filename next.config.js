@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withAxiom } = require("next-axiom");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { withSentryConfig } = require("@sentry/nextjs");
 const nextConfig = withAxiom({
 	reactStrictMode: true,
 	async redirects() {
@@ -86,6 +88,14 @@ const nextConfig = withAxiom({
 	eslint: {
 		dirs: ["."],
 	},
+	sentry: {
+		hideSourcemaps: true,
+		tunnelRoute: "/monitoring-tunnel",
+	},
 });
 
-module.exports = nextConfig;
+const sentryWebpackPluginOptions = {
+	silent: true,
+};
+
+module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions);

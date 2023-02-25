@@ -5,6 +5,7 @@ import { instanceOfZoomLocation } from "./isZoomLocation";
 const getZoomLink = async (eventURI: string): Promise<string> => {
 	let location: ZoomLocation | InPersonLocation | undefined;
 	try {
+		console.log("Getting event info");
 		const eventResponse = await getEventInfo(eventURI);
 		location = eventResponse.resource.location;
 	} catch (error) {

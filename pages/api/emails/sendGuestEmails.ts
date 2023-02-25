@@ -119,7 +119,11 @@ const sendGuestEmails = async ({
 	};
 
 	try {
+		console.log("Sending guest emails...");
+
 		const response = await sendgrid.send(message);
+		console.log("Guest emails sent!");
+
 		console.log(response);
 		return response[0];
 	} catch (error: unknown) {

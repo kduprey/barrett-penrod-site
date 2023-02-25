@@ -31,6 +31,8 @@ const consultationHandler = async (
 	let event: CalendlyEvent;
 	let invitee: CalendlyInvitee;
 
+	console.log("Consultation handler started...");
+
 	try {
 		console.info("Getting Calendly event data");
 		// Get Calendly event data
@@ -46,6 +48,7 @@ const consultationHandler = async (
 
 	// Get Zoom link
 	try {
+		console.info("Getting Zoom link");
 		zoomLink = await getZoomLink(eventURI);
 	} catch (err) {
 		console.error(err);
@@ -53,6 +56,7 @@ const consultationHandler = async (
 	}
 
 	// Check if user is client in database
+	console.log("Checking if user is client");
 	const existingCustomer = await checkForClient(
 		invitee.resource.name,
 		invitee.resource.email
@@ -70,6 +74,8 @@ const consultationHandler = async (
 
 	// Send consultation email
 	try {
+		console.log("Sending consultation email");
+
 		await sendConsultationEmail({
 			client: {
 				name: invitee.resource.name,

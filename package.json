@@ -56,7 +56,7 @@
 		"@testing-library/cypress": "^9.0.0",
 		"@types/gtag.js": "^0.0.12",
 		"@types/http-errors": "^2.0.1",
-		"@types/node": "^18.14.1",
+		"@types/node": "^18.14.2",
 		"@types/react": "^18.0.27",
 		"@types/react-scroll": "^1.8.5",
 		"@typescript-eslint/eslint-plugin": "^5.53.0",

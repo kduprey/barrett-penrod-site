@@ -59,7 +59,7 @@
 		"@types/node": "^18.14.2",
 		"@types/react": "^18.0.27",
 		"@types/react-scroll": "^1.8.5",
-		"@typescript-eslint/eslint-plugin": "^5.53.0",
+		"@typescript-eslint/eslint-plugin": "^5.54.0",
 		"@typescript-eslint/parser": "^5.53.0",
 		"@vitejs/plugin-react": "^3.0.1",
 		"@vitest/coverage-c8": "^0.28.4",

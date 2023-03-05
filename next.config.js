@@ -5,6 +5,12 @@ const { withAxiom } = require("next-axiom");
 const { withSentryConfig } = require("@sentry/nextjs");
 const nextConfig = withAxiom({
 	reactStrictMode: true,
+	webpack(config, { isServer }) {
+		if (!isServer) {
+			config.resolve.fallback.fs = false;
+		}
+		return config;
+	},
 	async redirects() {
 		return [
 			{

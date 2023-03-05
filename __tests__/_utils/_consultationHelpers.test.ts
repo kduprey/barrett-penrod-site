@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { prismaConfig, stripe } from "config";
+import { prismaConfig, stripe } from "config/index";
 import {
 	consultationResponse,
 	getEventResponse,

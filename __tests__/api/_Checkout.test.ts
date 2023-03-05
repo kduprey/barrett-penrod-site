@@ -1,11 +1,11 @@
 // import Stripe from "stripe";
 import axios from "axios";
-import { stripe } from "config";
+import { stripe } from "config/index";
 import { getInviteeResponse } from "data/calendlyResponses/getInviteeResponse";
 import { bundles } from "data/services";
+import { createCheckoutSession } from "pages/api/checkout";
 import { CalendlyInvitee } from "types/types";
 import { describe, expect, it, Mocked } from "vitest";
-import { createCheckoutSession } from "../../pages/api/checkout";
 
 vi.mock("axios");
 const mockedAxios = axios as Mocked<typeof axios>;

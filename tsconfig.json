@@ -17,7 +17,13 @@
 		"incremental": true,
 		"types": ["cypress", "node", "vitest/globals"],
 		"typeRoots": ["./types"],
-		"baseUrl": "."
+		"baseUrl": "src",
+		"paths": {
+			"components/*": ["components/*"],
+			"data/*": ["data/*"],
+			"config/*": ["../config/*"],
+			"public/*": ["../public/*"]
+		}
 	},
 	"include": [
 		"next-env.d.ts",

@@ -2,7 +2,7 @@
 
 import axios from "axios";
 
-import { contact } from "../../pages/api/contact";
+import { contact } from "../../src/pages/api/contact";
 
 describe("Homepage API", () => {
 	it("Contact Method", async () => {

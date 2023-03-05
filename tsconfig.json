@@ -22,6 +22,8 @@
 			"components/*": ["components/*"],
 			"data/*": ["data/*"],
 			"utils/*": ["utils/*"],
+			"pages/*": ["pages/*"],
+			"types/*": ["types/*"],
 			"config/*": ["../config/*"],
 			"public/*": ["../public/*"]
 		}

@@ -1,4 +1,4 @@
-import { sendgrid } from "config";
+import { sendgrid } from "config/index";
 import { sendGuestEmails } from "pages/api/emails/sendGuestEmails";
 import { expect, it, vitest as vi } from "vitest";
 

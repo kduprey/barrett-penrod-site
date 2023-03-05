@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { prismaConfig } from "config";
+import { prismaConfig } from "config/index";
 import { getEventResponse } from "data/calendlyResponses/getEventResponse";
 import { getInviteeResponse } from "data/calendlyResponses/getInviteeResponse";
 import { dbCalendlyEventPayloads } from "data/seedData/calendlyEventPayloads";
@@ -8,12 +8,9 @@ import {
 	checkout_session_completed,
 	line_items,
 } from "data/stripeResponses/webhooks";
+import getNumLessonsFromLineItems from "utils/getNumLessonsFromLineItems";
+import { createCustomer, updateCustomer } from "utils/webhookUtils/stripe";
 import { describe, expect, it } from "vitest";
-import getNumLessonsFromLineItems from "../../utils/getNumLessonsFromLineItems";
-import {
-	createCustomer,
-	updateCustomer,
-} from "../../utils/webhookUtils/stripe";
 
 // This is a workaround to make sure the prisma client is only instantiated once
 // eslint-disable-next-line

@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import { prismaConfig } from "config";
+import { prismaConfig } from "config/index";
+import { updateQRDB } from "pages/api/updateQRDB";
 import { describe, expect, it } from "vitest";
-import { updateQRDB } from "../../pages/api/updateQRDB";
 
-const prisma = global.prisma || new PrismaClient({ ...prismaConfig });
+const prisma = new PrismaClient({ ...prismaConfig });
 
 describe("updateQRDB should", () => {
 	it("return true", async () => {

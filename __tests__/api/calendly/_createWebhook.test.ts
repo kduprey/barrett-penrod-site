@@ -3,8 +3,8 @@ import {
 	createWebhookResponse,
 	getWebhooks,
 } from "data/calendlyResponses/getWebhooks";
+import { createWebhook } from "pages/api/calendly/createWebhook";
 import { describe, expect, Mocked, vitest as vi } from "vitest";
-import { createWebhook } from "../../../pages/api/calendly/createWebhook";
 
 vi.mock("axios");
 const mockedAxios = axios as Mocked<typeof axios>;

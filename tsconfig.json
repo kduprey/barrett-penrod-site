@@ -21,6 +21,7 @@
 		"paths": {
 			"components/*": ["components/*"],
 			"data/*": ["data/*"],
+			"utils/*": ["utils/*"],
 			"config/*": ["../config/*"],
 			"public/*": ["../public/*"]
 		}

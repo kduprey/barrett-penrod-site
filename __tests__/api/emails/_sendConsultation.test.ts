@@ -1,6 +1,6 @@
-import { sendgrid } from "config";
+import { sendgrid } from "config/index";
+import { sendConsultationEmail } from "pages/api/emails/sendConsultation";
 import { expect, it, vitest as vi } from "vitest";
-import { sendConsultationEmail } from "../../../pages/api/emails/sendConsultation";
 
 const client = {
 	email: "test@example.com",

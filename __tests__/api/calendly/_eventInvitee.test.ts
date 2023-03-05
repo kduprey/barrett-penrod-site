@@ -1,7 +1,7 @@
 import axios from "axios";
+import { getInviteeResponse as data } from "data/calendlyResponses/getInviteeResponse";
+import { getEventInvitee } from "pages/api/calendly/eventInvitee";
 import { describe, expect, it, Mocked, vitest as vi } from "vitest";
-import { getInviteeResponse as data } from "../../../data/calendlyResponses/getInviteeResponse";
-import { getEventInvitee } from "../../../pages/api/calendly/eventInvitee";
 
 vi.mock("axios");
 const mockedAxios = axios as Mocked<typeof axios>;

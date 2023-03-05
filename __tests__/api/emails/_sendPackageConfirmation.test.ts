@@ -1,4 +1,4 @@
-import { sendgrid } from "config";
+import { sendgrid } from "config/index";
 import { sendPackageConfirmationEmail } from "pages/api/emails/sendPackageConfirmation";
 import { expect, it, vitest as vi } from "vitest";
 

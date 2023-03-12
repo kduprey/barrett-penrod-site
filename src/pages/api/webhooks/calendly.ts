@@ -15,7 +15,7 @@ const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 	const calendlySignature = req.headers[
 		"calendly-webhook-signature"
 	] as string;
-	if (!calendlySignature) throw new Error("Invalid Signature");
+	if (!calendlySignature) res.status(500).send("Invalid Signature");
 	const { t, signature } = calendlySignature?.split(",").reduce(
 		(acc, currentValue) => {
 			const [key, value] = currentValue.split("=");

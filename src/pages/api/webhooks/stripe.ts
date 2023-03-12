@@ -71,7 +71,7 @@ const webhookHandler = async (
 
 				// If customer exists, update their purchase/booking data
 				if (existingCustomer)
-					updateCustomer(
+					await updateCustomer(
 						session,
 						existingCustomer,
 						bookingData,
@@ -79,7 +79,7 @@ const webhookHandler = async (
 					);
 				// If customer doesn't exist, create a new one
 				else
-					createCustomer(
+					await createCustomer(
 						inviteeData,
 						bookingData,
 						session,

@@ -239,6 +239,180 @@ describe("Checkout should", () => {
 		await stripe.checkout.sessions.expire(session.id as string);
 	});
 
+	it("session should have correct downpayment for trial session", async () => {
+		const responseWithNonExistantEmail: CalendlyInvitee = {
+			resource: {
+				...getInviteeResponse.resource,
+				name: "Test User 100",
+				email: "test100@email.com",
+			},
+		};
+
+		mockedAxios.get.mockResolvedValueOnce({
+			data: { ...responseWithNonExistantEmail },
+		});
+
+		const session = await createCheckoutSession({
+			service: 4, // Trial session
+			location: 1, // OpenJar
+			eventURI: "test",
+			inviteeURI: "test",
+		});
+
+		// Check for no errors
+		expect(session).not.toBeInstanceOf(Error);
+
+		checkValidCheckoutURL(session.url);
+
+		const sessionData = await stripe.checkout.sessions.retrieve(
+			session.id as string
+		);
+
+		expect(sessionData.amount_total).toBe(3000);
+
+		await stripe.checkout.sessions.expire(session.id as string);
+	});
+
+	it("session should have correct downpayment for SVS trial session", async () => {
+		const responseWithNonExistantEmail: CalendlyInvitee = {
+			resource: {
+				...getInviteeResponse.resource,
+				name: "Test User 100",
+				email: "test100@email.com",
+			},
+		};
+
+		mockedAxios.get.mockResolvedValueOnce({
+			data: { ...responseWithNonExistantEmail },
+		});
+
+		const session = await createCheckoutSession({
+			service: 5, // Trial SVS session
+			location: 1, // OpenJar
+			eventURI: "test",
+			inviteeURI: "test",
+		});
+
+		// Check for no errors
+		expect(session).not.toBeInstanceOf(Error);
+
+		checkValidCheckoutURL(session.url);
+
+		const sessionData = await stripe.checkout.sessions.retrieve(
+			session.id as string
+		);
+
+		expect(sessionData.amount_total).toBe(4000);
+
+		await stripe.checkout.sessions.expire(session.id as string);
+	});
+
+	it("session should throw error for trial session with bundle", async () => {
+		const responseWithNonExistantEmail: CalendlyInvitee = {
+			resource: {
+				...getInviteeResponse.resource,
+				name: "Test User 100",
+				email: "test100@email.com",
+			},
+		};
+
+		mockedAxios.get.mockResolvedValueOnce({
+			data: { ...responseWithNonExistantEmail },
+		});
+		try {
+			const session = await createCheckoutSession({
+				service: 4, // Trial session
+				location: 1, // OpenJar
+				bundle: 0,
+				eventURI: "test",
+				inviteeURI: "test",
+			});
+			expect(session).to.be.undefined;
+		} catch (error: unknown) {
+			expect(error).toBeInstanceOf(Error);
+			if (error instanceof Error)
+				expect(error.message).to.equal(
+					"Cannot select bundle with Trial Session"
+				);
+		}
+	});
+	it("session should throw error for trial SVS session with bundle", async () => {
+		const responseWithNonExistantEmail: CalendlyInvitee = {
+			resource: {
+				...getInviteeResponse.resource,
+				name: "Test User 100",
+				email: "test100@email.com",
+			},
+		};
+
+		mockedAxios.get.mockResolvedValueOnce({
+			data: { ...responseWithNonExistantEmail },
+		});
+		try {
+			const session = await createCheckoutSession({
+				service: 5, // Trial SVS session
+				location: 1, // OpenJar
+				bundle: 0,
+				eventURI: "test",
+				inviteeURI: "test",
+			});
+			expect(session).to.be.undefined;
+		} catch (error: unknown) {
+			expect(error).toBeInstanceOf(Error);
+			if (error instanceof Error)
+				expect(error.message).to.equal(
+					"Cannot select bundle with Trial Session"
+				);
+		}
+	});
+
+	it.only("session should throw error for trial session with wrong location", async () => {
+		const responseWithNonExistantEmail: CalendlyInvitee = {
+			resource: {
+				...getInviteeResponse.resource,
+				name: "Test User 100",
+				email: "test100@email.com",
+			},
+		};
+
+		mockedAxios.get.mockResolvedValueOnce({
+			data: { ...responseWithNonExistantEmail },
+		});
+		try {
+			const session = await createCheckoutSession({
+				service: 5, // Trial session
+				location: 2,
+				bundle: 0,
+				eventURI: "test",
+				inviteeURI: "test",
+			});
+			expect(session).to.be.undefined;
+		} catch (error: unknown) {
+			expect(error).toBeInstanceOf(Error);
+			if (error instanceof Error)
+				expect(error.message).to.equal(
+					"Cannot select bundle with Trial Session"
+				);
+		}
+
+		try {
+			const session = await createCheckoutSession({
+				service: 4, // Trial session
+				location: 2,
+				bundle: 0,
+				eventURI: "test",
+				inviteeURI: "test",
+			});
+			expect(session).to.be.undefined;
+		} catch (error: unknown) {
+			expect(error).toBeInstanceOf(Error);
+			if (error instanceof Error)
+				expect(error.message).to.equal(
+					"Cannot select bundle with Trial Session"
+				);
+		}
+	});
+
 	it("should return error if invalid service", async () => {
 		mockedAxios.get.mockResolvedValueOnce({ data: getInviteeResponse });
 		try {

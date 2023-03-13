@@ -366,7 +366,7 @@ describe("Checkout should", () => {
 		}
 	});
 
-	it.only("session should throw error for trial session with wrong location", async () => {
+	it("session should throw error for trial session with wrong location", async () => {
 		const responseWithNonExistantEmail: CalendlyInvitee = {
 			resource: {
 				...getInviteeResponse.resource,

@@ -1,11 +1,11 @@
 import axios from "axios";
+import { baseURL, bundleServices, services } from "data/services";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { InlineWidget, useCalendlyEventListener } from "react-calendly";
 import BookingsLayout from "../../components/BookingsLayout";
 import Loading from "../../components/Loading";
 import Logo from "../../components/Logo";
-import { bundleServices, services } from "../../data/services";
 import { NextPageWithLayout } from "../../types/types";
 
 type Params = {
@@ -20,17 +20,18 @@ const Page: NextPageWithLayout = () => {
 		location: NaN,
 		bundle: NaN,
 	});
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 	const [isScheduled, setIsScheduled] = useState(false);
 
 	const router = useRouter();
 
 	useEffect(() => {
 		if (router.isReady) setParams(router.query as unknown as Params);
+		if (router.isReady) setIsLoading(false);
 	}, [router.query, router.isReady]);
 
 	useEffect(() => {
-		setIsLoading(false);
+		setIsLoading(isScheduled);
 	}, [isScheduled]);
 
 	useCalendlyEventListener({
@@ -54,9 +55,9 @@ const Page: NextPageWithLayout = () => {
 		},
 	});
 
-	if ((Number.isNaN(service) && Number.isNaN(location)) || isLoading) {
-		return <Loading />;
-	}
+	if (isLoading || isNaN(service) || isNaN(location)) return <Loading />;
+
+	console.log(service, location, bundle);
 
 	return (
 		<section className="flex flex-col p-6">
@@ -65,7 +66,9 @@ const Page: NextPageWithLayout = () => {
 					<Logo />
 				</div>
 				<h1 className="pt-3 text-center text-secondary">
-					Book Your Session
+					{service >= 4
+						? "Book Your Trial Session"
+						: "Book Your Session"}
 				</h1>
 			</div>
 
@@ -73,12 +76,17 @@ const Page: NextPageWithLayout = () => {
 				<InlineWidget
 					styles={{ height: "40em" }}
 					url={
-						bundle
+						service == 4
+							? baseURL + "trial-session"
+							: service == 5
+							? baseURL + "trial-session-svs"
+							: bundle
 							? bundleServices[service].url[location] +
 							  "?hide_gdpr_banner=1"
 							: services[service].url[location] +
 							  "?hide_gdpr_banner=1"
 					}
+
 					// url="https://calendly.com/kentonduprey/30min"
 				/>
 			</div>

@@ -123,7 +123,7 @@ describe("Checkout should", () => {
 		).toBe(4000);
 	});
 
-	it("create a successful checkout session with a lesson downpayment and OpenJar fee", async () => {
+	it("create a successful checkout session with a lesson downpayment", async () => {
 		mockedAxios.get.mockResolvedValueOnce({ data: getInviteeResponse });
 
 		const session = await createCheckoutSession({
@@ -145,12 +145,12 @@ describe("Checkout should", () => {
 		expect(
 			sessionData.amount_total,
 			"Checking for accurate downpayment amount"
-		).toBe(5500);
+		).toBe(3000);
 
 		await stripe.checkout.sessions.expire(session.id as string);
 	});
 
-	it("create a successful checkout session with a SVS downpayment and OpenJar fee", async () => {
+	it("create a successful checkout session with a SVS downpayment", async () => {
 		mockedAxios.get.mockResolvedValueOnce({ data: getInviteeResponse });
 
 		const session = await createCheckoutSession({
@@ -172,7 +172,7 @@ describe("Checkout should", () => {
 		expect(
 			sessionData.amount_total,
 			"Checking for accurate downpayment amount"
-		).toBe(6500);
+		).toBe(4000);
 
 		await stripe.checkout.sessions.expire(session.id as string);
 	});

@@ -26,7 +26,8 @@ const createCheckoutSession = async (
 	// SVS Trial Session = 5
 	// Trial Session = 4
 	// Trial Session Location will be 1 - Open Jar
-	const isTrialSession = params.service >= 4 ? true : false;
+	const isTrialSession =
+		params.service >= 4 && params.service <= 5 ? true : false;
 	const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
 	// Check if eventURI is valid

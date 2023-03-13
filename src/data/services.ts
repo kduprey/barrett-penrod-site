@@ -9,7 +9,7 @@ const bookingLink = (title: string, location: string): string => {
 	);
 };
 
-const baseURL = "https://calendly.com/bpvoicestudio/";
+export const baseURL = "https://calendly.com/bpvoicestudio/";
 
 export const services: Service[] = [
 	{

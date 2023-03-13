@@ -83,6 +83,9 @@ const testResponses: CalendlyEvent[] = [
 ];
 
 const getBookingLocation = (bookingData: CalendlyEvent): SessionLocation => {
+	if (bookingData.resource.name.includes("Trial Session"))
+		return SessionLocations[1];
+
 	const locationData = bookingData.resource.name.substring(
 		bookingData.resource.name.indexOf("-") + 2
 	);

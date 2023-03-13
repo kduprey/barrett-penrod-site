@@ -21,6 +21,8 @@ export const SessionTypes = [
 	"Voice Coaching",
 	"SVS Session",
 	"Audition Coaching",
+	"Trial Session",
+	"Trial Session - SVS",
 ] as const;
 
 export type SessionType = (typeof SessionTypes)[number];

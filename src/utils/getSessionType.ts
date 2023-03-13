@@ -2,6 +2,11 @@ import { CalendlyEvent } from "types/calendlyTypes";
 import { SessionType, SessionTypes } from "types/types";
 
 const getSessionType = (bookingName: CalendlyEvent): SessionType => {
+	if (bookingName.resource.name.includes("Trial Session"))
+		return bookingName.resource.name === "Trial Session"
+			? "Trial Session"
+			: "Trial Session - SVS";
+
 	const sessionType = bookingName.resource.name.substring(
 		0,
 		bookingName.resource.name.indexOf("-") - 1

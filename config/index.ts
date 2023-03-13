@@ -8,11 +8,11 @@ export const db = dev ? "test" : "production";
 export const stripeMode = dev ? "test" : "live";
 
 export const dbURL = process.env["PRODUCTION_DB_URL"];
-``;
+
 export const stripe = new Stripe(
-	process.env.VERCEL_ENV === "production"
-		? `${process.env["STRIPE_SECRET_KEY"]}`
-		: `${process.env["STRIPE_TEST_SECRET_KEY"]}`,
+	!dev
+		? `${process.env.STRIPE_SECRET_KEY}`
+		: `${process.env.STRIPE_TEST_SECRET_KEY}`,
 	{
 		apiVersion: "2022-11-15",
 	}

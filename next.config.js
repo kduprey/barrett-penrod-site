@@ -43,6 +43,16 @@ const nextConfig = withAxiom({
 				destination: "/cookie-policy.pdf",
 				permanent: true,
 			},
+			{
+				source: "/bookings/trial",
+				destination: "/bookings/bookNow?service=4&location=1",
+				permanent: true,
+			},
+			{
+				source: "/bookings/trial-svs",
+				destination: "/bookings/bookNow?service=5&location=1",
+				permanent: true,
+			},
 		];
 	},
 	async headers() {

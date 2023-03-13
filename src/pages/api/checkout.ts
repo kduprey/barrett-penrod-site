@@ -23,6 +23,11 @@ const createCheckoutSession = async (
 	url: string;
 	id: string;
 }> => {
+	// SVS Trial Session = 5
+	// Trial Session = 4
+	// Trial Session Location will be 1 - Open Jar
+	const isTrialSession =
+		params.service >= 4 && params.service <= 5 ? true : false;
 	const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
 	// Check if eventURI is valid
@@ -33,22 +38,40 @@ const createCheckoutSession = async (
 	if (params.inviteeURI === undefined || params.inviteeURI === "")
 		throw new Error("Invalid inviteeURI");
 
-	// Check if service is valid
-	if (services.indexOf(services[params.service]) === -1)
+	// Check if Trial Session with Bundle
+	if (params.bundle !== undefined && isTrialSession)
+		throw new Error("Cannot select bundle with Trial Session");
+
+	// Check if Trial Session with valid location
+	if (params.location !== 1 && isTrialSession)
+		throw new Error("Invalid location for Trial Session");
+
+	// Check if Trial SVS Session with Open Jar
+	if (params.service === 5 && params.location === 1)
+		line_items.push(Prices[0].priceID[stripeMode]);
+
+	// Check if Trial Session with Open Jar
+	if (params.service === 4 && params.location === 1)
+		line_items.push(Prices[1].priceID[stripeMode]);
+
+	// Check if service is valid if not a trial session
+	if (!isTrialSession && services.indexOf(services[params.service]) === -1)
 		throw new Error("Invalid service");
 
-	// Check if location is valid, and if it is valid for the service
+	// Check if location is valid, and if it is valid for the service if not a trial session
 	if (
+		!isTrialSession &&
 		services[params.service].locations.indexOf(
 			services[params.service].locations[params.location]
 		) === -1
 	)
 		throw new Error("Invalid location");
 
-	// Check if bundle is valid if it exists
+	// Check if bundle is valid if it exists and not a trial session
 	if (
 		params.bundle !== undefined &&
-		bundles.indexOf(bundles[params.bundle]) === -1
+		bundles.indexOf(bundles[params.bundle]) === -1 &&
+		!isTrialSession
 	)
 		throw new Error("Invalid bundle");
 
@@ -56,20 +79,24 @@ const createCheckoutSession = async (
 	if (params.service === 2 && params.bundle !== undefined)
 		throw new Error("Cannot select bundle for SVS Session");
 
-	// if is a bundle purchase, add the bundle to the line items
-	if (params.bundle !== undefined)
+	// if is a bundle purchase, add the bundle to the line items if not a trial session
+	if (params.bundle !== undefined && !isTrialSession)
 		line_items.push(bundles[params.bundle].priceID[stripeMode]);
 	// If not a bundle purchase, add lesson downpayment to line items
 	// if SVS Session, add the downpayment for SVS Session
 	else {
 		if (params.service === 2)
 			line_items.push(Prices[0].priceID[stripeMode]);
-		// if not SVS Session, add the regular downpayment
-		else line_items.push(Prices[1].priceID[stripeMode]);
+		// if not SVS Session, add the regular downpayment if not a trial session
+		else
+			!isTrialSession
+				? line_items.push(Prices[1].priceID[stripeMode])
+				: null;
 	}
 
-	// if location is Open Jar, add the Open Jar booking fee
-	if (params.location === 1) line_items.push(Prices[2].priceID[stripeMode]);
+	// If location is Open Jar and a bundle, add the Open Jar booking fee
+	if (params.location === 1 && params.bundle !== undefined && !isTrialSession)
+		line_items.push(Prices[2].priceID[stripeMode]);
 
 	// Create success url
 	const successURL: URL = new URL(server + "/bookings/success");

@@ -8,11 +8,18 @@ import { hygraphcms } from "config/index";
 import { gql } from "graphql-request";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { z } from "zod";
 import Bundles from "../../components/Bookings/Bundles";
 import BookingsLayout from "../../components/BookingsLayout";
 import Logo from "../../components/Logo";
 import { NextPageWithLayout } from "../../types/types";
 import handleQueryParams from "../../utils/handleQueryParams";
+
+const promoContentsSchema = z.object({
+promoContents: z.array(z.object({
+  headerForPromo: z.string().optional(),
+  promoSubheadingDescription: z.string().optional(),
+}))});
 
 export const getStaticProps = async () => {
 	const QUERY = gql`
@@ -24,7 +31,8 @@ export const getStaticProps = async () => {
 		}
 	`;
 
-	const { promoContents } = await hygraphcms.request(QUERY);
+	const promoContentsResponse  = await hygraphcms.request(QUERY);
+	const promoContents =  promoContentsSchema.parse(promoContentsResponse);
 
 	return {
 		props: {
@@ -42,7 +50,7 @@ type Props = {
 
 const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 	const router = useRouter();
-
+	
 	useEffect(() => {
 		handleQueryParams(router.query);
 	}, [router.query]);

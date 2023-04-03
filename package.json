@@ -59,7 +59,7 @@
 		"@types/gtag.js": "^0.0.12",
 		"@types/http-errors": "^2.0.1",
 		"@types/node": "^18.15.11",
-		"@types/react": "^18.0.31",
+		"@types/react": "^18.0.32",
 		"@types/react-scroll": "^1.8.5",
 		"@typescript-eslint/eslint-plugin": "^5.56.0",
 		"@typescript-eslint/parser": "^5.56.0",

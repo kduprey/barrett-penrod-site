@@ -7,7 +7,17 @@ import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import { useState } from "react";
-import { AirTableResponse } from "types/airtableTypes";
+import { z } from "zod";
+
+const contactResponseSchema = z.object({
+	id: z.string(),
+	email: z.string(),
+	name: z.string(),
+	message: z.string(),
+	timestamp: z.string(),
+});
+
+type contactResponse = z.infer<typeof contactResponseSchema>;
 
 const Footer = () => {
 	const [name, setName] = useState("");
@@ -53,15 +63,15 @@ const Footer = () => {
 			name,
 			email,
 			message,
-			age,
 		};
 		try {
-			const { data } = await axios.post<AirTableResponse>(
-				"/api/contact",
-				messageData
+			const contactResponseData = await contactResponseSchema.parseAsync(
+				(
+					await axios.post("/api/contact", messageData)
+				).data
 			);
 
-			if (data.records && data.records.length > 0) {
+			if (contactResponseData) {
 				setName("");
 				setEmail("");
 				setMessage("");
@@ -103,11 +113,8 @@ const Footer = () => {
 				>
 					<div className="flex flex-col items-center justify-center space-y-1 md:flex-row md:space-x-12">
 						<div className="flex flex-col items-center justify-center space-y-3">
-							<div className="flex flex-col items-center space-y-3 md:flex-row md:space-y-0 md:space-x-3">
-								<label
-									htmlFor="name"
-									className="text-secondary"
-								>
+							<div className="flex flex-col items-center space-y-3 md:flex-row md:space-x-3 md:space-y-0">
+								<label htmlFor="name" className="text-secondary">
 									Name
 								</label>
 								<input
@@ -121,11 +128,8 @@ const Footer = () => {
 									required
 								/>
 							</div>
-							<div className="flex flex-col items-center space-y-3 md:flex-row md:space-y-0 md:space-x-3">
-								<label
-									htmlFor="email"
-									className="text-secondary"
-								>
+							<div className="flex flex-col items-center space-y-3 md:flex-row md:space-x-3 md:space-y-0">
+								<label htmlFor="email" className="text-secondary">
 									Email
 								</label>
 								<input
@@ -189,15 +193,10 @@ const Footer = () => {
 							data-cy="success-message"
 						>
 							<FontAwesomeIcon icon={faCheck} size="3x" />
-							<h4 className="text-secondary">
-								Your message has been sent!
-							</h4>
+							<h4 className="text-secondary">Your message has been sent!</h4>
 						</div>
 					) : error ? (
-						<div
-							className="text-center text-secondary"
-							data-cy="error-message"
-						>
+						<div className="text-center text-secondary" data-cy="error-message">
 							<FontAwesomeIcon icon={faTimes} size="3x" />
 							<h4 className="text-secondary">
 								There was an error sending your message.
@@ -211,10 +210,7 @@ const Footer = () => {
 
 			{/* Social Media Links */}
 			<div className="flex w-4/5 items-center justify-evenly pt-4 text-white md:w-1/4">
-				<a
-					href="https://twitter.com/penrodbarrett"
-					className="text-secondary"
-				>
+				<a href="https://twitter.com/penrodbarrett" className="text-secondary">
 					<FontAwesomeIcon icon={faTwitter} />
 				</a>
 				<a

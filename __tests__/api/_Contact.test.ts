@@ -1,95 +1,50 @@
-import axios from "axios";
+import { PrismaClient } from "@prisma/client";
+import { prismaConfig } from "config/index";
 import { contact } from "pages/api/contact";
-import { describe, expect, it, Mocked, vitest as vi } from "vitest";
+import { afterAll, describe, expect, it } from "vitest";
 
-const data = {
-	records: [
-		{
-			fields: {
-				Name: "Test",
-				Email: "test@email.com",
-				Message: "This is a test message",
-				Status: "Done",
-			},
-		},
-	],
-};
-
-vi.mock("axios");
-const mockedAxios = axios as Mocked<typeof axios>;
+const prisma = new PrismaClient({ ...prismaConfig });
 
 describe("Contact should", () => {
-	afterEach(() => {
-		mockedAxios.post.mockReset();
+	afterAll(async () => {
+		await prisma.contacts.deleteMany({});
 	});
 
 	it("Should handle a correct data submission", async () => {
-		mockedAxios.post.mockResolvedValueOnce({ data });
+		const num = Math.floor(Math.random() * 1000);
 
-		const response = await contact({
-			name: "test",
+		await contact({
+			name: `test ${num}`,
 			email: "test@test.com",
 			message: "test",
 		});
 
-		expect(mockedAxios.post).toHaveBeenCalledTimes(1);
-		expect(response).toEqual(data);
+		const check = await prisma.contacts.findMany({
+			where: {
+				name: `test ${num}`,
+			},
+		});
+
+		expect(check).not.toBeNull();
+		expect(check[0].name).toBe(`test ${num}`);
+		expect(check[0].email).toBe("test@test.com");
+		expect(check[0].message).toBe("test");
 	});
 
 	it("Should handle an incorrect data submission", async () => {
-		mockedAxios.post.mockRejectedValueOnce(
-			new Error("Error sending message")
-		);
+		const num = Math.floor(Math.random() * 1000);
 
 		try {
 			const response = await contact({
-				name: "test",
+				name: `test ${num}`,
 				email: "",
 				message: "test",
 			});
 
-			expect(response.records).toBeUndefined();
-		} catch (error) {
-			expect(error).toBeInstanceOf(Error);
-			expect(error).toEqual(Error("Not a valid input"));
-		}
-	});
-
-	it("Should fail the honeypot", async () => {
-		mockedAxios.post.mockResolvedValueOnce({ data });
-
-		try {
-			const response = await contact({
-				name: "test",
-				email: "test@email.com",
-				message: "test",
-				age: 20,
-			});
-
-			expect(response.records).toBeUndefined();
-		} catch (error) {
-			expect(error).toBeInstanceOf(Error);
-			expect(error).toEqual(Error("Not a valid field"));
-		}
-	});
-
-	it("Should throw an error if axios fails", async () => {
-		mockedAxios.post.mockRejectedValueOnce(
-			new Error("Error sending message")
-		);
-
-		try {
-			const response = await contact({
-				name: "test",
-				email: "test@test.com",
-				message: "test",
-			});
-
 			expect(response).toBeUndefined();
-		} catch (error: unknown) {
+		} catch (error) {
 			expect(error).toBeInstanceOf(Error);
-			if (error instanceof Error)
-				expect(error.message).contain("Error sending message");
+			expect((error as Error).message).include("Invalid email");
 		}
 	});
 });

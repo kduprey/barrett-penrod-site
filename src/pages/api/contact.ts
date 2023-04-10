@@ -1,82 +1,49 @@
-import axios from "axios";
+import { contacts } from "@prisma/client";
 import createHttpError from "http-errors";
 import type {
 	NextApiHandler,
 	NextApiRequest,
 	NextApiResponse,
 } from "next/types";
-import { AirTableResponse } from "types/airtableTypes";
-import * as Yup from "yup";
+import { z } from "zod";
+import prisma from "../../lib/prisma";
 import apiHandler from "../../utils/api";
-import { validateRequest } from "../../utils/yup";
-
-const API_KEY = process.env["AIRTABLE_API_KEY"];
 
 export type ContactFormBody = {
 	name: string;
 	email: string;
 	message: string;
-	age?: number;
 };
 
-const ContactFormBody = Yup.object().shape({
-	name: Yup.string().required("Name is required"),
-	email: Yup.string().email("Invalid email").required("Email is required"),
-	message: Yup.string().required("Message is required"),
+const ContactFormBodySchema = z.object({
+	name: z.string().min(2, "Name must be at least 2 characters"),
+	email: z.string().email("Invalid email"),
+	message: z.string().min(2, "Message must be at least 2 characters"),
 });
 
-const contact = async ({
-	name,
-	email,
-	message,
-	age,
-}: ContactFormBody): Promise<AirTableResponse> => {
-	const messageData = {
-		Name: name,
-		Email: email,
-		Message: message,
-	};
+const contact = async (data: ContactFormBody): Promise<contacts> => {
+	const validData = ContactFormBodySchema.parse(data);
 
-	if (name === "" || email === "" || message === "")
-		throw new Error("Not a valid input");
-
-	if (age !== undefined) {
-		throw new Error("Not a valid field");
-	}
 	try {
-		const { data } = await axios.post<AirTableResponse>(
-			process.env["AIRTABLE_API_URL"] as string,
-			{
-				records: [
-					{
-						fields: messageData,
-					},
-				],
-			},
-			{
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${API_KEY}`,
-				},
-			}
-		);
+		const data = await prisma.contacts.create({
+			data: validData,
+		});
 
 		return data;
 	} catch (error: unknown) {
 		if (error instanceof Error) throw error;
-		throw new Error("Error sending message");
+		throw new Error("Error saving message");
 	}
 };
 
 export { contact };
 
-const POSTContact: NextApiHandler<AirTableResponse> = async (
+const POSTContact: NextApiHandler<contacts> = async (
 	req: NextApiRequest,
 	res: NextApiResponse
 ) => {
-	const data = validateRequest(req.body, ContactFormBody);
-
 	try {
+		const data = await ContactFormBodySchema.parseAsync(req.body);
 		const response = await contact(data);
 
 		res.status(200).json(response);

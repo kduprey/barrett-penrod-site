@@ -3,6 +3,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "doppler run -- next dev",
+		"postinstall": "npx prisma generate",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint --dir .",

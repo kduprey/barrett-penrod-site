@@ -33,9 +33,7 @@ describe("Homepage", () => {
 		it("should close when clicked", () => {
 			cy.getByData("headshot-modal-button").eq(2).click();
 			cy.getByData("headshot-modal").eq(2).wait(500).should("be.visible");
-			cy.getByData("headshot-overlay")
-				.eq(2)
-				.click(50, 400, { force: true });
+			cy.getByData("headshot-overlay").eq(2).click(50, 400, { force: true });
 			cy.getByData("headshot-modal").eq(2).should("not.be.visible");
 		});
 
@@ -130,19 +128,11 @@ describe("Homepage", () => {
 			cy.intercept("POST", "/api/contact", {
 				statusCode: 200,
 				body: {
-					records: [
-						{
-							id: "rec123",
-							createdTime: new Date(),
-							fields: {
-								Name: "Barrett Penrod",
-								Email: "test@emai.com",
-								Message: "This is a test message",
-								Status: "test",
-								Created: new Date(),
-							},
-						},
-					],
+					id: "123",
+					name: "Barrett Penrod",
+					email: "test@email.com",
+					message: "This is a test message",
+					timestamp: new Date().toISOString(),
 				},
 			}).as("contactFormSubmit");
 

@@ -7,13 +7,21 @@ datasource db {
   url      = env("ATLAS_DB")
 }
 
+model contacts {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  name      String
+  message   String
+  timestamp DateTime @default(now()) @db.Date
+}
+
 model qr_code_logs {
-  id           String            @id @default(auto()) @map("_id") @db.ObjectId
-  flyerSize    Int  
-  campaign     Int
-  designId     Int  
-  location     Int
-  timestamp    DateTime          @db.Date 
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  flyerSize Int
+  campaign  Int
+  designId  Int
+  location  Int
+  timestamp DateTime @db.Date
 }
 
 model calendlyInviteePayloads {
@@ -42,7 +50,7 @@ model calendlyInviteePayloads {
   updated_at              DateTime                                             @db.Date
   uri                     String                                               @unique
   client                  clients?                                             @relation(fields: [clientId], references: [id])
-  clientId                String?                                             @db.ObjectId
+  clientId                String?                                              @db.ObjectId
 }
 
 model clients {

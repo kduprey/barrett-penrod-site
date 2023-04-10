@@ -1,14 +1,7 @@
 import { PrismaClient } from "@prisma/client";
-import axios from "axios";
 import { prismaConfig } from "config/index";
 import { contact } from "pages/api/contact";
-import { afterAll, describe, expect, it, vitest as vi } from "vitest";
-
-const data = {
-	name: "Test",
-	email: "test@email.com",
-	message: "This is a test message",
-};
+import { afterAll, describe, expect, it } from "vitest";
 
 const prisma = new PrismaClient({ ...prismaConfig });
 

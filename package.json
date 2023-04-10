@@ -3,6 +3,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "doppler run -- next dev",
+		"prebuild": "npm run prisma:generate",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint --dir .",

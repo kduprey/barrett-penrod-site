@@ -23,9 +23,7 @@ export const stripe = new Stripe(
 	}
 );
 
-export const stripeWebhookSecret = dev
-	? process.env["STRIPE_TEST_WEBHOOK_SECRET"]
-	: process.env["STRIPE_WEBHOOK_SECRET"];
+export const stripeWebhookSecret = process.env["STRIPE_WEBHOOK_SECRET"];
 
 if (dev) {
 	sendgridClient.setApiKey(process.env["SENDGRID_DEV_API_KEY"] as string);

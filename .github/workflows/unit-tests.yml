@@ -1,23 +1,31 @@
 name: Unit Tests
 env:
-    GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-    DOPPLER_TOKEN: "${{ secrets.DOPPLER_TOKEN }}"
-    TEST_ENV: 1
+  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  TEST_ENV: 1
+  ATLAS_DB: "${{ secrets.ATLAS_DB }}"
+  CALENDLY_API_KEY: "${{ secrets.CALENDLY_API_KEY }}"
+  CALENDLY_WEBHOOK_SIGNING_KEY: "${{ secrets.CALENDLY_WEBHOOK_SIGNING_KEY }}"
+  HYGRAPH_API_KEY: "${{ secrets.HYGRAPH_API_KEY }}"
+  NEXT_PUBLIC_SENTRY_DSN: "${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}"
+  SENDGRID_DEV_API_KEY: "${{ secrets.SENDGRID_DEV_API_KEY }}"
+  SENTRY_AUTH_TOKEN: "${{secrets.SENTRY_AUTH_TOKEN }}"
+  SENTRY_DSN: "${{ secrets.SENTRY_DSN }}"
+  STRIPE_TEST_PUBLISHABLE_KEY: "${{ secrets.STRIPE_TEST_PUBLISHABLE_KEY }}"
+  STRIPE_TEST_SECRET_KEY: "${{ secrets.STRIPE_TEST_SECRET_KEY }}"
+  STRIPE_WEBHOOK_SECRET: "${{ secrets.STRIPE_WEBHOOK_SECRET }}"
 on: [pull_request]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-    unit-tests:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v3
-            - name: Install Doppler CLI
-              uses: dopplerhq/cli-action@v2
-            - name: Login to Doppler
-              run: doppler configure set token --scope /
-              env:
-                  DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
-            - name: Install dependencies
-              run: npm install
-            - name: Run Tests
-              run: npm run test:ci
+  unit-tests:
+    runs-on: ubuntu-latest
+    environment: preview
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm install
+      - name: Run Tests
+        run: npm run test:ci

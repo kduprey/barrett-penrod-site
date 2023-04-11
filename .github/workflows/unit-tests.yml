@@ -2,17 +2,8 @@ name: Unit Tests
 env:
   GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
   TEST_ENV: 1
-  ATLAS_DB: "${{ secrets.ATLAS_DB }}"
-  CALENDLY_API_KEY: "${{ secrets.CALENDLY_API_KEY }}"
-  CALENDLY_WEBHOOK_SIGNING_KEY: "${{ secrets.CALENDLY_WEBHOOK_SIGNING_KEY }}"
-  HYGRAPH_API_KEY: "${{ secrets.HYGRAPH_API_KEY }}"
-  NEXT_PUBLIC_SENTRY_DSN: "${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}"
-  SENDGRID_DEV_API_KEY: "${{ secrets.SENDGRID_DEV_API_KEY }}"
-  SENTRY_AUTH_TOKEN: "${{secrets.SENTRY_AUTH_TOKEN }}"
-  SENTRY_DSN: "${{ secrets.SENTRY_DSN }}"
-  STRIPE_TEST_PUBLISHABLE_KEY: "${{ secrets.STRIPE_TEST_PUBLISHABLE_KEY }}"
-  STRIPE_TEST_SECRET_KEY: "${{ secrets.STRIPE_TEST_SECRET_KEY }}"
-  STRIPE_WEBHOOK_SECRET: "${{ secrets.STRIPE_WEBHOOK_SECRET }}"
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 on: [pull_request]
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -25,6 +16,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel Environment Information
+        run: vercel env pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Dotenv Mount
+        uses: falti/dotenv-action@v1.0.4
+        with:
+          path: .env
+          mask-variables: true
+          export-variables: true
+          keys-case: upper
       - name: Install dependencies
         run: npm install
       - name: Run Tests

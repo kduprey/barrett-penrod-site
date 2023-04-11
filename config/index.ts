@@ -15,6 +15,11 @@ export const stripe = new Stripe(
 		: `${process.env.STRIPE_TEST_SECRET_KEY}`,
 	{
 		apiVersion: "2022-11-15",
+		typescript: true,
+		appInfo: {
+			name: "Booking Site",
+			url: "https://barrettpendrod.com/bookings",
+		},
 	}
 );
 
@@ -32,21 +37,11 @@ export const sendgrid = sendgridClient;
 export const prismaConfig =
 	dev && !process.env.TEST_ENV
 		? {
-				log: [
-					"query",
-					"info",
-					"warn",
-					"error",
-				] as PrismaClientOptions["log"],
+				log: ["query", "info", "warn", "error"] as PrismaClientOptions["log"],
 				errorFormat: "pretty" as PrismaClientOptions["errorFormat"],
 		  }
 		: {
-				log: [
-					"query",
-					"info",
-					"warn",
-					"error",
-				] as PrismaClientOptions["log"],
+				log: ["query", "info", "warn", "error"] as PrismaClientOptions["log"],
 				errorFormat: "minimal" as PrismaClientOptions["errorFormat"],
 		  };
 export * from "./dev";

@@ -1,0 +1,18 @@
+{
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "cy:run",
+          "test",
+          "test:ci",
+          "export"
+        ]
+      }
+    }
+  },
+  "defaultBase": "main"
+}

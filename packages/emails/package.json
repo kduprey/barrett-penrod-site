@@ -1,0 +1,12 @@
+{
+  "name": "@bpvs/emails",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    ".react-email"
+  ],
+  "scripts": {
+    "dev": "email dev",
+    "export": "email export"
+  }
+}

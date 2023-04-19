@@ -1,0 +1,27 @@
+{
+  "extends": "../tsconfig/base.json",
+  "compilerOptions": {
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "lib/analytics.ts",
+    "cypress/e2e/tsconfig.json",
+    "cypress/plugins/cy-ts-preprocessor.js",
+    "node_modules/cypress",
+    "cypress/**/*.ts",
+    "./index.d.ts"
+  ],
+  "exclude": ["node_modules"]
+}

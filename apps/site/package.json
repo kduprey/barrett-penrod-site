@@ -1,0 +1,23 @@
+{
+  "name": "@bpvs/site",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "postinstall": "npx prisma generate",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint --dir .",
+    "prisma:studio": "npx prisma studio",
+    "prisma:migrate": "npx prisma migrate dev",
+    "prisma:deploy": "npx prisma migrate deploy",
+    "prisma:generate": "npx prisma generate",
+    "prisma:format": "npx prisma format",
+    "vercel:dev": "vercel dev",
+    "cy:run": "cypress run",
+    "cy:open": "cypress open",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:ci": "vitest run",
+    "coverage": "vitest --coverage"
+  }
+}

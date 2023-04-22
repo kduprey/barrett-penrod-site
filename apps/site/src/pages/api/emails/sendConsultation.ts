@@ -18,23 +18,6 @@ import { validateRequest } from "../../../utils/yup";
 //     "zoomLink": "https://us06web.zoom.us/j/87847325639"
 // }
 
-const schema: yup.SchemaOf<ConsultationEmail> = yup.object({
-	client: clientSchema,
-	bookingDate: yup
-		.date()
-		.required(
-			"Booking date and time is required (e.g. 2022-06-26T14:00:00.000Z)"
-		),
-	zoomLink: yup
-		.string()
-		.url(
-			"Please enter a valid Zoom link (e.g. https://us06web.zoom.us/j/xxxxxx)"
-		)
-		.required(
-			"Zoom link for booking is required (e.g. https://us06web.zoom.us/j/xxxxxx)"
-		),
-});
-
 /**
  * This endpoint is used to send a confirmation email to a client after booking a consultation.
  * @param client - The client's email and name

@@ -1,12 +1,12 @@
-import type { Config } from "tailwindcss";
-import { baseTailwindConfig } from "../../packages/tailwind-config/tailwind.config";
+import { baseTailwindConfig } from '@bpvs/tailwind';
+import { createGlobPatternsForDependencies } from '@nrwl/next/tailwind';
+import { join } from 'path';
+import type { Config } from 'tailwindcss';
 
 export default {
+  presets: [baseTailwindConfig],
   content: [
-    "src/pages/**/*.{js,ts,jsx,tsx}",
-    "src/components/**/*.{js,ts,jsx,tsx}",
+    join(__dirname, 'pages/**/*.{js,ts,jsx,tsx}'),
+    ...createGlobPatternsForDependencies(__dirname),
   ],
-  theme: baseTailwindConfig.theme,
-  variants: baseTailwindConfig.variants,
-  plugins: baseTailwindConfig.plugins,
 } satisfies Config;

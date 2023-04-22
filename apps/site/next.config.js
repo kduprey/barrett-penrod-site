@@ -3,11 +3,18 @@
 const { withAxiom } = require("next-axiom");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withSentryConfig } = require("@sentry/nextjs");
-const nextConfig = withAxiom({
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { composePlugins, withNx } = require("@nrwl/next");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { PrismaPlugin } = require("@prisma/nextjs-monorepo-workaround-plugin");
+
+const nextConfig = {
 	reactStrictMode: true,
 	webpack(config, { isServer }) {
 		if (!isServer) {
 			config.resolve.fallback.fs = false;
+		} else {
+			config.plugins = [...config.plugins, new PrismaPlugin()];
 		}
 		return config;
 	},
@@ -108,10 +115,16 @@ const nextConfig = withAxiom({
 		hideSourcemaps: true,
 		tunnelRoute: "/monitoring-tunnel",
 	},
-});
+};
 
 const sentryWebpackPluginOptions = {
 	silent: true,
 };
 
-module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions);
+const plugins = [
+	withNx,
+	withAxiom,
+	withSentryConfig(nextConfig, sentryWebpackPluginOptions),
+];
+
+module.exports = composePlugins(...plugins)(nextConfig);

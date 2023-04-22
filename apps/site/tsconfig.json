@@ -1,31 +1,17 @@
 {
-  "extends": "../../packages/tsconfig/base.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "lib": ["dom.iterable", "esnext", "es2015", "dom"],
     "allowJs": false,
-    "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
     "types": ["cypress", "node", "vitest/globals"],
-    "typeRoots": ["./types"],
-    "baseUrl": "src",
-    "paths": {
-      "components/*": ["components/*"],
-      "data/*": ["data/*"],
-      "utils/*": ["utils/*"],
-      "pages/*": ["pages/*"],
-      "types/*": ["types/*"],
-      "config/*": ["../config/*"],
-      "public/*": ["../public/*"]
-    }
+    "typeRoots": ["./types"]
   },
   "include": [
     "next-env.d.ts",
@@ -36,7 +22,8 @@
     "cypress/plugins/cy-ts-preprocessor.js",
     "node_modules/cypress",
     "cypress/**/*.ts",
-    "./index.d.ts"
+    "./index.d.ts",
+    "tailwind.config.ts"
   ],
   "exclude": ["node_modules"]
 }

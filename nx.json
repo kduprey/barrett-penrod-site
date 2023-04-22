@@ -1,18 +1,50 @@
 {
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "@nrwl/nx-cloud",
-      "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "cy:run",
-          "test",
-          "test:ci",
-          "export"
-        ]
-      }
-    }
-  },
-  "defaultBase": "main"
+	"tasksRunnerOptions": {
+		"default": {
+			"runner": "@nrwl/nx-cloud",
+			"options": {
+				"cacheableOperations": [
+					"build",
+					"lint",
+					"cy:run",
+					"test",
+					"test:ci",
+					"export"
+				]
+			}
+		}
+	},
+	"defaultBase": "main",
+	"npmScope": "@bpvs",
+	"workspaceLayout": {
+		"appsDir": "apps",
+		"libsDir": "packages"
+	},
+	"targetDefaults": {
+		"test": {
+			"inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"]
+		},
+		"dev": {
+			"dependsOn": ["db:generate"]
+		},
+		"postinstall": {
+			"dependsOn": ["db:generate"]
+		},
+		"build": {
+			"dependsOn": ["db:generate"]
+		}
+	},
+	"generators": {
+		"@nrwl/react": {
+			"application": {
+				"babel": true
+			}
+		},
+		"@nrwl/next": {
+			"application": {
+				"style": "@emotion/styled",
+				"linter": "eslint"
+			}
+		}
+	}
 }

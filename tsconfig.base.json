@@ -1,25 +1,32 @@
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "rootDir": ".",
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "target": "es2017",
-    "module": "esnext",
-    "lib": ["es2017", "dom"],
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "@bpvs/site/*": ["apps/site/*"],
-      "@bpvs/site-e2e/*": ["apps/site-e2e/*"],
-      "@bpvs/emails/*": ["packages/emails/*"],
-      "@bpvs/*": ["*"]
-    }
-  },
-  "exclude": ["node_modules", "tmp"]
+	"compileOnSave": false,
+	"compilerOptions": {
+		"rootDir": ".",
+		"sourceMap": true,
+		"declaration": false,
+		"moduleResolution": "node",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"importHelpers": true,
+		"target": "es2017",
+		"module": "esnext",
+		"lib": ["es2017", "dom"],
+		"skipLibCheck": true,
+		"skipDefaultLibCheck": true,
+		"esModuleInterop": true,
+		"baseUrl": ".",
+		"paths": {
+			"@bpvs/libs": ["packages/libs/src/index.ts"],
+			"@bpvs/db": ["packages/db/src/index.ts"],
+			"@bpvs/emails/*": ["packages/emails/emails/*"],
+			"@bpvs/prisma": ["packages/prisma/src/index.ts"],
+			"@bpvs/site-e2e/*": ["apps/site-e2e/*"],
+			"@bpvs/site/*": ["apps/site/*"],
+			"@bpvs/tailwind": ["packages/tailwind-config/src/index.ts"],
+			"@bpvs/types": ["packages/types/src/index.ts"],
+			"@bpvs/utils": ["packages/utils/src/index.ts"],
+			"@bpvs/validation": ["packages/validation/src/index.ts"]
+		}
+	},
+	"exclude": ["node_modules", "tmp"]
 }

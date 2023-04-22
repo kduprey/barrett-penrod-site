@@ -1,6 +1,6 @@
 {
-  "name": "tailwind-config",
+  "name": "@bpvs/tailwind-config",
   "version": "0.0.0",
   "private": true,
-  "main": "index.js"
+  "main": "packages/tailwind-config/src/index.ts"
 }

@@ -1,0 +1,14 @@
+{
+	"name": "@bpvs/db",
+	"version": "1.0.0",
+	"type": "module",
+	"scripts": {
+		"db:generate": "prisma generate",
+		"db:push": "prisma db push --skip-generate",
+		"db:studio": "prisma studio",
+		"db:format": "prisma format",
+		"db:deploy": "prisma migrate deploy"
+	},
+	"main": "./src/index.ts",
+	"types": "./src/index.ts"
+}

@@ -1,13 +1,16 @@
-import { stripe, stripeWebhookSecret } from "config/index";
+import { prisma } from "@bpvs/db";
+import { stripe } from "@bpvs/libs";
+import {
+	cancelCalendlyEvent,
+	createCustomer,
+	getCalendlyEvent,
+	getCalendlyInvitee,
+	updateCustomer,
+} from "@bpvs/utils";
 import type { NextApiRequest, NextApiResponse } from "next";
+import sendCheckoutEmails from "packages/utils/src/lib/sendCheckoutEmails";
 import getRawBody from "raw-body";
 import Stripe from "stripe";
-import { createCustomer, updateCustomer } from "utils/webhookUtils/stripe";
-import prisma from "../../../lib/prisma";
-import sendCheckoutEmails from "../../../utils/sendCheckoutEmails";
-import { cancelEvent } from "../calendly/cancelEvent";
-import { getEventInfo } from "../calendly/eventInfo";
-import { getEventInvitee } from "../calendly/eventInvitee";
 
 // Tell Next.js to disable parsing body by default,
 // as Stripe requires the raw body to validate the event
@@ -38,7 +41,7 @@ const webhookHandler = async (
 		event = stripe.webhooks.constructEvent(
 			rawBody,
 			sig,
-			stripeWebhookSecret as string
+			process.env["STRIPE_WEBHOOK_SECRET"] as string
 		);
 	} catch (err: any) {
 		return res.status(400).send(`Webhook Error: ${err.message}`);
@@ -50,10 +53,10 @@ const webhookHandler = async (
 			const session = event.data.object as Stripe.Checkout.Session;
 
 			try {
-				const bookingData = await getEventInfo(
+				const bookingData = await getCalendlyEvent(
 					session.client_reference_id as string
 				);
-				const inviteeData = await getEventInvitee(
+				const inviteeData = await getCalendlyInvitee(
 					session.metadata?.inviteeURI as string
 				);
 				const line_items = (
@@ -79,12 +82,7 @@ const webhookHandler = async (
 					);
 				// If customer doesn't exist, create a new one
 				else
-					await createCustomer(
-						inviteeData,
-						bookingData,
-						session,
-						line_items
-					);
+					await createCustomer(inviteeData, bookingData, session, line_items);
 
 				// Send checkout emails
 				try {
@@ -127,14 +125,14 @@ const webhookHandler = async (
 			console.log("Checkout session expired", sessionExpired);
 			// Pull Calendly event info from API with client_reference_id field
 			try {
-				const eventInfo = await getEventInfo(
+				const eventInfo = await getCalendlyEvent(
 					sessionExpired.client_reference_id as string
 				);
 				console.log("Event info", eventInfo);
 
 				// Call cancellation Calendly API endpoint
 				try {
-					const cancellationResponse = await cancelEvent(
+					const cancellationResponse = await cancelCalendlyEvent(
 						eventInfo.resource.uri
 					);
 					console.info("Cancelled event", cancellationResponse);
@@ -146,8 +144,7 @@ const webhookHandler = async (
 				try {
 					const client = await prisma.clients.findUnique({
 						where: {
-							stripe_customer_id:
-								sessionExpired.customer as string,
+							stripe_customer_id: sessionExpired.customer as string,
 						},
 					});
 					if (!client)
@@ -164,8 +161,7 @@ const webhookHandler = async (
 				try {
 					const updateClient = await prisma.clients.update({
 						where: {
-							stripe_customer_id:
-								sessionExpired.customer as string,
+							stripe_customer_id: sessionExpired.customer as string,
 						},
 						data: {
 							nextLesson: null,

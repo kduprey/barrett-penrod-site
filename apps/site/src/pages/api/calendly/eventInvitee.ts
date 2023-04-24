@@ -1,27 +1,6 @@
-import axios from "axios";
+import { apiHandler, getCalendlyInvitee } from "@bpvs/utils";
 import createHttpError from "http-errors";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { CalendlyInvitee } from "../../../types/types";
-import apiHandler from "../../../utils/api";
-
-const getEventInvitee = async (uri: string): Promise<CalendlyInvitee> => {
-	if (uri === undefined || uri === "") throw new Error("Invalid URI");
-
-	try {
-		const response = await axios.get<CalendlyInvitee>(uri, {
-			headers: {
-				Authorization: `Bearer ${process.env["CALENDLY_API_KEY"]}`,
-			},
-		});
-
-		return response.data;
-	} catch (err) {
-		console.error(err);
-		throw new Error("Error getting invitee");
-	}
-};
-
-export { getEventInvitee };
 
 const eventInviteeHandler: NextApiHandler = async (
 	req: NextApiRequest,
@@ -38,7 +17,7 @@ const eventInviteeHandler: NextApiHandler = async (
 		throw new createHttpError[400]("Invalid URI");
 
 	try {
-		const inviteeRes = await getEventInvitee(uri);
+		const inviteeRes = await getCalendlyInvitee(uri);
 		res.status(200).json(inviteeRes);
 	} catch (err) {
 		console.error(err);

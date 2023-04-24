@@ -1,13 +1,13 @@
-import axios from "axios";
-import { dev } from "config/dev";
-import createHttpError from "http-errors";
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import apiHandler from "utils/api";
 import {
 	CalendlyGetWebhook,
 	CalendlyPostWebhook,
 	CalendlyWebhook,
-} from "../../../types/calendlyTypes";
+	dev,
+} from "@bpvs/types";
+import { apiHandler } from "@bpvs/utils";
+import axios from "axios";
+import createHttpError from "http-errors";
+import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
 /**
  * Create a webhook for Calendly
@@ -93,12 +93,10 @@ const createWebhook = async (url: string): Promise<CalendlyWebhook> => {
 		console.error(error);
 
 		if (error instanceof Error)
-			throw new Error("Error creating webhook", error);
+			throw new Error(`Error creating webhook: ${error}`);
 
 		throw new Error("Error creating webhook");
 	}
-
-	throw new Error("Error creating webhook");
 };
 
 export { createWebhook };

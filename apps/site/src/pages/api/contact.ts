@@ -1,3 +1,5 @@
+import { prisma } from "@bpvs/db";
+import { apiHandler } from "@bpvs/utils";
 import { contacts } from "@prisma/client";
 import createHttpError from "http-errors";
 import type {
@@ -6,8 +8,6 @@ import type {
 	NextApiResponse,
 } from "next/types";
 import { z } from "zod";
-import prisma from "../../lib/prisma";
-import apiHandler from "../../utils/api";
 
 export type ContactFormBody = {
 	name: string;

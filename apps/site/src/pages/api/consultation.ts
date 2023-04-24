@@ -1,25 +1,23 @@
-import createHttpError from "http-errors";
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { CalendlyEvent } from "types/calendlyTypes";
-import { CalendlyInvitee } from "types/types";
+import { CalendlyEvent, CalendlyInvitee } from "@bpvs/types";
 import {
+	apiHandler,
 	checkForClient,
 	createClient,
 	createStripeCustomer,
+	getCalendlyEvent,
+	getCalendlyEventZoomLink,
+	getCalendlyInvitee,
 	updateClient,
-} from "utils/consultationHelpers";
-import * as Yup from "yup";
-import apiHandler from "../../utils/api";
-import getZoomLink from "../../utils/getZoomLink";
-import { validateRequest } from "../../utils/yup";
-import { getEventInfo } from "./calendly/eventInfo";
-import { getEventInvitee } from "./calendly/eventInvitee";
+} from "@bpvs/utils";
+import createHttpError from "http-errors";
+import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { z } from "zod";
 import { sendConsultationEmail } from "./emails/sendConsultation";
 
-const consultationParams = Yup.object().shape({
-	eventURI: Yup.string().required("Event URI is required"),
-	inviteeURI: Yup.string().required("Invitee URI is required"),
-	calendlyPayloadId: Yup.string().required("Calendly payload ID is required"),
+const consultationParamsSchema = z.object({
+	eventURI: z.string(),
+	inviteeURI: z.string(),
+	calendlyPayloadId: z.string(),
 });
 
 const consultationHandler = async (
@@ -36,20 +34,20 @@ const consultationHandler = async (
 	try {
 		console.info("Getting Calendly event data");
 		// Get Calendly event data
-		event = await getEventInfo(eventURI);
+		event = await getCalendlyEvent(eventURI);
 		// Get invitee data
-		invitee = await getEventInvitee(inviteeURI);
+		invitee = await getCalendlyInvitee(inviteeURI);
 	} catch (err: unknown) {
 		console.error(err);
 		if (err instanceof Error)
-			throw new Error("Error getting consultation data", err);
+			throw new Error(`Error getting consultation data: ${err}`);
 		else throw new Error("Error getting consultation data");
 	}
 
 	// Get Zoom link
 	try {
 		console.info("Getting Zoom link");
-		zoomLink = await getZoomLink(eventURI);
+		zoomLink = await getCalendlyEventZoomLink(event);
 	} catch (err) {
 		console.error(err);
 		throw new Error("Error getting Zoom link");
@@ -97,10 +95,8 @@ const handler: NextApiHandler = async (
 	req: NextApiRequest,
 	res: NextApiResponse
 ) => {
-	const { eventURI, inviteeURI, calendlyPayloadId } = validateRequest(
-		req.body,
-		consultationParams
-	);
+	const { eventURI, inviteeURI, calendlyPayloadId } =
+		consultationParamsSchema.parse(req.body);
 	try {
 		const response = await consultationHandler(
 			eventURI,

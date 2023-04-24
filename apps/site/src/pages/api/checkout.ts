@@ -1,12 +1,10 @@
-import { server, stripe, stripeMode } from "config/index";
+import { server, stripe, stripeMode } from "@bpvs/libs";
+import { apiHandler, getCalendlyInvitee } from "@bpvs/utils";
 import createHttpError from "http-errors";
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
-import apiHandler from "utils/api";
-import { validateRequest } from "utils/yup";
-import * as yup from "yup";
-import { bundles, Prices, services } from "../../data/services";
-import { getEventInvitee } from "./calendly/eventInvitee";
+import { z } from "zod";
+import { Prices, bundles, services } from "../../data/services";
 
 interface CheckoutParams {
 	service: number;
@@ -85,13 +83,10 @@ const createCheckoutSession = async (
 	// If not a bundle purchase, add lesson downpayment to line items
 	// if SVS Session, add the downpayment for SVS Session
 	else {
-		if (params.service === 2)
-			line_items.push(Prices[0].priceID[stripeMode]);
+		if (params.service === 2) line_items.push(Prices[0].priceID[stripeMode]);
 		// if not SVS Session, add the regular downpayment if not a trial session
 		else
-			!isTrialSession
-				? line_items.push(Prices[1].priceID[stripeMode])
-				: null;
+			!isTrialSession ? line_items.push(Prices[1].priceID[stripeMode]) : null;
 	}
 
 	// If location is Open Jar and a bundle, add the Open Jar booking fee
@@ -139,7 +134,7 @@ const createCheckoutSession = async (
 	// Look for a customer with the email address or name in Stripe and create one if it doesn't exist
 	try {
 		// Get the event invitee info to search Stripe
-		const inviteeInfo = await getEventInvitee(params.inviteeURI);
+		const inviteeInfo = await getCalendlyInvitee(params.inviteeURI);
 
 		try {
 			// Check if user is previous client in Stripe
@@ -189,31 +184,24 @@ const createCheckoutSession = async (
 
 export { createCheckoutSession };
 
-const POSTCheckoutBody = yup.object().shape({
-	service: yup.string().required(),
-	location: yup.string().required(),
-	bundle: yup.string(),
-	eventURI: yup.string().required(),
-	inviteeURI: yup.string().required(),
-	isLonger: yup.boolean(),
+const POSTCheckoutParamsSchema = z.object({
+	service: z.number(),
+	location: z.number(),
+	bundle: z.number().optional(),
+	eventURI: z.string(),
+	inviteeURI: z.string(),
+	isLonger: z.boolean().optional(),
 });
 
 const POSTCheckout: NextApiHandler = async (
 	req: NextApiRequest,
 	res: NextApiResponse
 ) => {
-	const data = validateRequest(req.body, POSTCheckoutBody);
-	const parsedData = {
-		...data,
-		service: parseInt(data.service),
-		location: parseInt(data.location),
-		bundle: data.bundle ? parseInt(data.bundle) : undefined,
-		isLonger: data.isLonger ? true : false,
-	};
+	const data = POSTCheckoutParamsSchema.parse(req.body);
 
 	try {
 		// Create checkout session
-		const session = await createCheckoutSession(parsedData);
+		const session = await createCheckoutSession(data);
 
 		res.status(200).json({ url: session.url, id: session.id });
 	} catch (e: unknown) {

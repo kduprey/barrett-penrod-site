@@ -1,25 +1,19 @@
+import { prisma } from "@bpvs/db";
+import { apiHandler } from "@bpvs/utils";
 import { Prisma } from "@prisma/client";
 import createHttpError from "http-errors";
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import apiHandler from "utils/api";
-import { validateRequest } from "utils/yup";
-import * as yup from "yup";
-import prisma from "../../../lib/prisma";
-
-// const POSTValidation = new yup.ObjectSchema<Prisma.calendlyInviteePayloadsCreateInput>({
-// 	id: yup.string().optional(),
-// 	cancel_url: yup.string().required(),
+import { z } from "zod";
 
 const GETHandler: NextApiHandler = async (
 	req: NextApiRequest,
 	res: NextApiResponse
 ) => {
-	const data = validateRequest(
-		req.query,
-		new yup.ObjectSchema({
-			searchString: yup.string().optional(),
+	const data = z
+		.object({
+			searchString: z.string().optional(),
 		})
-	);
+		.parse(req.query);
 
 	try {
 		const result = await GET(data.searchString);
@@ -27,9 +21,7 @@ const GETHandler: NextApiHandler = async (
 	} catch (error: unknown) {
 		console.error(error);
 		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(
-				JSON.stringify(error)
-			);
+			throw new createHttpError.InternalServerError(JSON.stringify(error));
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "Error getting clients",

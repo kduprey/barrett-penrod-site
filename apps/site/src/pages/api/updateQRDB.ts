@@ -1,10 +1,9 @@
+import { prisma } from "@bpvs/db";
+import { apiHandler } from "@bpvs/utils";
 import { qr_code_logs } from "@prisma/client";
 import createHttpError from "http-errors";
 import { NextApiRequest, NextApiResponse } from "next";
-import apiHandler from "utils/api";
-import { validateRequest } from "utils/yup";
-import * as yup from "yup";
-import prisma from "../../lib/prisma";
+import { z } from "zod";
 
 const updateQRDB = async (qrID: string): Promise<qr_code_logs> => {
 	console.log("Updating QRDB");
@@ -46,12 +45,11 @@ const updateQRDB = async (qrID: string): Promise<qr_code_logs> => {
 export { updateQRDB };
 
 const POSTUpdate = async (req: NextApiRequest, res: NextApiResponse) => {
-	const data = validateRequest(
-		req.body,
-		yup.object().shape({
-			qrID: yup.string().required("QR ID is required"),
+	const data = z
+		.object({
+			qrID: z.string(),
 		})
-	);
+		.parse(req.body);
 
 	// Update QRDB
 	try {

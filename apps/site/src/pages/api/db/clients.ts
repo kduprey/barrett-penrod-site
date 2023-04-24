@@ -1,21 +1,19 @@
 import { clients, Prisma } from ".prisma/client/index";
+import { prisma } from "@bpvs/db";
+import { apiHandler } from "@bpvs/utils";
 import createHttpError from "http-errors";
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import apiHandler from "utils/api";
-import { validateRequest } from "utils/yup";
-import * as yup from "yup";
-import prisma from "../../../lib/prisma";
+import { z } from "zod";
 
 const GETHandler: NextApiHandler = async (
 	req: NextApiRequest,
 	res: NextApiResponse
 ) => {
-	const data = validateRequest(
-		req.query,
-		new yup.ObjectSchema({
-			searchString: yup.string().optional(),
+	const data = z
+		.object({
+			searchString: z.string().optional(),
 		})
-	);
+		.parse(req.query);
 
 	try {
 		const result = await GET(data.searchString);
@@ -23,9 +21,7 @@ const GETHandler: NextApiHandler = async (
 	} catch (error: unknown) {
 		console.error(error);
 		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(
-				JSON.stringify(error)
-			);
+			throw new createHttpError.InternalServerError(JSON.stringify(error));
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "Error getting clients",
@@ -83,9 +79,7 @@ const GET = async (searchString?: string) => {
 	} catch (error: unknown) {
 		console.error(error);
 		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(
-				JSON.stringify(error)
-			);
+			throw new createHttpError.InternalServerError(JSON.stringify(error));
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "Error getting clients",
@@ -104,9 +98,7 @@ const POSTHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 	} catch (error: unknown) {
 		console.error(error);
 		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(
-				JSON.stringify(error)
-			);
+			throw new createHttpError.InternalServerError(JSON.stringify(error));
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "Error creating client",
@@ -145,9 +137,7 @@ const PUTHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 	} catch (error: unknown) {
 		console.error(error);
 		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(
-				JSON.stringify(error)
-			);
+			throw new createHttpError.InternalServerError(JSON.stringify(error));
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "Error updating client",
@@ -184,12 +174,11 @@ const PUT = async (
 };
 
 const DELETEHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-	const data = validateRequest(
-		req.body,
-		new yup.ObjectSchema({
-			id: yup.string().required(),
+	const data = z
+		.object({
+			id: z.string(),
 		})
-	);
+		.parse(req.query);
 
 	try {
 		const result = await DELETE(data.id);
@@ -197,9 +186,7 @@ const DELETEHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 	} catch (error: unknown) {
 		console.error(error);
 		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(
-				JSON.stringify(error)
-			);
+			throw new createHttpError.InternalServerError(JSON.stringify(error));
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "Error deleting client",

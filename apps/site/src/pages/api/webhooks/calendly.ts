@@ -1,9 +1,9 @@
+import { prisma } from "@bpvs/db";
+import { CalendlyEvent } from "@bpvs/types";
+import { getCalendlyEvent } from "@bpvs/utils";
 import { calendlyInviteePayloads, Prisma } from "@prisma/client";
 import crypto from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { CalendlyEvent } from "types/calendlyTypes";
-import prisma from "../../../lib/prisma";
-import { getEventInfo } from "../calendly/eventInfo";
 import { consultationHandler } from "../consultation";
 const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 	const webhookSigningKey = process.env[
@@ -12,9 +12,7 @@ const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	// Extract the timestamp and signature from the header
 
-	const calendlySignature = req.headers[
-		"calendly-webhook-signature"
-	] as string;
+	const calendlySignature = req.headers["calendly-webhook-signature"] as string;
 	if (!calendlySignature) res.status(500).send("Invalid Signature");
 	const { t, signature } = calendlySignature?.split(",").reduce(
 		(acc, currentValue) => {
@@ -88,7 +86,7 @@ const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 		// If consultation is booked, run consultation handler
 		try {
 			console.log("Getting event info...");
-			eventData = await getEventInfo(payloadData.event);
+			eventData = await getCalendlyEvent(payloadData.event);
 			if (eventData.resource.name.includes("Consultation")) {
 				const consultationHandlerResponse = await consultationHandler(
 					payloadData.event,

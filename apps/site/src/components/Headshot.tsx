@@ -18,7 +18,7 @@ const Headshot = (props: Props) => {
 				data-cy="headshot-overlay"
 			></div>
 			<div
-				className={`fixed left-0 right-0 z-40 mx-auto w-2/3 rounded-lg bg-secondary py-4 px-4 transition-all duration-300 ease-in-out md:w-[35%] ${
+				className={`bg-secondary fixed left-0 right-0 z-40 mx-auto w-2/3 rounded-lg px-4 py-4 transition-all duration-300 ease-in-out md:w-[35%] ${
 					isOpen ? "top-1/4 md:top-[20%]" : "-top-full "
 				}`}
 				data-cy="headshot-modal"
@@ -40,7 +40,7 @@ const Headshot = (props: Props) => {
 				<button
 					data-cy="headshot-modal-button"
 					onClick={() => setIsOpen(true)}
-					className="mb-5 bg-secondary py-2 px-4"
+					className="bg-secondary mb-5 px-4 py-2"
 				>
 					Open
 				</button>

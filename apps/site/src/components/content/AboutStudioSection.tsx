@@ -4,6 +4,8 @@ import NATSLogo from "public/collegeLogos/natsLogo.png";
 import NYULogo from "public/collegeLogos/nyuLogo.jpg";
 import SomaticVoicework from "public/collegeLogos/somaticVoicework.jpg";
 
+// TODO: Migrate content to CMS
+
 const AboutStudioSection = () => {
 	return (
 		<div className="about mx-auto space-y-3 md:px-6 lg:max-w-4xl xl:max-w-6xl">
@@ -13,10 +15,9 @@ const AboutStudioSection = () => {
 						<h2 className="md:text-2xl">My Philiosophy</h2>
 
 						<p>
-							Anyone can become a skilled singer. It&apos;s not
-							about having talent. The price you pay to train your
-							voice is attention, time, and commitment. If you
-							really want it, I can help you achieve it.
+							Anyone can become a skilled singer. It&apos;s not about having
+							talent. The price you pay to train your voice is attention, time,
+							and commitment. If you really want it, I can help you achieve it.
 						</p>
 					</div>
 
@@ -25,14 +26,13 @@ const AboutStudioSection = () => {
 						<h2 className=" md:text-2xl">Methodology</h2>
 
 						<p className="leading-relaxed">
-							The methodology I utilize to teach singing is unique
-							to the singing community. My method incorporates my
-							training in contemporary and classic acting
-							technique, Science informed vocal pedagogy, and
-							Motor Learning Theory training. Blended together,
-							these schools of performance instruction enable me
-							to train aspiring singers of all levels of
-							coordination, stylistic preference, and background.
+							The methodology I utilize to teach singing is unique to the
+							singing community. My method incorporates my training in
+							contemporary and classic acting technique, Science informed vocal
+							pedagogy, and Motor Learning Theory training. Blended together,
+							these schools of performance instruction enable me to train
+							aspiring singers of all levels of coordination, stylistic
+							preference, and background.
 						</p>
 					</article>
 				</div>

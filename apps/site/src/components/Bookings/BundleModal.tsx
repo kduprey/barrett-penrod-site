@@ -52,11 +52,11 @@ const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
 			exit={{ opacity: 0 }}
 		>
 			<div
-				className={` withTransition relative top-20 m-6 mx-auto flex max-w-[95%] grow flex-col items-center rounded-lg bg-secondary py-6 px-4 lg:max-w-screen-md ${
+				className={` withTransition bg-secondary relative top-20 m-6 mx-auto flex max-w-[95%] grow flex-col items-center rounded-lg px-4 py-6 lg:max-w-screen-md ${
 					isOpen ? "top-20" : "-top-full"
 				}`}
 			>
-				<h3 className="pb-3 text-center text-primary">
+				<h3 className="text-primary pb-3 text-center">
 					Confirm your First Lesson Details
 				</h3>
 				<div className="flex w-full items-start justify-evenly space-x-3">
@@ -112,10 +112,7 @@ const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
 								: "mt-6 flex flex-col items-center justify-center md:mt-0 md:flex-row"
 						}
 					>
-						<label
-							htmlFor="service"
-							className="text-gray-700 md:text-2xl"
-						>
+						<label htmlFor="service" className="text-gray-700 md:text-2xl">
 							Choose your lesson type:
 						</label>
 
@@ -141,15 +138,10 @@ const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
 					{/* Location Selection */}
 					<div
 						className={`withTransition mt-6 flex flex-col items-center justify-center md:mt-0 md:flex-row ${
-							step.includes(2) && !step.includes(3)
-								? " "
-								: " hidden"
+							step.includes(2) && !step.includes(3) ? " " : " hidden"
 						}`}
 					>
-						<label
-							htmlFor="location"
-							className="text-center md:text-2xl"
-						>
+						<label htmlFor="location" className="text-center md:text-2xl">
 							Select Session Location:
 						</label>
 
@@ -163,18 +155,13 @@ const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
 							}}
 						>
 							{service != -1
-								? bundleServices[service].locations.map(
-										(result, index) => {
-											return (
-												<option
-													value={index}
-													key={result}
-												>
-													{result}
-												</option>
-											);
-										}
-								  )
+								? bundleServices[service].locations.map((result, index) => {
+										return (
+											<option value={index} key={result}>
+												{result}
+											</option>
+										);
+								  })
 								: null}
 						</select>
 					</div>
@@ -182,20 +169,16 @@ const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
 					{step.includes(3) && (
 						<div className="m-2 flex flex-col items-center justify-center space-y-4 md:grow md:justify-evenly">
 							<h4>Confirm Details:</h4>
-							<p className="text-2xl text-primary">
+							<p className="text-primary text-2xl">
 								Service:{" "}
 								<span className="font-medium">
 									{bundleServices[service].title}
 								</span>
 							</p>
-							<p className="text-center text-2xl text-primary">
+							<p className="text-primary text-center text-2xl">
 								Location:{" "}
 								<span className="font-medium">
-									{
-										bundleServices[service].locations[
-											location
-										]
-									}
+									{bundleServices[service].locations[location]}
 								</span>
 							</p>
 						</div>

@@ -1,6 +1,6 @@
 const Loading = () => {
 	return (
-		<div className=" mx-auto flex flex-col items-center justify-center space-y-6 py-6 text-secondary">
+		<div className="text-secondary mx-auto flex flex-col items-center justify-center space-y-6 py-6">
 			<h3>Loading...</h3>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"

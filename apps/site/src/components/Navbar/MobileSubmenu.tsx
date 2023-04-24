@@ -75,11 +75,7 @@ const MobileSubmenu = ({ menu, setIsNavOpen }: Props) => {
 									onClick={() => {
 										setIsNavOpen(false);
 										gtag.pageview(
-											new URL(
-												window.location.href +
-													router.route +
-													sublink.id
-											)
+											new URL(window.location.href + router.route + sublink.id)
 										);
 									}}
 									to={sublink.id}

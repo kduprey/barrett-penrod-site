@@ -15,6 +15,8 @@ const headshots = [
 	headshot6,
 ];
 
+// TODO: Migrate content to CMS
+
 const Headshots = () => {
 	return (
 		<div
@@ -22,7 +24,7 @@ const Headshots = () => {
 			id="headshots"
 			data-cy="headshots"
 		>
-			<h2 className="py-6 text-secondary">Headshots</h2>
+			<h2 className="text-secondary py-6">Headshots</h2>
 
 			<div className="grid w-5/6 grid-cols-3 gap-4 md:w-2/3">
 				{headshots.map((e, i) => {

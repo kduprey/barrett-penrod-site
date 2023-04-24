@@ -1,7 +1,7 @@
-import AboutStudioContent from "components/content/AboutStudioSection";
-import MoreAboutSection from "components/content/MoreAboutSection";
-import SidePanel from "components/Modals/SidePanel";
 import { useState } from "react";
+import SidePanel from "../Modals/SidePanel";
+import AboutStudioSection from "../content/AboutStudioSection";
+import MoreAboutSection from "../content/MoreAboutSection";
 
 const AboutStudio = () => {
 	const [isMoreAboutOpen, setIsMoreAboutOpen] = useState(false);
@@ -15,11 +15,9 @@ const AboutStudio = () => {
 				<MoreAboutSection />
 			</SidePanel>
 			<section className="">
-				<AboutStudioContent />
+				<AboutStudioSection />
 				<div className="flex w-full justify-center pt-6">
-					<button onClick={() => setIsMoreAboutOpen(true)}>
-						Learn More
-					</button>
+					<button onClick={() => setIsMoreAboutOpen(true)}>Learn More</button>
 				</div>
 			</section>
 		</>

@@ -99,9 +99,9 @@ const Footer = () => {
 		<div
 			id="contact"
 			data-cy="contact"
-			className="mt-auto flex flex-col flex-wrap items-center justify-center space-y-4 bg-primary py-6 "
+			className="bg-primary mt-auto flex flex-col flex-wrap items-center justify-center space-y-4 py-6 "
 		>
-			<h3 className="w-full text-center text-secondary">Contact</h3>
+			<h3 className="text-secondary w-full text-center">Contact</h3>
 
 			<div className="w-full ">
 				<form
@@ -173,7 +173,7 @@ const Footer = () => {
 
 					<button
 						type="submit"
-						className="mt-3 bg-secondary disabled:opacity-20"
+						className="bg-secondary mt-3 disabled:opacity-20"
 						disabled={
 							loading ||
 							name === "" ||
@@ -189,14 +189,14 @@ const Footer = () => {
 				<div>
 					{success ? (
 						<div
-							className="text-center text-secondary"
+							className="text-secondary text-center"
 							data-cy="success-message"
 						>
 							<FontAwesomeIcon icon={faCheck} size="3x" />
 							<h4 className="text-secondary">Your message has been sent!</h4>
 						</div>
 					) : error ? (
-						<div className="text-center text-secondary" data-cy="error-message">
+						<div className="text-secondary text-center" data-cy="error-message">
 							<FontAwesomeIcon icon={faTimes} size="3x" />
 							<h4 className="text-secondary">
 								There was an error sending your message.

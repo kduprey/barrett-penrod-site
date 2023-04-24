@@ -1,10 +1,10 @@
+// TODO: Migrate content to CMS
+
 const DemosSection = () => {
 	return (
 		<div className="">
 			<div>
-				<h3 className="hidden pb-4 text-center md:block">
-					Lesson Demo
-				</h3>
+				<h3 className="hidden pb-4 text-center md:block">Lesson Demo</h3>
 
 				<iframe
 					className="mx-auto h-[225px] w-full sm:w-[400px] md:h-[225px] "

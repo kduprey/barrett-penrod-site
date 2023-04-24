@@ -11,7 +11,7 @@ type Props = {
 
 const Layout = (props: Props) => {
 	return (
-		<main className={`flex min-h-screen flex-col bg-primary`}>
+		<main className={`bg-primary flex min-h-screen flex-col`}>
 			<Header
 				title={
 					props.title ||

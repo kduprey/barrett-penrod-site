@@ -7,6 +7,8 @@ import seussical from "/public/seussical.png";
 import soldierensemble from "/public/soldierensemble.jpeg";
 import springawakening from "/public/springawakening.png";
 
+// TODO: Migrate content to CMS
+
 const Photos = () => {
 	return (
 		<div
@@ -23,9 +25,8 @@ const Photos = () => {
 						placeholder="blur"
 						alt="Horton, Sussical"
 					/>
-					<p className="text-center text-primary">
-						Barbara (Mae West’s The Drag), Gay City - Seattle,
-						Washington
+					<p className="text-primary text-center">
+						Barbara (Mae West’s The Drag), Gay City - Seattle, Washington
 					</p>
 				</div>
 
@@ -36,9 +37,8 @@ const Photos = () => {
 						placeholder="blur"
 						alt="Horton, Sussical"
 					/>
-					<p className="text-center text-primary">
-						Does Your Mother Know Ensemble (Mamma Mia), Seattle
-						Musical Theatre
+					<p className="text-primary text-center">
+						Does Your Mother Know Ensemble (Mamma Mia), Seattle Musical Theatre
 					</p>
 				</div>
 
@@ -49,7 +49,7 @@ const Photos = () => {
 						placeholder="blur"
 						alt="Horton, Sussical"
 					/>
-					<p className="text-center text-primary">
+					<p className="text-primary text-center">
 						Knight Ensemble (Cardinal Sins), Centerstage Theatre
 					</p>
 				</div>
@@ -60,9 +60,9 @@ const Photos = () => {
 						placeholder="blur"
 						alt="Horton, Sussical"
 					/>
-					<p className="text-center text-primary">
-						Hanschen (Barrett Penrod ) and Ernst (Spring Awakening),
-						Cornish College of the Arts
+					<p className="text-primary text-center">
+						Hanschen (Barrett Penrod ) and Ernst (Spring Awakening), Cornish
+						College of the Arts
 					</p>
 				</div>
 				<div className="w-3/4">
@@ -72,9 +72,8 @@ const Photos = () => {
 						placeholder="blur"
 						alt="Horton, Sussical"
 					/>
-					<p className="text-center text-primary">
-						Horton the Elephant (Seussical), Cornish College of the
-						Arts
+					<p className="text-primary text-center">
+						Horton the Elephant (Seussical), Cornish College of the Arts
 					</p>
 				</div>
 
@@ -85,9 +84,9 @@ const Photos = () => {
 						placeholder="blur"
 						alt="Horton, Sussical"
 					/>
-					<p className="text-center text-primary">
-						Rodney (Barrett Penrod) and Claire (The Drag), Gay City
-						- Seattle Washington
+					<p className="text-primary text-center">
+						Rodney (Barrett Penrod) and Claire (The Drag), Gay City - Seattle
+						Washington
 					</p>
 				</div>
 				<div className="w-3/4">
@@ -97,7 +96,7 @@ const Photos = () => {
 						placeholder="blur"
 						alt="Horton, Sussical"
 					/>
-					<p className="text-center text-primary">
+					<p className="text-primary text-center">
 						Soldier Ensemble (For All That), Centerstage Theatre
 					</p>
 				</div>

@@ -44,15 +44,11 @@ const Submenu = ({ menu }: Props) => {
 							return (
 								<Link
 									key={index}
-									className="cursor-pointer text-secondary underline-offset-2 hover:text-white hover:underline"
+									className="text-secondary cursor-pointer underline-offset-2 hover:text-white hover:underline"
 									onClick={() => {
 										setIsOpen(false);
 										gtag.pageview(
-											new URL(
-												window.location.href +
-													router.route +
-													sublink.id
-											)
+											new URL(window.location.href + router.route + sublink.id)
 										);
 									}}
 									to={sublink.id}
@@ -70,14 +66,10 @@ const Submenu = ({ menu }: Props) => {
 							<NextLink
 								key={index}
 								href={sublink.path}
-								className="cursor-pointer text-secondary underline-offset-2 hover:text-white hover:underline"
+								className="text-secondary cursor-pointer underline-offset-2 hover:text-white hover:underline"
 								onClick={() => {
 									gtag.pageview(
-										new URL(
-											window.location.href +
-												router.route +
-												menu.path
-										)
+										new URL(window.location.href + router.route + menu.path)
 									);
 								}}
 							>
@@ -109,15 +101,9 @@ const Submenu = ({ menu }: Props) => {
 			className="cursor-pointer pb-3 text-xl font-thin text-white hover:text-slate-300"
 			onClick={() => {
 				setIsOpen(false);
-				gtag.pageview(
-					new URL(window.location.href + router.route + menu.path)
-				);
+				gtag.pageview(new URL(window.location.href + router.route + menu.path));
 			}}
-			to={
-				menu.name.toLowerCase() === "home"
-					? "home"
-					: menu.name.toLowerCase()
-			}
+			to={menu.name.toLowerCase() === "home" ? "home" : menu.name.toLowerCase()}
 			spy={true}
 			smooth={true}
 			offset={-120}

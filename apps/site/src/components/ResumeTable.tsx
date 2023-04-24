@@ -12,9 +12,7 @@ const ResumeTable = () => {
 	return (
 		<div className="p-6" data-cy="resume">
 			<div className="flex flex-col items-center justify-evenly space-y-3 ">
-				<p className="text-center">
-					Voice Range: {stats["Voice Range"]}
-				</p>
+				<p className="text-center">Voice Range: {stats["Voice Range"]}</p>
 				<p>Height: {stats.height}</p>
 			</div>
 
@@ -35,7 +33,7 @@ const ResumeTable = () => {
 								<tr>
 									<th
 										colSpan={3}
-										className="py-3 text-left text-xl font-semibold text-secondary"
+										className="text-secondary py-3 text-left text-xl font-semibold"
 									>
 										Theatre
 									</th>
@@ -55,7 +53,7 @@ const ResumeTable = () => {
 								<tr>
 									<th
 										colSpan={3}
-										className="py-3 text-left text-xl font-semibold text-secondary"
+										className="text-secondary py-3 text-left text-xl font-semibold"
 									>
 										Educational Theatre
 									</th>
@@ -74,14 +72,13 @@ const ResumeTable = () => {
 								<tr>
 									<th
 										colSpan={3}
-										className=" py-3 text-left text-xl font-semibold text-secondary"
+										className=" text-secondary py-3 text-left text-xl font-semibold"
 									>
 										<div>Training</div>
 
 										<div className="pt-3">
-											New York University: Master of Music
-											in Vocal Performance - Musical
-											Theater &apos;22
+											New York University: Master of Music in Vocal Performance
+											- Musical Theater &apos;22
 										</div>
 									</th>
 								</tr>
@@ -98,10 +95,9 @@ const ResumeTable = () => {
 								<tr>
 									<th
 										colSpan={3}
-										className="py-3 text-left text-xl font-semibold text-secondary"
+										className="text-secondary py-3 text-left text-xl font-semibold"
 									>
-										Cornish College of the Arts: BFA -
-										Theater &apos;18
+										Cornish College of the Arts: BFA - Theater &apos;18
 									</th>
 								</tr>
 							</thead>
@@ -117,7 +113,7 @@ const ResumeTable = () => {
 					</div>
 
 					<div className="md:pr-20">
-						<h3 className="text-xl font-semibold text-secondary">
+						<h3 className="text-secondary text-xl font-semibold">
 							Special Skills
 						</h3>
 						<p className="text-sm">{specialSkills}</p>

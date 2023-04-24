@@ -1,4 +1,4 @@
-import { CalendlyEvent } from "types/calendlyTypes";
+import { CalendlyEvent } from "@bpvs/types";
 
 export const getEventResponse: CalendlyEvent = {
 	resource: {

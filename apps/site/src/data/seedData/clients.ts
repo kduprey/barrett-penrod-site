@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma } from "@bpvs/db";
 
 export const dbClients: Prisma.clientsCreateInput[] = [
 	{

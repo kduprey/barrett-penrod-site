@@ -19,6 +19,7 @@ export const checkout_session_completed: Stripe.Checkout.Session = {
 	consent_collection: null,
 	created: 1676690096,
 	currency: "usd",
+	currency_conversion: null,
 	custom_fields: [],
 	custom_text: {
 		shipping_address: null,

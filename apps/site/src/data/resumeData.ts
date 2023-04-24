@@ -1,3 +1,5 @@
+// TODO: Migrate data to CMS
+
 export const theater = [
 	{
 		"Show Name": "Slow Jam",

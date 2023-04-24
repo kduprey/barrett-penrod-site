@@ -1,4 +1,4 @@
-import { CalendlyCancel } from "types/types";
+import { CalendlyCancel } from "@bpvs/types";
 
 export const cancelEventResponse: CalendlyCancel = {
 	resource: {

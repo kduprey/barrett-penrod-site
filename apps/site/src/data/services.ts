@@ -1,4 +1,4 @@
-import { LessonBundle, Price, Service, SessionLocations } from "../types/types";
+import { LessonBundle, Price, SESSION_LOCATIONS } from "@bpvs/types";
 
 const bookingLink = (title: string, location: string): string => {
 	return (
@@ -11,12 +11,20 @@ const bookingLink = (title: string, location: string): string => {
 
 export const baseURL = "https://calendly.com/bpvoicestudio/";
 
+// TODO: Migrate service interface to @bpvs/types
+export interface Service {
+	title: string;
+	description: string;
+	locations: string[];
+	url: string[];
+}
+
 export const services: Service[] = [
 	{
 		title: "Voice Lesson",
 		description:
 			"One hour, one on one individualized voice lesson, where we work the coordination and function of the voice for singing technique, both genre specific and individual style, and performance.",
-		locations: [...SessionLocations],
+		locations: [...SESSION_LOCATIONS],
 		get url() {
 			const title = this.title;
 			return this.locations.map((location) => {
@@ -28,7 +36,7 @@ export const services: Service[] = [
 		title: "Voice Coaching",
 		description:
 			"One hour, one on one individualized voice coaching, where we work the artistic interpretation of client chosen repertoire through the lens of musicality, stylistic choice, song analysis, personal authenticity in song, and acting in song. ",
-		locations: [...SessionLocations],
+		locations: [...SESSION_LOCATIONS],
 		get url() {
 			const title = this.title;
 			return this.locations.map((location) => {
@@ -52,7 +60,7 @@ export const services: Service[] = [
 		title: "Audition Coaching",
 		description:
 			"A one hour, individual audition prep coaching for specific industry auditions or general audition skills, with additional audition book consultation.",
-		locations: [...SessionLocations],
+		locations: [...SESSION_LOCATIONS],
 		get url() {
 			const title = this.title;
 			return this.locations.map((location) => {

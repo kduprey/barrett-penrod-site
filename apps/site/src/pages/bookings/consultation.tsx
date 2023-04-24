@@ -1,8 +1,8 @@
-import { server } from "config/index";
+import { server } from "@bpvs/libs";
+import { NextPageWithLayout } from "@bpvs/types";
 import { useRouter } from "next/router";
 import { InlineWidget, useCalendlyEventListener } from "react-calendly";
 import BookingsLayout from "../../components/BookingsLayout";
-import { NextPageWithLayout } from "../../types/types";
 
 const Consultation: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -14,20 +14,12 @@ const Consultation: NextPageWithLayout = () => {
 			console.log(e.data.payload);
 
 			// Redirect to Success Page
-			const successURL = new URL(
-				`${server}/bookings/consultationSuccess`
-			);
+			const successURL = new URL(`${server}/bookings/consultationSuccess`);
 			// Add query params to success URL
 			// Add service name to query params
-			successURL.searchParams.append(
-				"eventURI",
-				e.data.payload.event.uri
-			);
+			successURL.searchParams.append("eventURI", e.data.payload.event.uri);
 			// Add inviteeURI to query params
-			successURL.searchParams.append(
-				"inviteeURI",
-				e.data.payload.invitee.uri
-			);
+			successURL.searchParams.append("inviteeURI", e.data.payload.invitee.uri);
 
 			// Redirect to success page
 			router.push(successURL);
@@ -36,7 +28,7 @@ const Consultation: NextPageWithLayout = () => {
 
 	return (
 		<section className="my-auto p-4">
-			<h1 className="pb-4 text-center text-secondary">
+			<h1 className="text-secondary pb-4 text-center">
 				Book your Consultation
 			</h1>
 

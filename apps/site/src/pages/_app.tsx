@@ -1,3 +1,4 @@
+import { AppPropsWithLayout } from "@bpvs/types";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { Montserrat } from "@next/font/google";
@@ -5,7 +6,6 @@ import { useRouter } from "next/router";
 import Script from "next/script";
 import { useEffect } from "react";
 import "../styles/globals.css";
-import { AppPropsWithLayout } from "../types/types";
 config.autoAddCss = false;
 
 export { reportWebVitals } from "next-axiom";

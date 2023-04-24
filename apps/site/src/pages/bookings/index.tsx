@@ -1,25 +1,28 @@
-import AboutStudio from "components/Bookings/AboutStudio";
-import Bio from "components/Bookings/Bio";
-import ConsultationSession from "components/Bookings/ConsultationSession";
-import IndividualSession from "components/Bookings/IndividualSession";
-import LessonDemo from "components/Bookings/LessonDemo";
-import Services from "components/Bookings/Services";
-import { hygraphcms } from "config/index";
+import { hygraphcms } from "@bpvs/libs";
+import { NextPageWithLayout } from "@bpvs/types";
+import { handleQueryParams } from "@bpvs/utils";
 import { gql } from "graphql-request";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { z } from "zod";
+import AboutStudio from "../../components/Bookings/AboutStudio";
+import Bio from "../../components/Bookings/Bio";
 import Bundles from "../../components/Bookings/Bundles";
+import ConsultationSession from "../../components/Bookings/ConsultationSession";
+import IndividualSession from "../../components/Bookings/IndividualSession";
+import LessonDemo from "../../components/Bookings/LessonDemo";
+import Services from "../../components/Bookings/Services";
 import BookingsLayout from "../../components/BookingsLayout";
 import Logo from "../../components/Logo";
-import { NextPageWithLayout } from "../../types/types";
-import handleQueryParams from "../../utils/handleQueryParams";
 
 const promoContentsSchema = z.object({
-promoContents: z.array(z.object({
-  headerForPromo: z.string().optional(),
-  promoSubheadingDescription: z.string().optional(),
-}))});
+	promoContents: z.array(
+		z.object({
+			headerForPromo: z.string().optional(),
+			promoSubheadingDescription: z.string().optional(),
+		})
+	),
+});
 
 export const getStaticProps = async () => {
 	const QUERY = gql`
@@ -31,8 +34,8 @@ export const getStaticProps = async () => {
 		}
 	`;
 
-	const promoContentsResponse  = await hygraphcms.request(QUERY);
-	const promoContents =  promoContentsSchema.parse(promoContentsResponse);
+	const promoContentsResponse = await hygraphcms.request(QUERY);
+	const promoContents = promoContentsSchema.parse(promoContentsResponse);
 
 	return {
 		props: {
@@ -50,7 +53,7 @@ type Props = {
 
 const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 	const router = useRouter();
-	
+
 	useEffect(() => {
 		handleQueryParams(router.query);
 	}, [router.query]);
@@ -76,16 +79,16 @@ const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 			{/* Bio & Philiosophy */}
 			<Bio />
 
-			<hr className="my-3 w-full rounded bg-secondary p-1" />
+			<hr className="bg-secondary my-3 w-full rounded p-1" />
 
 			{/* About The Studio */}
 			<AboutStudio />
 
-			<hr className="my-3 w-full rounded bg-secondary p-1" />
+			<hr className="bg-secondary my-3 w-full rounded p-1" />
 			{/* Lesson Demo */}
 			<LessonDemo />
 
-			<hr className="my-3 w-full rounded bg-secondary p-1" />
+			<hr className="bg-secondary my-3 w-full rounded p-1" />
 
 			{/* Services */}
 			<section className="flex flex-wrap items-center justify-center gap-5 2xl:h-full 2xl:w-full 2xl:justify-evenly">

@@ -1,9 +1,9 @@
+import { NextPageWithLayout } from "@bpvs/types";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import BookingsLayout from "../../components/BookingsLayout";
 import Logo from "../../components/Logo";
 import { services } from "../../data/services";
-import { NextPageWithLayout } from "../../types/types";
 
 const Individual: NextPageWithLayout = () => {
 	const router = useRouter();
@@ -40,11 +40,11 @@ const Individual: NextPageWithLayout = () => {
 				<Logo />
 			</div>
 			<div className="flex flex-col items-center justify-center space-y-4 lg:space-y-7  ">
-				<h3 className=" text-center text-secondary">
+				<h3 className=" text-secondary text-center">
 					Book your Individual Session
 				</h3>
 
-				<div className="order-2 m-3 flex flex-col items-center rounded-lg bg-secondary py-6 px-4 lg:order-1 ">
+				<div className="bg-secondary order-2 m-3 flex flex-col items-center rounded-lg px-4 py-6 lg:order-1 ">
 					<div className="flex w-full items-start justify-evenly space-x-3">
 						{/* Step 1 */}
 						<div
@@ -66,9 +66,7 @@ const Individual: NextPageWithLayout = () => {
 						{/* Step 2 */}
 						<div
 							id="step2"
-							className={`${
-								step.includes(2) ? "completed" : "step"
-							}`}
+							className={`${step.includes(2) ? "completed" : "step"}`}
 							onClick={(e) => handleBackStep(e, 2)}
 						>
 							<hr />
@@ -81,9 +79,7 @@ const Individual: NextPageWithLayout = () => {
 							) : null}
 						</div>
 						{/* Step 3 */}
-						<div
-							className={step.includes(3) ? "completed" : "step"}
-						>
+						<div className={step.includes(3) ? "completed" : "step"}>
 							<hr />
 							<p>Step 3</p>
 							<p>Confirm and Book</p>
@@ -104,10 +100,7 @@ const Individual: NextPageWithLayout = () => {
 									: "withTransition mt-6 flex flex-col items-center justify-center md:mt-0 md:flex-row"
 							}
 						>
-							<label
-								htmlFor="service"
-								className="text-gray-700 md:text-2xl"
-							>
+							<label htmlFor="service" className="text-gray-700 md:text-2xl">
 								Choose your lesson type:
 							</label>
 
@@ -122,10 +115,7 @@ const Individual: NextPageWithLayout = () => {
 							>
 								{services.map((service, index) => {
 									return (
-										<option
-											value={index}
-											key={service.title}
-										>
+										<option value={index} key={service.title}>
 											{service.title}
 										</option>
 									);
@@ -136,15 +126,10 @@ const Individual: NextPageWithLayout = () => {
 						{/* Location Selection */}
 						<div
 							className={`withTransition mt-6 flex flex-col items-center justify-center md:mt-0 md:flex-row ${
-								step.includes(2) && !step.includes(3)
-									? " "
-									: " hidden"
+								step.includes(2) && !step.includes(3) ? " " : " hidden"
 							}`}
 						>
-							<label
-								htmlFor="location"
-								className="text-center md:text-2xl"
-							>
+							<label htmlFor="location" className="text-center md:text-2xl">
 								Select Session Location:
 							</label>
 
@@ -154,24 +139,17 @@ const Individual: NextPageWithLayout = () => {
 								className="m-6 md:text-2xl"
 								value={location}
 								onChange={(e) => {
-									setLocation(
-										Number.parseInt(e.target.value)
-									);
+									setLocation(Number.parseInt(e.target.value));
 								}}
 							>
 								{service != -1
-									? services[service].locations.map(
-											(result, index) => {
-												return (
-													<option
-														value={index}
-														key={result}
-													>
-														{result}
-													</option>
-												);
-											}
-									  )
+									? services[service].locations.map((result, index) => {
+											return (
+												<option value={index} key={result}>
+													{result}
+												</option>
+											);
+									  })
 									: null}
 							</select>
 						</div>
@@ -179,13 +157,11 @@ const Individual: NextPageWithLayout = () => {
 						{step.includes(3) && (
 							<div className="withTransition m-2 flex flex-col items-center justify-center space-y-4 md:grow md:justify-evenly">
 								<h4>Confirm Details:</h4>
-								<p className="text-2xl text-primary">
+								<p className="text-primary text-2xl">
 									Service:{" "}
-									<span className="font-medium">
-										{services[service].title}
-									</span>
+									<span className="font-medium">{services[service].title}</span>
 								</p>
-								<p className="text-center text-2xl text-primary">
+								<p className="text-primary text-center text-2xl">
 									Location:{" "}
 									<span className="font-medium">
 										{services[service].locations[location]}

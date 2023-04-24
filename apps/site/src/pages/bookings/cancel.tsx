@@ -1,9 +1,9 @@
-import { stripe } from "config/index";
+import { stripe } from "@bpvs/libs";
+import { NextPageWithLayout } from "@bpvs/types";
+import { getCalendlyInvitee } from "@bpvs/utils";
 import { GetServerSideProps } from "next";
 import Stripe from "stripe";
 import BookingsLayout from "../../components/BookingsLayout";
-import { NextPageWithLayout } from "../../types/types";
-import { getEventInvitee } from "../api/calendly/eventInvitee";
 
 type Props = {
 	session?: Stripe.Checkout.Session;
@@ -26,7 +26,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 		const {
 			resource: { name },
-		} = await getEventInvitee(session?.metadata?.inviteeURI as string);
+		} = await getCalendlyInvitee(session?.metadata?.inviteeURI as string);
 
 		return {
 			props: {
@@ -45,27 +45,25 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 const Cancel: NextPageWithLayout = ({ session, name }: Props) => {
 	return (
 		<div className="flex flex-grow flex-col items-center justify-center space-y-4 p-4">
-			<h2 className="text-center text-secondary">Booking Cancelled</h2>
-			<div className="m-3 flex flex-col items-center justify-center space-y-4 rounded bg-secondary p-6 shadow-lg md:w-1/2">
+			<h2 className="text-secondary text-center">Booking Cancelled</h2>
+			<div className="bg-secondary m-3 flex flex-col items-center justify-center space-y-4 rounded p-6 shadow-lg md:w-1/2">
 				<h4 className="text-primary">
 					Hey, {name.substring(0, name.indexOf(" "))}
 				</h4>
-				<p className="text-center text-primary">
-					Downpayment is required to confirm booking. Booking will be
-					cancelled within the hour pending no downpayment is
-					received.
+				<p className="text-primary text-center">
+					Downpayment is required to confirm booking. Booking will be cancelled
+					within the hour pending no downpayment is received.
 				</p>
 				<a
 					href={
 						session?.url
 							? session.url
-							: (session?.after_expiration?.recovery
-									?.url as string)
+							: (session?.after_expiration?.recovery?.url as string)
 					}
-					className="text-center text-primary underline"
+					className="text-primary text-center underline"
 				>
-					If you would like to keep the booking, click here to
-					continue with payment.
+					If you would like to keep the booking, click here to continue with
+					payment.
 				</a>
 			</div>
 		</div>

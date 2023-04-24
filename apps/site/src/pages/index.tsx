@@ -1,15 +1,14 @@
-import About from "../components/About";
-import Headline from "../components/Headline";
-import Photos from "../components/Photos";
-import Showreel from "../components/Showreel";
-
 import Image from "next/image";
 import headshot5 from "public/headshot5.jpg";
 import React, { ReactElement } from "react";
+import About from "../components/About";
+import Headline from "../components/Headline";
 import Headshots from "../components/Headshots";
 import Layout from "../components/Layout";
 import News from "../components/News";
+import Photos from "../components/Photos";
 import ResumeTable from "../components/ResumeTable";
+import Showreel from "../components/Showreel";
 import * as gtag from "../lib/analytics";
 
 const Page = () => {
@@ -42,7 +41,7 @@ const Page = () => {
 
 			{/* Resume */}
 			<div className="py-6 md:p-0" id="resume">
-				<h1 className="text-center text-secondary">Resumé</h1>
+				<h1 className="text-secondary text-center">Resumé</h1>
 
 				<ResumeTable />
 

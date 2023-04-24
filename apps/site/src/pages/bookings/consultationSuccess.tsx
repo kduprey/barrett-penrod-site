@@ -1,11 +1,13 @@
+import { NextPageWithLayout } from "@bpvs/types";
+import {
+	getCalendlyEvent,
+	getCalendlyEventZoomLink,
+	getCalendlyInvitee,
+} from "@bpvs/utils";
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 import BookingsLayout from "../../components/BookingsLayout";
 import Loading from "../../components/Loading";
-import { NextPageWithLayout } from "../../types/types";
-import getZoomLink from "../../utils/getZoomLink";
-import { getEventInfo } from "../api/calendly/eventInfo";
-import { getEventInvitee } from "../api/calendly/eventInvitee";
 
 type Props = {
 	name: string;
@@ -23,28 +25,28 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	}
 
 	try {
-		const response = await getEventInfo(eventURI as string);
-		if (!response) {
-			console.error(response);
+		const event = await getCalendlyEvent(eventURI as string);
+		if (!event) {
+			console.error(event);
 			return {
 				notFound: true,
 			};
 		}
 
-		const eventResponse = await getEventInvitee(inviteeURI as string);
-		if (!eventResponse) {
-			console.error(eventResponse);
+		const invitee = await getCalendlyInvitee(inviteeURI as string);
+		if (!invitee) {
+			console.error(invitee);
 			return {
 				notFound: true,
 			};
 		}
 
-		const zoomLink = await getZoomLink(eventURI as string);
+		const zoomLink = await getCalendlyEventZoomLink(event);
 
 		return {
 			props: {
-				name: eventResponse.resource.name,
-				start_time: response.resource.start_time,
+				name: invitee.resource.name,
+				start_time: event.resource.start_time,
 				zoomLink,
 			} as Props,
 		};
@@ -87,24 +89,21 @@ const ConsultationSuccess: NextPageWithLayout = ({
 
 	return (
 		<section className="flex flex-grow flex-col items-center justify-center space-y-4 py-6">
-			<h2 className="text-center text-secondary">
+			<h2 className="text-secondary text-center">
 				Consultation Session Confirmed
 			</h2>
 
-			<div className="m-3 flex flex-col items-center justify-center space-y-4 rounded bg-secondary p-6 shadow-lg">
+			<div className="bg-secondary m-3 flex flex-col items-center justify-center space-y-4 rounded p-6 shadow-lg">
 				<p className="text-primary">Thank you, {name}</p>
-				<p className="text-center text-primary">
-					Your consultation session has been scheduled for {time} on{" "}
-					{date}
+				<p className="text-primary text-center">
+					Your consultation session has been scheduled for {time} on {date}
 				</p>
 				<div className="flex flex-col items-center justify-center">
-					<p className="text-primary">
-						You can join the Zoom meeting here!
-					</p>
+					<p className="text-primary">You can join the Zoom meeting here!</p>
 					<a href={zoomLink}>{zoomLink}</a>
 				</div>
 
-				<p className="text-center text-primary">
+				<p className="text-primary text-center">
 					We will send you a confirmation email shortly.
 				</p>
 			</div>

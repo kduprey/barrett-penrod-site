@@ -1,12 +1,12 @@
+import { NextPageWithLayout } from "@bpvs/types";
 import axios from "axios";
-import { baseURL, bundleServices, services } from "data/services";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { InlineWidget, useCalendlyEventListener } from "react-calendly";
 import BookingsLayout from "../../components/BookingsLayout";
 import Loading from "../../components/Loading";
 import Logo from "../../components/Logo";
-import { NextPageWithLayout } from "../../types/types";
+import { baseURL, bundleServices, services } from "../../data/services";
 
 type Params = {
 	service: number;

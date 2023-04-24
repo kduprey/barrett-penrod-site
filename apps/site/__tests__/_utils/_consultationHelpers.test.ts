@@ -1,18 +1,18 @@
-import { PrismaClient } from "@prisma/client";
-import { prismaConfig, stripe } from "config/index";
+import { stripe } from "@bpvs/libs";
 import {
 	consultationResponse,
 	getEventResponse,
-} from "data/calendlyResponses/getEventResponse";
-import { getInviteeResponse } from "data/calendlyResponses/getInviteeResponse";
-import { dbCalendlyEventPayloads } from "data/seedData/calendlyEventPayloads";
-import { dbClients } from "data/seedData/clients";
+} from "@bpvs/site/src/data/calendlyResponses/getEventResponse";
+import { getInviteeResponse } from "@bpvs/site/src/data/calendlyResponses/getInviteeResponse";
+import { dbCalendlyEventPayloads } from "@bpvs/site/src/data/seedData/calendlyEventPayloads";
+import { dbClients } from "@bpvs/site/src/data/seedData/clients";
 import {
 	checkForClient,
 	createClient,
 	createStripeCustomer,
 	updateClient,
-} from "utils/consultationHelpers";
+} from "@bpvs/utils";
+import { PrismaClient } from "@prisma/client";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 // eslint-disable-next-line
@@ -62,9 +62,7 @@ describe("checkForClient should", () => {
 			if (error instanceof Error) {
 				console.log("error: ", error);
 				expect(error).not.toBeNull();
-				expect(error.message).toBe(
-					"Error searching DB for existing customer"
-				);
+				expect(error.message).toBe("Error searching DB for existing customer");
 			}
 		}
 	});
@@ -120,9 +118,7 @@ describe("updateClient should", () => {
 		);
 		expect(updatedClient?.activeMember).toBe(true);
 		expect(updatedClient?.archived).toBe(false);
-		expect(updatedClient?.lessonsRemaining).toBe(
-			client.lessonsRemaining + 1
-		);
+		expect(updatedClient?.lessonsRemaining).toBe(client.lessonsRemaining + 1);
 		expect(updatedClient?.bookings[0].uri).toBe(payload.uri);
 
 		await prisma.clients.deleteMany({});
@@ -184,9 +180,7 @@ describe("createStripeCustomer should", () => {
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				expect(error).not.toBeNull();
-				expect(error.message).toBe(
-					"Error creating new Stripe customer"
-				);
+				expect(error.message).toBe("Error creating new Stripe customer");
 			}
 		}
 	});

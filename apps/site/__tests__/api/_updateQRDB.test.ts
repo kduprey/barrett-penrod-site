@@ -1,6 +1,6 @@
+import { prismaConfig } from "@bpvs/db";
+import { updateQRDB } from "@bpvs/site/src/pages/api/updateQRDB";
 import { PrismaClient } from "@prisma/client";
-import { prismaConfig } from "config/index";
-import { updateQRDB } from "pages/api/updateQRDB";
 import { describe, expect, it } from "vitest";
 
 const prisma = new PrismaClient({ ...prismaConfig });
@@ -41,8 +41,7 @@ describe("updateQRDB should", () => {
 			expect(status).toBe(false);
 		} catch (error: unknown) {
 			expect(error).not.toBeNull();
-			if (error instanceof Error)
-				expect(error.message).toBe("Invalid QR ID");
+			if (error instanceof Error) expect(error.message).toBe("Invalid QR ID");
 		}
 		await prisma.qr_code_logs.deleteMany({});
 	});

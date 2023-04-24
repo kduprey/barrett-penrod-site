@@ -1,6 +1,6 @@
+import { getInviteeResponse } from "@bpvs/site/src/data/calendlyResponses/getInviteeResponse";
+import { getCalendlyInvitee } from "@bpvs/utils";
 import axios from "axios";
-import { getInviteeResponse as data } from "data/calendlyResponses/getInviteeResponse";
-import { getEventInvitee } from "pages/api/calendly/eventInvitee";
 import { describe, expect, it, Mocked, vitest as vi } from "vitest";
 
 vi.mock("axios");
@@ -12,18 +12,18 @@ describe("eventInvitee should", () => {
 	});
 
 	it("Should handle a correct data submission", async () => {
-		mockedAxios.get.mockResolvedValueOnce({ data });
+		mockedAxios.get.mockResolvedValueOnce({ getInviteeResponse });
 
-		const response = await getEventInvitee("test");
+		const response = await getCalendlyInvitee("test");
 
-		expect(response).toEqual(data);
+		expect(response).toEqual(getInviteeResponse);
 	});
 
 	it("Should handle an incorrect data submission", async () => {
-		mockedAxios.get.mockRejectedValueOnce({ data });
+		mockedAxios.get.mockRejectedValueOnce({ getInviteeResponse });
 
 		try {
-			const response = await getEventInvitee("");
+			const response = await getCalendlyInvitee("");
 			expect(response).toBeUndefined();
 		} catch (error) {
 			expect(error).toBeInstanceOf(Error);
@@ -32,12 +32,10 @@ describe("eventInvitee should", () => {
 	});
 
 	it("Should throw an error if axios fails", async () => {
-		mockedAxios.post.mockRejectedValueOnce(
-			new Error("Error getting invitee")
-		);
+		mockedAxios.post.mockRejectedValueOnce(new Error("Error getting invitee"));
 
 		try {
-			const response = await getEventInvitee("test");
+			const response = await getCalendlyInvitee("test");
 
 			expect(response).toBeUndefined();
 		} catch (error: unknown) {

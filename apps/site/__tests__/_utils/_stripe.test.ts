@@ -1,15 +1,17 @@
-import { PrismaClient } from "@prisma/client";
-import { prismaConfig } from "config/index";
-import { getEventResponse } from "data/calendlyResponses/getEventResponse";
-import { getInviteeResponse } from "data/calendlyResponses/getInviteeResponse";
-import { dbCalendlyEventPayloads } from "data/seedData/calendlyEventPayloads";
-import { dbClients } from "data/seedData/clients";
+import { getEventResponse } from "@bpvs/site/src/data/calendlyResponses/getEventResponse";
+import { getInviteeResponse } from "@bpvs/site/src/data/calendlyResponses/getInviteeResponse";
+import { dbCalendlyEventPayloads } from "@bpvs/site/src/data/seedData/calendlyEventPayloads";
+import { dbClients } from "@bpvs/site/src/data/seedData/clients";
 import {
 	checkout_session_completed,
 	line_items,
-} from "data/stripeResponses/webhooks";
-import getNumLessonsFromLineItems from "utils/getNumLessonsFromLineItems";
-import { createCustomer, updateCustomer } from "utils/webhookUtils/stripe";
+} from "@bpvs/site/src/data/stripeResponses/webhooks";
+import {
+	createCustomer,
+	getNumLessonsFromLineItems,
+	updateCustomer,
+} from "@bpvs/utils";
+import { PrismaClient } from "@prisma/client";
 import { describe, expect, it } from "vitest";
 
 // This is a workaround to make sure the prisma client is only instantiated once
@@ -57,8 +59,7 @@ describe("updateCustomer after checkout", () => {
 		);
 		expect(updatedClient.activeMember).toBe(true);
 		expect(updatedClient.totalSpend).toBe(
-			client.totalSpend +
-				(checkout_session_completed.amount_total as number)
+			client.totalSpend + (checkout_session_completed.amount_total as number)
 		);
 		expect(updatedClient.lessonsRemaining).toBe(
 			client.lessonsRemaining + getNumLessonsFromLineItems(line_items)

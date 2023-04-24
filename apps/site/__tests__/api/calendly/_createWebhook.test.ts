@@ -1,10 +1,10 @@
-import axios from "axios";
 import {
 	createWebhookResponse,
 	getWebhooks,
-} from "data/calendlyResponses/getWebhooks";
-import { createWebhook } from "pages/api/calendly/createWebhook";
-import { describe, expect, Mocked, vitest as vi } from "vitest";
+} from "@bpvs/site/src/data/calendlyResponses/getWebhooks";
+import { createWebhook } from "@bpvs/site/src/pages/api/calendly/createWebhook";
+import axios from "axios";
+import { Mocked, describe, expect, vitest as vi } from "vitest";
 
 vi.mock("axios");
 const mockedAxios = axios as Mocked<typeof axios>;

@@ -1,6 +1,6 @@
+import { prismaConfig } from "@bpvs/db";
+import { contact } from "@bpvs/site/src/pages/api/contact";
 import { PrismaClient } from "@prisma/client";
-import { prismaConfig } from "config/index";
-import { contact } from "pages/api/contact";
 import { afterAll, describe, expect, it } from "vitest";
 
 const prisma = new PrismaClient({ ...prismaConfig });

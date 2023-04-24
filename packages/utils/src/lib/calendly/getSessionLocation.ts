@@ -82,7 +82,9 @@ const testResponses: CalendlyEvent[] = [
 	},
 ];
 
-const getBookingLocation = (bookingData: CalendlyEvent): SessionLocation => {
+export const getSessionLocation = (
+	bookingData: CalendlyEvent
+): SessionLocation => {
 	if (bookingData.resource.name.includes("Trial Session"))
 		return SessionLocationEnum.Values.Virtual;
 
@@ -93,7 +95,5 @@ const getBookingLocation = (bookingData: CalendlyEvent): SessionLocation => {
 	return SessionLocationEnum.parse(locationData);
 };
 
-export default getBookingLocation;
-
-console.log(getBookingLocation(testResponses[0]));
-console.log(getBookingLocation(testResponses[1]));
+console.log(getSessionLocation(testResponses[0]));
+console.log(getSessionLocation(testResponses[1]));

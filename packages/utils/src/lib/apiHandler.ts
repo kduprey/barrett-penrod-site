@@ -2,7 +2,7 @@ import createHttpError from "http-errors";
 
 import { Method } from "axios";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { ValidationError } from "yup";
+import { ZodError } from "zod";
 
 // Shape of the response when an error is thrown
 export interface ErrorResponse {
@@ -17,7 +17,7 @@ type ApiMethodHandlers = {
 	[key in Uppercase<Method>]?: NextApiHandler;
 };
 
-const apiHandler = (handler: ApiMethodHandlers) => {
+export const apiHandler = (handler: ApiMethodHandlers) => {
 	return async (req: NextApiRequest, res: NextApiResponse<ErrorResponse>) => {
 		try {
 			const method = req.method
@@ -45,14 +45,12 @@ const apiHandler = (handler: ApiMethodHandlers) => {
 	};
 };
 
-export default apiHandler;
-
 const errorHandler = (err: any, res: NextApiResponse<ErrorResponse>) => {
 	// Errors with statusCode >= 500 are should not be exposed
 	if (createHttpError.isHttpError(err) && err.expose) {
 		// Handle all errors thrown by http-errors module
 		return res.status(err.statusCode).json({ error: { message: err.message } });
-	} else if (err instanceof ValidationError) {
+	} else if (err instanceof ZodError) {
 		// Handle yup validation errors
 		return res.status(400).json({ error: { message: err.errors.join(", ") } });
 	} else {

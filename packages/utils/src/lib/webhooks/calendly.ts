@@ -1,4 +1,4 @@
-import prisma from "@bpvs/db";
+import { prisma } from "@bpvs/db";
 import { CalendlyEvent, Contact } from "@bpvs/types";
 
 export const createClientWithCalendlyPayload = async (

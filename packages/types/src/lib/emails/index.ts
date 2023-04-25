@@ -41,5 +41,5 @@ export interface PackageConfirmationEmail extends EmailData {
 	packageName: PackageType;
 }
 
-export type firstTimeEmail = EmailData;
-export type singleEmail = EmailData;
+export type FirstTimeEmail = EmailData;
+export type SingleEmail = EmailData;

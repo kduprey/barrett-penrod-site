@@ -94,6 +94,3 @@ export const getSessionLocation = (
 
 	return SessionLocationEnum.parse(locationData);
 };
-
-console.log(getSessionLocation(testResponses[0]));
-console.log(getSessionLocation(testResponses[1]));

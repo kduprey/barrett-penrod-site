@@ -1,6 +1,7 @@
 import { clients, prisma } from "@bpvs/db";
 import { CalendlyEvent, CalendlyInvitee } from "@bpvs/types";
 import Stripe from "stripe";
+import { getNumLessonsFromLineItems } from "../stripe";
 
 export const updateCustomer = async (
 	session: Stripe.Checkout.Session,

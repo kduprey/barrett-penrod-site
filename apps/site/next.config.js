@@ -1,9 +1,11 @@
 const { withAxiom } = require("next-axiom");
 const { PrismaPlugin } = require("@prisma/nextjs-monorepo-workaround-plugin");
 const { withSentryConfig } = require("@sentry/nextjs");
+const { withNx } = require("@nrwl/next/plugins/with-nx");
 
 /**
  * @type {import('next').NextConfig}
+ * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
  **/
 
 const nextConfig = {
@@ -117,4 +119,17 @@ const nextConfig = {
 	},
 };
 
-module.exports = withSentryConfig(withAxiom(nextConfig), { silent: true });
+const plugins = [withAxiom];
+
+module.exports = async (phase, context) => {
+	let updatedConfig = plugins.reduce((acc, fn) => fn(acc), nextConfig);
+
+	// Apply the async function that `withNx` returns.
+	updatedConfig = await withNx(updatedConfig)(phase, context);
+
+	// If you have plugins that has to be added after Nx you can do that here.
+	// For example, Sentry needs to be added last.
+	updatedConfig = withSentryConfig(updatedConfig, { silent: true });
+
+	return updatedConfig;
+};

@@ -1,4 +1,5 @@
-import { LessonBundle, Price, SESSION_LOCATIONS } from "@bpvs/types";
+import { LessonBundle, Price } from "../stripe";
+import { SESSION_LOCATIONS } from "./sessions";
 
 const bookingLink = (title: string, location: string): string => {
 	return (
@@ -11,7 +12,6 @@ const bookingLink = (title: string, location: string): string => {
 
 export const baseURL = "https://calendly.com/bpvoicestudio/";
 
-// TODO: Migrate service interface to @bpvs/types
 export interface Service {
 	title: string;
 	description: string;

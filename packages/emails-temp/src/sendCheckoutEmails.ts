@@ -1,49 +1,56 @@
 import { stripe } from "@bpvs/libs";
 import { CalendlyEvent, CalendlyInvitee, dev } from "@bpvs/types";
 import Stripe from "stripe";
-import { getCalendlyEvent, getCalendlyInvitee } from "./calendly";
-import getZoomLink from "./calendly/getCalendlyEventZoomLink";
-import getSessionLocation from "./calendly/getSessionLocation";
-import getSessionTypeFromCalendlyEvent from "./calendly/getSessionTypeFromCalendlyEvent";
-import getPackageTypeFromLineItems from "./getPackageTypeFromLineItems";
-import isDownpaymentCheckout from "./stripe/isDownpaymentCheckout";
-import isPackageCheckout from "./stripe/isPackageCheckout";
+import {
+	getCalendlyEvent,
+	getCalendlyEventZoomLink,
+	getCalendlyInvitee,
+	getSessionLocation,
+	getSessionTypeFromCalendlyEvent,
+} from "../../utils/src/lib/calendly";
+import {
+	getPackageTypeFromLineItems,
+	isDownpaymentCheckout,
+	isPackageCheckout,
+} from "../../utils/src/lib/stripe";
+import { sendFirstTimeEmail } from "./firstTime";
+import { sendGuestEmails } from "./guestEmail";
+import { sendPackageConfirmationEmail } from "./packageConfirmation";
+import { sendSingleBookingEmail } from "./singleBooking";
 
-const sendCheckoutEmails = async (
+export const sendCheckoutEmails = async (
 	session: Stripe.Checkout.Session
 ): Promise<Error[] | boolean> => {
-	let bookingInfo: CalendlyEvent,
-		inviteeInfo: CalendlyInvitee,
+	let event: CalendlyEvent,
+		invitee: CalendlyInvitee,
 		zoomLink: string | null = null;
 	const errors: Error[] = [];
 	const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
 
 	try {
-		bookingInfo = await getCalendlyEvent(session.client_reference_id as string);
-		inviteeInfo = await getCalendlyInvitee(
-			session.metadata?.inviteeURI as string
-		);
+		event = await getCalendlyEvent(session.client_reference_id as string);
+		invitee = await getCalendlyInvitee(session.metadata?.inviteeURI as string);
 	} catch (err: unknown) {
 		console.error("Error getting booking info", err);
 		if (err instanceof Error) errors.push(err);
 		throw new Error("Error getting booking info");
 	}
 
-	const name = inviteeInfo.resource.name;
-	const email = dev ? "kdtech18@gmail.com" : inviteeInfo.resource.email;
-	const bookingDate = new Date(bookingInfo.resource.start_time);
+	const name = invitee.resource.name;
+	const email = dev ? "kdtech18@gmail.com" : invitee.resource.email;
+	const bookingDate = new Date(event.resource.start_time);
 
-	zoomLink = await getZoomLink(session.client_reference_id as string);
+	zoomLink = await getCalendlyEventZoomLink(event);
 
 	// Are there guests?
 	// If so, send guest email
-	if (bookingInfo.resource.event_guests.length > 0) {
+	if (event.resource.event_guests.length > 0) {
 		// Send guest email
 		try {
 			const guestEmail = await sendGuestEmails({
-				guests: bookingInfo.resource.event_guests,
-				sessionType: getSessionTypeFromCalendlyEvent(bookingInfo),
-				bookingLocation: getSessionLocation(bookingInfo),
+				guests: event.resource.event_guests,
+				sessionType: getSessionTypeFromCalendlyEvent(event),
+				bookingLocation: getSessionLocation(event),
 				bookingDate,
 				zoomLink: zoomLink ? zoomLink : undefined,
 			});
@@ -60,13 +67,13 @@ const sendCheckoutEmails = async (
 	// If so, send first-time customer email
 	// If not, send booking confirmation email
 	if (
-		inviteeInfo.resource.questions_and_answers.find((e) => {
+		invitee.resource.questions_and_answers.find((e) => {
 			return e.question === "Is this your first lesson with Barrett?"
 				? true
 				: false;
 		})
 	)
-		inviteeInfo.resource.questions_and_answers.forEach(async (qna) => {
+		invitee.resource.questions_and_answers.forEach(async (qna) => {
 			if (
 				qna.question === "Is this your first lesson with Barrett?" &&
 				qna.answer === "Yes"
@@ -79,8 +86,8 @@ const sendCheckoutEmails = async (
 							name,
 						},
 						bookingDate,
-						sessionType: getSessionTypeFromCalendlyEvent(bookingInfo),
-						bookingLocation: getSessionLocation(bookingInfo),
+						sessionType: getSessionTypeFromCalendlyEvent(event),
+						bookingLocation: getSessionLocation(event),
 						zoomLink: zoomLink ? zoomLink : undefined,
 					});
 					console.info(
@@ -105,9 +112,9 @@ const sendCheckoutEmails = async (
 				packageName: getPackageTypeFromLineItems(
 					lineItems.data as Stripe.LineItem[]
 				),
-				sessionType: getSessionTypeFromCalendlyEvent(bookingInfo),
+				sessionType: getSessionTypeFromCalendlyEvent(event),
 				bookingDate,
-				bookingLocation: getSessionLocation(bookingInfo),
+				bookingLocation: getSessionLocation(event),
 				zoomLink: zoomLink ? zoomLink : undefined,
 			});
 			console.info("Package Email Response: ", packageEmail);
@@ -123,7 +130,7 @@ const sendCheckoutEmails = async (
 	const isDownpayment = await isDownpaymentCheckout(session);
 	if (
 		isDownpayment &&
-		!inviteeInfo.resource.questions_and_answers.find((e) => {
+		!invitee.resource.questions_and_answers.find((e) => {
 			return e.question === "Is this your first lesson with Barrett?"
 				? true
 				: false;
@@ -133,9 +140,9 @@ const sendCheckoutEmails = async (
 		try {
 			const singleSessionEmail = await sendSingleBookingEmail({
 				client: { email, name },
-				sessionType: getSessionTypeFromCalendlyEvent(bookingInfo),
+				sessionType: getSessionTypeFromCalendlyEvent(event),
 				bookingDate,
-				bookingLocation: getSessionLocation(bookingInfo),
+				bookingLocation: getSessionLocation(event),
 				zoomLink: zoomLink ? zoomLink : undefined,
 			});
 			console.info("Single Session Email Response: ", singleSessionEmail);
@@ -149,5 +156,3 @@ const sendCheckoutEmails = async (
 
 	return errors.length > 0 ? errors : true;
 };
-
-export default sendCheckoutEmails;

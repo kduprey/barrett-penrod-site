@@ -1,17 +1,9 @@
-import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
-import { dev, sendgrid } from "config/index";
+import { sendGuestEmails } from "@bpvs/emails-temp";
+import { GuestEmails, dev } from "@bpvs/types";
+import { apiHandler } from "@bpvs/utils";
+import { guestEmailsSchema } from "@bpvs/validation";
 import createHttpError from "http-errors";
 import type { NextApiRequest, NextApiResponse } from "next";
-import * as yup from "yup";
-import { GuestEmails, validateBookingDate } from "../../../types/emailTypes";
-import {
-	SessionLocation,
-	SessionLocations,
-	SessionType,
-	SessionTypes,
-} from "../../../types/types";
-import apiHandler from "../../../utils/api";
-import { validateRequest } from "../../../utils/yup";
 
 // Template Data
 // {
@@ -22,122 +14,8 @@ import { validateRequest } from "../../../utils/yup";
 //     "zoomLink": "https://zoom.us/testlink"
 // }
 
-/**
- * This endpoint is used to send a guest email to a list of guests whom are attending a session.
- * @param guests - The guests to send the email to
- * @param bookingDate - The time of the booking
- * @param bookingName - The name of the booking
- * @param zoomLink - The zoom link for the booking
- * @returns The response from SendGrid
- */
-
-const schema: yup.SchemaOf<GuestEmails> = yup.object({
-	guests: yup
-		.array(
-			yup
-				.object()
-				.shape({
-					email: yup
-						.string()
-						.email("Client email must be a valid email address")
-						.defined()
-						.required("Client email is required"),
-					name: yup.string(),
-				})
-				.defined()
-				.required()
-		)
-		.defined()
-		.required(),
-	bookingDate: yup
-		.date()
-		.required(
-			"Booking date and time is required (e.g. 2022-06-26T14:00:00.000Z)"
-		),
-	sessionType: yup
-		.mixed<SessionType>()
-		.oneOf([...SessionTypes])
-		.defined()
-		.required(),
-	bookingLocation: yup
-		.mixed<SessionLocation>()
-		.oneOf([...SessionLocations])
-		.defined()
-		.required(),
-	zoomLink: yup
-		.string()
-		.url(
-			"Please enter a valid Zoom link (e.g. https://us06web.zoom.us/j/xxxxxx)"
-		),
-});
-
-const sendGuestEmails = async ({
-	guests,
-	sessionType,
-	bookingLocation,
-	bookingDate,
-	zoomLink,
-}: GuestEmails): Promise<ClientResponse> => {
-	const templateId = "d-b628680e34354157b553625c036e2836";
-
-	const message: MailDataRequired = {
-		from: {
-			email: "barrett@barrettpenrod.com",
-			name: "Barrett Penrod Voice Studio",
-		},
-		replyTo: {
-			email: "barrettpenrod@gmail.com",
-			name: "Barrett Penrod",
-		},
-		personalizations: [
-			{
-				to: [...guests],
-				dynamicTemplateData: {
-					bookingTime: new Date(bookingDate).toLocaleTimeString([], {
-						hour: "2-digit",
-						minute: "2-digit",
-					}),
-					bookingDate: new Date(bookingDate).toLocaleDateString([], {
-						weekday: "long",
-						month: "short",
-						day: "numeric",
-						year: "numeric",
-					}),
-					sessionType,
-					bookingLocation,
-					zoomLink,
-				},
-			},
-		],
-		templateId,
-		mailSettings: {
-			sandboxMode: {
-				enable: dev,
-			},
-		},
-	};
-
-	try {
-		console.log("Sending guest emails...");
-
-		const response = await sendgrid.send(message);
-		console.log("Guest emails sent!");
-
-		console.log(response);
-		return response[0];
-	} catch (error: unknown) {
-		console.error(error);
-		if (error instanceof Error)
-			throw new Error("Error sending email", error);
-		throw new Error("Error sending email");
-	}
-};
-
-export { sendGuestEmails };
-
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	req.body.bookingDate = validateBookingDate(req);
-	const data = validateRequest(req.body, schema);
+	const data = guestEmailsSchema.parse(req.body);
 
 	try {
 		const response = await sendGuestEmails(data as GuestEmails);

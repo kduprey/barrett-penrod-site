@@ -1,5 +1,5 @@
-import { sendgrid } from "config/index";
-import { sendSingleBookingEmail } from "pages/api/emails/sendSingleBookingEmail";
+import { sendgrid } from "@bpvs/libs";
+import { sendSingleBookingEmail } from "@bpvs/utils";
 import { expect, it, vitest as vi } from "vitest";
 
 const client = {
@@ -76,9 +76,7 @@ describe("sendFirstTimeEmail should", () => {
 
 	it("should throw an error if sending the email fails", async () => {
 		// Mock the sendgrid.send function to reject the promise
-		sendgrid.send = vi
-			.fn()
-			.mockRejectedValue(new Error("Error sending email"));
+		sendgrid.send = vi.fn().mockRejectedValue(new Error("Error sending email"));
 
 		await expect(
 			sendSingleBookingEmail({

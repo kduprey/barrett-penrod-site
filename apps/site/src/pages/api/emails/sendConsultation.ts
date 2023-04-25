@@ -1,15 +1,8 @@
-import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
-import { dev, sendgrid } from "config/index";
+import { sendConsultationEmail } from "@bpvs/emails-temp";
+import { apiHandler } from "@bpvs/utils";
+import { consultationEmailSchema } from "@bpvs/validation";
 import createHttpError from "http-errors";
 import { NextApiRequest, NextApiResponse } from "next";
-import * as yup from "yup";
-import {
-	clientSchema,
-	ConsultationEmail,
-	validateBookingDate,
-} from "../../../types/emailTypes";
-import apiHandler from "../../../utils/api";
-import { validateRequest } from "../../../utils/yup";
 
 // Example for email template data:
 // {
@@ -18,75 +11,8 @@ import { validateRequest } from "../../../utils/yup";
 //     "zoomLink": "https://us06web.zoom.us/j/87847325639"
 // }
 
-/**
- * This endpoint is used to send a confirmation email to a client after booking a consultation.
- * @param client - The client's email and name
- * @param bookingDate - The start time of the consultation
- * @param zoomLink - The link to the Zoom meeting
- * @returns The response from SendGrid
- */
-
-const sendConsultationEmail = async ({
-	client,
-	bookingDate,
-	zoomLink,
-}: ConsultationEmail): Promise<ClientResponse> => {
-	const templateId = "d-4a2d850cce134d40bdd662e3fe2a96b3";
-
-	const message: MailDataRequired = {
-		from: {
-			email: "barrett@barrettpenrod.com",
-			name: "Barrett Penrod Voice Studio",
-		},
-		replyTo: {
-			email: "barrettpenrod@gmail.com",
-			name: "Barrett Penrod",
-		},
-		personalizations: [
-			{
-				to: client,
-				dynamicTemplateData: {
-					bookingTime: bookingDate.toLocaleTimeString([], {
-						hour: "2-digit",
-						minute: "2-digit",
-					}),
-					bookingDate: bookingDate.toLocaleDateString([], {
-						weekday: "long",
-						month: "short",
-						day: "numeric",
-						year: "numeric",
-					}),
-					zoomLink,
-				},
-			},
-		],
-		templateId,
-		mailSettings: {
-			sandboxMode: {
-				enable: dev,
-			},
-		},
-	};
-
-	try {
-		console.log("Sending consultation email...");
-		const response = await sendgrid.send(message);
-		console.log("Consultation Email sent!");
-		return response[0];
-	} catch (error: unknown) {
-		console.error(error);
-		if (error instanceof Error)
-			throw new Error("Error sending consultation email", error);
-
-		throw new Error("Error sending email");
-	}
-};
-
-export { sendConsultationEmail };
-
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	req.body.bookingDate = validateBookingDate(req);
-	const data = validateRequest(req.body, schema);
+	const data = consultationEmailSchema.parse(req.body);
 
 	try {
 		const response = await sendConsultationEmail(data);

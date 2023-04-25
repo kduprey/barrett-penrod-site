@@ -1,4 +1,5 @@
 import { prisma } from "@bpvs/db";
+import { sendCheckoutEmails } from "@bpvs/emails-temp";
 import { stripe } from "@bpvs/libs";
 import {
 	cancelCalendlyEvent,
@@ -8,7 +9,6 @@ import {
 	updateCustomer,
 } from "@bpvs/utils";
 import type { NextApiRequest, NextApiResponse } from "next";
-import sendCheckoutEmails from "packages/utils/src/lib/sendCheckoutEmails";
 import getRawBody from "raw-body";
 import Stripe from "stripe";
 

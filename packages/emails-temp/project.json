@@ -1,0 +1,16 @@
+{
+	"name": "emails-temp",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "packages/emails-temp/src",
+	"projectType": "library",
+	"targets": {
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": ["packages/emails-temp/**/*.ts"]
+			}
+		}
+	},
+	"tags": []
+}

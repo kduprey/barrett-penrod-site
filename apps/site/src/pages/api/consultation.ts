@@ -1,3 +1,4 @@
+import { sendConsultationEmail } from "@bpvs/emails-temp";
 import { CalendlyEvent, CalendlyInvitee } from "@bpvs/types";
 import {
 	apiHandler,
@@ -12,7 +13,6 @@ import {
 import createHttpError from "http-errors";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
-import { sendConsultationEmail } from "./emails/sendConsultation";
 
 const consultationParamsSchema = z.object({
 	eventURI: z.string(),

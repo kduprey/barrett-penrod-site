@@ -1,27 +1,9 @@
 import { z } from "zod";
-
-export const sessionTypeSchema = z.union([
-	z.literal("Voice Lesson"),
-	z.literal("Voice Coaching"),
-	z.literal("SVS Session"),
-	z.literal("Audition Coaching"),
-	z.literal("Trial Session"),
-	z.literal("Trial Session - SVS"),
-]);
-
-export const sessionLocationSchema = z.union([
-	z.literal("Location Chosen By Client"),
-	z.literal("Open Jar"),
-	z.literal("Home Studio"),
-	z.literal("Virtual"),
-]);
-
-export const packageTypeSchema = z.union([
-	z.literal("4 Session Package"),
-	z.literal("6 Session Package"),
-	z.literal("8 Session Package"),
-	z.literal("12 Session Package"),
-]);
+import {
+	PackageTypeEnum,
+	SessionLocationEnum,
+	SessionTypeEnum,
+} from "../events";
 
 export const contactSchema = z.object({
 	email: z.string(),
@@ -45,9 +27,9 @@ export const emailTemplateDataSchema = z.object({
 
 export const emailDataSchema = z.object({
 	client: contactSchema.required(),
-	sessionType: sessionTypeSchema,
-	bookingDate: z.date(),
-	bookingLocation: sessionLocationSchema,
+	sessionType: SessionTypeEnum,
+	bookingDate: z.coerce.date(),
+	bookingLocation: SessionLocationEnum,
 	zoomLink: z.string().optional(),
 });
 
@@ -60,7 +42,7 @@ export const guestEmailsSchema = emailDataSchema.omit({ client: true }).extend({
 });
 
 export const packageConfirmationEmailSchema = emailDataSchema.extend({
-	packageName: packageTypeSchema,
+	packageName: PackageTypeEnum,
 });
 
 export const firstTimeEmailSchema = emailDataSchema;

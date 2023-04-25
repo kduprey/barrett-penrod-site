@@ -2,61 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
-main {
-	@apply font-sans;
-}
+@layer base {
+	main {
+		@apply font-sans;
+	}
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	@apply text-secondary;
-}
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		@apply text-secondary;
+	}
 
-h1 {
-	@apply text-4xl font-bold md:text-6xl;
-}
+	h1 {
+		@apply text-4xl font-bold md:text-6xl;
+	}
 
-h2 {
-	@apply text-3xl font-bold md:text-5xl;
-}
+	h2 {
+		@apply text-3xl font-bold md:text-5xl;
+	}
 
-h3 {
-	@apply text-2xl font-bold md:text-4xl;
-}
+	h3 {
+		@apply text-2xl font-bold md:text-4xl;
+	}
 
-h4 {
-	@apply text-xl font-bold md:text-3xl;
-}
+	h4 {
+		@apply text-xl font-bold md:text-3xl;
+	}
 
-h5 {
-	@apply text-lg font-bold md:text-2xl;
-}
+	h5 {
+		@apply text-lg font-bold md:text-2xl;
+	}
 
-h6 {
-	@apply text-base font-bold md:text-xl;
-}
+	h6 {
+		@apply text-base font-bold md:text-xl;
+	}
 
-td {
-	@apply text-sm;
-}
+	td {
+		@apply text-sm;
+	}
 
-p {
-	@apply text-base font-normal text-slate-100 lg:text-lg;
-}
+	p {
+		@apply text-base font-normal text-slate-100 lg:text-lg;
+	}
 
-li {
-	@apply text-base font-light text-white lg:text-lg;
-}
+	li {
+		@apply text-base font-light text-white lg:text-lg;
+	}
 
-button {
-	@apply rounded bg-secondary px-4 py-2 text-primary shadow-md transition-all ease-in-out hover:opacity-80;
-}
+	button {
+		@apply bg-secondary text-primary rounded px-4 py-2 shadow-md transition-all ease-in-out hover:opacity-80;
+	}
 
-label {
-	@apply text-lg text-gray-700;
+	label {
+		@apply text-lg text-gray-700;
+	}
 }
 
 @layer utilities {
@@ -68,11 +70,11 @@ label {
 	}
 
 	.medium-submenu {
-		@apply absolute w-auto space-y-2 border bg-primary px-4 py-4;
+		@apply bg-primary absolute w-auto space-y-2 border px-4 py-4;
 	}
 
 	.skills h3 {
-		@apply py-3 text-secondary md:text-2xl;
+		@apply text-secondary py-3 md:text-2xl;
 	}
 
 	.skills div {
@@ -96,10 +98,10 @@ label {
 	}
 
 	.completed hr {
-		@apply withTransition h-1 w-full border-primary;
+		@apply withTransition border-primary h-1 w-full;
 	}
 	.completed p {
-		@apply withTransition first-of-type:uppercase first-of-type:text-primary first-of-type:opacity-40 last-of-type:text-gray-800;
+		@apply withTransition first-of-type:text-primary first-of-type:uppercase first-of-type:opacity-40 last-of-type:text-gray-800;
 	}
 	.logo {
 		@apply bg-white shadow-lg shadow-black;

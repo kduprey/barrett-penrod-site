@@ -1,6 +1,6 @@
 import Image from "next/image";
-import headshot5 from "public/headshot5.jpg";
 import React, { ReactElement } from "react";
+import headshot5 from "../../public/headshot5.jpg";
 import About from "../components/About";
 import Headline from "../components/Headline";
 import Headshots from "../components/Headshots";

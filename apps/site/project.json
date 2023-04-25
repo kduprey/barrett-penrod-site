@@ -4,6 +4,13 @@
 	"sourceRoot": "apps/site",
 	"projectType": "application",
 	"targets": {
+		"postinstall": {
+			"executor": "nx:run-commands",
+			"options": {
+				"cwd": "packages/db",
+				"commands": ["npm run db:generate"]
+			}
+		},
 		"build": {
 			"executor": "@nrwl/next:build",
 			"outputs": ["{options.outputPath}"],
@@ -17,14 +24,16 @@
 					"outputPath": "apps/site"
 				},
 				"production": {}
-			}
+			},
+			"dependsOn": ["postinstall"]
 		},
 		"dev": {
 			"executor": "nx:run-commands",
 			"options": {
 				"cwd": "apps/site",
 				"commands": ["npm run dev --"]
-			}
+			},
+			"dependsOn": ["postinstall"]
 		},
 		"serve": {
 			"executor": "@nrwl/next:server",

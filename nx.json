@@ -23,15 +23,6 @@
 	"targetDefaults": {
 		"test": {
 			"inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"]
-		},
-		"dev": {
-			"dependsOn": ["db:generate"]
-		},
-		"postinstall": {
-			"dependsOn": ["db:generate"]
-		},
-		"build": {
-			"dependsOn": ["db:generate"]
 		}
 	},
 	"generators": {

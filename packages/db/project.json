@@ -5,13 +5,9 @@
 	"projectType": "library",
 	"targets": {
 		"build": {
-			"executor": "@nrwl/js:tsc",
-			"outputs": ["{options.outputPath}"],
+			"executor": "nx:run-script",
 			"options": {
-				"outputPath": "dist/packages/db",
-				"main": "packages/db/src/index.ts",
-				"tsConfig": "packages/db/tsconfig.lib.json",
-				"assets": ["packages/db/*.md"]
+				"script": "db:generate"
 			}
 		},
 		"lint": {

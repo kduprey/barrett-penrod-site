@@ -1,4 +1,4 @@
-import { services } from "../../data/services";
+import { services } from "@bpvs/types";
 
 const Services = () => {
 	return (

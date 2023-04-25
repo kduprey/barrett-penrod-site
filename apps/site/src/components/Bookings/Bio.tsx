@@ -1,5 +1,5 @@
 import Image from "next/image";
-import headshot2 from "public/headshot2.jpg";
+import headshot2 from "../../../public/headshot2.jpg";
 
 // TODO: Migrate Content to CMS
 

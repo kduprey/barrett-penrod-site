@@ -35,7 +35,6 @@ const Footer = () => {
 			| React.ChangeEvent<HTMLTextAreaElement>
 	) => {
 		const { name, value } = e.target;
-		console.log(name, value);
 
 		switch (name) {
 			case "Name":

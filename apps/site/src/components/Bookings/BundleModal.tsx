@@ -1,7 +1,7 @@
+import { bundleServices } from "@bpvs/types";
 import { motion as m } from "framer-motion";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { bundleServices } from "../../data/services";
 
 type Props = {
 	isOpen: boolean;

@@ -1,8 +1,8 @@
 import Image from "next/image";
-import CornishLogo from "public/collegeLogos/cornishLogo.png";
-import NATSLogo from "public/collegeLogos/natsLogo.png";
-import NYULogo from "public/collegeLogos/nyuLogo.jpg";
-import SomaticVoicework from "public/collegeLogos/somaticVoicework.jpg";
+import CornishLogo from "../../../public/collegeLogos/cornishLogo.png";
+import NATSLogo from "../../../public/collegeLogos/natsLogo.png";
+import NYULogo from "../../../public/collegeLogos/nyuLogo.jpg";
+import SomaticVoicework from "../../../public/collegeLogos/somaticVoicework.jpg";
 
 // TODO: Migrate content to CMS
 

@@ -1,9 +1,9 @@
-import headshot1 from "public/headshot1.jpg";
-import headshot2 from "public/headshot2.jpg";
-import headshot3 from "public/headshot3.jpg";
-import headshot4 from "public/headshot4.jpg";
-import headshot5 from "public/headshot5.jpg";
-import headshot6 from "public/headshot6.jpg";
+import headshot1 from "../../public/headshot1.jpg";
+import headshot2 from "../../public/headshot2.jpg";
+import headshot3 from "../../public/headshot3.jpg";
+import headshot4 from "../../public/headshot4.jpg";
+import headshot5 from "../../public/headshot5.jpg";
+import headshot6 from "../../public/headshot6.jpg";
 import Headshot from "../components/Headshot";
 import * as gtag from "../lib/analytics";
 const headshots = [

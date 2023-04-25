@@ -1,5 +1,5 @@
+import { bundles } from "@bpvs/types";
 import { useState } from "react";
-import { bundles } from "../../data/services";
 import BundleModal from "./BundleModal";
 
 const Bundles = () => {

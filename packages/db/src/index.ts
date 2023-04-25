@@ -1,4 +1,5 @@
 export * from "@prisma/client";
+export { prisma };
 import { dev } from "@bpvs/types";
 import { PrismaClient } from "@prisma/client";
 import { PrismaClientOptions } from "@prisma/client/runtime/library";

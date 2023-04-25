@@ -1,9 +1,8 @@
-import { NextPageWithLayout } from "@bpvs/types";
+import { NextPageWithLayout, services } from "@bpvs/types";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import BookingsLayout from "../../components/BookingsLayout";
 import Logo from "../../components/Logo";
-import { services } from "../../data/services";
 
 const Individual: NextPageWithLayout = () => {
 	const router = useRouter();

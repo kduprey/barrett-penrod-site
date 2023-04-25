@@ -1,9 +1,8 @@
-import { NextPageWithLayout } from "@bpvs/types";
+import { NextPageWithLayout, bundles } from "@bpvs/types";
 import { useState } from "react";
 import PackageModal from "../../components/Bookings/BundleModal";
 import BookingsLayout from "../../components/BookingsLayout";
 import Logo from "../../components/Logo";
-import { bundles } from "../../data/services";
 
 const Bundles: NextPageWithLayout = () => {
 	const [isOpen, setIsOpen] = useState(false);

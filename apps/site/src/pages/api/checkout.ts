@@ -1,10 +1,10 @@
 import { server, stripe, stripeMode } from "@bpvs/libs";
+import { Prices, bundles, services } from "@bpvs/types";
 import { apiHandler, getCalendlyInvitee } from "@bpvs/utils";
 import createHttpError from "http-errors";
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
 import { z } from "zod";
-import { Prices, bundles, services } from "../../data/services";
 
 interface CheckoutParams {
 	service: number;

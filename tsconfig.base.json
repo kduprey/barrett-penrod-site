@@ -16,9 +16,10 @@
 		"esModuleInterop": true,
 		"baseUrl": ".",
 		"paths": {
-			"@bpvs/libs": ["packages/libs/src/index.ts"],
 			"@bpvs/db": ["packages/db/src/index.ts"],
+			"@bpvs/emails-temp": ["packages/emails-temp/src/index.ts"],
 			"@bpvs/emails/*": ["packages/emails/emails/*"],
+			"@bpvs/libs": ["packages/libs/src/index.ts"],
 			"@bpvs/prisma": ["packages/prisma/src/index.ts"],
 			"@bpvs/site-e2e/*": ["apps/site-e2e/*"],
 			"@bpvs/site/*": ["apps/site/*"],

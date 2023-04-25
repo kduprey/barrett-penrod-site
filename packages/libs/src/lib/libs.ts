@@ -1,5 +1,4 @@
 import { dev } from "@bpvs/types";
-import sendgridClient from "@sendgrid/mail";
 import { GraphQLClient } from "graphql-request";
 import Stripe from "stripe";
 
@@ -24,13 +23,6 @@ export const server = dev
 export const stripeMode = dev ? "test" : "live";
 
 export const db = dev ? "test" : "production";
-
-if (dev) {
-	sendgridClient.setApiKey(process.env.SENDGRID_DEV_API_KEY as string);
-} else {
-	sendgridClient.setApiKey(process.env.SENDGRID_API_KEY as string);
-}
-export const sendgrid = sendgridClient;
 
 export const hygraphcms: GraphQLClient = new GraphQLClient(
 	"https://api-us-east-1.hygraph.com/v2/cl7ep7a6t60k301ul5b4o8j9h/master",

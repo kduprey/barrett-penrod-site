@@ -7,7 +7,7 @@
 		"build": {
 			"executor": "nx:run-script",
 			"options": {
-				"script": "db:generate"
+				"script": "build"
 			}
 		},
 		"lint": {

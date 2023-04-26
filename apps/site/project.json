@@ -8,7 +8,10 @@
 			"executor": "nx:run-commands",
 			"options": {
 				"cwd": "packages/db",
-				"commands": ["npm run db:generate"]
+				"commands": [
+					"npm run db:generate",
+					"cd ../../packages/validation && npm run build"
+				]
 			}
 		},
 		"build": {

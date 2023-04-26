@@ -10,6 +10,16 @@
 			"options": {
 				"lintFilePatterns": ["packages/validation/**/*.ts"]
 			}
+		},
+		"build": {
+			"executor": "nx:run-script",
+			"outputs": [
+				"packages/validation/src/lib/stripe/stripeSchemas.ts",
+				"packages/validation/src/lib/stripe/stripeSchemas.zod.ts"
+			],
+			"options": {
+				"script": "build"
+			}
 		}
 	},
 	"tags": []

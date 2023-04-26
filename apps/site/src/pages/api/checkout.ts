@@ -85,8 +85,7 @@ const createCheckoutSession = async (
 	else {
 		if (params.service === 2) line_items.push(Prices[0].priceID[stripeMode]);
 		// if not SVS Session, add the regular downpayment if not a trial session
-		else
-			!isTrialSession ? line_items.push(Prices[1].priceID[stripeMode]) : null;
+		else if (!isTrialSession) line_items.push(Prices[1].priceID[stripeMode]);
 	}
 
 	// If location is Open Jar and a bundle, add the Open Jar booking fee

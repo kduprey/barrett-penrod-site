@@ -11,9 +11,9 @@ const CookieBanner = () => {
 	useEffect(() => {
 		if (localStorage.getItem("cookieSeen") !== "true") {
 			setTimeout(() => {
-				banner.current ? banner.current.classList.add("bottom-10") : null;
+				if (banner.current) banner.current.classList.add("bottom-10");
 				setTimeout(() => {
-					banner.current ? banner.current.classList.remove("-bottom-20") : null;
+					if (banner.current) banner.current.classList.remove("-bottom-20");
 				}, 500);
 				localStorage.setItem("cookieSeen", "true");
 			}, 1000);
@@ -21,9 +21,9 @@ const CookieBanner = () => {
 	}, []);
 
 	const handleClose = () => {
-		banner.current ? banner.current.classList.add("-bottom-20") : null;
+		if (banner.current) banner.current.classList.add("-bottom-20");
 		setTimeout(() => {
-			banner.current ? banner.current.classList.add("hidden") : null;
+			if (banner.current) banner.current.classList.add("hidden");
 		}, 2000);
 	};
 

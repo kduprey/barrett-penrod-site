@@ -1,5 +1,4 @@
-import { clients, Prisma } from ".prisma/client/index";
-import { prisma } from "@bpvs/db";
+import { Prisma, clients, prisma } from "@bpvs/db";
 import { apiHandler } from "@bpvs/utils";
 import createHttpError from "http-errors";
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";

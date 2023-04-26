@@ -48,7 +48,7 @@ const webhookHandler = async (
 	}
 
 	switch (event.type) {
-		case "checkout.session.completed":
+		case "checkout.session.completed": {
 			console.info("Checkout session completed");
 			const session = event.data.object as Stripe.Checkout.Session;
 
@@ -112,7 +112,8 @@ const webhookHandler = async (
 				});
 			}
 			break;
-		case "checkout.session.expired":
+		}
+		case "checkout.session.expired": {
 			const errors: any[] = [];
 			// Handle expired checkout sessions
 			const sessionExpired = event.data.object as Stripe.Checkout.Session;
@@ -184,6 +185,7 @@ const webhookHandler = async (
 			}
 
 			break;
+		}
 		default:
 			console.log(`Unhandled event type ${event.type}`);
 			return res.status(400).send(`Unhandled event type ${event.type}`);

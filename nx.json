@@ -7,9 +7,8 @@
 					"build",
 					"lint",
 					"cy:run",
-					"test",
-					"test:ci",
-					"export"
+					"export",
+					"postinstall"
 				]
 			}
 		}

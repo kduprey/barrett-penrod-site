@@ -1,0 +1,10 @@
+{
+	"name": "@bpvs/validation",
+	"version": "1.0.0",
+	"type": "commonjs",
+	"scripts": {
+		"gen:stripe:specs": "npx openapi-codegen gen stripe",
+		"gen:stripe:zod": "ts-to-zod ./src/lib/stripe/stripeSchemas.ts ./src/lib/stripe/stripeSchemas.zod.ts",
+		"build": "npm run gen:stripe:zod"
+	}
+}

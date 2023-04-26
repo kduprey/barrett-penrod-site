@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { PackageTypeEnum } from "../events";
+export * from "./stripeSchemas.zod";
 
 export const metadataParamSchema = z.record(
 	z.union([z.string(), z.number()]).nullable()

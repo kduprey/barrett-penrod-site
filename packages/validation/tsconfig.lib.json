@@ -5,6 +5,10 @@
 		"declaration": true,
 		"types": ["node"]
 	},
-	"include": ["src/**/*.ts"],
+	"include": [
+		"src/**/*.ts",
+		"ts-to-zod.config.js",
+		"openapi-codegen.config.ts"
+	],
 	"exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

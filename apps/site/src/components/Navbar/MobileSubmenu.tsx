@@ -1,10 +1,10 @@
+import { NavMenu } from "@bpvs/types";
 import { motion, useAnimation } from "framer-motion";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Link } from "react-scroll";
 import * as gtag from "../../lib/analytics";
-import { NavMenu } from "../../types/types";
 
 type Props = {
 	menu: NavMenu;
@@ -75,7 +75,11 @@ const MobileSubmenu = ({ menu, setIsNavOpen }: Props) => {
 									onClick={() => {
 										setIsNavOpen(false);
 										gtag.pageview(
-											new URL(window.location.href + router.route + sublink.id)
+											new URL(
+												window.location.href +
+													router.route +
+													sublink.id
+											)
 										);
 									}}
 									to={sublink.id}

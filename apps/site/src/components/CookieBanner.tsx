@@ -3,17 +3,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 
-// TODO: Migrate banner text to CMS
-
 const CookieBanner = () => {
 	const banner = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		if (localStorage.getItem("cookieSeen") !== "true") {
 			setTimeout(() => {
-				if (banner.current) banner.current.classList.add("bottom-10");
+				banner.current
+					? banner.current.classList.add("bottom-10")
+					: null;
 				setTimeout(() => {
-					if (banner.current) banner.current.classList.remove("-bottom-20");
+					banner.current
+						? banner.current.classList.remove("-bottom-20")
+						: null;
 				}, 500);
 				localStorage.setItem("cookieSeen", "true");
 			}, 1000);
@@ -21,9 +23,9 @@ const CookieBanner = () => {
 	}, []);
 
 	const handleClose = () => {
-		if (banner.current) banner.current.classList.add("-bottom-20");
+		banner.current ? banner.current.classList.add("-bottom-20") : null;
 		setTimeout(() => {
-			if (banner.current) banner.current.classList.add("hidden");
+			banner.current ? banner.current.classList.add("hidden") : null;
 		}, 2000);
 	};
 

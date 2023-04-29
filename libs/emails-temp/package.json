@@ -1,0 +1,9 @@
+{
+	"name": "@bpvs/emails-temp",
+	"version": "0.0.1",
+	"private": true,
+	"main": "dist/libs/emails-temp/src/index.js",
+	"scripts": {
+		"build": "rm -rf dist/libs/emails-temp && tsc"
+	}
+}

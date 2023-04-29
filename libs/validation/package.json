@@ -1,0 +1,8 @@
+{
+	"name": "@bpvs/validation",
+	"version": "0.0.1",
+	"main": "dist/libs/validation/src/index.js",
+	"scripts": {
+		"build": "rm -rf dist/libs/validation && tsc"
+	}
+}

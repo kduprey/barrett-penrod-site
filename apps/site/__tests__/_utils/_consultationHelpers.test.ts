@@ -1,22 +1,20 @@
-import { stripe } from "@bpvs/libs";
-import {
-	consultationResponse,
-	getEventResponse,
-} from "@bpvs/site/src/data/calendlyResponses/getEventResponse";
-import { getInviteeResponse } from "@bpvs/site/src/data/calendlyResponses/getInviteeResponse";
-import { dbCalendlyEventPayloads } from "@bpvs/site/src/data/seedData/calendlyEventPayloads";
-import { dbClients } from "@bpvs/site/src/data/seedData/clients";
+import { stripe } from "@bpvs/config";
+import { PrismaClient, prismaConfig } from "@bpvs/db";
 import {
 	checkForClient,
 	createClient,
 	createStripeCustomer,
 	updateClient,
 } from "@bpvs/utils";
-import { PrismaClient } from "@prisma/client";
+import {
+	consultationResponse,
+	getEventResponse,
+} from "apps/site/src/data/calendlyResponses/getEventResponse";
+import { getInviteeResponse } from "apps/site/src/data/calendlyResponses/getInviteeResponse";
+import { dbCalendlyEventPayloads } from "apps/site/src/data/seedData/calendlyEventPayloads";
+import { dbClients } from "apps/site/src/data/seedData/clients";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
-// eslint-disable-next-line
-// @ts-ignore
 const prisma = global.prisma || new PrismaClient({ ...prismaConfig });
 
 describe("checkForClient should", () => {
@@ -62,7 +60,9 @@ describe("checkForClient should", () => {
 			if (error instanceof Error) {
 				console.log("error: ", error);
 				expect(error).not.toBeNull();
-				expect(error.message).toBe("Error searching DB for existing customer");
+				expect(error.message).toBe(
+					"Error searching DB for existing customer"
+				);
 			}
 		}
 	});
@@ -118,7 +118,9 @@ describe("updateClient should", () => {
 		);
 		expect(updatedClient?.activeMember).toBe(true);
 		expect(updatedClient?.archived).toBe(false);
-		expect(updatedClient?.lessonsRemaining).toBe(client.lessonsRemaining + 1);
+		expect(updatedClient?.lessonsRemaining).toBe(
+			client.lessonsRemaining + 1
+		);
 		expect(updatedClient?.bookings[0].uri).toBe(payload.uri);
 
 		await prisma.clients.deleteMany({});
@@ -180,7 +182,9 @@ describe("createStripeCustomer should", () => {
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				expect(error).not.toBeNull();
-				expect(error.message).toBe("Error creating new Stripe customer");
+				expect(error.message).toBe(
+					"Error creating new Stripe customer"
+				);
 			}
 		}
 	});

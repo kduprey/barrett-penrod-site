@@ -1,7 +1,9 @@
 import { useState } from "react";
 import SidePanel from "../Modals/SidePanel";
-import AboutStudioSection from "../content/AboutStudioSection";
+import AboutStudioContent from "../content/AboutStudioSection";
 import MoreAboutSection from "../content/MoreAboutSection";
+
+// TODO: rename component to AboutStudioSection
 
 const AboutStudio = () => {
 	const [isMoreAboutOpen, setIsMoreAboutOpen] = useState(false);
@@ -15,9 +17,11 @@ const AboutStudio = () => {
 				<MoreAboutSection />
 			</SidePanel>
 			<section className="">
-				<AboutStudioSection />
+				<AboutStudioContent />
 				<div className="flex w-full justify-center pt-6">
-					<button onClick={() => setIsMoreAboutOpen(true)}>Learn More</button>
+					<button onClick={() => setIsMoreAboutOpen(true)}>
+						Learn More
+					</button>
 				</div>
 			</section>
 		</>

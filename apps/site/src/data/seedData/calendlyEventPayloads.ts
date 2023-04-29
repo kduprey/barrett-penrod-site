@@ -8,8 +8,7 @@ export const dbCalendlyEventPayloads: Prisma.calendlyInviteePayloadsCreateInput[
 			cancellation: null,
 			created_at: new Date("2022-08-18T13:42:44.673Z"),
 			email: "kdtech18@gmail.com",
-			event:
-				"https://api.calendly.com/scheduled_events/3d344a74-9b56-4bb4-8607-d07a35ac46bc",
+			event: "https://api.calendly.com/scheduled_events/3d344a74-9b56-4bb4-8607-d07a35ac46bc",
 			first_name: null,
 			last_name: null,
 			name: "Test User 2",
@@ -48,8 +47,7 @@ export const dbCalendlyEventPayloads: Prisma.calendlyInviteePayloadsCreateInput[
 				"https://calendly.com/cancellations/ce9cf428-4fe4-4cad-bb97-219dfb0dffc0",
 			created_at: new Date(1674504258128),
 			email: "rwjbarnes@gmail.com",
-			event:
-				"https://api.calendly.com/scheduled_events/458b6187-093c-43b4-a6d4-2c5bd0b1a913",
+			event: "https://api.calendly.com/scheduled_events/458b6187-093c-43b4-a6d4-2c5bd0b1a913",
 			first_name: null,
 			last_name: null,
 			name: "Robert Barnes Jr. ",
@@ -59,8 +57,7 @@ export const dbCalendlyEventPayloads: Prisma.calendlyInviteePayloadsCreateInput[
 			payment: null,
 			questions_and_answers: [
 				{
-					answer:
-						"The start of the new year, ive been signed to a talent manager and I decided to defer from Stella Adler Studio Of acting to really take a leap of faith within my life and more importantly my career so now im on the search for voice and speech coach and acting coach. I saw your flyer at stella adler and i wanted to see if we are a fit. Thank you! \nRobert Barnes!",
+					answer: "The start of the new year, ive been signed to a talent manager and I decided to defer from Stella Adler Studio Of acting to really take a leap of faith within my life and more importantly my career so now im on the search for voice and speech coach and acting coach. I saw your flyer at stella adler and i wanted to see if we are a fit. Thank you! \nRobert Barnes!",
 					position: 0,
 					question:
 						"Please share anything that will help prepare for our meeting.",

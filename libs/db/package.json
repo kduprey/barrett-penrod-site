@@ -1,0 +1,15 @@
+{
+	"name": "@bpvs/db",
+	"version": "0.0.1",
+	"main": "dist/libs/db/src/index.js",
+	"private": true,
+	"scripts": {
+		"build": "rm -rf dist/libs/db && tsc",
+		"lint": "npx prisma format",
+		"generate": "npx prisma generate",
+		"migrate": "npx prisma migrate dev",
+		"studio": "npx prisma studio",
+		"push": "npx prisma db push",
+		"deploy": "npx prisma migrate deploy"
+	}
+}

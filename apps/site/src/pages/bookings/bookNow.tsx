@@ -70,7 +70,9 @@ const Page: NextPageWithLayout = () => {
 					<Logo />
 				</div>
 				<h1 className="text-secondary pt-3 text-center">
-					{service >= 4 ? "Book Your Trial Session" : "Book Your Session"}
+					{service >= 4
+						? "Book Your Trial Session"
+						: "Book Your Session"}
 				</h1>
 			</div>
 
@@ -83,8 +85,10 @@ const Page: NextPageWithLayout = () => {
 							: service == 5
 							? baseURL + "trial-session-svs"
 							: bundle
-							? bundleServices[service].url[location] + "?hide_gdpr_banner=1"
-							: services[service].url[location] + "?hide_gdpr_banner=1"
+							? bundleServices[service].url[location] +
+							  "?hide_gdpr_banner=1"
+							: services[service].url[location] +
+							  "?hide_gdpr_banner=1"
 					}
 
 					// url="https://calendly.com/kentonduprey/30min"

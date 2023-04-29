@@ -1,10 +1,10 @@
 // import Stripe from "stripe";
-import { stripe } from "@bpvs/libs";
+import { stripe } from "@bpvs/config";
 import { bundles, CalendlyInvitee } from "@bpvs/types";
+import { getInviteeResponse } from "apps/site/src/data/calendlyResponses/getInviteeResponse";
+import { createCheckoutSession } from "apps/site/src/pages/api/checkout";
 import axios from "axios";
 import { describe, expect, it, Mocked } from "vitest";
-import { getInviteeResponse } from "../../src/data/calendlyResponses/getInviteeResponse";
-import { createCheckoutSession } from "../../src/pages/api/checkout";
 
 vi.mock("axios");
 const mockedAxios = axios as Mocked<typeof axios>;
@@ -196,9 +196,10 @@ describe("Checkout should", () => {
 			session.id as string
 		);
 
-		expect(sessionData.amount_total, "Checking for accurate bundle total").toBe(
-			30500
-		);
+		expect(
+			sessionData.amount_total,
+			"Checking for accurate bundle total"
+		).toBe(30500);
 
 		await stripe.checkout.sessions.expire(session.id as string);
 	});
@@ -484,7 +485,9 @@ describe("Checkout should", () => {
 		} catch (error: unknown) {
 			expect(error).toBeInstanceOf(Error);
 			if (error instanceof Error)
-				expect(error.message).to.equal("Cannot select bundle for SVS Session");
+				expect(error.message).to.equal(
+					"Cannot select bundle for SVS Session"
+				);
 		}
 	});
 

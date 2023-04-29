@@ -1,4 +1,4 @@
-import { server } from "@bpvs/libs";
+import { server } from "@bpvs/config";
 import { NextPageWithLayout } from "@bpvs/types";
 import { useRouter } from "next/router";
 import { InlineWidget, useCalendlyEventListener } from "react-calendly";
@@ -14,12 +14,20 @@ const Consultation: NextPageWithLayout = () => {
 			console.log(e.data.payload);
 
 			// Redirect to Success Page
-			const successURL = new URL(`${server}/bookings/consultationSuccess`);
+			const successURL = new URL(
+				`${server}/bookings/consultationSuccess`
+			);
 			// Add query params to success URL
 			// Add service name to query params
-			successURL.searchParams.append("eventURI", e.data.payload.event.uri);
+			successURL.searchParams.append(
+				"eventURI",
+				e.data.payload.event.uri
+			);
 			// Add inviteeURI to query params
-			successURL.searchParams.append("inviteeURI", e.data.payload.invitee.uri);
+			successURL.searchParams.append(
+				"inviteeURI",
+				e.data.payload.invitee.uri
+			);
 
 			// Redirect to success page
 			router.push(successURL);

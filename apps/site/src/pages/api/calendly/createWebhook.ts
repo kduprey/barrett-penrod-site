@@ -93,10 +93,12 @@ const createWebhook = async (url: string): Promise<CalendlyWebhook> => {
 		console.error(error);
 
 		if (error instanceof Error)
-			throw new Error(`Error creating webhook: ${error}`);
+			throw new Error("Error creating webhook", error);
 
 		throw new Error("Error creating webhook");
 	}
+
+	throw new Error("Error creating webhook");
 };
 
 export { createWebhook };

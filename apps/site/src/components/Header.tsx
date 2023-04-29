@@ -84,7 +84,10 @@ const Header = (props: Props) => {
 			/>
 			<link rel="manifest" href="/favicons/manifest.json" />
 			<meta name="msapplication-TileColor" content="#ffffff" />
-			<meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
+			<meta
+				name="msapplication-TileImage"
+				content="/ms-icon-144x144.png"
+			/>
 			<meta name="theme-color" content="#ffffff"></meta>
 		</Head>
 	);

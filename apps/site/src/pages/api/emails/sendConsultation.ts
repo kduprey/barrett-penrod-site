@@ -11,6 +11,14 @@ import { NextApiRequest, NextApiResponse } from "next";
 //     "zoomLink": "https://us06web.zoom.us/j/87847325639"
 // }
 
+/**
+ * This endpoint is used to send a confirmation email to a client after booking a consultation.
+ * @param client - The client's email and name
+ * @param bookingDate - The start time of the consultation
+ * @param zoomLink - The link to the Zoom meeting
+ * @returns The response from SendGrid
+ */
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const data = consultationEmailSchema.parse(req.body);
 

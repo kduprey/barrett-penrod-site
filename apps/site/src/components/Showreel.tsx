@@ -1,5 +1,3 @@
-// TODO: Migrate content to CMS
-
 const content = [
 	{
 		title: "My Fortune is My Face: Fade Out - Fade In",
@@ -18,6 +16,8 @@ const content = [
 		link: "https://www.youtube-nocookie.com/embed/F1-LEy1_lTY",
 	},
 ];
+
+// TODO: Migrate content to CMS
 
 const Video = ({ title, link }: { title: string; link: string }) => (
 	<div>
@@ -44,7 +44,11 @@ const Showreel = () => {
 			<h2 className="text-primary">Video/Sound Demo</h2>
 			<div className="w-5/6 grid-cols-2 gap-3 space-y-4 md:grid md:w-auto md:space-y-0">
 				{content.map((item) => (
-					<Video key={item.link} title={item.title} link={item.link} />
+					<Video
+						key={item.link}
+						title={item.title}
+						link={item.link}
+					/>
 				))}
 			</div>
 		</div>

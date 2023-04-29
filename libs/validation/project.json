@@ -1,0 +1,37 @@
+{
+	"name": "validation",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "libs/validation/src",
+	"projectType": "library",
+	"targets": {
+		"build": {
+			"executor": "@nx/js:tsc",
+			"outputs": ["{options.outputPath}"],
+			"options": {
+				"outputPath": "dist/libs/validation",
+				"main": "libs/validation/src/index.ts",
+				"tsConfig": "libs/validation/tsconfig.lib.json",
+				"assets": ["libs/validation/*.md"]
+			},
+			"dependsOn": ["types:build", "generate"]
+		},
+		"lint": {
+			"executor": "@nx/linter:eslint",
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": ["libs/validation/**/*.ts"]
+			}
+		},
+		"generate": {
+			"executor": "nx:run-commands",
+			"outputs": ["./src/lib/stripe/stripeSchemas.zod.ts"],
+			"options": {
+				"cwd": "libs/validation",
+				"commands": [
+					"ts-to-zod ./src/lib/stripe/stripeSchemas.ts ./src/lib/stripe/stripeSchemas.zod.ts"
+				]
+			}
+		}
+	},
+	"tags": []
+}

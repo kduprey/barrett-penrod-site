@@ -1,4 +1,4 @@
-import { hygraphcms } from "@bpvs/libs";
+import { hygraphcms } from "@bpvs/config";
 import { NextPageWithLayout } from "@bpvs/types";
 import { handleQueryParams } from "@bpvs/utils";
 import { gql } from "graphql-request";

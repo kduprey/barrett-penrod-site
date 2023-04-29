@@ -27,8 +27,12 @@ const Bundles = () => {
 								setselectedBundle(index);
 							}}
 						>
-							<h4 className="text-primary text-center">{bundle.title}</h4>
-							<p className="text-primary text-center">{bundle.discount}</p>
+							<h4 className="text-primary text-center">
+								{bundle.title}
+							</h4>
+							<p className="text-primary text-center">
+								{bundle.discount}
+							</p>
 							<p className="text-primary text-center text-3xl font-bold">
 								${bundle.price}
 							</p>

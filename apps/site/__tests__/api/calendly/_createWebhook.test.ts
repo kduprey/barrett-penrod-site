@@ -1,8 +1,8 @@
 import {
 	createWebhookResponse,
 	getWebhooks,
-} from "@bpvs/site/src/data/calendlyResponses/getWebhooks";
-import { createWebhook } from "@bpvs/site/src/pages/api/calendly/createWebhook";
+} from "apps/site/src/data/calendlyResponses/getWebhooks";
+import { createWebhook } from "apps/site/src/pages/api/calendly/createWebhook";
 import axios from "axios";
 import { Mocked, describe, expect, vitest as vi } from "vitest";
 

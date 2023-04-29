@@ -96,10 +96,13 @@ const ConsultationSuccess: NextPageWithLayout = ({
 			<div className="bg-secondary m-3 flex flex-col items-center justify-center space-y-4 rounded p-6 shadow-lg">
 				<p className="text-primary">Thank you, {name}</p>
 				<p className="text-primary text-center">
-					Your consultation session has been scheduled for {time} on {date}
+					Your consultation session has been scheduled for {time} on{" "}
+					{date}
 				</p>
 				<div className="flex flex-col items-center justify-center">
-					<p className="text-primary">You can join the Zoom meeting here!</p>
+					<p className="text-primary">
+						You can join the Zoom meeting here!
+					</p>
 					<a href={zoomLink}>{zoomLink}</a>
 				</div>
 

@@ -1,23 +1,14 @@
+/** @type {import('next').NextConfig} */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withAxiom } = require("next-axiom");
-const { PrismaPlugin } = require("@prisma/nextjs-monorepo-workaround-plugin");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withSentryConfig } = require("@sentry/nextjs");
-const { withNx } = require("@nrwl/next/plugins/with-nx");
-
-/**
- * @type {import('next').NextConfig}
- * @type {import('@nrwl/next/plugins/with-nx').WithNxOptions}
- **/
-
-const nextConfig = {
-	transpilePackages: ["@bpvs/types"],
+const nextConfig = withAxiom({
 	reactStrictMode: true,
 	webpack(config, { isServer }) {
 		if (!isServer) {
 			config.resolve.fallback.fs = false;
-		} else {
-			config.plugins = [...config.plugins, new PrismaPlugin()];
 		}
-
 		return config;
 	},
 	async redirects() {
@@ -117,19 +108,10 @@ const nextConfig = {
 		hideSourcemaps: true,
 		tunnelRoute: "/monitoring-tunnel",
 	},
+});
+
+const sentryWebpackPluginOptions = {
+	silent: true,
 };
 
-const plugins = [withAxiom];
-
-module.exports = async (phase, context) => {
-	let updatedConfig = plugins.reduce((acc, fn) => fn(acc), nextConfig);
-
-	// Apply the async function that `withNx` returns.
-	updatedConfig = await withNx(updatedConfig)(phase, context);
-
-	// If you have plugins that has to be added after Nx you can do that here.
-	// For example, Sentry needs to be added last.
-	updatedConfig = withSentryConfig(updatedConfig, { silent: true });
-
-	return updatedConfig;
-};
+module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions);

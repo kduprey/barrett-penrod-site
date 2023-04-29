@@ -1,4 +1,4 @@
-// TODO: Migrate data to CMS
+// TODO: Move this to  CMS
 
 export const theater = [
 	{

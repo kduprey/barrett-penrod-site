@@ -1,4 +1,4 @@
-import { server, stripe, stripeMode } from "@bpvs/libs";
+import { server, stripe, stripeMode } from "@bpvs/config";
 import { Prices, bundles, services } from "@bpvs/types";
 import { apiHandler, getCalendlyInvitee } from "@bpvs/utils";
 import createHttpError from "http-errors";
@@ -83,9 +83,13 @@ const createCheckoutSession = async (
 	// If not a bundle purchase, add lesson downpayment to line items
 	// if SVS Session, add the downpayment for SVS Session
 	else {
-		if (params.service === 2) line_items.push(Prices[0].priceID[stripeMode]);
+		if (params.service === 2)
+			line_items.push(Prices[0].priceID[stripeMode]);
 		// if not SVS Session, add the regular downpayment if not a trial session
-		else if (!isTrialSession) line_items.push(Prices[1].priceID[stripeMode]);
+		else
+			!isTrialSession
+				? line_items.push(Prices[1].priceID[stripeMode])
+				: null;
 	}
 
 	// If location is Open Jar and a bundle, add the Open Jar booking fee
@@ -183,20 +187,20 @@ const createCheckoutSession = async (
 
 export { createCheckoutSession };
 
-const POSTCheckoutParamsSchema = z.object({
-	service: z.number(),
-	location: z.number(),
-	bundle: z.number().optional(),
+const POSTCheckoutBody = z.object({
+	service: z.coerce.number(),
+	location: z.coerce.number(),
+	bundle: z.coerce.number(),
 	eventURI: z.string(),
 	inviteeURI: z.string(),
-	isLonger: z.boolean().optional(),
+	isLonger: z.boolean(),
 });
 
 const POSTCheckout: NextApiHandler = async (
 	req: NextApiRequest,
 	res: NextApiResponse
 ) => {
-	const data = POSTCheckoutParamsSchema.parse(req.body);
+	const data = POSTCheckoutBody.parse(req.body);
 
 	try {
 		// Create checkout session

@@ -1,3 +1,4 @@
+import { NavMenu } from "@bpvs/types";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NextLink from "next/link";
@@ -5,7 +6,6 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { Link } from "react-scroll";
 import * as gtag from "../../lib/analytics";
-import { NavMenu } from "../../types/types";
 
 type Props = {
 	menu: NavMenu;
@@ -48,7 +48,11 @@ const Submenu = ({ menu }: Props) => {
 									onClick={() => {
 										setIsOpen(false);
 										gtag.pageview(
-											new URL(window.location.href + router.route + sublink.id)
+											new URL(
+												window.location.href +
+													router.route +
+													sublink.id
+											)
 										);
 									}}
 									to={sublink.id}
@@ -69,7 +73,11 @@ const Submenu = ({ menu }: Props) => {
 								className="text-secondary cursor-pointer underline-offset-2 hover:text-white hover:underline"
 								onClick={() => {
 									gtag.pageview(
-										new URL(window.location.href + router.route + menu.path)
+										new URL(
+											window.location.href +
+												router.route +
+												menu.path
+										)
 									);
 								}}
 							>
@@ -101,9 +109,15 @@ const Submenu = ({ menu }: Props) => {
 			className="cursor-pointer pb-3 text-xl font-thin text-white hover:text-slate-300"
 			onClick={() => {
 				setIsOpen(false);
-				gtag.pageview(new URL(window.location.href + router.route + menu.path));
+				gtag.pageview(
+					new URL(window.location.href + router.route + menu.path)
+				);
 			}}
-			to={menu.name.toLowerCase() === "home" ? "home" : menu.name.toLowerCase()}
+			to={
+				menu.name.toLowerCase() === "home"
+					? "home"
+					: menu.name.toLowerCase()
+			}
 			spy={true}
 			smooth={true}
 			offset={-120}

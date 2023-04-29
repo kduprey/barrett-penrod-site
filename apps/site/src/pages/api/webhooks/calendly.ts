@@ -1,7 +1,6 @@
-import { prisma } from "@bpvs/db";
+import { Prisma, calendlyInviteePayloads, prisma } from "@bpvs/db";
 import { CalendlyEvent } from "@bpvs/types";
 import { getCalendlyEvent } from "@bpvs/utils";
-import { calendlyInviteePayloads, Prisma } from "@prisma/client";
 import crypto from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { consultationHandler } from "../consultation";
@@ -12,9 +11,11 @@ const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	// Extract the timestamp and signature from the header
 
-	const calendlySignature = req.headers["calendly-webhook-signature"] as string;
+	const calendlySignature = req.headers[
+		"calendly-webhook-signature"
+	] as string;
 	if (!calendlySignature) res.status(500).send("Invalid Signature");
-	const { t, signature } = calendlySignature.split(",").reduce(
+	const { t, signature } = calendlySignature?.split(",").reduce(
 		(acc, currentValue) => {
 			const [key, value] = currentValue.split("=");
 			if (key === "t") {

@@ -1,0 +1,9 @@
+{
+	"name": "@bpvs/emails",
+	"version": "1.0.0",
+	"private": "true",
+	"scripts": {
+		"export": "email export",
+		"dev": "email dev"
+	}
+}

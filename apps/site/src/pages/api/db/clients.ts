@@ -20,7 +20,9 @@ const GETHandler: NextApiHandler = async (
 	} catch (error: unknown) {
 		console.error(error);
 		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(JSON.stringify(error));
+			throw new createHttpError.InternalServerError(
+				JSON.stringify(error)
+			);
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "Error getting clients",
@@ -78,7 +80,9 @@ const GET = async (searchString?: string) => {
 	} catch (error: unknown) {
 		console.error(error);
 		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(JSON.stringify(error));
+			throw new createHttpError.InternalServerError(
+				JSON.stringify(error)
+			);
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "Error getting clients",
@@ -97,7 +101,9 @@ const POSTHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 	} catch (error: unknown) {
 		console.error(error);
 		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(JSON.stringify(error));
+			throw new createHttpError.InternalServerError(
+				JSON.stringify(error)
+			);
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "Error creating client",
@@ -136,7 +142,9 @@ const PUTHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 	} catch (error: unknown) {
 		console.error(error);
 		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(JSON.stringify(error));
+			throw new createHttpError.InternalServerError(
+				JSON.stringify(error)
+			);
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "Error updating client",
@@ -177,7 +185,7 @@ const DELETEHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 		.object({
 			id: z.string(),
 		})
-		.parse(req.query);
+		.parse(req.body);
 
 	try {
 		const result = await DELETE(data.id);
@@ -185,7 +193,9 @@ const DELETEHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 	} catch (error: unknown) {
 		console.error(error);
 		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(JSON.stringify(error));
+			throw new createHttpError.InternalServerError(
+				JSON.stringify(error)
+			);
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "Error deleting client",

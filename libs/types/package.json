@@ -1,0 +1,9 @@
+{
+	"name": "@bpvs/types",
+	"version": "0.0.1",
+	"main": "dist/libs/types/src/index.js",
+	"types": "dist/libs/types/src/index.d.ts",
+	"scripts": {
+		"build": "rm -rf dist/libs/types && tsc"
+	}
+}

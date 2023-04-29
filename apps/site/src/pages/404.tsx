@@ -8,7 +8,9 @@ const Custom404: NextPageWithLayout = () => {
 		<section className="my-auto flex flex-col items-center justify-center">
 			<h1 className="text-secondary p-6 text-center">Page Not Found</h1>
 			<Link href={"/"} passHref>
-				<button className="max-w-fit self-center text-2xl">Go Home</button>
+				<button className="max-w-fit self-center text-2xl">
+					Go Home
+				</button>
 			</Link>
 		</section>
 	);

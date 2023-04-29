@@ -1,4 +1,4 @@
-import { stripe } from "@bpvs/libs";
+import { stripe } from "@bpvs/config";
 import { NextPageWithLayout } from "@bpvs/types";
 import {
 	getCalendlyEvent,
@@ -7,7 +7,6 @@ import {
 	getPackageTypeFromLineItems,
 	isPackageCheckout,
 } from "@bpvs/utils";
-import { zoomLocationSchema } from "@bpvs/validation";
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 import Stripe from "stripe";
@@ -39,9 +38,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 				params.session_id as string
 			)) as Stripe.Checkout.Session;
 
-		const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+		const lineItems = await stripe.checkout.sessions.listLineItems(
+			session.id
+		);
 
-		const event = await getCalendlyEvent(session.client_reference_id as string);
+		const event = await getCalendlyEvent(
+			session.client_reference_id as string
+		);
 		const {
 			resource: { name },
 		} = await getCalendlyInvitee(session?.metadata?.inviteeURI as string);
@@ -54,8 +57,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		}
 
 		// Get zoom link if it's a zoom location
-		if (zoomLocationSchema.safeParse(location).success)
-			zoomLink = await getCalendlyEventZoomLink(event);
+		zoomLink = await getCalendlyEventZoomLink(event);
 
 		return {
 			props: {
@@ -113,12 +115,14 @@ const Success: NextPageWithLayout = ({
 				{packageName && (
 					<p className="text-primary">
 						You have purchased the{" "}
-						<span className="font-semibold ">{packageName}</span> bundle.
+						<span className="font-semibold ">{packageName}</span>{" "}
+						bundle.
 					</p>
 				)}
 				<p className="text-primary">
 					Your {packageName ? "first" : "upcoming"}{" "}
-					<span className="font-semibold ">{sessionTitle}</span> session is at:
+					<span className="font-semibold ">{sessionTitle}</span>{" "}
+					session is at:
 				</p>
 
 				<p className="text-primary font-semibold">

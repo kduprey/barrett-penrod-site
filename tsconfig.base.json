@@ -8,26 +8,34 @@
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"importHelpers": true,
-		"target": "es2017",
+		"target": "es2015",
 		"module": "esnext",
 		"lib": ["es2017", "dom"],
 		"skipLibCheck": true,
 		"skipDefaultLibCheck": true,
-		"esModuleInterop": true,
 		"baseUrl": ".",
+		"esModuleInterop": true,
 		"paths": {
-			"@bpvs/db": ["packages/db/src/index.ts"],
-			"@bpvs/emails-temp": ["packages/emails-temp/src/index.ts"],
-			"@bpvs/emails/*": ["packages/emails/emails/*"],
-			"@bpvs/libs": ["packages/libs/src/index.ts"],
-			"@bpvs/prisma": ["packages/prisma/src/index.ts"],
-			"@bpvs/site-e2e/*": ["apps/site-e2e/*"],
-			"@bpvs/site/*": ["apps/site/*"],
-			"@bpvs/tailwind": ["packages/tailwind-config/src/index.ts"],
-			"@bpvs/types": ["packages/types/src/index.ts"],
-			"@bpvs/utils": ["packages/utils/src/index.ts"],
-			"@bpvs/validation": ["packages/validation/src/index.ts"]
-		}
+			"@bpvs/config": ["libs/config/src/index.ts"],
+			"@bpvs/db": ["libs/db/src/index.ts"],
+			"@bpvs/emails": ["libs/emails/emails/*"],
+			"@bpvs/emails-temp": ["libs/emails-temp/src/index.ts"],
+			"@bpvs/tailwind": ["libs/tailwind-config/src/index.ts"],
+			"@bpvs/types": ["libs/types/src/index.ts"],
+			"@bpvs/utils": ["libs/utils/src/index.ts"],
+			"@bpvs/validation": ["libs/validation/src/index.ts"]
+		},
+		"types": ["node"]
 	},
-	"exclude": ["node_modules", "tmp"]
+	"exclude": ["node_modules", "tmp"],
+	"include": [
+		"apps/*/*.ts",
+		"libs/*/*.ts",
+		"apps/*/*.tsx",
+		"apps/*/*.js",
+		"libs/*/*.js",
+		"apps/*/*.json",
+		"libs/*/*.json",
+		"apps/site/vitest.config.ts"
+	]
 }

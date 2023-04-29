@@ -56,14 +56,14 @@ const FullPageModal = ({ isOpen, setIsOpen, header, children }: Props) => {
 						x: "100%",
 						transition: { duration: 0.7 },
 					}}
-					className={`bg-primary fixed left-0 top-[5.5em] z-[61] h-screen w-full ${
+					className={`fixed top-[5.5em] left-0 z-[61] h-screen w-full bg-primary ${
 						isOpen ? "block" : "hidden"
 					}`}
 				>
 					{/* Modal Header */}
-					<div className="bg-primary sticky z-[70] flex justify-center py-3 shadow-lg">
+					<div className="sticky z-[70] flex justify-center bg-primary py-3 shadow-lg">
 						<div
-							className=" text-secondary absolute left-3 text-3xl"
+							className=" absolute left-3 text-3xl text-secondary"
 							onClick={handleClose}
 						>
 							{/* Arrow */}
@@ -73,7 +73,9 @@ const FullPageModal = ({ isOpen, setIsOpen, header, children }: Props) => {
 					</div>
 
 					{/* Modal Interior */}
-					<div className="left-0 h-[80vh] overflow-scroll">{children}</div>
+					<div className="left-0 h-[80vh] overflow-scroll">
+						{children}
+					</div>
 				</m.section>
 			)}
 		</AnimatePresence>

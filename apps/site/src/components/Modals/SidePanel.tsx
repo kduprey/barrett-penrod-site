@@ -26,9 +26,9 @@ const SidePanel = ({ isOpen, setIsOpen, header, children }: Props) => {
 		<AnimatePresence>
 			{isOpen && (
 				// Modal Background
-				<div className="fixed left-0 top-[6em] z-[60] h-full ">
+				<div className="fixed top-[6em] left-0 z-[60] h-full ">
 					<m.div
-						className=" bg-secondary fixed inset-0 top-[6em]   "
+						className=" fixed inset-0 top-[6em] bg-secondary   "
 						initial={{ opacity: 0 }}
 						animate={{
 							opacity: "40%",
@@ -40,7 +40,7 @@ const SidePanel = ({ isOpen, setIsOpen, header, children }: Props) => {
 
 					{/* Modal Dialog */}
 					<m.div
-						className={`bg-primary fixed right-0 z-[61] w-screen pb-[12em] md:w-auto md:max-w-lg ${
+						className={`fixed right-0 z-[61] w-screen bg-primary pb-[12em] md:w-auto md:max-w-lg ${
 							isOpen ? "block" : "hidden"
 						}`}
 						initial={{ x: "100%" }}
@@ -53,7 +53,7 @@ const SidePanel = ({ isOpen, setIsOpen, header, children }: Props) => {
 						{/* Modal Header */}
 						<div className="sticky z-[70] p-4 shadow-lg">
 							<div
-								className="text-secondary absolute left-3 text-3xl"
+								className="absolute left-3 text-3xl text-secondary"
 								onClick={handleClose}
 							>
 								{/* Arrow */}
@@ -64,7 +64,7 @@ const SidePanel = ({ isOpen, setIsOpen, header, children }: Props) => {
 						</div>
 
 						{/* Modal Body */}
-						<div className="h-[85vh] h-full overflow-y-scroll p-6">
+						<div className="h-full h-[85vh] overflow-y-scroll p-6">
 							{children}
 						</div>
 					</m.div>

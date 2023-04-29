@@ -1,22 +1,19 @@
-import { getEventResponse } from "@bpvs/site/src/data/calendlyResponses/getEventResponse";
-import { getInviteeResponse } from "@bpvs/site/src/data/calendlyResponses/getInviteeResponse";
-import { dbCalendlyEventPayloads } from "@bpvs/site/src/data/seedData/calendlyEventPayloads";
-import { dbClients } from "@bpvs/site/src/data/seedData/clients";
-import {
-	checkout_session_completed,
-	line_items,
-} from "@bpvs/site/src/data/stripeResponses/webhooks";
+import { PrismaClient, prismaConfig } from "@bpvs/db";
 import {
 	createCustomer,
 	getNumLessonsFromLineItems,
 	updateCustomer,
 } from "@bpvs/utils";
-import { PrismaClient } from "@prisma/client";
+import { getEventResponse } from "apps/site/src/data/calendlyResponses/getEventResponse";
+import { getInviteeResponse } from "apps/site/src/data/calendlyResponses/getInviteeResponse";
+import { dbCalendlyEventPayloads } from "apps/site/src/data/seedData/calendlyEventPayloads";
+import { dbClients } from "apps/site/src/data/seedData/clients";
+import {
+	checkout_session_completed,
+	line_items,
+} from "apps/site/src/data/stripeResponses/webhooks";
 import { describe, expect, it } from "vitest";
 
-// This is a workaround to make sure the prisma client is only instantiated once
-// eslint-disable-next-line
-// @ts-ignore
 const prisma = global.prisma || new PrismaClient({ ...prismaConfig });
 
 describe("updateCustomer after checkout", () => {
@@ -59,7 +56,8 @@ describe("updateCustomer after checkout", () => {
 		);
 		expect(updatedClient.activeMember).toBe(true);
 		expect(updatedClient.totalSpend).toBe(
-			client.totalSpend + (checkout_session_completed.amount_total as number)
+			client.totalSpend +
+				(checkout_session_completed.amount_total as number)
 		);
 		expect(updatedClient.lessonsRemaining).toBe(
 			client.lessonsRemaining + getNumLessonsFromLineItems(line_items)

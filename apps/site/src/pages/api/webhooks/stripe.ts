@@ -1,6 +1,6 @@
+import { stripe } from "@bpvs/config";
 import { prisma } from "@bpvs/db";
 import { sendCheckoutEmails } from "@bpvs/emails-temp";
-import { stripe } from "@bpvs/libs";
 import {
 	cancelCalendlyEvent,
 	createCustomer,
@@ -48,7 +48,7 @@ const webhookHandler = async (
 	}
 
 	switch (event.type) {
-		case "checkout.session.completed": {
+		case "checkout.session.completed":
 			console.info("Checkout session completed");
 			const session = event.data.object as Stripe.Checkout.Session;
 
@@ -82,7 +82,12 @@ const webhookHandler = async (
 					);
 				// If customer doesn't exist, create a new one
 				else
-					await createCustomer(inviteeData, bookingData, session, line_items);
+					await createCustomer(
+						inviteeData,
+						bookingData,
+						session,
+						line_items
+					);
 
 				// Send checkout emails
 				try {
@@ -112,8 +117,7 @@ const webhookHandler = async (
 				});
 			}
 			break;
-		}
-		case "checkout.session.expired": {
+		case "checkout.session.expired":
 			const errors: any[] = [];
 			// Handle expired checkout sessions
 			const sessionExpired = event.data.object as Stripe.Checkout.Session;
@@ -145,7 +149,8 @@ const webhookHandler = async (
 				try {
 					const client = await prisma.clients.findUnique({
 						where: {
-							stripe_customer_id: sessionExpired.customer as string,
+							stripe_customer_id:
+								sessionExpired.customer as string,
 						},
 					});
 					if (!client)
@@ -162,7 +167,8 @@ const webhookHandler = async (
 				try {
 					const updateClient = await prisma.clients.update({
 						where: {
-							stripe_customer_id: sessionExpired.customer as string,
+							stripe_customer_id:
+								sessionExpired.customer as string,
 						},
 						data: {
 							nextLesson: null,
@@ -185,7 +191,6 @@ const webhookHandler = async (
 			}
 
 			break;
-		}
 		default:
 			console.log(`Unhandled event type ${event.type}`);
 			return res.status(400).send(`Unhandled event type ${event.type}`);

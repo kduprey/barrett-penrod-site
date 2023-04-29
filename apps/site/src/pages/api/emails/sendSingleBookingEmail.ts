@@ -13,6 +13,16 @@ import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 //     "zoomLink": "https://zoom.us/testlink"
 // }
 
+/**
+ * This endpoint is used to send a single booking email to a client after booking a session.
+ * @param client - The email address and name of the client
+ * @param sessionType - The type of session
+ * @param bookingDate - The date of the event
+ * @param bookingLocation - The Location of the booking
+ * @param zoomLink - The zoom link for the event (optional)
+ * @returns - The response from SendGrid
+ */
+
 const handler: NextApiHandler = async (
 	req: NextApiRequest,
 	res: NextApiResponse

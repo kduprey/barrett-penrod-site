@@ -14,10 +14,16 @@ import createHttpError from "http-errors";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 
-const consultationParamsSchema = z.object({
-	eventURI: z.string(),
-	inviteeURI: z.string(),
-	calendlyPayloadId: z.string(),
+const consultationParams = z.object({
+	eventURI: z.string({
+		required_error: "Event URI is required",
+	}),
+	inviteeURI: z.string({
+		required_error: "Invitee URI is required",
+	}),
+	calendlyPayloadId: z.string({
+		required_error: "Calendly payload ID is required",
+	}),
 });
 
 const consultationHandler = async (
@@ -40,7 +46,7 @@ const consultationHandler = async (
 	} catch (err: unknown) {
 		console.error(err);
 		if (err instanceof Error)
-			throw new Error(`Error getting consultation data: ${err}`);
+			throw new Error("Error getting consultation data", err);
 		else throw new Error("Error getting consultation data");
 	}
 
@@ -96,7 +102,7 @@ const handler: NextApiHandler = async (
 	res: NextApiResponse
 ) => {
 	const { eventURI, inviteeURI, calendlyPayloadId } =
-		consultationParamsSchema.parse(req.body);
+		consultationParams.parse(req.body);
 	try {
 		const response = await consultationHandler(
 			eventURI,

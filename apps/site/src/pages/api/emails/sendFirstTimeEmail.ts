@@ -13,6 +13,16 @@ import type { NextApiRequest, NextApiResponse } from "next";
 //     "zoomLink": "https://zoom.us/testlink"
 // }
 
+/**
+ * This endpoint is used to send a first time email to a client after booking a session.
+ * @param email The email address of the client
+ * @param name The name of the client
+ * @param bookingDate The date of the event
+ * @param bookingName The name of the booking
+ * @param zoomLink The zoom link for the event
+ * @returns The response from SendGrid
+ */
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const data = firstTimeEmailSchema.parse(req.body);
 

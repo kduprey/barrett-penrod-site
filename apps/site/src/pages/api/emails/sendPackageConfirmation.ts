@@ -14,9 +14,19 @@ import type { NextApiRequest, NextApiResponse } from "next";
 //     "zoomLink": "https://zoom.us/testLink"
 // }
 
+/**
+ * This endpoint is used to send a package confirmation email to a client after booking a package.
+ * @param client - The email address and name of the client
+ * @param packageName - The name of the package that was booked
+ * @param sessionType - The type of session in the package
+ * @param bookingDate - The date and time of the first lesson in the package
+ * @param bookingLocation - The location of the first lesson in the package
+ * @param zoomLink - The zoom link for the first lesson in the package
+ * @returns - The response from SendGrid
+ */
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const data = packageConfirmationEmailSchema.parse(req.body);
-
 	try {
 		const response = await sendPackageConfirmationEmail(data);
 		res.status(200).json(response);

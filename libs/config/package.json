@@ -1,0 +1,9 @@
+{
+	"name": "@bpvs/config",
+	"version": "0.0.1",
+	"private": true,
+	"main": "dist/libs/config/src/index.js",
+	"scripts": {
+		"build": "rm -rf dist/libs/config && tsc"
+	}
+}

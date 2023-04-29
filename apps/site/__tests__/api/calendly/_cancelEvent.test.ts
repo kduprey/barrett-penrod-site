@@ -1,5 +1,5 @@
-import { cancelEventResponse } from "@bpvs/site/src/data/calendlyResponses/cancelEventResponse";
 import { cancelCalendlyEvent } from "@bpvs/utils";
+import { cancelEventResponse as data } from "apps/site/src/data/calendlyResponses/cancelEventResponse";
 import axios from "axios";
 import { describe, expect, Mocked, vitest as vi } from "vitest";
 
@@ -12,20 +12,20 @@ describe("cancelEvent should", () => {
 	});
 
 	it("Should handle a correct data submission", async () => {
-		mockedAxios.post.mockResolvedValueOnce({ cancelEventResponse });
+		mockedAxios.post.mockResolvedValueOnce({ data });
 
 		try {
 			const response = await cancelCalendlyEvent("test");
 
 			expect(mockedAxios.post).toHaveBeenCalledTimes(1);
-			expect(response).toEqual(cancelEventResponse);
+			expect(response).toEqual(data);
 		} catch (error) {
 			expect(error).toBeUndefined();
 		}
 	});
 
 	it("Should handle an incorrect data submission", async () => {
-		mockedAxios.post.mockResolvedValueOnce({ cancelEventResponse });
+		mockedAxios.post.mockResolvedValueOnce({ data });
 
 		try {
 			const response = await cancelCalendlyEvent("");

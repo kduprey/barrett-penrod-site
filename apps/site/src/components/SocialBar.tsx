@@ -9,7 +9,7 @@ import {
 const SocialBar = () => {
 	return (
 		<>
-			<div className="bg-secondary mx-6 flex items-center justify-evenly p-2 text-black md:hidden">
+			<div className="mx-6 flex items-center justify-evenly bg-secondary p-2 text-black md:hidden">
 				<a
 					className="text-black"
 					href="https://twitter.com/penrodbarrett?s=21&t=cXVPSIuXbwvd6pTGNYZz2A"
@@ -29,7 +29,7 @@ const SocialBar = () => {
 					<FontAwesomeIcon icon={faYoutube} />
 				</a>
 			</div>
-			<div className="bg-secondary fixed right-0 top-1/2 z-20 hidden h-40 w-12 flex-col justify-evenly md:flex">
+			<div className="fixed top-1/2 right-0 z-20 hidden h-40 w-12 flex-col justify-evenly bg-secondary md:flex">
 				<a
 					className="pl-4 text-black"
 					href="https://twitter.com/penrodbarrett?s=21&t=cXVPSIuXbwvd6pTGNYZz2A"

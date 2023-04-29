@@ -1,12 +1,17 @@
 import { apiHandler, getCalendlyInvitee } from "@bpvs/utils";
 import createHttpError from "http-errors";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { z } from "zod";
 
 const eventInviteeHandler: NextApiHandler = async (
 	req: NextApiRequest,
 	res: NextApiResponse
 ) => {
-	const { uri } = req.query;
+	const { uri } = z
+		.object({
+			uri: z.string(),
+		})
+		.parse(req.query);
 	if (
 		!uri ||
 		typeof uri !== "string" ||

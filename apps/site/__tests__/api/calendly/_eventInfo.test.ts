@@ -1,5 +1,5 @@
-import { getEventResponse } from "@bpvs/site/src/data/calendlyResponses/getEventResponse";
 import { getCalendlyEvent } from "@bpvs/utils";
+import { getEventResponse as data } from "apps/site/src/data/calendlyResponses/getEventResponse";
 import axios from "axios";
 import { afterEach, describe, expect, it, Mocked, vitest as vi } from "vitest";
 
@@ -11,16 +11,16 @@ describe("eventInfo should", () => {
 		mockedAxios.get.mockReset();
 	});
 
-	it("Should handle a correct getEventResponse submission", async () => {
-		mockedAxios.get.mockResolvedValueOnce({ getEventResponse });
+	it("Should handle a correct data submission", async () => {
+		mockedAxios.get.mockResolvedValueOnce({ data });
 
 		const response = await getCalendlyEvent("test");
 
-		expect(response).toEqual(getEventResponse);
+		expect(response).toEqual(data);
 	});
 
-	it("Should handle an incorrect getEventResponse submission", async () => {
-		mockedAxios.get.mockRejectedValueOnce({ getEventResponse });
+	it("Should handle an incorrect data submission", async () => {
+		mockedAxios.get.mockRejectedValueOnce({ data });
 
 		try {
 			const response = await getCalendlyEvent("");
@@ -32,7 +32,9 @@ describe("eventInfo should", () => {
 	});
 
 	it("Should throw an error if axios fails", async () => {
-		mockedAxios.post.mockRejectedValue(new Error("Error getting event info"));
+		mockedAxios.post.mockRejectedValue(
+			new Error("Error getting event info")
+		);
 
 		try {
 			const response = await getCalendlyEvent(" ");

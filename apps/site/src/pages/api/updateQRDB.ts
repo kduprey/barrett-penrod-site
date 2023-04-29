@@ -1,6 +1,5 @@
-import { prisma } from "@bpvs/db";
+import { prisma, qr_code_logs } from "@bpvs/db";
 import { apiHandler } from "@bpvs/utils";
-import { qr_code_logs } from "@prisma/client";
 import createHttpError from "http-errors";
 import { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
@@ -47,7 +46,9 @@ export { updateQRDB };
 const POSTUpdate = async (req: NextApiRequest, res: NextApiResponse) => {
 	const data = z
 		.object({
-			qrID: z.string(),
+			qrID: z.string({
+				required_error: "QR ID is required",
+			}),
 		})
 		.parse(req.body);
 

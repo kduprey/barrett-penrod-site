@@ -1,5 +1,4 @@
-import { sendgrid } from "@bpvs/libs";
-import { sendGuestEmails } from "@bpvs/utils";
+import { sendGuestEmails, sendgrid } from "@bpvs/emails-temp";
 import { expect, it, vitest as vi } from "vitest";
 
 const guests = [
@@ -78,7 +77,9 @@ describe("sendFirstTimeEmail should", () => {
 
 	it("should throw an error if sending the email fails", async () => {
 		// Mock the sendgrid.send function to reject the promise
-		sendgrid.send = vi.fn().mockRejectedValue(new Error("Error sending email"));
+		sendgrid.send = vi
+			.fn()
+			.mockRejectedValue(new Error("Error sending email"));
 
 		await expect(
 			sendGuestEmails({

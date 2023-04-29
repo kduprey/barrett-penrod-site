@@ -1,0 +1,8 @@
+{
+	"name": "@bpvs/utils",
+	"version": "0.0.1",
+	"main": "dist/libs/utils/src/index.ts",
+	"scripts": {
+		"build": "rm -rf dist/libs/utils && tsc"
+	}
+}

@@ -19,7 +19,9 @@ const Bundles: NextPageWithLayout = () => {
 			<div className="mx-auto max-w-[18rem]">
 				<Logo />
 			</div>
-			<h2 className="text-secondary py-6 text-center">Discount Packages</h2>
+			<h2 className="text-secondary py-6 text-center">
+				Discount Packages
+			</h2>
 			<div className="flex w-full max-w-screen-lg  flex-row flex-wrap items-center justify-evenly">
 				{bundles.map((bundle, index) => {
 					return (
@@ -27,8 +29,12 @@ const Bundles: NextPageWithLayout = () => {
 							key={bundle.title}
 							className="withTransition bg-secondary m-2 flex flex-col items-center justify-center space-y-3 rounded-lg p-6 shadow-md hover:scale-105 hover:opacity-90 md:w-[18rem] lg:w-[22rem]"
 						>
-							<h4 className="text-primary text-center">{bundle.title}</h4>
-							<p className="text-primary text-center">{bundle.discount}</p>
+							<h4 className="text-primary text-center">
+								{bundle.title}
+							</h4>
+							<p className="text-primary text-center">
+								{bundle.discount}
+							</p>
 							<p className="text-primary text-center text-3xl font-bold">
 								${bundle.price}
 							</p>

@@ -1,6 +1,5 @@
-import { prisma } from "@bpvs/db";
+import { contacts, prisma } from "@bpvs/db";
 import { apiHandler } from "@bpvs/utils";
-import { contacts } from "@prisma/client";
 import createHttpError from "http-errors";
 import type {
 	NextApiHandler,

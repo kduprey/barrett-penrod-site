@@ -17,18 +17,19 @@
 		"jsx": "preserve",
 		"incremental": true,
 		"types": ["cypress", "node", "vitest/globals"],
-		"typeRoots": ["./types"]
+		"typeRoots": ["./src/types/global.d.ts"]
 	},
 	"include": [
 		"next-env.d.ts",
 		"**/*.ts",
+		"*.js",
 		"**/*.tsx",
 		"lib/analytics.ts",
 		"cypress/e2e/tsconfig.json",
 		"cypress/plugins/cy-ts-preprocessor.js",
 		"node_modules/cypress",
 		"cypress/**/*.ts",
-		"./index.d.ts"
+		"./index.d.ts",
 	],
-	"exclude": ["node_modules"]
+	"exclude": ["node_modules", "next.config.js"]
 }

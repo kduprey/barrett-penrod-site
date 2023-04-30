@@ -1,8 +1,7 @@
 import Image from "next/image";
 import headshot5 from "/public/headshot5.jpg";
 
-const Headline = () => {
-	return (
+const Headline = () => (
 		<>
 			<div
 				data-cy="hero"
@@ -37,6 +36,5 @@ const Headline = () => {
 			</div>
 		</>
 	);
-};
 
 export default Headline;

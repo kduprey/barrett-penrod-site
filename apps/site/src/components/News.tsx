@@ -1,5 +1,4 @@
-const News = () => {
-	return (
+const News = () => (
 		<div className="pt-3" id="news" data-cy="news">
 			<h1 className="text-center text-secondary">News</h1>
 
@@ -8,6 +7,5 @@ const News = () => {
 			</h3>
 		</div>
 	);
-};
 
 export default News;

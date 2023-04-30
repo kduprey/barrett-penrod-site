@@ -42,8 +42,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 	}
 };
 
-const Cancel: NextPageWithLayout = ({ session, name }: Props) => {
-	return (
+const Cancel: NextPageWithLayout = ({ session, name }: Props) => (
 		<div className="flex flex-grow flex-col items-center justify-center space-y-4 p-4">
 			<h2 className="text-secondary text-center">Booking Cancelled</h2>
 			<div className="bg-secondary m-3 flex flex-col items-center justify-center space-y-4 rounded p-6 shadow-lg md:w-1/2">
@@ -60,7 +59,7 @@ const Cancel: NextPageWithLayout = ({ session, name }: Props) => {
 						session?.url
 							? session.url
 							: (session?.after_expiration?.recovery
-									?.url as string)
+								?.url as string)
 					}
 					className="text-primary text-center underline"
 				>
@@ -70,7 +69,6 @@ const Cancel: NextPageWithLayout = ({ session, name }: Props) => {
 			</div>
 		</div>
 	);
-};
 
 export default Cancel;
 

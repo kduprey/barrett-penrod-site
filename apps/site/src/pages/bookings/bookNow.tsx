@@ -46,7 +46,10 @@ const Page: NextPageWithLayout = () => {
 			setIsScheduled(true);
 
 			// Create checkout page URL
-			const checkoutRes = await axios.post("/api/checkout", {
+			const checkoutRes = await axios.post<{
+				url: string;
+				id: string;
+			}>("/api/checkout", {
 				service,
 				location,
 				bundle,
@@ -54,8 +57,8 @@ const Page: NextPageWithLayout = () => {
 				inviteeURI: e.data.payload.invitee.uri,
 			});
 			checkoutRes.status === 200
-				? router.push(checkoutRes.data.url)
-				: router.push("/500");
+				? void router.push(checkoutRes.data.url)
+				: void router.push("/500");
 		},
 	});
 
@@ -70,9 +73,7 @@ const Page: NextPageWithLayout = () => {
 					<Logo />
 				</div>
 				<h1 className="text-secondary pt-3 text-center">
-					{service >= 4
-						? "Book Your Trial Session"
-						: "Book Your Session"}
+					{service >= 4 ? "Book Your Trial Session" : "Book Your Session"}
 				</h1>
 			</div>
 
@@ -85,10 +86,8 @@ const Page: NextPageWithLayout = () => {
 							: service == 5
 							? baseURL + "trial-session-svs"
 							: bundle
-							? bundleServices[service].url[location] +
-							  "?hide_gdpr_banner=1"
-							: services[service].url[location] +
-							  "?hide_gdpr_banner=1"
+							? `${bundleServices[service].url[location]}?hide_gdpr_banner=1`
+							: `${services[service].url[location]}?hide_gdpr_banner=1`
 					}
 
 					// url="https://calendly.com/kentonduprey/30min"

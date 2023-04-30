@@ -1,8 +1,10 @@
 import { Prisma, calendlyInviteePayloads, prisma } from "@bpvs/db";
 import { CalendlyEvent } from "@bpvs/types";
 import { getCalendlyEvent } from "@bpvs/utils";
+import { calendlyPayloadDataSchema } from "@bpvs/validation";
 import crypto from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { z } from "zod";
 import { consultationHandler } from "../consultation";
 const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 	const webhookSigningKey = process.env[
@@ -11,9 +13,7 @@ const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	// Extract the timestamp and signature from the header
 
-	const calendlySignature = req.headers[
-		"calendly-webhook-signature"
-	] as string;
+	const calendlySignature = req.headers["calendly-webhook-signature"] as string;
 	if (!calendlySignature) res.status(500).send("Invalid Signature");
 	const { t, signature } = calendlySignature?.split(",").reduce(
 		(acc, currentValue) => {
@@ -66,8 +66,20 @@ const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	// Signature is valid!
 
-	if (req.body.event === "invitee.created") {
-		const payloadData: calendlyInviteePayloads = req.body.payload;
+	const bodySchema = z
+		.object({
+			event: z.enum(["invitee.created", "invitee.canceled"]),
+			payload: z.unknown(),
+		})
+		.parse(req.body);
+
+	const event = z
+		.enum(["invitee.created", "invitee.canceled"])
+		.parse(bodySchema.event);
+
+	if (event === "invitee.created") {
+		const payloadData: calendlyInviteePayloads =
+			bodySchema.payload as calendlyInviteePayloads;
 
 		let eventData: CalendlyEvent,
 			payloadDbEntry: Prisma.calendlyInviteePayloadsGetPayload<false>;
@@ -113,8 +125,9 @@ const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
 		}
 	}
 
-	if (req.body.event === "invitee.canceled") {
-		const invitee: calendlyInviteePayloads = req.body.payload;
+	if (event === "invitee.canceled") {
+		const invitee: calendlyInviteePayloads =
+			bodySchema.payload as calendlyInviteePayloads;
 		try {
 			const response = await prisma.calendlyInviteePayloads.create({
 				data: invitee,

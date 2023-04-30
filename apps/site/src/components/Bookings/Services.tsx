@@ -1,12 +1,10 @@
 import { services } from "@bpvs/types";
 
-const Services = () => {
-	return (
+const Services = () => (
 		<div>
 			<h2 className="text-secondary pb-6 text-center">Services</h2>
 			<div className="grid justify-center gap-6 sm:grid-cols-2">
-				{services.map((service) => {
-					return (
+				{services.map((service) => (
 						<div
 							key={service.title}
 							className="withTransition bg-secondary flex max-w-sm origin-center transform flex-col items-center rounded-lg p-6 shadow-md hover:scale-105 hover:opacity-90"
@@ -18,11 +16,9 @@ const Services = () => {
 								{service.description}
 							</p>
 						</div>
-					);
-				})}
+					))}
 			</div>
 		</div>
 	);
-};
 
 export default Services;

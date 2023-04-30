@@ -25,7 +25,7 @@ const MobileSubmenu = ({ menu, setIsNavOpen }: Props) => {
 					className="relative cursor-pointer py-2 text-xl font-thin text-white"
 					onClick={() => {
 						if (!isOpen)
-							controls.start({
+							void controls.start({
 								display: "flex",
 								visibility: "visible",
 								height: "auto",
@@ -37,7 +37,7 @@ const MobileSubmenu = ({ menu, setIsNavOpen }: Props) => {
 							});
 
 						if (isOpen)
-							controls.start({
+							void controls.start({
 								x: "0%",
 								opacity: 0,
 								height: 0,
@@ -65,7 +65,7 @@ const MobileSubmenu = ({ menu, setIsNavOpen }: Props) => {
 						height: 0,
 						display: "none",
 					}}
-					className={`flex flex-col `}
+					className={"flex flex-col "}
 				>
 					{menu.sublinks.map((sublink) => {
 						if (sublink.scrollTo) {
@@ -75,11 +75,7 @@ const MobileSubmenu = ({ menu, setIsNavOpen }: Props) => {
 									onClick={() => {
 										setIsNavOpen(false);
 										gtag.pageview(
-											new URL(
-												window.location.href +
-													router.route +
-													sublink.id
-											)
+											new URL(window.location.href + router.route + sublink.id)
 										);
 									}}
 									to={sublink.id}
@@ -114,7 +110,7 @@ const MobileSubmenu = ({ menu, setIsNavOpen }: Props) => {
 				href={menu.path}
 				onClick={() => {
 					gtag.pageview(
-						new URL(window.location.href + router.route + menu.path)
+						new URL(`${window.location.href}${router.route}${menu.path || ""}`)
 					);
 				}}
 				className="cursor-pointer pb-3 text-xl font-thin text-white underline-offset-2 hover:text-slate-300 hover:underline"

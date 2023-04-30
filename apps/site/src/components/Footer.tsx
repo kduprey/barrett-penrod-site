@@ -109,15 +109,12 @@ const Footer = () => {
 					className={` flex flex-col items-center justify-center transition-all duration-300 ease-in-out  ${
 						loading ? "opacity-50" : ""
 					} ${success ? "h-0 opacity-0" : "h-auto opacity-100"}`}
-					onSubmit={handleSubmit}
+					onSubmit={() => handleSubmit}
 				>
 					<div className="flex flex-col items-center justify-center space-y-1 md:flex-row md:space-x-12">
 						<div className="flex flex-col items-center justify-center space-y-3">
 							<div className="flex flex-col items-center space-y-3 md:flex-row md:space-x-3 md:space-y-0">
-								<label
-									htmlFor="name"
-									className="text-secondary"
-								>
+								<label htmlFor="name" className="text-secondary">
 									Name
 								</label>
 								<input
@@ -132,10 +129,7 @@ const Footer = () => {
 								/>
 							</div>
 							<div className="flex flex-col items-center space-y-3 md:flex-row md:space-x-3 md:space-y-0">
-								<label
-									htmlFor="email"
-									className="text-secondary"
-								>
+								<label htmlFor="email" className="text-secondary">
 									Email
 								</label>
 								<input
@@ -199,15 +193,10 @@ const Footer = () => {
 							data-cy="success-message"
 						>
 							<FontAwesomeIcon icon={faCheck} size="3x" />
-							<h4 className="text-secondary">
-								Your message has been sent!
-							</h4>
+							<h4 className="text-secondary">Your message has been sent!</h4>
 						</div>
 					) : error ? (
-						<div
-							className="text-secondary text-center"
-							data-cy="error-message"
-						>
+						<div className="text-secondary text-center" data-cy="error-message">
 							<FontAwesomeIcon icon={faTimes} size="3x" />
 							<h4 className="text-secondary">
 								There was an error sending your message.
@@ -221,10 +210,7 @@ const Footer = () => {
 
 			{/* Social Media Links */}
 			<div className="flex w-4/5 items-center justify-evenly pt-4 text-white md:w-1/4">
-				<a
-					href="https://twitter.com/penrodbarrett"
-					className="text-secondary"
-				>
+				<a href="https://twitter.com/penrodbarrett" className="text-secondary">
 					<FontAwesomeIcon icon={faTwitter} />
 				</a>
 				<a

@@ -6,7 +6,7 @@ import { useState } from "react";
 type Props = {
 	isOpen: boolean;
 	setIsOpen: (isOpen: boolean) => void;
-	selectedBundle: number | undefined;
+	selectedBundle: number;
 };
 
 const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
@@ -112,10 +112,7 @@ const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
 								: "mt-6 flex flex-col items-center justify-center md:mt-0 md:flex-row"
 						}
 					>
-						<label
-							htmlFor="service"
-							className="text-gray-700 md:text-2xl"
-						>
+						<label htmlFor="service" className="text-gray-700 md:text-2xl">
 							Choose your lesson type:
 						</label>
 
@@ -128,28 +125,21 @@ const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
 								setService(Number.parseInt(e.target.value));
 							}}
 						>
-							{bundleServices.map((service, index) => {
-								return (
-									<option value={index} key={service.title}>
-										{service.title}
-									</option>
-								);
-							})}
+							{bundleServices.map((service, index) => (
+								<option value={index} key={service.title}>
+									{service.title}
+								</option>
+							))}
 						</select>
 					</div>
 
 					{/* Location Selection */}
 					<div
 						className={`withTransition mt-6 flex flex-col items-center justify-center md:mt-0 md:flex-row ${
-							step.includes(2) && !step.includes(3)
-								? " "
-								: " hidden"
+							step.includes(2) && !step.includes(3) ? " " : " hidden"
 						}`}
 					>
-						<label
-							htmlFor="location"
-							className="text-center md:text-2xl"
-						>
+						<label htmlFor="location" className="text-center md:text-2xl">
 							Select Session Location:
 						</label>
 
@@ -163,18 +153,11 @@ const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
 							}}
 						>
 							{service != -1
-								? bundleServices[service].locations.map(
-										(result, index) => {
-											return (
-												<option
-													value={index}
-													key={result}
-												>
-													{result}
-												</option>
-											);
-										}
-								  )
+								? bundleServices[service].locations.map((result, index) => (
+										<option value={index} key={result}>
+											{result}
+										</option>
+								  ))
 								: null}
 						</select>
 					</div>
@@ -191,11 +174,7 @@ const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
 							<p className="text-primary text-center text-2xl">
 								Location:{" "}
 								<span className="font-medium">
-									{
-										bundleServices[service].locations[
-											location
-										]
-									}
+									{bundleServices[service].locations[location]}
 								</span>
 							</p>
 						</div>
@@ -209,7 +188,7 @@ const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
 							if (step.includes(3)) {
 								isOpen ? setIsOpen(false) : setIsOpen(true);
 
-								router.push(
+								void router.push(
 									`/bookings/bookNow?service=${service}&location=${location}&bundle=${selectedBundle}`
 								);
 							}

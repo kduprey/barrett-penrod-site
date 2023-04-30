@@ -52,7 +52,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 		// Get package name if it's a bundle
 		if (await isPackageCheckout(session)) {
 			packageName = getPackageTypeFromLineItems(
-				lineItems.data as Stripe.LineItem[]
+				lineItems.data 
 			);
 		}
 

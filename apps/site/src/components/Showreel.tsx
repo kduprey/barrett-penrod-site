@@ -29,13 +29,12 @@ const Video = ({ title, link }: { title: string; link: string }) => (
 			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 			allowFullScreen
 			loading="lazy"
-		></iframe>
+		 />
 		<p className="text-primary py-2 text-center">{title}</p>
 	</div>
 );
 
-const Showreel = () => {
-	return (
+const Showreel = () => (
 		<div
 			id="video-sound-demo"
 			className="flex flex-col items-center justify-center space-y-4 bg-slate-100 py-6 md:justify-evenly"
@@ -53,6 +52,5 @@ const Showreel = () => {
 			</div>
 		</div>
 	);
-};
 
 export default Showreel;

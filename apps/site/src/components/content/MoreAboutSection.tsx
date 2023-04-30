@@ -1,5 +1,4 @@
-const MoreAboutSection = () => {
-	return (
+const MoreAboutSection = () => (
 		<div>
 			{/* Specialisations/Interests */}
 			<article className="space-y-2">
@@ -136,6 +135,5 @@ const MoreAboutSection = () => {
 			</article>
 		</div>
 	);
-};
 
 export default MoreAboutSection;

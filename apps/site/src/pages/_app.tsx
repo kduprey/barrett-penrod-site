@@ -18,8 +18,8 @@ const montserrat = Montserrat({
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
 	const router = useRouter();
 	const handleRouteChange = (url: URL) => {
-		// eslint-disable-next-line
-		// @ts-ignore
+		// @ts-expect-error - gtag is not defined
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 		window.gtag("config", process.env.NEXT_PUBLIC_GA_ID as string, {
 			page_path: url,
 		});

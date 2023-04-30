@@ -60,9 +60,7 @@ describe("checkForClient should", () => {
 			if (error instanceof Error) {
 				console.log("error: ", error);
 				expect(error).not.toBeNull();
-				expect(error.message).toBe(
-					"Error searching DB for existing customer"
-				);
+				expect(error.message).toBe("Error searching DB for existing customer");
 			}
 		}
 	});
@@ -118,9 +116,7 @@ describe("updateClient should", () => {
 		);
 		expect(updatedClient?.activeMember).toBe(true);
 		expect(updatedClient?.archived).toBe(false);
-		expect(updatedClient?.lessonsRemaining).toBe(
-			client.lessonsRemaining + 1
-		);
+		expect(updatedClient?.lessonsRemaining).toBe(client.lessonsRemaining + 1);
 		expect(updatedClient?.bookings[0].uri).toBe(payload.uri);
 
 		await prisma.clients.deleteMany({});
@@ -168,7 +164,7 @@ describe("createStripeCustomer should", () => {
 		expect(response?.email).toBe(getInviteeResponse.resource.email);
 		expect(response?.name).toBe(getInviteeResponse.resource.name);
 
-		stripe.customers.del(response?.id);
+		await stripe.customers.del(response?.id);
 	});
 
 	it("throw an error if stripe returns an error", async () => {
@@ -182,9 +178,7 @@ describe("createStripeCustomer should", () => {
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				expect(error).not.toBeNull();
-				expect(error.message).toBe(
-					"Error creating new Stripe customer"
-				);
+				expect(error.message).toBe("Error creating new Stripe customer");
 			}
 		}
 	});

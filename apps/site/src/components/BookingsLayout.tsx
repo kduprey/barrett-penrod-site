@@ -11,9 +11,8 @@ type Props = {
 	description?: string;
 };
 
-const BookingsLayout = (props: Props) => {
-	return (
-		<main className={`bg-primary flex h-full min-h-screen flex-col`}>
+const BookingsLayout = (props: Props) => (
+		<main className={"bg-primary flex h-full min-h-screen flex-col"}>
 			<Header
 				title={
 					props.title ||
@@ -34,6 +33,5 @@ const BookingsLayout = (props: Props) => {
 			</footer>
 		</main>
 	);
-};
 
 export default BookingsLayout;

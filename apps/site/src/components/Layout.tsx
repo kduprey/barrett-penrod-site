@@ -9,9 +9,8 @@ type Props = {
 	children: React.ReactNode;
 };
 
-const Layout = (props: Props) => {
-	return (
-		<main className={`bg-primary flex min-h-screen flex-col`}>
+const Layout = (props: Props) => (
+		<main className={"bg-primary flex min-h-screen flex-col"}>
 			<Header
 				title={
 					props.title ||
@@ -30,6 +29,5 @@ const Layout = (props: Props) => {
 			<Footer />
 		</main>
 	);
-};
 
 export default Layout;

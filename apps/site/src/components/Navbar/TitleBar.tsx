@@ -6,8 +6,7 @@ type Props = {
 	setIsNavOpen: (isNavOpen: boolean) => void;
 };
 
-const TitleBar = ({ isNavOpen, setIsNavOpen }: Props) => {
-	return (
+const TitleBar = ({ isNavOpen, setIsNavOpen }: Props) => (
 		<div className="bg-primary sticky top-0 z-[60] flex items-center justify-between px-8 md:pt-6">
 			<Link href={"/"} passHref>
 				<h2 className="text-secondary cursor-pointer text-xl font-light hover:text-white sm:text-2xl md:font-medium">
@@ -17,6 +16,5 @@ const TitleBar = ({ isNavOpen, setIsNavOpen }: Props) => {
 			<MenuButton isNavOpen={isNavOpen} setIsNavOpen={setIsNavOpen} />
 		</div>
 	);
-};
 
 export default TitleBar;

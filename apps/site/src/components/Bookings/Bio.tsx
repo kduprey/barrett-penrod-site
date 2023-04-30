@@ -1,8 +1,7 @@
 import Image from "next/image";
 import headshot2 from "public/headshot2.jpg";
 
-const Bio = () => {
-	return (
+const Bio = () => (
 		<div className=" flex w-full max-w-screen-lg flex-col items-center justify-center  md:flex-row md:items-start md:justify-evenly md:gap-5 lg:max-w-screen-xl ">
 			{/* Headshot */}
 			<div className=" max-w-[20em]">
@@ -37,6 +36,5 @@ const Bio = () => {
 			</div>
 		</div>
 	);
-};
 
 export default Bio;

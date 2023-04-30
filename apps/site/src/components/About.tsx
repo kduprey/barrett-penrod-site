@@ -5,8 +5,7 @@ import headshot1 from "/public/headshot1.jpg";
 import postWorkout from "/public/postWorkout.jpg";
 import yankeeGame from "/public/yankeeGame.jpg";
 
-const About = () => {
-	return (
+const About = () => (
 		<div
 			id="about-me"
 			data-cy="about"
@@ -75,6 +74,5 @@ const About = () => {
 			</div>
 		</div>
 	);
-};
 
 export default About;

@@ -30,7 +30,7 @@ const Consultation: NextPageWithLayout = () => {
 			);
 
 			// Redirect to success page
-			router.push(successURL);
+			await router.push(successURL);
 		},
 	});
 

@@ -3,19 +3,25 @@ import { cancellationSchema } from "./event";
 
 export const reconfirmationSchema = z.object({
 	created_at: z.string(),
-	confirmed_at: z.string(),
+	confirmed_at: z.coerce.date(),
 });
 
 export const noShowSchema = z.object({
 	uri: z.string(),
-	created_at: z.string(),
+	created_at: z.coerce.date(),
 });
 
 export const paymentSchema = z.object({
 	external_id: z.string(),
-	provider: z.union([z.literal("stripe"), z.literal("paypal")]),
+	provider: z.enum(["stripe", "paypal"]),
 	amount: z.number(),
-	currency: z.string(),
+	currency: z.union([
+		z.literal("AUD"),
+		z.literal("CAD"),
+		z.literal("EUR"),
+		z.literal("GBP"),
+		z.literal("USD"),
+	]),
 	terms: z.string(),
 	successful: z.boolean(),
 });

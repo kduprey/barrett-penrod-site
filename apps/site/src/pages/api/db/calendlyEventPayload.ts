@@ -44,12 +44,12 @@ const GET = async (searchString?: string) => {
 					OR: [
 						{
 							email: {
-								contains: searchString as string,
+								contains: searchString ,
 							},
 						},
 						{
 							name: {
-								contains: searchString as string,
+								contains: searchString ,
 							},
 						},
 					],
@@ -266,7 +266,7 @@ const DELETE = async (id: string) => {
 	try {
 		const result = await prisma.calendlyInviteePayloads.delete({
 			where: {
-				id: id as string,
+				id: id ,
 			},
 		});
 

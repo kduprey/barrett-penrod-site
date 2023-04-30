@@ -48,11 +48,7 @@ const Submenu = ({ menu }: Props) => {
 									onClick={() => {
 										setIsOpen(false);
 										gtag.pageview(
-											new URL(
-												window.location.href +
-													router.route +
-													sublink.id
-											)
+											new URL(window.location.href + router.route + sublink.id)
 										);
 									}}
 									to={sublink.id}
@@ -74,9 +70,7 @@ const Submenu = ({ menu }: Props) => {
 								onClick={() => {
 									gtag.pageview(
 										new URL(
-											window.location.href +
-												router.route +
-												menu.path
+											`${window.location.href}${router.route}${menu.path || ""}`
 										)
 									);
 								}}
@@ -95,7 +89,7 @@ const Submenu = ({ menu }: Props) => {
 				href={menu.path}
 				onClick={() => {
 					gtag.pageview(
-						new URL(window.location.href + router.route + menu.path)
+						new URL(`${window.location.href}${router.route}${menu.path || ""}`)
 					);
 				}}
 				className="cursor-pointer pb-3 text-xl font-thin text-white underline-offset-2 hover:text-slate-300 hover:underline"
@@ -110,14 +104,10 @@ const Submenu = ({ menu }: Props) => {
 			onClick={() => {
 				setIsOpen(false);
 				gtag.pageview(
-					new URL(window.location.href + router.route + menu.path)
+					new URL(`${window.location.href}${router.route}${menu.path || ""}`)
 				);
 			}}
-			to={
-				menu.name.toLowerCase() === "home"
-					? "home"
-					: menu.name.toLowerCase()
-			}
+			to={menu.name.toLowerCase() === "home" ? "home" : menu.name.toLowerCase()}
 			spy={true}
 			smooth={true}
 			offset={-120}

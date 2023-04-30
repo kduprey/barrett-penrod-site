@@ -12,21 +12,24 @@ export const seedDB = async () => {
 		);
 
 	console.info("SEEDING CALLENDLY EVENT PAYLOADS");
-	dbCalendlyEventPayloads.forEach(async (event) => {
+	for (let index = 0; index < dbCalendlyEventPayloads.length; index++) {
+		const event = dbCalendlyEventPayloads[index];
 		await prisma.calendlyInviteePayloads.create({
 			data: {
 				...event,
 			},
 		});
-	});
+	}
+
 	console.info("SEEDING CLIENTS");
-	dbClients.forEach(async (client) => {
+	for (let index = 0; index < dbClients.length; index++) {
+		const client = dbClients[index];
 		await prisma.clients.create({
 			data: {
 				...client,
 			},
 		});
-	});
+	}
 };
 
 export const clearDB = async () => {

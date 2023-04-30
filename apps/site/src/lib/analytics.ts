@@ -1,6 +1,6 @@
 export const pageview = (url: URL) => {
-	// eslint-disable-next-line
-	// @ts-ignore
+	// @ts-expect-error - gtag is not defined
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 	window.gtag("config", "G-KFM4XGBGYY", {
 		page_path: url,
 	});
@@ -16,8 +16,8 @@ type Props = {
 
 export const event = ({ action, category, label, value }: Props) => {
 	if (typeof window !== "undefined") {
-		// eslint-disable-next-line
-		// @ts-ignore
+		// @ts-expect-error - gtag is not defined
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 		window.gtag("event", action, {
 			event_category: category,
 			event_label: label,

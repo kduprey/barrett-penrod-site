@@ -43,8 +43,8 @@ const webhookHandler = async (
 			sig,
 			process.env["STRIPE_WEBHOOK_SECRET"] as string
 		);
-	} catch (err: any) {
-		return res.status(400).send(`Webhook Error: ${err.message}`);
+	} catch (err: unknown) {
+		return res.status(400).send(`Webhook Error: ${err as string}`);
 	}
 
 	switch (event.type) {
@@ -82,12 +82,7 @@ const webhookHandler = async (
 					);
 				// If customer doesn't exist, create a new one
 				else
-					await createCustomer(
-						inviteeData,
-						bookingData,
-						session,
-						line_items
-					);
+					await createCustomer(inviteeData, bookingData, session, line_items);
 
 				// Send checkout emails
 				try {
@@ -149,8 +144,7 @@ const webhookHandler = async (
 				try {
 					const client = await prisma.clients.findUnique({
 						where: {
-							stripe_customer_id:
-								sessionExpired.customer as string,
+							stripe_customer_id: sessionExpired.customer as string,
 						},
 					});
 					if (!client)
@@ -167,8 +161,7 @@ const webhookHandler = async (
 				try {
 					const updateClient = await prisma.clients.update({
 						where: {
-							stripe_customer_id:
-								sessionExpired.customer as string,
+							stripe_customer_id: sessionExpired.customer as string,
 						},
 						data: {
 							nextLesson: null,

@@ -12,8 +12,7 @@ import News from "../components/News";
 import ResumeTable from "../components/ResumeTable";
 import * as gtag from "../lib/analytics";
 
-const Page = () => {
-	return (
+const Page = () => (
 		<section id="home">
 			{/* Heading Text */}
 			<Headline />
@@ -42,7 +41,7 @@ const Page = () => {
 
 			{/* Resume */}
 			<div className="py-6 md:p-0" id="resume">
-				<h1 className="text-center text-secondary">Resumé</h1>
+				<h1 className="text-secondary text-center">Resumé</h1>
 
 				<ResumeTable />
 
@@ -78,6 +77,5 @@ const Page = () => {
 			<News />
 		</section>
 	);
-};
 Page.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
 export default Page;

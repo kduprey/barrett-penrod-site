@@ -55,12 +55,16 @@ const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
 	const router = useRouter();
 
 	useEffect(() => {
-		handleQueryParams(router.query);
+		handleQueryParams(router.query)
+			.then((res) => {
+				if (res) console.log("QUERY PARAMS SUCCESSFULLY HANDLED");
+			})
+			.catch((err) => console.error(err));
 	}, [router.query]);
 
 	return (
 		<section
-			className={` flex flex-col items-center justify-center gap-3 px-6`}
+			className={" flex flex-col items-center justify-center gap-3 px-6"}
 		>
 			{/* Promo Section */}
 			{promoContents[0] && (

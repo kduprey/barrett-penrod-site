@@ -4,8 +4,7 @@ import NATSLogo from "public/collegeLogos/natsLogo.png";
 import NYULogo from "public/collegeLogos/nyuLogo.jpg";
 import SomaticVoicework from "public/collegeLogos/somaticVoicework.jpg";
 
-const AboutStudioSection = () => {
-	return (
+const AboutStudioSection = () => (
 		<div className="about mx-auto space-y-3 md:px-6 lg:max-w-4xl xl:max-w-6xl">
 			<div className="flex gap-4">
 				<div className=" max-w-2xl lg:max-w-screen-lg">
@@ -70,6 +69,5 @@ const AboutStudioSection = () => {
 			</div>
 		</div>
 	);
-};
 
 export default AboutStudioSection;

@@ -3,8 +3,7 @@ import Link from "next/link";
 import Layout from "../components/Layout";
 
 // pages/404.jsx
-const Custom404: NextPageWithLayout = () => {
-	return (
+const Custom404: NextPageWithLayout = () => (
 		<section className="my-auto flex flex-col items-center justify-center">
 			<h1 className="text-secondary p-6 text-center">Page Not Found</h1>
 			<Link href={"/"} passHref>
@@ -14,7 +13,6 @@ const Custom404: NextPageWithLayout = () => {
 			</Link>
 		</section>
 	);
-};
 
 export default Custom404;
 

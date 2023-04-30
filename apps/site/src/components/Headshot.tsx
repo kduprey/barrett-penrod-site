@@ -16,7 +16,7 @@ const Headshot = (props: Props) => {
 					isOpen ? "top-0 opacity-60" : "-top-full opacity-0"
 				}`}
 				data-cy="headshot-overlay"
-			></div>
+			 />
 			<div
 				className={`bg-secondary fixed left-0 right-0 z-40 mx-auto w-2/3 rounded-lg px-4 py-4 transition-all duration-300 ease-in-out md:w-[35%] ${
 					isOpen ? "top-1/4 md:top-[20%]" : "-top-full "

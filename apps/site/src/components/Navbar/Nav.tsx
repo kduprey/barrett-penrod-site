@@ -7,8 +7,7 @@ type Props = {
 	setIsNavOpen: (isNavOpen: boolean) => void;
 };
 
-const Nav = ({ isNavOpen, setIsNavOpen }: Props) => {
-	return (
+const Nav = ({ isNavOpen, setIsNavOpen }: Props) => (
 		<>
 			<nav
 				className={`fixed z-50 bg-primary transition-all duration-300 ease-in-out md:hidden ${
@@ -41,6 +40,5 @@ const Nav = ({ isNavOpen, setIsNavOpen }: Props) => {
 			</nav>
 		</>
 	);
-};
 
 export default Nav;

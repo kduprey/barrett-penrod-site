@@ -6,7 +6,7 @@ const cancelEventHandler: NextApiHandler = async (
 	req: NextApiRequest,
 	res: NextApiResponse
 ) => {
-	const { uri } = req.body;
+	const { uri } = req.body as { uri: string };
 
 	if (!uri || uri === "") {
 		throw new createHttpError[400]("Invalid URI");

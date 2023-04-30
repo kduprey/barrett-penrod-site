@@ -29,13 +29,13 @@
 	},
 	"exclude": ["node_modules", "tmp"],
 	"include": [
-		"apps/*/*.ts",
-		"libs/*/*.ts",
-		"apps/*/*.tsx",
-		"apps/*/*.js",
-		"libs/*/*.js",
-		"apps/*/*.json",
-		"libs/*/*.json",
+		"apps/**/*.ts",
+		"libs/**/*.ts",
+		"apps/**/*.tsx",
+		"apps/**/*.js",
+		"libs/**/*.js",
+		"apps/**/*.json",
+		"libs/**/*.json",
 		"apps/site/vitest.config.ts"
 	]
 }

@@ -20,9 +20,7 @@ const GETHandler: NextApiHandler = async (
 	} catch (error: unknown) {
 		console.error(error);
 		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(
-				JSON.stringify(error)
-			);
+			throw new createHttpError.InternalServerError(JSON.stringify(error));
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "Error getting clients",
@@ -80,9 +78,7 @@ const GET = async (searchString?: string) => {
 	} catch (error: unknown) {
 		console.error(error);
 		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(
-				JSON.stringify(error)
-			);
+			throw new createHttpError.InternalServerError(JSON.stringify(error));
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "Error getting clients",
@@ -93,17 +89,18 @@ const GET = async (searchString?: string) => {
 };
 
 const POSTHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-	const data = Prisma.validator<Prisma.clientsCreateInput>()(req.body);
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+	const data = Prisma.validator<Prisma.clientsCreateInput>()({
+		...req.body,
+	});
 
 	try {
-		const result = await POST(data);
+		const result = await POST(data as clients);
 		return res.status(200).json(result);
 	} catch (error: unknown) {
 		console.error(error);
 		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(
-				JSON.stringify(error)
-			);
+			throw new createHttpError.InternalServerError(JSON.stringify(error));
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "Error creating client",
@@ -134,7 +131,10 @@ const POST = async (ClientInfo: clients): Promise<clients | null> => {
 };
 
 const PUTHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-	const data = Prisma.validator<Prisma.clientsUpdateInput>()(req.body);
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+	const data: clients = Prisma.validator<Prisma.clientsUpdateInput>()({
+		...req.body,
+	});
 
 	try {
 		const result = await PUT(data.id, data);
@@ -142,9 +142,7 @@ const PUTHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 	} catch (error: unknown) {
 		console.error(error);
 		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(
-				JSON.stringify(error)
-			);
+			throw new createHttpError.InternalServerError(JSON.stringify(error));
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "Error updating client",
@@ -161,7 +159,7 @@ const PUT = async (
 	try {
 		const result = await prisma.clients.update({
 			where: {
-				id: id as string,
+				id: id,
 			},
 			data: ClientInfo,
 		});
@@ -193,9 +191,7 @@ const DELETEHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 	} catch (error: unknown) {
 		console.error(error);
 		if (error instanceof Error)
-			throw new createHttpError.InternalServerError(
-				JSON.stringify(error)
-			);
+			throw new createHttpError.InternalServerError(JSON.stringify(error));
 		throw new createHttpError.InternalServerError(
 			JSON.stringify({
 				message: "Error deleting client",
@@ -209,7 +205,7 @@ const DELETE = async (id: string): Promise<clients | null> => {
 	try {
 		const result = await prisma.clients.delete({
 			where: {
-				id: id as string,
+				id: id,
 			},
 		});
 

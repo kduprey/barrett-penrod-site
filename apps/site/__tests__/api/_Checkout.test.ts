@@ -28,15 +28,13 @@ describe("Checkout should", () => {
 
 		checkValidCheckoutURL(session.url);
 
-		const sessionData = await stripe.checkout.sessions.retrieve(
-			session.id as string
-		);
+		const sessionData = await stripe.checkout.sessions.retrieve(session.id);
 		expect(
 			sessionData.amount_total,
 			"Checking for accurate downpayment amount"
 		).toBe(3000);
 
-		await stripe.checkout.sessions.expire(session.id as string);
+		await stripe.checkout.sessions.expire(session.id);
 	});
 
 	it("create a successful checkout session with a bundle", async () => {
@@ -55,15 +53,13 @@ describe("Checkout should", () => {
 
 		checkValidCheckoutURL(session.url);
 
-		const sessionData = await stripe.checkout.sessions.retrieve(
-			session.id as string
-		);
+		const sessionData = await stripe.checkout.sessions.retrieve(session.id);
 		expect(
 			sessionData.amount_total?.toString(),
 			"Checking for accurate bundle total"
 		).toBe(bundles[0].price + "00");
 
-		await stripe.checkout.sessions.expire(session.id as string);
+		await stripe.checkout.sessions.expire(session.id);
 	});
 
 	it("create a successful checkout session with a longer session", async () => {
@@ -82,9 +78,7 @@ describe("Checkout should", () => {
 
 		checkValidCheckoutURL(session.url);
 
-		const sessionData = await stripe.checkout.sessions.retrieve(
-			session.id as string
-		);
+		const sessionData = await stripe.checkout.sessions.retrieve(session.id);
 		expect(
 			sessionData.expires_at,
 			"Checking expiration is 24 hours from now +/- 3 seconds"
@@ -96,7 +90,7 @@ describe("Checkout should", () => {
 				Math.floor(new Date(Date.now() + 86400000).getTime() / 1000 + 3)
 			);
 
-		await stripe.checkout.sessions.expire(session.id as string);
+		await stripe.checkout.sessions.expire(session.id);
 	});
 
 	it("create a successful checkout session with SVS session downpayment", async () => {
@@ -112,9 +106,7 @@ describe("Checkout should", () => {
 		expect(session).not.toBeInstanceOf(Error);
 
 		checkValidCheckoutURL(session.url);
-		const sessionData = await stripe.checkout.sessions.retrieve(
-			session.id as string
-		);
+		const sessionData = await stripe.checkout.sessions.retrieve(session.id);
 
 		expect(
 			sessionData.amount_total,
@@ -137,16 +129,14 @@ describe("Checkout should", () => {
 
 		checkValidCheckoutURL(session.url);
 
-		const sessionData = await stripe.checkout.sessions.retrieve(
-			session.id as string
-		);
+		const sessionData = await stripe.checkout.sessions.retrieve(session.id);
 
 		expect(
 			sessionData.amount_total,
 			"Checking for accurate downpayment amount"
 		).toBe(3000);
 
-		await stripe.checkout.sessions.expire(session.id as string);
+		await stripe.checkout.sessions.expire(session.id);
 	});
 
 	it("create a successful checkout session with a SVS downpayment", async () => {
@@ -164,16 +154,14 @@ describe("Checkout should", () => {
 
 		checkValidCheckoutURL(session.url);
 
-		const sessionData = await stripe.checkout.sessions.retrieve(
-			session.id as string
-		);
+		const sessionData = await stripe.checkout.sessions.retrieve(session.id);
 
 		expect(
 			sessionData.amount_total,
 			"Checking for accurate downpayment amount"
 		).toBe(4000);
 
-		await stripe.checkout.sessions.expire(session.id as string);
+		await stripe.checkout.sessions.expire(session.id);
 	});
 
 	it("create a successful checkout session with bundle and OpenJar fee", async () => {
@@ -192,16 +180,14 @@ describe("Checkout should", () => {
 
 		checkValidCheckoutURL(session.url);
 
-		const sessionData = await stripe.checkout.sessions.retrieve(
-			session.id as string
-		);
+		const sessionData = await stripe.checkout.sessions.retrieve(session.id);
 
 		expect(
 			sessionData.amount_total,
 			"Checking for accurate bundle total"
 		).toBe(30500);
 
-		await stripe.checkout.sessions.expire(session.id as string);
+		await stripe.checkout.sessions.expire(session.id);
 	});
 
 	it("session should set customer creation to always if not in Stripe", async () => {
@@ -229,13 +215,11 @@ describe("Checkout should", () => {
 
 		checkValidCheckoutURL(session.url);
 
-		const sessionData = await stripe.checkout.sessions.retrieve(
-			session.id as string
-		);
+		const sessionData = await stripe.checkout.sessions.retrieve(session.id);
 
 		expect(sessionData.customer_creation).toBe("always");
 
-		await stripe.checkout.sessions.expire(session.id as string);
+		await stripe.checkout.sessions.expire(session.id);
 	});
 
 	it("session should have correct downpayment for trial session", async () => {
@@ -263,13 +247,11 @@ describe("Checkout should", () => {
 
 		checkValidCheckoutURL(session.url);
 
-		const sessionData = await stripe.checkout.sessions.retrieve(
-			session.id as string
-		);
+		const sessionData = await stripe.checkout.sessions.retrieve(session.id);
 
 		expect(sessionData.amount_total).toBe(3000);
 
-		await stripe.checkout.sessions.expire(session.id as string);
+		await stripe.checkout.sessions.expire(session.id);
 	});
 
 	it("session should have correct downpayment for SVS trial session", async () => {
@@ -297,13 +279,11 @@ describe("Checkout should", () => {
 
 		checkValidCheckoutURL(session.url);
 
-		const sessionData = await stripe.checkout.sessions.retrieve(
-			session.id as string
-		);
+		const sessionData = await stripe.checkout.sessions.retrieve(session.id);
 
 		expect(sessionData.amount_total).toBe(4000);
 
-		await stripe.checkout.sessions.expire(session.id as string);
+		await stripe.checkout.sessions.expire(session.id);
 	});
 
 	it("session should throw error for trial session with bundle", async () => {
@@ -549,8 +529,6 @@ describe("Checkout should", () => {
 	});
 });
 
-const checkValidCheckoutURL = (url: string | undefined) => {
-	return expect(url, "Checking for valid checkout URL").match(
+const checkValidCheckoutURL = (url: string | undefined) => expect(url, "Checking for valid checkout URL").match(
 		/https:\/\/checkout\.barrettpenrod\.com\/c\/pay\/cs_test_[a-zA-Z0-9]+/
 	);
-};

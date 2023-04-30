@@ -119,16 +119,14 @@ const Individual: NextPageWithLayout = () => {
 									setService(Number.parseInt(e.target.value));
 								}}
 							>
-								{services.map((service, index) => {
-									return (
+								{services.map((service, index) => (
 										<option
 											value={index}
 											key={service.title}
 										>
 											{service.title}
 										</option>
-									);
-								})}
+									))}
 							</select>
 						</div>
 
@@ -160,16 +158,14 @@ const Individual: NextPageWithLayout = () => {
 							>
 								{service != -1
 									? services[service].locations.map(
-											(result, index) => {
-												return (
-													<option
-														value={index}
-														key={result}
-													>
-														{result}
-													</option>
-												);
-											}
+										(result, index) => (
+												<option
+													value={index}
+													key={result}
+												>
+													{result}
+												</option>
+											)
 									  )
 									: null}
 							</select>
@@ -198,7 +194,7 @@ const Individual: NextPageWithLayout = () => {
 								e.preventDefault();
 								if (!step.includes(3)) handleContinue(e);
 								if (step.includes(3)) {
-									router.push(
+									void router.push(
 										`/bookings/bookNow?service=${service}&location=${location}`
 									);
 								}

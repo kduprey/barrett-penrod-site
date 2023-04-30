@@ -1,0 +1,23 @@
+{
+	"tasksRunnerOptions": {
+		"default": {
+			"runner": "nx-cloud",
+			"options": {
+				"cacheableOperations": [
+					"postinstall",
+					"build",
+					"lint",
+					"prisma:generate",
+					"prisma:format",
+					"cy:run",
+					"test:ci",
+					"generate",
+					"format",
+					"export"
+				]
+			}
+		}
+	},
+	"defaultBase": "main",
+	"npmScope": "bpvs"
+}

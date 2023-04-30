@@ -1,4 +1,4 @@
-export * from ".prisma/client";
+export * from "./client";
 export { prisma };
 import { dev } from "@bpvs/types";
 import { PrismaClient } from "@prisma/client";
@@ -13,21 +13,11 @@ declare global {
 export const prismaConfig =
 	dev && !process.env["TEST_ENV"]
 		? {
-				log: [
-					"query",
-					"info",
-					"warn",
-					"error",
-				] as PrismaClientOptions["log"],
+				log: ["query", "info", "warn", "error"] as PrismaClientOptions["log"],
 				errorFormat: "pretty" as PrismaClientOptions["errorFormat"],
 		  }
 		: {
-				log: [
-					"query",
-					"info",
-					"warn",
-					"error",
-				] as PrismaClientOptions["log"],
+				log: ["query", "info", "warn", "error"] as PrismaClientOptions["log"],
 				errorFormat: "minimal" as PrismaClientOptions["errorFormat"],
 		  };
 
@@ -38,9 +28,7 @@ if (typeof window === "undefined") {
 		prisma = new PrismaClient(dev ? { ...prismaConfig } : undefined);
 	} else {
 		if (!global.prisma) {
-			global.prisma = new PrismaClient(
-				dev ? { ...prismaConfig } : undefined
-			);
+			global.prisma = new PrismaClient(dev ? { ...prismaConfig } : undefined);
 		}
 
 		prisma = global.prisma;

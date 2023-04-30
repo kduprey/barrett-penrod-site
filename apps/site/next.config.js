@@ -5,6 +5,7 @@ const { withAxiom } = require("next-axiom");
 const { withSentryConfig } = require("@sentry/nextjs");
 
 const nextConfig = withAxiom({
+	transpilePackages: ["@bpvs/*"],
 	reactStrictMode: true,
 	webpack(config, { isServer }) {
 		if (!isServer) {

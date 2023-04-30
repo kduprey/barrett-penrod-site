@@ -1,5 +1,5 @@
 {
-	"name": "barrett-penrod-site",
+	"name": "@bpvs/site",
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
@@ -19,5 +19,33 @@
 		"test:ui": "vitest --ui",
 		"test:ci": "vitest run",
 		"coverage": "vitest --coverage"
+	},
+	"nx": {
+		"targets": {
+			"build": {
+				"outputs": [
+					"{projectRoot}/.next"
+				]
+			}
+		},
+		"includedScripts": [
+			"dev",
+			"postinstall",
+			"build",
+			"start",
+			"lint",
+			"prisma:studio",
+			"prisma:migrate",
+			"prisma:deploy",
+			"prisma:generate",
+			"prisma:format",
+			"vercel:dev",
+			"cy:run",
+			"cy:open",
+			"test",
+			"test:ui",
+			"test:ci",
+			"coverage"
+		]
 	}
 }

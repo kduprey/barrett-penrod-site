@@ -9,6 +9,15 @@ import { cancelEvent } from "../calendly/cancelEvent";
 import { getEventInfo } from "../calendly/eventInfo";
 import { getEventInvitee } from "../calendly/eventInvitee";
 
+const PT_SESSION_PRODUCTS = [
+	"Personal Training - 1 Session per week",
+	"Personal Training - 2 Session per week",
+	"Personal Training - 3 Session per week",
+	"Personal Training - 4 Session per week",
+	"Personal Training - 5 Session per week",
+	"Personal Training - 6 Session per week",
+];
+
 // Tell Next.js to disable parsing body by default,
 // as Stripe requires the raw body to validate the event
 export const config = {
@@ -50,15 +59,57 @@ const webhookHandler = async (
 			const session = event.data.object as Stripe.Checkout.Session;
 
 			try {
+				const line_items = (
+					await stripe.checkout.sessions.listLineItems(session.id)
+				).data;
+				const ptSessionItem = line_items.find((item) => {
+					return PT_SESSION_PRODUCTS.includes(item.description);
+				});
+
+				if (ptSessionItem) {
+					try {
+						const client = await prisma.clients.findUnique({
+							where: {
+								stripe_customer_id: session.customer as string,
+							},
+						});
+						if (client)
+							await prisma.clients.update({
+								where: {
+									id: client.id,
+								},
+								data: {
+									totalSpend:
+										client.totalSpend +
+										(session.amount_total as number),
+									activeMember: true,
+									lessonsRemaining: Number.parseInt(
+										ptSessionItem.description.charAt(
+											ptSessionItem.description.indexOf(
+												"-"
+											) + 2
+										)
+									),
+									nextLesson: null,
+								},
+							});
+						res.status(200).send({
+							database: "Database updated",
+						});
+					} catch (err) {
+						console.error(err);
+						res.status(500).send({
+							message: "Error updating database",
+						});
+					}
+				}
+
 				const bookingData = await getEventInfo(
 					session.client_reference_id as string
 				);
 				const inviteeData = await getEventInvitee(
 					session.metadata?.inviteeURI as string
 				);
-				const line_items = (
-					await stripe.checkout.sessions.listLineItems(session.id)
-				).data;
 
 				const customer = session.customer as string;
 

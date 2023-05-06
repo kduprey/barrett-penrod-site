@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "mongodb"
-  url      = env("ATLAS_DB")
+  url      = env("DATABASE_URL")
 }
 
 model contacts {

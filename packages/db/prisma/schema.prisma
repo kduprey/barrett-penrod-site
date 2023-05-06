@@ -1,0 +1,133 @@
+generator client {
+    provider = "prisma-client-js"
+    output   = "../src/client"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model Contact {
+    id        String   @id @default(uuid())
+    email     String   @unique
+    name      String
+    message   String
+    timestamp DateTime @default(now())
+}
+
+model QrCodeLog {
+    id        String   @id @default(uuid())
+    flyerSize Int
+    campaign  Int
+    designId  Int
+    location  Int
+    timestamp DateTime @default(now())
+}
+
+model CalendlyWebhookPayload {
+    id                                                Int                                                 @id @default(autoincrement())
+    cancel_url                                        String
+    created_at                                        DateTime
+    email                                             String
+    event                                             String
+    first_name                                        String?
+    last_name                                         String?
+    name                                              String
+    new_invitee                                       String?
+    reschedule_url                                    String
+    rescheduled                                       Boolean
+    routing_form_submission                           String?
+    status                                            String
+    text_reminder_number                              String?
+    timezone                                          String
+    uri                                               String                                              @unique
+    client_id                                         Int?
+    client                                            Client?                                             @relation(fields: [client_id], references: [id])
+    updated_at                                        DateTime
+    CalendlyWebhookPayloadResourceTracking            CalendlyWebhookPayloadResourceTracking[]
+    CalendlyWebhookPayloadResourceCancellation        CalendlyWebhookPayloadResourceCancellation[]
+    CalendlyWebhookPayloadResourceQuestionsAndAnswers CalendlyWebhookPayloadResourceQuestionsAndAnswers[]
+    Reconfirmation                                    Reconfirmation[]
+    Payment                                           Payment[]
+    NoShow                                            NoShow[]
+}
+
+model Client {
+    id                     Int                      @id @default(autoincrement())
+    activeMember           Boolean
+    archived               Boolean                  @default(false)
+    email                  String                   @unique
+    dateJoined             DateTime                 @default("2001-01-01T00:00:00-05:00")
+    firstLesson            DateTime?
+    lastLesson             DateTime?
+    nextLesson             DateTime?
+    lessonsRemaining       Int                      @default(0)
+    name                   String                   @unique
+    notes                  String?
+    preferredLessonFormat  String?
+    pronouns               String?
+    refundedVolume         Int                      @default(0)
+    totalLessons           Int                      @default(0)
+    totalSpend             Float                    @default(0)
+    stripe_customer_id     String?                  @unique
+    CalendlyWebhookPayload CalendlyWebhookPayload[]
+}
+
+model CalendlyWebhookPayloadResourceCancellation {
+    id                       Int                    @id @default(autoincrement())
+    canceled_by              String
+    canceler_type            String
+    reason                   String
+    calendly_webhook_payload CalendlyWebhookPayload @relation(fields: [payload_id], references: [id])
+    payload_id               Int
+}
+
+model CalendlyWebhookPayloadResourceQuestionsAndAnswers {
+    id                       Int                    @id @default(autoincrement())
+    answer                   String
+    position                 Int
+    question                 String
+    calendly_webhook_payload CalendlyWebhookPayload @relation(fields: [payload_id], references: [id])
+    payload_id               Int
+}
+
+model Reconfirmation {
+    id                       Int                    @id @default(autoincrement())
+    created_at               DateTime
+    confirmed_at             DateTime
+    calendly_webhook_payload CalendlyWebhookPayload @relation(fields: [payload_id], references: [id])
+    payload_id               Int
+}
+
+model Payment {
+    id                       Int                    @id @default(autoincrement())
+    external_id              String
+    provider                 String
+    amount                   Float
+    currency                 String
+    terms                    String
+    successful               Boolean
+    calendly_webhook_payload CalendlyWebhookPayload @relation(fields: [payload_id], references: [id])
+    payload_id               Int
+}
+
+model NoShow {
+    id                       Int                    @id @default(autoincrement())
+    uri                      String
+    created_at               DateTime
+    calendly_webhook_payload CalendlyWebhookPayload @relation(fields: [payload_id], references: [id])
+    payload_id               Int
+}
+
+model CalendlyWebhookPayloadResourceTracking {
+    id                       Int                    @id @default(autoincrement())
+    salesforce_uuid          String?
+    utm_campaign             String?
+    utm_content              String?
+    utm_medium               String?
+    utm_source               String?
+    utm_term                 String?
+    calendly_webhook_payload CalendlyWebhookPayload @relation(fields: [payload_id], references: [id])
+    payload_id               Int
+}

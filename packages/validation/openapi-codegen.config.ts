@@ -1,0 +1,16 @@
+import { defineConfig } from "@openapi-codegen/cli";
+import { generateSchemaTypes } from "@openapi-codegen/typescript";
+export default defineConfig({
+	stripe: {
+		from: {
+			source: "url",
+			url: "https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json",
+		},
+		outputDir: "./src/lib/stripe",
+		to: async (context) => {
+			await generateSchemaTypes(context, {
+				filenamePrefix: "stripe",
+			});
+		},
+	},
+});

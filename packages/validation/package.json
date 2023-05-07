@@ -1,0 +1,14 @@
+{
+	"name": "validation",
+	"version": "0.0.1",
+	"main": "./src/index.ts",
+	"types": "./src/index.ts",
+	"scripts": {
+		"build": "tsup"
+	},
+	"devDependencies": {
+		"@bpvs/types": "*",
+		"typescript": "^5.0.4",
+		"zod": "^3.21.4"
+	}
+}

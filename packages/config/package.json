@@ -15,6 +15,6 @@
 		"clean": true
 	},
 	"devDependencies": {
-		"types": "*"
+		"@bpvs/types": "*"
 	}
 }

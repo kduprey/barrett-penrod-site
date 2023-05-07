@@ -11,7 +11,7 @@
 			"src/index.ts"
 		],
 		"clean": true,
-		"outDir": "../../dist/libs/types"
+		"outDir": "../../dist/packages/types"
 	},
 	"dependencies": {
 		"next": "^13.3.4",

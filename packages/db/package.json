@@ -24,5 +24,8 @@
 		"dotenv": "^16.0.3",
 		"json-schema-to-typescript": "^13.0.1",
 		"tslib": "^2.5.0"
+	},
+	"devDependencies": {
+		"prisma-dbml-generator": "^0.10.0"
 	}
 }

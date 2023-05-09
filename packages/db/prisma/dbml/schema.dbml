@@ -1,0 +1,141 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table Contact {
+  id String [pk]
+  email String [unique, not null]
+  name String [not null]
+  message String [not null]
+  timestamp DateTime [default: `now()`, not null]
+}
+
+Table QrCodeLog {
+  id String [pk]
+  flyerSize Int [not null]
+  campaign Int [not null]
+  designId Int [not null]
+  location Int [not null]
+  timestamp DateTime [default: `now()`, not null]
+}
+
+Table CalendlyWebhookPayload {
+  id Int [pk, increment]
+  cancel_url String [not null]
+  created_at DateTime [not null]
+  email String [not null]
+  event String [not null]
+  first_name String
+  last_name String
+  name String [not null]
+  new_invitee String
+  reschedule_url String [not null]
+  rescheduled Boolean [not null]
+  routing_form_submission String
+  status String [not null]
+  text_reminder_number String
+  timezone String [not null]
+  uri String [unique, not null]
+  client_id Int [unique]
+  client Client
+  updated_at DateTime [not null]
+  CalendlyWebhookPayloadResourceTracking CalendlyWebhookPayloadResourceTracking [not null]
+  calendly_webhook_payload_resource_tracking_id Int [unique, not null]
+  CalendlyWebhookPayloadResourceCancellation CalendlyWebhookPayloadResourceCancellation [not null]
+  calendly_webhook_payload_resource_cancellation_id Int [unique, not null]
+  CalendlyWebhookPayloadResourceQuestionsAndAnswers CalendlyWebhookPayloadResourceQuestionsAndAnswers [not null]
+  calendly_webhook_payload_resource_questions_and_answers_id Int [unique, not null]
+  Reconfirmation Reconfirmation [not null]
+  reconfirmation_id Int [unique, not null]
+  Payment Payment [not null]
+  payment_id Int [unique, not null]
+  NoShow NoShow [not null]
+  noShow_id Int [unique, not null]
+}
+
+Table Client {
+  id Int [pk, increment]
+  activeMember Boolean [not null]
+  archived Boolean [not null, default: false]
+  email String [unique, not null]
+  dateJoined DateTime [default: `now()`, not null]
+  firstLesson DateTime
+  lastLesson DateTime
+  nextLesson DateTime
+  lessonsRemaining Int [not null, default: 0]
+  name String [unique, not null]
+  notes String
+  preferredLessonFormat String
+  pronouns String
+  refundedVolume Int [not null, default: 0]
+  totalLessons Int [not null, default: 0]
+  totalSpend Float [not null, default: 0]
+  stripe_customer_id String [unique]
+  CalendlyWebhookPayload CalendlyWebhookPayload [not null]
+}
+
+Table CalendlyWebhookPayloadResourceCancellation {
+  id Int [pk, increment]
+  canceled_by String [not null]
+  canceler_type String [not null]
+  reason String [not null]
+  CalendlyWebhookPayload CalendlyWebhookPayload
+}
+
+Table CalendlyWebhookPayloadResourceQuestionsAndAnswers {
+  id Int [pk, increment]
+  answer String [not null]
+  position Int [not null]
+  question String [not null]
+  CalendlyWebhookPayload CalendlyWebhookPayload
+}
+
+Table Reconfirmation {
+  id Int [pk, increment]
+  created_at DateTime [not null]
+  confirmed_at DateTime [not null]
+  CalendlyWebhookPayload CalendlyWebhookPayload
+}
+
+Table Payment {
+  id Int [pk, increment]
+  external_id String [not null]
+  provider String [not null]
+  amount Float [not null]
+  currency String [not null]
+  terms String [not null]
+  successful Boolean [not null]
+  CalendlyWebhookPayload CalendlyWebhookPayload
+}
+
+Table NoShow {
+  id Int [pk, increment]
+  uri String [not null]
+  created_at DateTime [not null]
+  CalendlyWebhookPayload CalendlyWebhookPayload
+}
+
+Table CalendlyWebhookPayloadResourceTracking {
+  id Int [pk, increment]
+  salesforce_uuid String
+  utm_campaign String
+  utm_content String
+  utm_medium String
+  utm_source String
+  utm_term String
+  CalendlyWebhookPayload CalendlyWebhookPayload
+}
+
+Ref: CalendlyWebhookPayload.client_id > Client.id
+
+Ref: CalendlyWebhookPayload.calendly_webhook_payload_resource_tracking_id - CalendlyWebhookPayloadResourceTracking.id
+
+Ref: CalendlyWebhookPayload.calendly_webhook_payload_resource_cancellation_id - CalendlyWebhookPayloadResourceCancellation.id
+
+Ref: CalendlyWebhookPayload.calendly_webhook_payload_resource_questions_and_answers_id - CalendlyWebhookPayloadResourceQuestionsAndAnswers.id
+
+Ref: CalendlyWebhookPayload.reconfirmation_id - Reconfirmation.id
+
+Ref: CalendlyWebhookPayload.payment_id - Payment.id
+
+Ref: CalendlyWebhookPayload.noShow_id - NoShow.id

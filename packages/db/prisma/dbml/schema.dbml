@@ -43,8 +43,7 @@ Table CalendlyWebhookPayload {
   calendly_webhook_payload_resource_tracking_id Int [unique, not null]
   CalendlyWebhookPayloadResourceCancellation CalendlyWebhookPayloadResourceCancellation [not null]
   calendly_webhook_payload_resource_cancellation_id Int [unique, not null]
-  CalendlyWebhookPayloadResourceQuestionsAndAnswers CalendlyWebhookPayloadResourceQuestionsAndAnswers [not null]
-  calendly_webhook_payload_resource_questions_and_answers_id Int [unique, not null]
+  calendly_webhook_payload_resource_questions_and_answers CalendlyWebhookPayloadResourceQuestionsAndAnswers [not null]
   Reconfirmation Reconfirmation [not null]
   reconfirmation_id Int [unique, not null]
   Payment Payment [not null]
@@ -87,7 +86,8 @@ Table CalendlyWebhookPayloadResourceQuestionsAndAnswers {
   answer String [not null]
   position Int [not null]
   question String [not null]
-  CalendlyWebhookPayload CalendlyWebhookPayload
+  CalendlyWebhookPayload CalendlyWebhookPayload [not null]
+  calendlyWebhookPayloadId Int [unique, not null]
 }
 
 Table Reconfirmation {
@@ -132,10 +132,10 @@ Ref: CalendlyWebhookPayload.calendly_webhook_payload_resource_tracking_id - Cale
 
 Ref: CalendlyWebhookPayload.calendly_webhook_payload_resource_cancellation_id - CalendlyWebhookPayloadResourceCancellation.id
 
-Ref: CalendlyWebhookPayload.calendly_webhook_payload_resource_questions_and_answers_id - CalendlyWebhookPayloadResourceQuestionsAndAnswers.id
-
 Ref: CalendlyWebhookPayload.reconfirmation_id - Reconfirmation.id
 
 Ref: CalendlyWebhookPayload.payment_id - Payment.id
 
 Ref: CalendlyWebhookPayload.noShow_id - NoShow.id
+
+Ref: CalendlyWebhookPayloadResourceQuestionsAndAnswers.calendlyWebhookPayloadId > CalendlyWebhookPayload.id

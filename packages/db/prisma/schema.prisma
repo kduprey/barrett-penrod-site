@@ -30,37 +30,36 @@ model QrCodeLog {
 }
 
 model CalendlyWebhookPayload {
-    id                                                         Int                                               @id @default(autoincrement())
-    cancel_url                                                 String
-    created_at                                                 DateTime
-    email                                                      String
-    event                                                      String
-    first_name                                                 String?
-    last_name                                                  String?
-    name                                                       String
-    new_invitee                                                String?
-    reschedule_url                                             String
-    rescheduled                                                Boolean
-    routing_form_submission                                    String?
-    status                                                     String
-    text_reminder_number                                       String?
-    timezone                                                   String
-    uri                                                        String                                            @unique
-    client_id                                                  Int?                                              @unique
-    client                                                     Client?                                           @relation(fields: [client_id], references: [id])
-    updated_at                                                 DateTime
-    CalendlyWebhookPayloadResourceTracking                     CalendlyWebhookPayloadResourceTracking            @relation(fields: [calendly_webhook_payload_resource_tracking_id], references: [id])
-    calendly_webhook_payload_resource_tracking_id              Int                                               @unique
-    CalendlyWebhookPayloadResourceCancellation                 CalendlyWebhookPayloadResourceCancellation        @relation(fields: [calendly_webhook_payload_resource_cancellation_id], references: [id])
-    calendly_webhook_payload_resource_cancellation_id          Int                                               @unique
-    CalendlyWebhookPayloadResourceQuestionsAndAnswers          CalendlyWebhookPayloadResourceQuestionsAndAnswers @relation(fields: [calendly_webhook_payload_resource_questions_and_answers_id], references: [id])
-    calendly_webhook_payload_resource_questions_and_answers_id Int                                               @unique
-    Reconfirmation                                             Reconfirmation                                    @relation(fields: [reconfirmation_id], references: [id])
-    reconfirmation_id                                          Int                                               @unique
-    Payment                                                    Payment                                           @relation(fields: [payment_id], references: [id])
-    payment_id                                                 Int                                               @unique
-    NoShow                                                     NoShow                                            @relation(fields: [noShow_id], references: [id])
-    noShow_id                                                  Int                                               @unique
+    id                                                      Int                                                 @id @default(autoincrement())
+    cancel_url                                              String
+    created_at                                              DateTime
+    email                                                   String
+    event                                                   String
+    first_name                                              String?
+    last_name                                               String?
+    name                                                    String
+    new_invitee                                             String?
+    reschedule_url                                          String
+    rescheduled                                             Boolean
+    routing_form_submission                                 String?
+    status                                                  String
+    text_reminder_number                                    String?
+    timezone                                                String
+    uri                                                     String                                              @unique
+    client_id                                               Int?                                                @unique
+    client                                                  Client?                                             @relation(fields: [client_id], references: [id])
+    updated_at                                              DateTime
+    CalendlyWebhookPayloadResourceTracking                  CalendlyWebhookPayloadResourceTracking              @relation(fields: [calendly_webhook_payload_resource_tracking_id], references: [id])
+    calendly_webhook_payload_resource_tracking_id           Int                                                 @unique
+    CalendlyWebhookPayloadResourceCancellation              CalendlyWebhookPayloadResourceCancellation          @relation(fields: [calendly_webhook_payload_resource_cancellation_id], references: [id])
+    calendly_webhook_payload_resource_cancellation_id       Int                                                 @unique
+    calendly_webhook_payload_resource_questions_and_answers CalendlyWebhookPayloadResourceQuestionsAndAnswers[]
+    Reconfirmation                                          Reconfirmation                                      @relation(fields: [reconfirmation_id], references: [id])
+    reconfirmation_id                                       Int                                                 @unique
+    Payment                                                 Payment                                             @relation(fields: [payment_id], references: [id])
+    payment_id                                              Int                                                 @unique
+    NoShow                                                  NoShow                                              @relation(fields: [noShow_id], references: [id])
+    noShow_id                                               Int                                                 @unique
 }
 
 model Client {
@@ -93,11 +92,12 @@ model CalendlyWebhookPayloadResourceCancellation {
 }
 
 model CalendlyWebhookPayloadResourceQuestionsAndAnswers {
-    id                     Int                     @id @default(autoincrement())
-    answer                 String
-    position               Int
-    question               String
-    CalendlyWebhookPayload CalendlyWebhookPayload?
+    id                       Int                    @id @default(autoincrement())
+    answer                   String
+    position                 Int
+    question                 String
+    CalendlyWebhookPayload   CalendlyWebhookPayload @relation(fields: [calendlyWebhookPayloadId], references: [id])
+    calendlyWebhookPayloadId Int                    @unique
 }
 
 model Reconfirmation {

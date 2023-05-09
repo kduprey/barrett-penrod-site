@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Client" ALTER COLUMN "dateJoined" SET DEFAULT CURRENT_TIMESTAMP;

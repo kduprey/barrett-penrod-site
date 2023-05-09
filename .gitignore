@@ -4,3 +4,4 @@ dist
 .env
 .vercel
 packages/db/src/client
+packages/db/src/migrationData

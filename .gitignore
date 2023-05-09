@@ -3,4 +3,4 @@ node_modules/
 dist
 .env
 .vercel
-pacakges/db/src/client/
+packages/db/src/client

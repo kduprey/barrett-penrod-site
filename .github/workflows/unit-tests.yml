@@ -16,10 +16,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Start containers
+        run: docker-compose -f "docker-compose.yml" up -d --build
+        env: 
+          DOCKER_MONGO_USERNAME: ${{ secrets.DOCKER_MONGO_USERNAME }}
+          DOCKER_MONGO_PWD: ${{secrets.DOCKER_MONGO_PWD}}
+          DOCKER_MONGO_DBNAME: test
+
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
+
       - name: Pull Vercel Environment Information
         run: vercel env pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
       - name: Dotenv Mount
         uses: falti/dotenv-action@v1.0.4
         with:
@@ -27,7 +37,16 @@ jobs:
           mask-variables: true
           export-variables: true
           keys-case: upper
+
       - name: Install dependencies
         run: npm install
+
       - name: Run Tests
         run: npm run test:ci
+        env: 
+          DATABASE_URL: ${{ secrets.DOCKER_DATABASE_URL }}
+      
+      - name: Stop containers
+        if: always()
+        run: docker-compose -f "docker-compose.yml" down
+

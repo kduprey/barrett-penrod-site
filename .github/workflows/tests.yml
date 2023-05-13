@@ -37,30 +37,6 @@ jobs:
         if: steps.cache-primes.outputs.cache-hit != 'true'
         run: npm ci
 
-      # - name: Check for differences in files
-      #   id: check-differences
-      #   run: |
-      #     if [ -d .next ]; then
-      #       if git diff --quiet origin/main..HEAD -- src/pages src/components; then
-      #         echo "No changes found in src/pages and src/components folders, skipping subsequent steps"
-      #         echo "skip_build=true" >> $GITHUB_OUTPUT
-      #       fi
-      #     fi
-
-      # - name: Install Vercel CLI
-      #   run: npm install --global vercel@latest
-
-      # - name: Pull Vercel Environment Information
-      #   run: vercel env pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-
-      # - name: Dotenv Mount
-      #   uses: falti/dotenv-action@v1.0.4
-      #   with:
-      #     path: .env
-      #     mask-variables: true
-      #     export-variables: true
-      #     keys-case: upper
-
   cypress-run-tests:
     name: Cypress Tests
     runs-on: ubuntu-latest
@@ -147,8 +123,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Start containers
-        run: docker-compose -f "docker-compose.yml" up -d --build
+      - name: Start container
+        run: docker-compose -f "docker-compose.yml" up -d --build mongodb_container
         env:
           DOCKER_MONGO_USERNAME: ${{ secrets.DOCKER_MONGO_USERNAME }}
           DOCKER_MONGO_PWD: ${{ secrets.DOCKER_MONGO_PWD }}
@@ -169,6 +145,6 @@ jobs:
       - name: Unit Tests
         run: npm run test:ci
 
-      - name: Stop containers
+      - name: Stop container
         if: always()
         run: docker-compose -f "docker-compose.yml" down

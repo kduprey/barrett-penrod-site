@@ -92,6 +92,7 @@ export const checkout_session_completed: Stripe.Checkout.Session = {
 		amount_tax: 0,
 	},
 	url: null,
+	currency_conversion: null,
 };
 
 export const line_items: Stripe.LineItem[] = [

@@ -1,10 +1,11 @@
 {
-	"overrides": [
-		{
-			"files": ["*.yml"],
-			"options": {
-				"singleQuote": true
-			}
-		}
-	]
+  "overrides": [
+    {
+      "files": ["*.yml"],
+      "options": {
+        "singleQuote": true,
+        "useTabs": true
+      }
+    }
+  ]
 }

@@ -21,16 +21,22 @@ jobs:
           fetch-depth: 0
 
       - name: Check for differences in files
-        if: '! git diff --quiet origin/main..HEAD -- src/pages src/components'
-        run: echo 'Changes found in src/pages and src/components folders'
+        run: |
+          if git diff --quiet origin/main..HEAD -- src/pages src/components; then
+            echo "No changes found in src/pages and src/components folders, skipping subsequent steps"
+            exit 1
+          fi
 
       - name: Install Vercel CLI
+        if: ${{ success() }}
         run: npm install --global vercel@latest
 
       - name: Pull Vercel Environment Information
+        if: ${{ success() }}
         run: vercel env pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Dotenv Mount
+        if: ${{ success() }}
         uses: falti/dotenv-action@v1.0.4
         with:
           path: .env
@@ -39,12 +45,15 @@ jobs:
           keys-case: upper
 
       - name: Cypress install
+        if: ${{ success() }}
         uses: cypress-io/github-action@v5.7.2 # use the explicit version number
         with:
           # Disable running of tests within install job
           runTests: false
           build: npm run build
+
       - name: Save build folder
+        if: ${{ success() }}
         uses: actions/upload-artifact@v3
         with:
           name: build

@@ -21,7 +21,7 @@ jobs:
         run: docker-compose -f "docker-compose.yml" up -d --build
         env: 
           DOCKER_MONGO_USERNAME: ${{ secrets.DOCKER_MONGO_USERNAME }}
-          DOCKER_MONGO_PWD: ${{secrets.DOCKER_MONGO_PWD}}
+          DOCKER_MONGO_PWD: ${{ secrets.DOCKER_MONGO_PWD }}
           DOCKER_MONGO_DBNAME: test
 
       - name: Install Vercel CLI

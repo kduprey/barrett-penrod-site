@@ -23,9 +23,11 @@ jobs:
       - name: Check for differences in files
         id: check-differences
         run: |
-          if git diff --quiet origin/main..HEAD -- src/pages src/components; then
-            echo "No changes found in src/pages and src/components folders, skipping subsequent steps"
-            echo "skip_build=true" >> $GITHUB_OUTPUT
+          if [ -d .next ]; then
+            if git diff --quiet origin/main..HEAD -- src/pages src/components; then
+              echo "No changes found in src/pages and src/components folders, skipping subsequent steps"
+              echo "skip_build=true" >> $GITHUB_OUTPUT
+            fi
           fi
 
       - name: Install Vercel CLI

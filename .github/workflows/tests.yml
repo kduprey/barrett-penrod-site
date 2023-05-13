@@ -26,6 +26,17 @@ jobs:
           node-version: '18'
           cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
 
+      - name: Cache NPM dependencies
+        uses: actions/cache@v3
+        id: cache-primes
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-npm-v3-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        if: steps.cache-primes.outputs.cache-hit != 'true'
+        run: npm ci
+
       # - name: Check for differences in files
       #   id: check-differences
       #   run: |
@@ -73,12 +84,16 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2.5.2
+        uses: actions/setup-node@v3
         with:
           node-version: '18'
           cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
 
-      - run: npm ci
+      - name: Cache NPM dependencies
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
       - name: E2E on Chrome
         uses: cypress-io/github-action@v5.7.2
@@ -127,13 +142,28 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Start containers
+        run: docker-compose -f "docker-compose.yml" up -d --build
+        env:
+          DOCKER_MONGO_USERNAME: ${{ secrets.DOCKER_MONGO_USERNAME }}
+          DOCKER_MONGO_PWD: ${{ secrets.DOCKER_MONGO_PWD }}
+          DOCKER_MONGO_DBNAME: test
+
       - name: Setup Node.js
-        uses: actions/setup-node@v2.5.2
+        uses: actions/setup-node@v3
         with:
           node-version: '18'
           cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
 
-      - run: npm ci
+      - name: Cache NPM dependencies
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
       - name: Unit Tests
         run: npm run test:unit
+
+      - name: Stop containers
+        if: always()
+        run: docker-compose -f "docker-compose.yml" down

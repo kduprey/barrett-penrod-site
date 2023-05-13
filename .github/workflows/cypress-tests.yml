@@ -20,11 +20,14 @@ jobs:
 
             - name: Check for differences in files
               run: |
-                  if ! git diff --quiet origin/main..HEAD --name-only -- src/pages/ src/components/; then
-                    echo "Changes detected in src/pages/ or src/components/ folder. Installing dependencies..."
-                  else
-                    echo "No changes detected in src/pages/ or src/components/ folder. Skipping install step."
+                  git fetch
+                  git diff --quiet origin/main..HEAD -- src/pages src/components
+                  if [ $? -eq 0 ]; then
+                    echo "No changes found in src/pages and src/components folders"
                     exit 0
+                  else
+                    echo "Changes found in src/pages and src/components folders"
+                    exit 1
                   fi
 
             - name: Install Vercel CLI

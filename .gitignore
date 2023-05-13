@@ -5,3 +5,4 @@ dist
 .vercel
 packages/db/src/client
 packages/db/src/migrationData
+.next

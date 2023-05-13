@@ -29,15 +29,15 @@ jobs:
           fi
 
       - name: Install Vercel CLI
-        if: ${{ steps.check-differences.outputs.skip_build != 'true' }}}
+        if: steps.check-differences.outputs.skip_build != 'true'
         run: npm install --global vercel@latest
 
       - name: Pull Vercel Environment Information
-        if: ${{ steps.check-differences.outputs.skip_build != 'true' }}}
+        if: steps.check-differences.outputs.skip_build != 'true'
         run: vercel env pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Dotenv Mount
-        if: ${{ steps.check-differences.outputs.skip_build != 'true' }}}
+        if: steps.check-differences.outputs.skip_build != 'true'
         uses: falti/dotenv-action@v1.0.4
         with:
           path: .env
@@ -46,7 +46,7 @@ jobs:
           keys-case: upper
 
       - name: Cypress install
-        if: ${{ steps.check-differences.outputs.skip_build != 'true' }}}
+        if: steps.check-differences.outputs.skip_build != 'true'
         uses: cypress-io/github-action@v5.7.2 # use the explicit version number
         with:
           # Disable running of tests within install job
@@ -54,7 +54,7 @@ jobs:
           build: npm run build
 
       - name: Save build folder
-        if: ${{ steps.check-differences.outputs.skip_build != 'true' }}}
+        if: steps.check-differences.outputs.skip_build != 'true'
         uses: actions/upload-artifact@v3
         with:
           name: build

@@ -21,22 +21,23 @@ jobs:
           fetch-depth: 0
 
       - name: Check for differences in files
+        id: check-differences
         run: |
           if git diff --quiet origin/main..HEAD -- src/pages src/components; then
             echo "No changes found in src/pages and src/components folders, skipping subsequent steps"
-            exit 1
+            echo "::set-output name=skip_build::true"
           fi
 
       - name: Install Vercel CLI
-        if: ${{ success() }}
+        if: ${{ steps.check-differences.outputs != 'true' }}}
         run: npm install --global vercel@latest
 
       - name: Pull Vercel Environment Information
-        if: ${{ success() }}
+        if: ${{ steps.check-differences.outputs != 'true' }}}
         run: vercel env pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Dotenv Mount
-        if: ${{ success() }}
+        if: ${{ steps.check-differences.outputs != 'true' }}}
         uses: falti/dotenv-action@v1.0.4
         with:
           path: .env
@@ -45,7 +46,7 @@ jobs:
           keys-case: upper
 
       - name: Cypress install
-        if: ${{ success() }}
+        if: ${{ steps.check-differences.outputs != 'true' }}}
         uses: cypress-io/github-action@v5.7.2 # use the explicit version number
         with:
           # Disable running of tests within install job
@@ -53,7 +54,7 @@ jobs:
           build: npm run build
 
       - name: Save build folder
-        if: ${{ success() }}
+        if: ${{ steps.check-differences.outputs != 'true' }}}
         uses: actions/upload-artifact@v3
         with:
           name: build

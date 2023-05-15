@@ -77,13 +77,13 @@ jobs:
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.json') }}
 
       - name: Build NextJS
-        run: pnpm run build -C apps/site/
+        run: pnpm -C apps/site/ run build
 
       - name: E2E on Chrome
         uses: cypress-io/github-action@v5.7.2
         with:
           browser: chrome
-          start: pnpm run start -C apps/site/
+          start: pnpm -C apps/site/ run start
           wait-on: 'http://localhost:3000'
         env:
           # pass GitHub token to detect new build vs re-run build
@@ -149,7 +149,7 @@ jobs:
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.json') }}
 
       - name: Unit Tests
-        run: pnpm run test:ci -C apps/site/
+        run: pnpm -C apps/site/ run test:ci
 
       - name: Stop container
         if: always()

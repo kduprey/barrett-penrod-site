@@ -62,9 +62,7 @@ const webhookHandler = async (
 				const line_items = (
 					await stripe.checkout.sessions.listLineItems(session.id)
 				).data;
-				const ptSessionItem = line_items.find((item) => {
-					return PT_SESSION_PRODUCTS.includes(item.description);
-				});
+				const ptSessionItem = line_items.find((item) => PT_SESSION_PRODUCTS.includes(item.description));
 
 				if (ptSessionItem) {
 					try {

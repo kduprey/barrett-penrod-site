@@ -1,7 +1,6 @@
 import Link from "next/link";
 
-const ConsultationSession = () => {
-	return (
+const ConsultationSession = () => (
 		<div className=" flex h-full max-w-md flex-col gap-3 rounded-lg bg-secondary p-8 md:max-w-lg lg:max-w-xl  2xl:justify-between ">
 			{/* Info Section */}
 			<h2 className="text-center text-primary md:text-3xl lg:text-4xl">
@@ -23,6 +22,5 @@ const ConsultationSession = () => {
 			</button>
 		</div>
 	);
-};
 
 export default ConsultationSession;

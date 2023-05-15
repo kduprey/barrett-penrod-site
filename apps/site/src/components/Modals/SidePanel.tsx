@@ -36,7 +36,7 @@ const SidePanel = ({ isOpen, setIsOpen, header, children }: Props) => {
 						exit={{ opacity: 0 }}
 						transition={{ duration: 0.3 }}
 						onClick={handleClose}
-					></m.div>
+					 />
 
 					{/* Modal Dialog */}
 					<m.div

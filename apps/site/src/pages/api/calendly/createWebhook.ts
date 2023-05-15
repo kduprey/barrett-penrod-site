@@ -46,9 +46,7 @@ const createWebhook = async (url: string): Promise<CalendlyWebhook> => {
 	}
 
 	// Check if testing webhook already exists
-	const oldWebhookURI = webhooks.find((e) => {
-		return e.callback_url.includes("ngrok") ? e : null;
-	})?.uri;
+	const oldWebhookURI = webhooks.find((e) => e.callback_url.includes("ngrok") ? e : null)?.uri;
 
 	// Remove old webhook
 	if (oldWebhookURI)

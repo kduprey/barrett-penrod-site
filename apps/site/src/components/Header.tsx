@@ -4,8 +4,7 @@ type Props = {
 	description: string;
 };
 
-const Header = (props: Props) => {
-	return (
+const Header = (props: Props) => (
 		<Head>
 			<title>{props.title}</title>
 			<meta name="description" content={props.description} />
@@ -88,9 +87,8 @@ const Header = (props: Props) => {
 				name="msapplication-TileImage"
 				content="/ms-icon-144x144.png"
 			/>
-			<meta name="theme-color" content="#ffffff"></meta>
+			<meta name="theme-color" content="#ffffff" />
 		</Head>
 	);
-};
 
 export default Header;

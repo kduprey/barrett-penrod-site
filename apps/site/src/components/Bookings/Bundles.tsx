@@ -17,8 +17,7 @@ const Bundles = () => {
 				Discount Packages
 			</h2>
 			<div className="grid gap-6 sm:grid-cols-2">
-				{bundles.map((bundle, index) => {
-					return (
+				{bundles.map((bundle, index) => (
 						<div
 							key={bundle.title}
 							className="withTransition flex max-w-sm flex-col items-center justify-center space-y-3 rounded-lg bg-secondary p-6 shadow-md hover:scale-105 hover:opacity-90"
@@ -46,8 +45,7 @@ const Bundles = () => {
 								Reserve Now!
 							</button>
 						</div>
-					);
-				})}
+					))}
 			</div>
 		</section>
 	);

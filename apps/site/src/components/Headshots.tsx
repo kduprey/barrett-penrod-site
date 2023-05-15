@@ -15,8 +15,7 @@ const headshots = [
 	headshot6,
 ];
 
-const Headshots = () => {
-	return (
+const Headshots = () => (
 		<div
 			className="flex flex-col items-center justify-center space-y-3 pb-4"
 			id="headshots"
@@ -25,8 +24,7 @@ const Headshots = () => {
 			<h2 className="py-6 text-secondary">Headshots</h2>
 
 			<div className="grid w-5/6 grid-cols-3 gap-4 md:w-2/3">
-				{headshots.map((e, i) => {
-					return (
+				{headshots.map((e, i) => (
 						<Headshot
 							imageProps={{
 								src: e,
@@ -34,8 +32,7 @@ const Headshots = () => {
 							}}
 							key={i}
 						/>
-					);
-				})}
+					))}
 			</div>
 			<a
 				href="https://files.kduprey.com/barrettpenrod/BarrettPenrodHeadshots.zip"
@@ -55,6 +52,5 @@ const Headshots = () => {
 			</a>
 		</div>
 	);
-};
 
 export default Headshots;

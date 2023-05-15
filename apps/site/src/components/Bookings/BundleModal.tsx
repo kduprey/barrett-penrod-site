@@ -128,13 +128,11 @@ const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
 								setService(Number.parseInt(e.target.value));
 							}}
 						>
-							{bundleServices.map((service, index) => {
-								return (
+							{bundleServices.map((service, index) => (
 									<option value={index} key={service.title}>
 										{service.title}
 									</option>
-								);
-							})}
+								))}
 						</select>
 					</div>
 
@@ -164,16 +162,14 @@ const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
 						>
 							{service != -1
 								? bundleServices[service].locations.map(
-										(result, index) => {
-											return (
+										(result, index) => (
 												<option
 													value={index}
 													key={result}
 												>
 													{result}
 												</option>
-											);
-										}
+											)
 								  )
 								: null}
 						</select>

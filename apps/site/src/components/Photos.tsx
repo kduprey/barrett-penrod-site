@@ -7,8 +7,7 @@ import seussical from "/public/seussical.png";
 import soldierensemble from "/public/soldierensemble.jpeg";
 import springawakening from "/public/springawakening.png";
 
-const Photos = () => {
-	return (
+const Photos = () => (
 		<div
 			id="production-photos"
 			data-cy="production-photos"
@@ -104,6 +103,5 @@ const Photos = () => {
 			</div>
 		</div>
 	);
-};
 
 export default Photos;

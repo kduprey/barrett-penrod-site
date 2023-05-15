@@ -65,7 +65,7 @@ const MobileSubmenu = ({ menu, setIsNavOpen }: Props) => {
 						height: 0,
 						display: "none",
 					}}
-					className={`flex flex-col `}
+					className={"flex flex-col "}
 				>
 					{menu.sublinks.map((sublink) => {
 						if (sublink.scrollTo) {

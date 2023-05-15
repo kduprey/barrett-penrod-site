@@ -16,100 +16,103 @@ import { NextPageWithLayout } from "../../types/types";
 import handleQueryParams from "../../utils/handleQueryParams";
 
 const promoContentsSchema = z.object({
-promoContents: z.array(z.object({
-  headerForPromo: z.string().optional(),
-  promoSubheadingDescription: z.string().optional(),
-}))});
+  promoContents: z.array(
+    z.object({
+      headerForPromo: z.string().optional(),
+      promoSubheadingDescription: z.string().optional(),
+    })
+  ),
+});
 
 export const getStaticProps = async () => {
-	const QUERY = gql`
-		query PromoContents {
-			promoContents(stage: PUBLISHED) {
-				headerForPromo
-				promoSubheadingDescription
-			}
-		}
-	`;
+  const QUERY = gql`
+    query PromoContents {
+      promoContents(stage: PUBLISHED) {
+        headerForPromo
+        promoSubheadingDescription
+      }
+    }
+  `;
 
-	const promoContentsResponse  = await hygraphcms.request(QUERY);
-	const promoContents =  promoContentsSchema.parse(promoContentsResponse);
+  const promoContentsResponse = await hygraphcms.request(QUERY);
+  const promoContents = promoContentsSchema.parse(promoContentsResponse);
 
-	return {
-		props: {
-			promoContents,
-		},
-	};
+  return {
+    props: {
+      promoContents,
+    },
+  };
 };
 
 type Props = {
-	promoContents: {
-		headerForPromo: string;
-		promoSubheadingDescription: string;
-	}[];
+  promoContents: {
+    headerForPromo: string;
+    promoSubheadingDescription: string;
+  }[];
 };
 
 const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
-	const router = useRouter();
-	
-	useEffect(() => {
-		handleQueryParams(router.query);
-	}, [router.query]);
+  const router = useRouter();
 
-	return (
-		<section
-			className={` flex flex-col items-center justify-center gap-3 px-6`}
-		>
-			{/* Promo Section */}
-			{promoContents[0] && (
-				<div className="flex flex-col items-center justify-center gap-3 p-3">
-					<h1>{promoContents[0].headerForPromo}</h1>
-					<h3 className="text-center">
-						{promoContents[0].promoSubheadingDescription}
-					</h3>
-				</div>
-			)}
-			{/* Logo */}
-			<div className="w-full max-w-[25em] py-5">
-				<Logo />
-			</div>
+  useEffect(() => {
+    handleQueryParams(router.query);
+  }, [router.query]);
 
-			{/* Bio & Philiosophy */}
-			<Bio />
+  return (
+    <section
+      className={" flex flex-col items-center justify-center gap-3 px-6"}
+    >
+      {/* Promo Section */}
+      {promoContents[0] && (
+        <div className="flex flex-col items-center justify-center gap-3 p-3">
+          <h1>{promoContents[0].headerForPromo}</h1>
+          <h3 className="text-center">
+            {promoContents[0].promoSubheadingDescription}
+          </h3>
+        </div>
+      )}
+      {/* Logo */}
+      <div className="w-full max-w-[25em] py-5">
+        <Logo />
+      </div>
 
-			<hr className="my-3 w-full rounded bg-secondary p-1" />
+      {/* Bio & Philiosophy */}
+      <Bio />
 
-			{/* About The Studio */}
-			<AboutStudio />
+      <hr className="my-3 w-full rounded bg-secondary p-1" />
 
-			<hr className="my-3 w-full rounded bg-secondary p-1" />
-			{/* Lesson Demo */}
-			<LessonDemo />
+      {/* About The Studio */}
+      <AboutStudio />
 
-			<hr className="my-3 w-full rounded bg-secondary p-1" />
+      <hr className="my-3 w-full rounded bg-secondary p-1" />
+      {/* Lesson Demo */}
+      <LessonDemo />
 
-			{/* Services */}
-			<section className="flex flex-wrap items-center justify-center gap-5 2xl:h-full 2xl:w-full 2xl:justify-evenly">
-				<Services />
+      <hr className="my-3 w-full rounded bg-secondary p-1" />
 
-				{/* Consultation Section */}
-				<ConsultationSession />
-			</section>
+      {/* Services */}
+      <section className="flex flex-wrap items-center justify-center gap-5 2xl:h-full 2xl:w-full 2xl:justify-evenly">
+        <Services />
 
-			{/* Discount Packages */}
-			<Bundles />
+        {/* Consultation Section */}
+        <ConsultationSession />
+      </section>
 
-			<IndividualSession />
-		</section>
-	);
+      {/* Discount Packages */}
+      <Bundles />
+
+      <IndividualSession />
+    </section>
+  );
 };
 
 export default Bookings;
 
 Bookings.getLayout = (page) => (
-	<BookingsLayout
-		title="Barrett Penrod Voice Studio"
-		description="Book in for voice, audition, acting lessons or singing voice specialist sessions."
-	>
-		{page}
-	</BookingsLayout>
+  <BookingsLayout
+    title="Barrett Penrod Voice Studio"
+    description="Book in for voice, audition, acting lessons or singing voice specialist sessions."
+  >
+    {page}
+  </BookingsLayout>
 );

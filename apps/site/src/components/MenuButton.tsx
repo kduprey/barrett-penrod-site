@@ -3,8 +3,7 @@ type Props = {
 	setIsNavOpen: (isNavOpen: boolean) => void;
 };
 
-const MenuButton = (props: Props) => {
-	return (
+const MenuButton = (props: Props) => (
 		<>
 			<svg
 				className={`ham hamRotate ham1 md:hidden ${
@@ -28,6 +27,5 @@ const MenuButton = (props: Props) => {
 			</svg>
 		</>
 	);
-};
 
 export default MenuButton;

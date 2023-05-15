@@ -8,8 +8,7 @@ import {
 } from "../data/resumeData";
 import headshot3 from "/public/headshot3.jpg";
 
-const ResumeTable = () => {
-	return (
+const ResumeTable = () => (
 		<div className="p-6" data-cy="resume">
 			<div className="flex flex-col items-center justify-evenly space-y-3 ">
 				<p className="text-center">
@@ -126,6 +125,5 @@ const ResumeTable = () => {
 			</div>
 		</div>
 	);
-};
 
 export default ResumeTable;

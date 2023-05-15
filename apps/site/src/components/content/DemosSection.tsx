@@ -1,5 +1,4 @@
-const DemosSection = () => {
-	return (
+const DemosSection = () => (
 		<div className="">
 			<div>
 				<h3 className="hidden pb-4 text-center md:block">
@@ -14,7 +13,7 @@ const DemosSection = () => {
 					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 					allowFullScreen
 					loading="lazy"
-				></iframe>
+				 />
 				<p className="py-2 text-center font-bold ">
 					NATS Teaching Intern Program Demo
 				</p>
@@ -24,6 +23,5 @@ const DemosSection = () => {
 			<h3 className="py-7 text-center text-2xl">More to come!</h3>
 		</div>
 	);
-};
 
 export default DemosSection;

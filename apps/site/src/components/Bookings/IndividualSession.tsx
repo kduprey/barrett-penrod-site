@@ -1,7 +1,6 @@
 import Link from "next/link";
 
-const IndividualSession = () => {
-	return (
+const IndividualSession = () => (
 		<div className="flex flex-col items-center justify-center py-6">
 			<h2 className="pb-3 text-center text-secondary md:text-3xl lg:text-4xl">
 				Book an <br /> Individual Session!
@@ -11,6 +10,5 @@ const IndividualSession = () => {
 			</Link>
 		</div>
 	);
-};
 
 export default IndividualSession;

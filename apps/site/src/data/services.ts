@@ -1,13 +1,11 @@
 import { LessonBundle, Price, Service, SessionLocations } from "../types/types";
 
-const bookingLink = (title: string, location: string): string => {
-	return (
+const bookingLink = (title: string, location: string): string => (
 		baseURL +
 		title.toLowerCase().split(" ").join("-") +
 		"-" +
 		location.toLowerCase().split(" ").join("-")
 	);
-};
 
 export const baseURL = "https://calendly.com/bpvoicestudio/";
 
@@ -19,9 +17,7 @@ export const services: Service[] = [
 		locations: [...SessionLocations],
 		get url() {
 			const title = this.title;
-			return this.locations.map((location) => {
-				return bookingLink(title, location);
-			});
+			return this.locations.map((location) => bookingLink(title, location));
 		},
 	},
 	{
@@ -31,9 +27,7 @@ export const services: Service[] = [
 		locations: [...SessionLocations],
 		get url() {
 			const title = this.title;
-			return this.locations.map((location) => {
-				return bookingLink(title, location);
-			});
+			return this.locations.map((location) => bookingLink(title, location));
 		},
 	},
 	{
@@ -43,9 +37,7 @@ export const services: Service[] = [
 		locations: ["Location Chosen By Client", "Open Jar", "Virtual"],
 		get url() {
 			const title = this.title;
-			return this.locations.map((location) => {
-				return bookingLink(title, location);
-			});
+			return this.locations.map((location) => bookingLink(title, location));
 		},
 	},
 	{
@@ -55,16 +47,12 @@ export const services: Service[] = [
 		locations: [...SessionLocations],
 		get url() {
 			const title = this.title;
-			return this.locations.map((location) => {
-				return bookingLink(title, location);
-			});
+			return this.locations.map((location) => bookingLink(title, location));
 		},
 	},
 ];
 
-export const bundleServices: Service[] = services.filter((e) => {
-	return e.title !== "SVS Session";
-});
+export const bundleServices: Service[] = services.filter((e) => e.title !== "SVS Session");
 
 export const bundles: LessonBundle[] = [
 	{

@@ -6,8 +6,7 @@ import {
 	faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 
-const SocialBar = () => {
-	return (
+const SocialBar = () => (
 		<>
 			<div className="mx-6 flex items-center justify-evenly bg-secondary p-2 text-black md:hidden">
 				<a
@@ -51,6 +50,5 @@ const SocialBar = () => {
 			</div>
 		</>
 	);
-};
 
 export default SocialBar;

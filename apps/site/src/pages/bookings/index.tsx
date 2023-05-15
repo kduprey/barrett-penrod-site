@@ -11,7 +11,6 @@ import BookingsLayout from "@bpvs/site/components/BookingsLayout";
 import Logo from "@bpvs/site/components/Logo";
 import { NextPageWithLayout } from "@bpvs/types";
 import axios from "axios";
-import { gql } from "graphql-request";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { z } from "zod";
@@ -47,14 +46,14 @@ import { z } from "zod";
 //   };
 // };
 
-type Props = {
-  promoContents: {
-    headerForPromo: string;
-    promoSubheadingDescription: string;
-  }[];
-};
+// type Props = {
+//   promoContents: {
+//     headerForPromo: string;
+//     promoSubheadingDescription: string;
+//   }[];
+// };
 
-const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
+const Bookings: NextPageWithLayout = () => {
   const router = useRouter();
 
   useEffect(() => {
@@ -82,14 +81,14 @@ const Bookings: NextPageWithLayout = ({ promoContents }: Props) => {
       className={" flex flex-col items-center justify-center gap-3 px-6"}
     >
       {/* Promo Section */}
-      {promoContents[0] && (
+      {/* {promoContents[0] && (
         <div className="flex flex-col items-center justify-center gap-3 p-3">
           <h1>{promoContents[0].headerForPromo}</h1>
           <h3 className="text-center">
             {promoContents[0].promoSubheadingDescription}
           </h3>
         </div>
-      )}
+      )} */}
       {/* Logo */}
       <div className="w-full max-w-[25em] py-5">
         <Logo />

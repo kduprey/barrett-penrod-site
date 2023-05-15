@@ -37,7 +37,7 @@ jobs:
 
       - name: Install dependencies
         if: steps.cache-primes.outputs.cache-hit != 'true'
-        run: pnpm ci
+        run: pnpm i
 
   cypress-run-tests:
     name: Cypress Tests

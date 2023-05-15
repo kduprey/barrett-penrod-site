@@ -3,6 +3,7 @@ import Headline from "../components/Headline";
 import Photos from "../components/Photos";
 import Showreel from "../components/Showreel";
 
+import { NextPageWithLayout } from "@bpvs/types";
 import Image from "next/image";
 import headshot5 from "public/headshot5.jpg";
 import React, { ReactElement } from "react";
@@ -12,7 +13,7 @@ import News from "../components/News";
 import ResumeTable from "../components/ResumeTable";
 import * as gtag from "../lib/analytics";
 
-const Page = () => (
+const Page: NextPageWithLayout = () => (
   <section id="home">
     {/* Heading Text */}
     <Headline />

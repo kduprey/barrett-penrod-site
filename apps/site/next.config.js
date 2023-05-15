@@ -3,12 +3,16 @@
 const { withAxiom } = require("next-axiom");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withSentryConfig } = require("@sentry/nextjs");
+
+const { PrismaPlugin } = require("@prisma/nextjs-monorepo-workaround-plugin");
+
 const nextConfig = withAxiom({
+  transpilePackages: ["@bpvs/config"],
   reactStrictMode: true,
   webpack(config, { isServer }) {
-    if (!isServer) {
-      config.resolve.fallback.fs = false;
-    }
+    if (isServer) {
+      config.plugins.push(new PrismaPlugin());
+    } else config.resolve.fallback.fs = false;
     return config;
   },
   async redirects() {

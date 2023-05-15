@@ -18,34 +18,34 @@ import { z } from "zod";
 
 // TODO: Implement barrell export for components
 
-const promoContentsSchema = z.object({
-  promoContents: z.array(
-    z.object({
-      headerForPromo: z.string().optional(),
-      promoSubheadingDescription: z.string().optional(),
-    })
-  ),
-});
+// const promoContentsSchema = z.object({
+//   promoContents: z.array(
+//     z.object({
+//       headerForPromo: z.string().optional(),
+//       promoSubheadingDescription: z.string().optional(),
+//     })
+//   ),
+// });
 
-export const getStaticProps = async () => {
-  const QUERY = gql`
-    query PromoContents {
-      promoContents(stage: PUBLISHED) {
-        headerForPromo
-        promoSubheadingDescription
-      }
-    }
-  `;
+// export const getStaticProps = async () => {
+//   const QUERY = gql`
+//     query PromoContents {
+//       promoContents(stage: PUBLISHED) {
+//         headerForPromo
+//         promoSubheadingDescription
+//       }
+//     }
+//   `;
 
-  const promoContentsResponse = await hygraphcms.request(QUERY);
-  const promoContents = promoContentsSchema.parse(promoContentsResponse);
+//   const promoContentsResponse = await hygraphcms.request(QUERY);
+//   const promoContents = promoContentsSchema.parse(promoContentsResponse);
 
-  return {
-    props: {
-      promoContents,
-    },
-  };
-};
+//   return {
+//     props: {
+//       promoContents,
+//     },
+//   };
+// };
 
 type Props = {
   promoContents: {

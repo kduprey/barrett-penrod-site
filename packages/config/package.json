@@ -1,20 +1,17 @@
 {
-	"name": "@bpvs/config",
-	"version": "0.0.1",
-	"private": true,
-	"main": "./src/index.ts",
-	"types": "./src/index.ts",
-	"scripts": {
-		"build": "tsup"
-	},
-	"tsup": {
-		"entry": [
-			"./src/index.ts"
-		],
-		"outDir": "../../dist/packages/config",
-		"clean": true
-	},
-	"devDependencies": {
-		"@bpvs/types": "*"
-	}
+  "name": "@bpvs/config",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "tsup"
+  },
+  "tsup": {
+    "entry": [
+      "./src/index.ts"
+    ],
+    "outDir": "../../dist/packages/config",
+    "clean": true
+  }
 }

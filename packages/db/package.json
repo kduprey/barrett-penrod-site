@@ -1,31 +1,31 @@
 {
-	"name": "@bpvs/db",
-	"version": "0.0.1",
-	"private": true,
-	"main": "./src/index.ts",
-	"types": "./src/index.ts",
-	"scripts": {
-		"lint": "npx prisma format",
-		"generate": "dotenv -f ../../.env run npx prisma generate",
-		"migrate": "dotenv -f ../../.env run npx prisma migrate dev",
-		"studio": "dotenv -f ../../.env run npx prisma studio",
-		"push": "dotenv -f ../../.env run npx prisma db push",
-		"deploy": "dotenv -f ../../.env run npx prisma migrate deploy",
-		"build": "tsup"
-	},
-	"tsup": {
-		"entry": [
-			"./src/index.ts"
-		],
-		"outDir": "../../dist/packages/db",
-		"clean": true
-	},
-	"dependencies": {
-		"dotenv": "^16.0.3",
-		"json-schema-to-typescript": "^13.0.1",
-		"tslib": "^2.5.0"
-	},
-	"devDependencies": {
-		"prisma-dbml-generator": "^0.10.0"
-	}
+  "name": "@bpvs/db",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "lint": "npx prisma format",
+    "generate": "dotenv -f ../../.env run npx prisma generate",
+    "migrate": "dotenv -f ../../.env run npx prisma migrate dev",
+    "studio": "dotenv -f ../../.env run npx prisma studio",
+    "push": "dotenv -f ../../.env run npx prisma db push",
+    "deploy": "dotenv -f ../../.env run npx prisma migrate deploy",
+    "build": "tsup"
+  },
+  "tsup": {
+    "entry": [
+      "./src/index.ts"
+    ],
+    "outDir": "../../dist/packages/db",
+    "clean": true
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "json-schema-to-typescript": "^13.0.1",
+    "tslib": "^2.5.0"
+  },
+  "devDependencies": {
+    "prisma-dbml-generator": "^0.10.0"
+  }
 }

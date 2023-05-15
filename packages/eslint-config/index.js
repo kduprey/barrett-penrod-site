@@ -21,6 +21,12 @@ module.exports = {
       },
       extends: ["plugin:vitest/recommended"],
     },
+    {
+      files: ["*.test.ts"],
+      rules: {
+        "vitest/valid-expect": "warn",
+      },
+    },
   ],
   parserOptions: {
     babelOptions: {

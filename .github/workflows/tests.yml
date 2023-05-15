@@ -33,7 +33,7 @@ jobs:
         id: cache-primes
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.json') }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Install dependencies
         if: steps.cache-primes.outputs.cache-hit != 'true'
@@ -74,7 +74,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.json') }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Build NextJS
         run: pnpm -C apps/site/ run build
@@ -146,7 +146,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: node_modules
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.json') }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Unit Tests
         run: pnpm -C apps/site/ run test:ci

@@ -1,19 +1,19 @@
 import type {
-	GetServerSideProps,
-	InferGetServerSidePropsType,
-	NextPage,
+  GetServerSideProps,
+  InferGetServerSidePropsType,
+  NextPage,
 } from "next";
 import type { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
 
 export type NextPageWithLayout =
-	| (NextPage & {
-			getLayout?: (page: ReactElement) => ReactNode;
-	  })
-	| (InferGetServerSidePropsType<GetServerSideProps> & {
-			getLayout?: (page: ReactElement) => ReactNode;
-	  });
+  | (NextPage & {
+      getLayout?: (page: ReactElement) => ReactNode;
+    })
+  | (InferGetServerSidePropsType<GetServerSideProps> & {
+      getLayout?: (page: ReactElement) => ReactNode;
+    });
 
 export type AppPropsWithLayout = AppProps & {
-	Component: NextPageWithLayout;
+  Component: NextPageWithLayout;
 };

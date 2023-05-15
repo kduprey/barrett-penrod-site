@@ -5,8 +5,8 @@ import Showreel from "../components/Showreel";
 
 import { NextPageWithLayout } from "@bpvs/types";
 import Image from "next/image";
-import headshot5 from "public/headshot5.jpg";
 import React, { ReactElement } from "react";
+import headshot5 from "../../public/headshot5.jpg";
 import Headshots from "../components/Headshots";
 import Layout from "../components/Layout";
 import News from "../components/News";

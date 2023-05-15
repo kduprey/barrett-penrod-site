@@ -1,50 +1,49 @@
-import { PrismaClient } from "@prisma/client";
-import { prismaConfig } from "config/index";
-import { contact } from "pages/api/contact";
+import { PrismaClient, prismaConfig } from "@bpvs/db";
+import contact from "@bpvs/site/pages/api/contact";
 import { afterAll, describe, expect, it } from "vitest";
 
 const prisma = new PrismaClient({ ...prismaConfig });
 
 describe("Contact should", () => {
-	afterAll(async () => {
-		await prisma.contacts.deleteMany({});
-	});
+  afterAll(async () => {
+    await prisma.contacts.deleteMany({});
+  });
 
-	it("Should handle a correct data submission", async () => {
-		const num = Math.floor(Math.random() * 1000);
+  it("Should handle a correct data submission", async () => {
+    const num = Math.floor(Math.random() * 1000);
 
-		await contact({
-			name: `test ${num}`,
-			email: "test@test.com",
-			message: "test",
-		});
+    await contact({
+      name: `test ${num}`,
+      email: "test@test.com",
+      message: "test",
+    });
 
-		const check = await prisma.contacts.findMany({
-			where: {
-				name: `test ${num}`,
-			},
-		});
+    const check = await prisma.contacts.findMany({
+      where: {
+        name: `test ${num}`,
+      },
+    });
 
-		expect(check).not.toBeNull();
-		expect(check[0].name).toBe(`test ${num}`);
-		expect(check[0].email).toBe("test@test.com");
-		expect(check[0].message).toBe("test");
-	});
+    expect(check).not.toBeNull();
+    expect(check[0].name).toBe(`test ${num}`);
+    expect(check[0].email).toBe("test@test.com");
+    expect(check[0].message).toBe("test");
+  });
 
-	it("Should handle an incorrect data submission", async () => {
-		const num = Math.floor(Math.random() * 1000);
+  it("Should handle an incorrect data submission", async () => {
+    const num = Math.floor(Math.random() * 1000);
 
-		try {
-			const response = await contact({
-				name: `test ${num}`,
-				email: "",
-				message: "test",
-			});
+    try {
+      const response = await contact({
+        name: `test ${num}`,
+        email: "",
+        message: "test",
+      });
 
-			expect(response).toBeUndefined();
-		} catch (error) {
-			expect(error).toBeInstanceOf(Error);
-			expect((error as Error).message).include("Invalid email");
-		}
-	});
+      expect(response).toBeUndefined();
+    } catch (error) {
+      expect(error).toBeInstanceOf(Error);
+      expect((error as Error).message).include("Invalid email");
+    }
+  });
 });

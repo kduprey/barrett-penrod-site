@@ -1,4 +1,4 @@
-import { CalendlyInvitee } from "@bpvs/site/types/types";
+import { CalendlyInvitee } from "@bpvs/types";
 
 export const getInviteeResponse: CalendlyInvitee = {
   resource: {

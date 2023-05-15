@@ -1,4 +1,5 @@
 import { PrismaClient, prismaConfig } from "@bpvs/db";
+import { dev } from "@bpvs/types";
 import { dbCalendlyEventPayloads } from "./seedData/calendlyEventPayloads";
 import { dbClients } from "./seedData/clients";
 

@@ -1,7 +1,4 @@
-import {
-  CalendlyGetWebhook,
-  CalendlyPostWebhook,
-} from "@bpvs/site/types/calendlyTypes";
+import { CalendlyGetWebhook, CalendlyPostWebhook } from "@bpvs/types";
 
 export const getWebhooks: CalendlyGetWebhook = {
   collection: [

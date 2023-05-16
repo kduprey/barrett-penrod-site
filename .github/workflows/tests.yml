@@ -81,8 +81,10 @@ jobs:
             apps/**/node_modules
             packages/**/node_modules
             node_modules
-            packages/db/src/client
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Generate Prisma Client
+        run: pnpm postinstall
 
       - name: Build NextJS
         run: pnpm -C apps/site/ run build
@@ -157,8 +159,10 @@ jobs:
             apps/**/node_modules
             packages/**/node_modules
             node_modules
-            packages/db/src/client
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Generate Prisma Client
+        run: pnpm postinstall
 
       - name: Unit Tests
         run: pnpm -C apps/site/ run test:ci

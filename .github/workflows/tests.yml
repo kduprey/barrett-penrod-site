@@ -32,7 +32,10 @@ jobs:
         uses: actions/cache@v3
         id: cache-primes
         with:
-          path: '**/node_modules'
+          path: |
+            apps/**/node_modules
+            packages/**/node_modules
+            node_modules
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Install dependencies
@@ -73,7 +76,10 @@ jobs:
       - name: Cache NPM dependencies
         uses: actions/cache@v3
         with:
-          path: '**/node_modules'
+          path: |
+            apps/**/node_modules
+            packages/**/node_modules
+            node_modules
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Build NextJS
@@ -145,7 +151,10 @@ jobs:
       - name: Cache NPM dependencies
         uses: actions/cache@v3
         with:
-          path: '**/node_modules'
+          path: |
+            apps/**/node_modules
+            packages/**/node_modules
+            node_modules
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Unit Tests

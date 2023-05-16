@@ -1,5 +1,5 @@
 import { PrismaClient, prismaConfig } from "@bpvs/db";
-import updateQRDB from "@bpvs/site/pages/api/updateQRDB";
+import { updateQRDB } from "@bpvs/site/pages/api/updateQRDB";
 import { describe, expect, it } from "vitest";
 
 const prisma = new PrismaClient({ ...prismaConfig });

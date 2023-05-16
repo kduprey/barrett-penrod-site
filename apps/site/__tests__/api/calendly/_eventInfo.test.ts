@@ -1,7 +1,7 @@
-import { getEventResponse as data } from "@bpvs/site/data/calendlyResponses/getEventResponse";
-import { getEventInfo } from "@bpvs/site/pages/api/calendly/eventInfo";
+import { getCalendlyEvent } from "@bpvs/utils";
 import axios from "axios";
 import { afterEach, describe, expect, it, Mocked, vitest as vi } from "vitest";
+import { getEventResponse as data } from "../../../src/data/calendlyResponses/getEventResponse";
 
 vi.mock("axios");
 const mockedAxios = axios as Mocked<typeof axios>;
@@ -14,7 +14,7 @@ describe("eventInfo should", () => {
   it("Should handle a correct data submission", async () => {
     mockedAxios.get.mockResolvedValueOnce({ data });
 
-    const response = await getEventInfo("test");
+    const response = await getCalendlyEvent("test");
 
     expect(response).toEqual(data);
   });
@@ -23,7 +23,7 @@ describe("eventInfo should", () => {
     mockedAxios.get.mockRejectedValueOnce({ data });
 
     try {
-      const response = await getEventInfo("");
+      const response = await getCalendlyEvent("");
       expect(response).toBeUndefined();
     } catch (error) {
       expect(error).toBeInstanceOf(Error);
@@ -35,7 +35,7 @@ describe("eventInfo should", () => {
     mockedAxios.post.mockRejectedValue(new Error("Error getting event info"));
 
     try {
-      const response = await getEventInfo(" ");
+      const response = await getCalendlyEvent(" ");
 
       expect(response).toBeUndefined();
     } catch (error: unknown) {

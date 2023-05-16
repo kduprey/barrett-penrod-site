@@ -1,11 +1,5 @@
 import { stripe } from "@bpvs/config";
-import {
-  consultationResponse,
-  getEventResponse,
-} from "@bpvs/site/data/calendlyResponses/getEventResponse";
-import { getInviteeResponse } from "@bpvs/site/data/calendlyResponses/getInviteeResponse";
-import { dbCalendlyEventPayloads } from "@bpvs/site/data/seedData/calendlyEventPayloads";
-import { dbClients } from "@bpvs/site/data/seedData/clients";
+import { PrismaClient, prismaConfig } from "@bpvs/db";
 import {
   checkForClient,
   createClient,
@@ -13,9 +7,14 @@ import {
   updateClient,
 } from "@bpvs/utils";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import {
+  consultationResponse,
+  getEventResponse,
+} from "../../src/data/calendlyResponses/getEventResponse";
+import { getInviteeResponse } from "../../src/data/calendlyResponses/getInviteeResponse";
+import { dbCalendlyEventPayloads } from "../../src/data/seedData/calendlyEventPayloads";
+import { dbClients } from "../../src/data/seedData/clients";
 
-// eslint-disable-next-line
-// @ts-ignore
 const prisma = global.prisma || new PrismaClient({ ...prismaConfig });
 
 describe("checkForClient should", () => {

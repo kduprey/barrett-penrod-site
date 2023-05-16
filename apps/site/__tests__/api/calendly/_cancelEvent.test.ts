@@ -1,7 +1,7 @@
-import { cancelEventResponse as data } from "@bpvs/site/data/calendlyResponses/cancelEventResponse";
-import cancelEvent from "@bpvs/site/pages/api/calendly/cancelEvent";
+import { cancelCalendlyEvent } from "@bpvs/utils";
 import axios from "axios";
 import { describe, expect, Mocked, vitest as vi } from "vitest";
+import { cancelEventResponse as data } from "../../../src/data/calendlyResponses/cancelEventResponse";
 
 vi.mock("axios");
 const mockedAxios = axios as Mocked<typeof axios>;
@@ -15,7 +15,7 @@ describe("cancelEvent should", () => {
     mockedAxios.post.mockResolvedValueOnce({ data });
 
     try {
-      const response = await cancelEvent("test");
+      const response = await cancelCalendlyEvent("test");
 
       expect(mockedAxios.post).toHaveBeenCalledTimes(1);
       expect(response).toEqual(data);
@@ -28,7 +28,7 @@ describe("cancelEvent should", () => {
     mockedAxios.post.mockResolvedValueOnce({ data });
 
     try {
-      const response = await cancelEvent("");
+      const response = await cancelCalendlyEvent("");
 
       expect(response).toBeUndefined();
     } catch (error) {
@@ -41,7 +41,7 @@ describe("cancelEvent should", () => {
     mockedAxios.post.mockRejectedValue(new Error("Error cancelling event"));
 
     try {
-      await cancelEvent("test");
+      await cancelCalendlyEvent("test");
     } catch (error: unknown) {
       expect(error).toBeInstanceOf(Error);
       if (error instanceof Error)

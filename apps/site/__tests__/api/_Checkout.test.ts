@@ -1,10 +1,10 @@
 // import Stripe from "stripe";
 import { bundles, stripe } from "@bpvs/config";
-import { getInviteeResponse } from "@bpvs/site/data/calendlyResponses/getInviteeResponse";
-import { createCheckoutSession } from "@bpvs/site/pages/api/checkout";
 import { CalendlyInvitee } from "@bpvs/types";
 import axios from "axios";
 import { Mocked, describe, expect, it } from "vitest";
+import { getInviteeResponse } from "../../src/data/calendlyResponses/getInviteeResponse";
+import { createCheckoutSession } from "../../src/pages/api/checkout";
 
 vi.mock("axios");
 const mockedAxios = axios as Mocked<typeof axios>;
@@ -22,6 +22,7 @@ describe("Checkout should", () => {
       location: 2,
       eventURI: "test",
       inviteeURI: "test",
+      origin: "https://test.com",
     });
     // Check for no errors
     expect(session).not.toBeInstanceOf(Error);
@@ -48,6 +49,7 @@ describe("Checkout should", () => {
       bundle: 0,
       eventURI: "test",
       inviteeURI: "test",
+      origin: "https://test.com",
     });
 
     // Check for no errors
@@ -75,6 +77,7 @@ describe("Checkout should", () => {
       isLonger: true,
       eventURI: "test",
       inviteeURI: "test",
+      origin: "https://test.com",
     });
 
     // Check for no errors
@@ -107,6 +110,7 @@ describe("Checkout should", () => {
       location: 2,
       eventURI: "test",
       inviteeURI: "test",
+      origin: "https://test.com",
     });
     // Check for no errors
     expect(session).not.toBeInstanceOf(Error);
@@ -130,6 +134,7 @@ describe("Checkout should", () => {
       location: 1,
       eventURI: "test",
       inviteeURI: "test",
+      origin: "https://test.com",
     });
 
     // Check for no errors
@@ -157,6 +162,7 @@ describe("Checkout should", () => {
       location: 1,
       eventURI: "test",
       inviteeURI: "test",
+      origin: "https://test.com",
     });
 
     // Check for no errors
@@ -185,6 +191,7 @@ describe("Checkout should", () => {
       bundle: 0,
       eventURI: "test",
       inviteeURI: "test",
+      origin: "https://test.com",
     });
 
     // Check for no errors
@@ -221,6 +228,7 @@ describe("Checkout should", () => {
       location: 2,
       eventURI: "test",
       inviteeURI: "test",
+      origin: "https://test.com",
     });
 
     // Check for no errors
@@ -255,6 +263,7 @@ describe("Checkout should", () => {
       location: 1, // OpenJar
       eventURI: "test",
       inviteeURI: "test",
+      origin: "https://test.com",
     });
 
     // Check for no errors
@@ -289,6 +298,7 @@ describe("Checkout should", () => {
       location: 1, // OpenJar
       eventURI: "test",
       inviteeURI: "test",
+      origin: "https://test.com",
     });
 
     // Check for no errors
@@ -324,6 +334,7 @@ describe("Checkout should", () => {
         bundle: 0,
         eventURI: "test",
         inviteeURI: "test",
+        origin: "https://test.com",
       });
       expect(session).to.be.undefined;
     } catch (error: unknown) {
@@ -353,6 +364,7 @@ describe("Checkout should", () => {
         bundle: 0,
         eventURI: "test",
         inviteeURI: "test",
+        origin: "https://test.com",
       });
       expect(session).to.be.undefined;
     } catch (error: unknown) {
@@ -383,6 +395,7 @@ describe("Checkout should", () => {
         bundle: 0,
         eventURI: "test",
         inviteeURI: "test",
+        origin: "https://test.com",
       });
       expect(session).to.be.undefined;
     } catch (error: unknown) {
@@ -400,6 +413,7 @@ describe("Checkout should", () => {
         bundle: 0,
         eventURI: "test",
         inviteeURI: "test",
+        origin: "https://test.com",
       });
       expect(session).to.be.undefined;
     } catch (error: unknown) {
@@ -419,6 +433,7 @@ describe("Checkout should", () => {
         location: 2,
         eventURI: "test",
         inviteeURI: "test",
+        origin: "https://test.com",
       });
 
       expect(session).to.be.undefined;
@@ -438,6 +453,7 @@ describe("Checkout should", () => {
         location: 6,
         eventURI: "test",
         inviteeURI: "test",
+        origin: "https://test.com",
       });
 
       expect(session).to.be.undefined;
@@ -458,6 +474,7 @@ describe("Checkout should", () => {
         bundle: 6,
         eventURI: "test",
         inviteeURI: "test",
+        origin: "https://test.com",
       });
 
       expect(session).to.be.undefined;
@@ -478,6 +495,7 @@ describe("Checkout should", () => {
         bundle: 0,
         eventURI: "test",
         inviteeURI: "test",
+        origin: "https://test.com",
       });
 
       expect(session).to.be.undefined;
@@ -497,6 +515,7 @@ describe("Checkout should", () => {
         location: 3,
         eventURI: "test",
         inviteeURI: "test",
+        origin: "https://test.com",
       });
 
       expect(session).to.be.undefined;
@@ -516,6 +535,7 @@ describe("Checkout should", () => {
         location: 2,
         inviteeURI: "test",
         eventURI: "",
+        origin: "https://test.com",
       });
 
       expect(session).to.be.undefined;
@@ -535,6 +555,7 @@ describe("Checkout should", () => {
         location: 2,
         eventURI: "test",
         inviteeURI: "",
+        origin: "https://test.com",
       });
 
       expect(session).to.be.undefined;

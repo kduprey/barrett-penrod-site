@@ -1,5 +1,4 @@
-import { sendgrid } from "@bpvs/emails-temp";
-import { sendConsultationEmail } from "@bpvs/site/pages/api/emails/sendConsultation";
+import { sendConsultationEmail, sendgrid } from "@bpvs/emails-temp";
 import { expect, it, vitest as vi } from "vitest";
 
 const client = {

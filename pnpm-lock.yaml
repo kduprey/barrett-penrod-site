@@ -42,7 +42,7 @@ importers:
         version: 3.21.4
     devDependencies:
       '@bpvs/types':
-        specifier: ^0.0.1
+        specifier: '*'
         version: link:packages/types
       '@types/http-errors':
         specifier: ^2.0.1

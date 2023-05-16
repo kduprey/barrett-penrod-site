@@ -1,10 +1,11 @@
 import react from "@vitejs/plugin-react";
 import path from "node:path";
+import tsconfigPaths from "vite-tsconfig-paths";
 import { defineConfig } from "vitest/config";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tsconfigPaths()],
   test: {
     coverage: {
       reporter: ["text", "json", "html", "lcov"],
@@ -37,12 +38,12 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@bpvs/config": path.resolve(__dirname, "packages/config"),
-      "@bpvs/site": path.resolve(__dirname, "apps/site"),
-      "@bpvs/utils": path.resolve(__dirname, "packages/utils"),
-      "@bpvs/db": path.resolve(__dirname, "packages/db"),
-      "@bpvs/types": path.resolve(__dirname, "packages/types"),
-      "@bpvs/validation": path.resolve(__dirname, "packages/validation"),
+      "@bpvs/config": path.resolve(__dirname, "../../packages/config"),
+      "@bpvs/site": path.resolve(__dirname, "apps/site/src/"),
+      "@bpvs/utils": path.resolve(__dirname, "../../packages/utils"),
+      "@bpvs/db": path.resolve(__dirname, "../../packages/db"),
+      "@bpvs/types": path.resolve(__dirname, "../../packages/types"),
+      "@bpvs/validation": path.resolve(__dirname, "../../packages/validation"),
     },
   },
 });

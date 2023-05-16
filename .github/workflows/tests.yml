@@ -28,7 +28,7 @@ jobs:
           node-version: '18'
           cache: 'pnpm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
 
-      - name: Cache PNPM dependencies
+      - name: Cache PNPM dependencies and Prisma Client
         uses: actions/cache@v3
         id: cache-primes
         with:
@@ -36,6 +36,7 @@ jobs:
             apps/**/node_modules
             packages/**/node_modules
             node_modules
+            packages/db/src/client
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Install dependencies
@@ -80,6 +81,7 @@ jobs:
             apps/**/node_modules
             packages/**/node_modules
             node_modules
+            packages/db/src/client
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Build NextJS
@@ -155,6 +157,7 @@ jobs:
             apps/**/node_modules
             packages/**/node_modules
             node_modules
+            packages/db/src/client
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Unit Tests

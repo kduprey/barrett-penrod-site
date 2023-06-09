@@ -46,7 +46,7 @@
 		"react-scroll": "^1.8.9",
 		"remove-trailing-slash": "^0.1.1",
 		"sharp": "^0.32.0",
-		"stripe": "^12.8.0",
+		"stripe": "^12.9.0",
 		"yup": "^0.32.11",
 		"zod": "^3.21.4"
 	},

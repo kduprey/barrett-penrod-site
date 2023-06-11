@@ -90,8 +90,8 @@ jobs:
         uses: cypress-io/github-action@v5.8.1
         with:
           browser: chrome
-          start: npm -w 'apps/site' run start
-          command: npm -w 'apps/site' run cy:run
+          start: cd apps/site && npm run start
+          command: cd apps/site && npm run cy:run
           wait-on: 'http://localhost:3000'
         env:
           # pass GitHub token to detect new build vs re-run build

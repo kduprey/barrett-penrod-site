@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "esModuleInterop": true,
+    "types": ["node", "cypress"],
     "paths": {
       "@bpvs/config": ["packages/config/src/index.ts"],
       "@bpvs/db": ["packages/db/src/index.ts"],

@@ -91,7 +91,7 @@ jobs:
         with:
           browser: chrome
           start: npm -w 'apps/site' run start
-          project: ./apps/site
+          command: npm -w 'apps/site' run cy:run
           wait-on: 'http://localhost:3000'
         env:
           # pass GitHub token to detect new build vs re-run build

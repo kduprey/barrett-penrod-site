@@ -80,7 +80,7 @@ jobs:
           key: ${{ runner.os }}-npm-${{ hashFiles('npm-lock.yaml') }}
 
       - name: Generate Prisma Client
-        run: npm postinstall
+        run: npm run postinstall
 
       - name: Build NextJS
         run: npm run build:site
@@ -157,7 +157,7 @@ jobs:
           key: ${{ runner.os }}-npm-${{ hashFiles('npm-lock.yaml') }}
 
       - name: Generate Prisma Client
-        run: npm postinstall
+        run: npm run postinstall
 
       - name: Unit Tests
         run: npm -w 'apps/site' run test:ci

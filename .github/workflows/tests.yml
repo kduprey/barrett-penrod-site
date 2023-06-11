@@ -86,7 +86,8 @@ jobs:
       - name: Build NextJS
         run: npm run build:site
 
-      - run: ls -la
+      - name: logs
+        run: pwd && ls -la && cat package.json && cd apps && ls -la && cd site && ls -la
 
       - name: E2E on Chrome
         uses: cypress-io/github-action@v5.8.1

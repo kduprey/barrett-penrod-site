@@ -1,8 +1,6 @@
-import { PrismaClient, prismaConfig } from "@bpvs/db";
-import { contact } from "@bpvs/site/pages/api/contact";
+import { prisma } from "@bpvs/db";
 import { afterAll, describe, expect, it } from "vitest";
-
-const prisma = new PrismaClient({ ...prismaConfig });
+import { contact } from "../../src/pages/api/contact";
 
 describe("Contact should", () => {
   afterAll(async () => {

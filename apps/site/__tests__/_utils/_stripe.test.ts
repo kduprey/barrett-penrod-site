@@ -1,10 +1,10 @@
-import { PrismaClient, prismaConfig } from "@bpvs/db";
+import { prisma } from "@bpvs/db";
 import {
   createCustomer,
   getNumLessonsFromLineItems,
   updateCustomer,
 } from "@bpvs/utils";
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { getEventResponse } from "../../src/data/calendlyResponses/getEventResponse";
 import { getInviteeResponse } from "../../src/data/calendlyResponses/getInviteeResponse";
 import { dbCalendlyEventPayloads } from "../../src/data/seedData/calendlyEventPayloads";
@@ -14,19 +14,16 @@ import {
   line_items,
 } from "../../src/data/stripeResponses/webhooks";
 
-const prisma = global.prisma || new PrismaClient({ ...prismaConfig });
+beforeEach(async () => {
+  await prisma.calendlyInviteePayloads.deleteMany();
+  await prisma.clients.deleteMany();
+});
+afterEach(async () => {
+  await prisma.calendlyInviteePayloads.deleteMany();
+  await prisma.clients.deleteMany();
+});
 
 describe("updateCustomer after checkout", () => {
-  beforeEach(async () => {
-    await prisma.calendlyInviteePayloads.deleteMany();
-    await prisma.clients.deleteMany();
-  });
-
-  afterEach(async () => {
-    await prisma.calendlyInviteePayloads.deleteMany();
-    await prisma.clients.deleteMany();
-  });
-
   it("should update the customer", async () => {
     await prisma.calendlyInviteePayloads.create({
       data: dbCalendlyEventPayloads[0],
@@ -74,7 +71,7 @@ describe("updateCustomer after checkout", () => {
     await expect(
       updateCustomer(
         checkout_session_completed,
-        { ...client, id: "not a real id" },
+        { ...client, id: "334234223234" },
         getEventResponse,
         line_items
       )
@@ -86,18 +83,6 @@ describe("updateCustomer after checkout", () => {
 });
 
 describe("createCustomer after checkout", () => {
-  beforeEach(async () => {
-    await prisma.calendlyInviteePayloads.deleteMany();
-    await prisma.clients.deleteMany();
-    await prisma.calendlyInviteePayloads.create({
-      data: dbCalendlyEventPayloads[0],
-    });
-  });
-
-  afterEach(async () => {
-    await prisma.calendlyInviteePayloads.deleteMany();
-    await prisma.clients.deleteMany();
-  });
   it("should create a new customer", async () => {
     await prisma.calendlyInviteePayloads.create({
       data: dbCalendlyEventPayloads[0],
@@ -146,7 +131,7 @@ describe("createCustomer after checkout", () => {
     );
   });
 
-  it("should throw an error if database creation fails", async () => {
+  it("should throw an error if customer creation fails", async () => {
     await prisma.calendlyInviteePayloads.create({
       data: dbCalendlyEventPayloads[0],
     });

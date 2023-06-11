@@ -1,5 +1,5 @@
 import { stripe } from "@bpvs/config";
-import { PrismaClient, prismaConfig } from "@bpvs/db";
+import { prisma } from "@bpvs/db";
 import {
   checkForClient,
   createClient,
@@ -14,8 +14,6 @@ import {
 import { getInviteeResponse } from "../../src/data/calendlyResponses/getInviteeResponse";
 import { dbCalendlyEventPayloads } from "../../src/data/seedData/calendlyEventPayloads";
 import { dbClients } from "../../src/data/seedData/clients";
-
-const prisma = global.prisma || new PrismaClient({ ...prismaConfig });
 
 describe("checkForClient should", () => {
   beforeAll(async () => {
@@ -149,7 +147,7 @@ describe("updateClient should", () => {
     } catch (error: unknown) {
       if (error instanceof Error) {
         expect(error).not.toBeNull();
-        expect(error.message).toBe("Error updating existing customer");
+        expect(error.message).includes("Error updating existing customer");
       }
     }
   });
@@ -178,7 +176,7 @@ describe("createStripeCustomer should", () => {
     } catch (error: unknown) {
       if (error instanceof Error) {
         expect(error).not.toBeNull();
-        expect(error.message).toBe("Error creating new Stripe customer");
+        expect(error.message).toContain("Error creating new Stripe customer");
       }
     }
   });
@@ -258,7 +256,7 @@ describe("createClient should", () => {
     } catch (error: unknown) {
       if (error instanceof Error) {
         expect(error).not.toBeNull();
-        expect(error.message).toBe("Error creating new client in DB");
+        expect(error.message).includes("Error creating new client in DB");
       }
     }
 

@@ -1,8 +1,6 @@
-import { PrismaClient, prismaConfig } from "@bpvs/db";
+import { prisma } from "@bpvs/db";
 import { describe, expect, it } from "vitest";
 import { updateQRDB } from "../../src/pages/api/updateQRDB";
-
-const prisma = new PrismaClient({ ...prismaConfig });
 
 describe("updateQRDB should", () => {
   it("return true", async () => {
@@ -24,14 +22,7 @@ describe("updateQRDB should", () => {
     expect(check[0].campaign).toBe(9);
     expect(check[0].designId).toBe(9);
 
-    await prisma.qr_code_logs.deleteMany({
-      where: {
-        location: 9,
-        flyerSize: 9,
-        campaign: 9,
-        designId: 9,
-      },
-    });
+    await prisma.qr_code_logs.deleteMany();
   });
 
   it("return false", async () => {

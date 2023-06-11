@@ -1,0 +1,1 @@
+export { TailwindTheme } from "./TailwindTheme";

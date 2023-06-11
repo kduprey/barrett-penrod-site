@@ -9,3 +9,15 @@ services:
       INIT_WAIT_SEC: 3
     ports:
       - 27017:27017
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+volumes:
+  postgres:

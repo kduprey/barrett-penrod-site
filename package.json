@@ -10,7 +10,9 @@
     "vercel-build": "next build apps/site",
     "temp:preinstall": "npx only-allow pnpm",
     "postinstall": "cd ./packages/db && npx prisma generate && cd ../..",
-    "build:site": "npm run -w 'apps/site' build"
+    "build:site": "npm run -w 'apps/site' build",
+    "start:site": "npm run -w 'apps/site' start",
+    "cy:site": "npm run -w 'apps/site' cy:run"
   },
   "dependencies": {
     "@bdsqqq/try": "^2.3.1",

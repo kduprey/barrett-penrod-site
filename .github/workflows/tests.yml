@@ -86,16 +86,13 @@ jobs:
       - name: Build NextJS
         run: npm run build:site
 
-      - name: logs
-        run: pwd && ls -la && cat package.json && cd apps && ls -la && cd site && ls -la
-
       - name: E2E on Chrome
         uses: cypress-io/github-action@v5.8.1
         with:
           browser: chrome
           project: ./apps/site
-          start: npm -w 'apps/site' run start
-          command: npm -w 'apps/site' run cy:run
+          start: npm run start:site
+          command: npm run cy:site
           wait-on: 'http://localhost:3000'
         env:
           # pass GitHub token to detect new build vs re-run build

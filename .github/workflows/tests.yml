@@ -20,13 +20,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: pnpm/action-setup@v2
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'pnpm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
+          cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
 
       - name: Cache PNPM dependencies and Prisma Client
         uses: actions/cache@v3
@@ -37,11 +35,11 @@ jobs:
             packages/**/node_modules
             node_modules
             packages/db/src/client
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('npm-lock.yaml') }}
 
       - name: Install dependencies
         if: steps.cache-primes.outputs.cache-hit != 'true'
-        run: pnpm i
+        run: npm i
 
   cypress-run-tests:
     name: Cypress Tests
@@ -66,13 +64,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: pnpm/action-setup@v2
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'pnpm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
+          cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
 
       - name: Cache NPM dependencies
         uses: actions/cache@v3
@@ -81,19 +77,20 @@ jobs:
             apps/**/node_modules
             packages/**/node_modules
             node_modules
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('npm-lock.yaml') }}
 
       - name: Generate Prisma Client
-        run: pnpm postinstall
+        run: npm postinstall
 
       - name: Build NextJS
-        run: pnpm -C apps/site/ run build
+        run: npm run build:site
 
       - name: E2E on Chrome
-        uses: cypress-io/github-action@v5.7.2
+        uses: cypress-io/github-action@v5.8.1
         with:
           browser: chrome
-          start: pnpm -C apps/site/ run start
+          start: npm -w 'apps/site' run start
+          project: ./apps/site
           wait-on: 'http://localhost:3000'
         env:
           # pass GitHub token to detect new build vs re-run build
@@ -144,13 +141,11 @@ jobs:
           DOCKER_MONGO_PWD: ${{ secrets.DOCKER_MONGO_PWD }}
           DOCKER_MONGO_DBNAME: test
 
-      - uses: pnpm/action-setup@v2
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'pnpm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
+          cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
 
       - name: Cache NPM dependencies
         uses: actions/cache@v3
@@ -159,13 +154,13 @@ jobs:
             apps/**/node_modules
             packages/**/node_modules
             node_modules
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('npm-lock.yaml') }}
 
       - name: Generate Prisma Client
-        run: pnpm postinstall
+        run: npm postinstall
 
       - name: Unit Tests
-        run: pnpm -C apps/site/ run test:ci
+        run: npm -w 'apps/site' run test:ci
 
       - name: Stop container
         if: always()

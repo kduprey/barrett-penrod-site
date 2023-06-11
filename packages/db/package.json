@@ -21,13 +21,11 @@
     "clean": true
   },
   "dependencies": {
-    "@prisma/client": "4.14.0",
+    "@prisma/client": "^4.15.0",
     "dotenv": "^16.0.3",
-    "json-schema-to-typescript": "^13.0.1",
-    "tslib": "^2.5.0"
+    "json-schema-to-typescript": "^13.0.1"
   },
   "devDependencies": {
-    "prisma": "4.14.0",
-    "prisma-dbml-generator": "^0.10.0"
+    "prisma": "^4.15.0"
   }
 }

@@ -51,7 +51,7 @@ const errorHandler = (err: unknown, res: NextApiResponse<ErrorResponse>) => {
     // Handle all errors thrown by http-errors module
     return res.status(err.statusCode).json({ error: { message: err.message } });
   } else if (err instanceof ZodError) {
-    // Handle yup validation errors
+    // Handle zod validation errors
     return res.status(400).json({ error: { message: err.errors.join(", ") } });
   } else {
     // default to 500 server error

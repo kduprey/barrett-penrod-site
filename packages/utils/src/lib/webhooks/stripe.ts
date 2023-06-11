@@ -25,6 +25,7 @@ export const updateCustomer = async (
 
   try {
     // Update client data
+
     const updatedCustomer = await prisma.clients.update({
       where: {
         id: client.id,

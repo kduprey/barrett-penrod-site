@@ -4,7 +4,7 @@ export const getInviteeResponse: CalendlyInvitee = {
   resource: {
     cancel_url: "https://calendly.com/cancellations/fake",
     created_at: "2022-09-17T20:08:21.045866Z",
-    email: "kdtech18@gmail.com",
+    email: "test@email.com",
     event: "https://api.calendly.com/scheduled_events/fake",
     first_name: null,
     last_name: null,

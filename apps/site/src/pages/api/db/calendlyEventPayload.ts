@@ -4,10 +4,6 @@ import createHttpError from "http-errors";
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 
-// const POSTValidation = new yup.ObjectSchema<Prisma.calendlyInviteePayloadsCreateInput>({
-// 	id: yup.string().optional(),
-// 	cancel_url: yup.string().required(),
-
 const GETHandler: NextApiHandler = async (
   req: NextApiRequest,
   res: NextApiResponse

@@ -12,6 +12,10 @@
     "postinstall": "cd ./packages/db && npx prisma generate && cd ../..",
     "build:site": "npm run -w 'apps/site' build",
     "start:site": "npm run -w 'apps/site' start",
+    "dev:site": "npm run -w 'apps/site' dev",
+    "build:admin": "npm run -w 'apps/admin' build",
+    "start:admin": "npm run -w 'apps/admin' start",
+    "dev:admin": "npm run -w 'apps/admin' dev",
     "cy:site": "npm run -w 'apps/site' cy:run"
   },
   "dependencies": {

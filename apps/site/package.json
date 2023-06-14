@@ -28,7 +28,7 @@
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@headlessui/react": "^1.7.14",
     "@next/font": "^13.2.4",
-    "@sentry/nextjs": "^7.47.0",
+    "@sentry/nextjs": "^7.55.0",
     "framer-motion": "^10.12.10",
     "graphql-request": "^6.0.0",
     "next-axiom": "^0.17.0",

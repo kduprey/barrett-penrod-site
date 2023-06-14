@@ -1,7 +1,9 @@
+import { ClerkProvider } from "@clerk/nextjs";
 import {
   ColorScheme,
   ColorSchemeProvider,
   MantineProvider,
+  useMantineTheme,
 } from "@mantine/core";
 import { useColorScheme } from "@mantine/hooks";
 import { getCookie, setCookie } from "cookies-next";
@@ -25,6 +27,8 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
     });
   };
 
+  const theme = useMantineTheme();
+
   return (
     <>
       <Head>
@@ -35,6 +39,7 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
         />
         <meta name="description" content="Admin for BPVS" />
       </Head>
+
       <ColorSchemeProvider
         colorScheme={colorScheme}
         toggleColorScheme={toggleColorScheme}
@@ -47,7 +52,22 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
             colorScheme,
           }}
         >
-          <Component {...pageProps} />
+          <ClerkProvider
+            appearance={{
+              layout: {
+                socialButtonsVariant: "iconButton",
+                logoPlacement: "inside",
+              },
+              variables: {
+                colorPrimary:
+                  colorScheme === "light" ? theme.black : theme.white,
+                colorBackground:
+                  colorScheme === "light" ? theme.white : theme.black,
+              },
+            }}
+          >
+            <Component {...pageProps} />
+          </ClerkProvider>
         </MantineProvider>
       </ColorSchemeProvider>
     </>

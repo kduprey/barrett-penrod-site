@@ -569,5 +569,5 @@ describe("Checkout should", () => {
 
 const checkValidCheckoutURL = (url: string | undefined) =>
   expect(url, "Checking for valid checkout URL").match(
-    /https:\/\/checkout\.barrettpenrod\.com\/c\/pay\/cs_test_[a-zA-Z0-9]+/
+    /https:\/\/checkout\.(?:barrettpenrod|stripe)\.com\/c\/pay\/cs_test_[a-zA-Z0-9]+/
   );

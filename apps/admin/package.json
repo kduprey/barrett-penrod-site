@@ -21,7 +21,7 @@
     "@mantine/next": "^6.0.14",
     "@mantine/notifications": "^6.0.15",
     "@mantine/spotlight": "^6.0.14",
-    "@mantine/tiptap": "^6.0.14",
+    "@mantine/tiptap": "^6.0.15",
     "@tabler/icons-react": "^2.23.0",
     "@tiptap/extension-link": "^2.0.3",
     "@tiptap/react": "^2.0.3",

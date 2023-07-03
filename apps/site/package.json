@@ -29,7 +29,7 @@
     "@headlessui/react": "^1.7.14",
     "@next/font": "^13.4.7",
     "@sentry/nextjs": "^7.57.0",
-    "framer-motion": "^10.12.10",
+    "framer-motion": "^10.12.18",
     "graphql-request": "^6.0.0",
     "next-axiom": "^0.18.0",
     "next-connect": "^1.0.0",

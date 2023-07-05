@@ -109,13 +109,18 @@ const nextConfig = withAxiom({
     dirs: ["."],
   },
   sentry: {
-    hideSourcemaps: true,
-    tunnelRoute: "/monitoring-tunnel",
+    hideSourceMaps: true,
+    tunnelRoute: "/monitoring",
   },
 });
 
 const sentryWebpackPluginOptions = {
   silent: true,
+
+  // An auth token is required for uploading source maps.
+  // You can get an auth token from https://sentry.io/settings/account/api/auth-tokens/
+  // The token must have `project:releases` and `org:read` scopes for uploading source maps
+  authToken: process.env.SENTRY_AUTH_TOKEN,
 };
 
 module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions);

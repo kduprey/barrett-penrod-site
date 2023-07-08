@@ -2,7 +2,7 @@
   "name": "@bpvs/site",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "dotenv -c -e ../../.env next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint --dir .",

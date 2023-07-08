@@ -6,11 +6,11 @@
   "types": "./src/index.ts",
   "scripts": {
     "lint": "npx prisma format",
-    "generate": "dotenv -f ../../.env run npx prisma generate",
-    "migrate": "dotenv -f ../../.env run npx prisma migrate dev",
-    "studio": "dotenv -f ../../.env run npx prisma studio",
-    "push": "dotenv -f ../../.env run npx prisma db push",
-    "deploy": "dotenv -f ../../.env run npx prisma migrate deploy",
+    "generate": "dotenv -c -e ../../.env run npx prisma generate",
+    "migrate": "dotenv -c -e ../../.env  npx prisma migrate dev",
+    "studio": "npx prisma studio",
+    "push": "dotenv -c -e ../../.env run npx prisma db push",
+    "deploy": "dotenv -c -e ../../.env run npx prisma migrate deploy",
     "build": "tsup"
   },
   "tsup": {

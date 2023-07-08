@@ -44,32 +44,3 @@ export const calendlyGetWebhookSchema = z.object({
 export const calendlyPostWebhookSchema = z.object({
   resource: calendlyWebhookSchema,
 });
-
-export const calendlyPayloadDataSchema = z.object({
-  cancel_url: z.string(),
-  // Date
-  created_at: z.union([z.date(), z.string()]),
-  email: z.string(),
-  event: z.string(),
-  name: z.string(),
-  first_name: z.string().nullable(),
-  last_name: z.string().nullable(),
-  new_invitee: z.string().nullable(),
-  old_invitee: z.string().nullable(),
-  questions_and_answers: questionsAndAnswersSchema,
-  reschedule_url: z.string(),
-  rescheduled: z.boolean(),
-  routing_form_submission: z.string().nullable(),
-  status: z.union([z.literal("active"), z.literal("canceled")]),
-  text_reminder_number: z.string().nullable(),
-  timezone: z.string().nullable(),
-  tracking: trackingSchema,
-  updated_at: z.union([z.date(), z.string()]),
-  uri: z.string(),
-  canceled: z.boolean(),
-  cancellation: cancellationSchema.optional(),
-  payment: paymentSchema.optional(),
-  no_show: noShowSchema,
-  reconfirmation: reconfirmationSchema.optional(),
-  scheduled_event: calendlyEventResourceSchema,
-});

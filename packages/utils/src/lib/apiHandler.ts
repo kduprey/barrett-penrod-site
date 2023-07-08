@@ -7,7 +7,7 @@ import { ZodError } from "zod";
 // Shape of the response when an error is thrown
 export interface ErrorResponse {
   error: {
-    message: string;
+    message: string | object;
     err?: unknown; // Sent for unhandled errors reulting in 500
   };
   status?: number; // Sent for unhandled errors reulting in 500
@@ -52,7 +52,11 @@ const errorHandler = (err: unknown, res: NextApiResponse<ErrorResponse>) => {
     return res.status(err.statusCode).json({ error: { message: err.message } });
   } else if (err instanceof ZodError) {
     // Handle zod validation errors
-    return res.status(400).json({ error: { message: err.errors.join(", ") } });
+    return res.status(400).json({
+      error: {
+        message: err.errors.map((e) => ({ message: e.message, field: e.path })),
+      },
+    });
   } else {
     // default to 500 server error
     console.error(err);

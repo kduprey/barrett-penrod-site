@@ -44,15 +44,15 @@ model calendlyInviteePayloads {
     reschedule_url          String
     rescheduled             Boolean
     routing_form_submission String?
-    status                  Status                                               @default(ACTIVE)
+    status                  String
     text_reminder_number    String?
-    timezone                String
+    timezone                String?
     tracking                CalendlyInviteePayloadsResourceTracking
     updated_at              DateTime                                             @db.Date
     uri                     String                                               @unique
     client                  clients?                                             @relation(fields: [clientId], references: [id])
     clientId                String?                                              @db.ObjectId
-    scheduled_event         ScheduledEvent
+    scheduled_event         ScheduledEvent?
 }
 
 model clients {
@@ -79,48 +79,36 @@ model clients {
 type ScheduledEvent {
     uri               String
     name              String?
-    status            Status                              @default(ACTIVE)
-    start_time        DateTime                            @db.Date
-    end_time          DateTime                            @db.Date
+    status            String
+    start_time        DateTime                             @db.Date
+    end_time          DateTime                             @db.Date
     event_type        String
     location          Location
     invitees_counter  InviteesCounter
-    created_at        DateTime                            @db.Date
-    updated_at        DateTime                            @db.Date
+    created_at        DateTime                             @db.Date
+    updated_at        DateTime                             @db.Date
     event_memberships EventMemberships[]
     event_guests      EventGuests[]
-    cancellation      CalendlyInviteePayloadsCancellation
-}
-
-enum Status {
-    ACTIVE
-    CANCELED
+    cancellation      CalendlyInviteePayloadsCancellation?
 }
 
 type Location {
     type     String
     location String?
-    status   LocationStatus?
+    status   String?
     join_url String?
     data     ZoomLocationData?
 }
 
-enum LocationStatus {
-    INITIATED
-    PROCESSING
-    PUSHED
-    FAILED
-}
-
 type ZoomLocationData {
-    id       String
-    settings ZoomLocationSettings
-    extra    ZoomLocationDataExtra
-    password String
+    id       Int?
+    settings ZoomLocationSettings?
+    extra    ZoomLocationDataExtra?
+    password String?
 }
 
 type ZoomLocationDataExtra {
-    intl_numbers_url String
+    intl_numbers_url String?
 }
 
 type ZoomLocationSettings {
@@ -128,11 +116,11 @@ type ZoomLocationSettings {
 }
 
 type ZoomLocationGlobalDialInNumbers {
-    country      String
-    number       String
-    type         String
-    city         String
-    country_name String
+    country      String?
+    number       String?
+    type         String?
+    city         String?
+    country_name String?
 }
 
 type EventGuests {
@@ -143,7 +131,7 @@ type EventGuests {
 
 type EventMemberships {
     user       String
-    user_email String
+    user_email String?
 }
 
 type InviteesCounter {
@@ -190,7 +178,7 @@ type CalendlyInviteePayloadsResourceCancellation {
 }
 
 type CalendlyInviteePayloadsResourceQuestionsAndAnswers {
-    answer   String
+    answer   String?
     position Int
     question String
 }

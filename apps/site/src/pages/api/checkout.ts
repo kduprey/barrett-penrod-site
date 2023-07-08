@@ -21,6 +21,7 @@ const createCheckoutSession = async (
   url: string;
   id: string;
 }> => {
+  // eslint-disable-next-line turbo/no-undeclared-env-vars
   const stripeMode = process.env.VERCEL_ENV !== "production" ? "test" : "live";
 
   // SVS Trial Session = 5
@@ -189,10 +190,10 @@ export { createCheckoutSession };
 const POSTCheckoutBody = z.object({
   service: z.coerce.number(),
   location: z.coerce.number(),
-  bundle: z.coerce.number(),
   eventURI: z.string(),
   inviteeURI: z.string(),
-  isLonger: z.boolean(),
+  bundle: z.coerce.number().optional(),
+  isLonger: z.boolean().optional(),
 });
 
 const POSTCheckout: NextApiHandler = async (

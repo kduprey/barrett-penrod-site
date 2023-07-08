@@ -15,7 +15,7 @@
     "cy:run": "cypress run",
     "cy:open": "cypress open",
     "test": "dotenv -f ../../.env run vitest",
-    "test:ui": "dotenv -f ../../.env run vitest --ui",
+    "test:ui": "dotenv -c -e ../../.env vitest --ui",
     "test:ci": "vitest run",
     "coverage": "vitest --coverage"
   },

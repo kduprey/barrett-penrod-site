@@ -187,7 +187,7 @@ export const dbCalendlyEventPayloads: Prisma.calendlyInviteePayloadsCreateInput[
         utm_term: null,
       },
       updated_at: "2023-06-23T18:12:02.654925Z",
-      uri: "https://api.calendly.com/scheduled_events/165132121-1516-4a74-8c98-716cdc5884f7/invitees/54654654-7bbb-4994-91aa-bae8a8220d54",
+      uri: "https://api.calendly.com/scheduled_events/3d344a74-9b56-4bb4-8607-d07a35ac46bc/invitees/26a90396-f48e-42b6-9cd5-78eb341b9737",
     },
     {
       cancel_url:

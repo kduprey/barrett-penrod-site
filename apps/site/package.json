@@ -2,7 +2,7 @@
   "name": "@bpvs/site",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "dotenv -c -e ../../.env next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint --dir .",
@@ -15,7 +15,7 @@
     "cy:run": "cypress run",
     "cy:open": "cypress open",
     "test": "dotenv -f ../../.env run vitest",
-    "test:ui": "dotenv -f ../../.env run vitest --ui",
+    "test:ui": "dotenv -c -e ../../.env vitest --ui",
     "test:ci": "vitest run",
     "coverage": "vitest --coverage"
   },
@@ -45,7 +45,6 @@
     "@testing-library/cypress": "^9.0.0",
     "@types/gtag.js": "^0.0.12",
     "@types/jsdom": "^21.1.1",
-    "@types/node": "^20.3.2",
     "@types/react-scroll": "^1.8.5",
     "autoprefixer": "^10.4.14",
     "jsdom": "^22.0.0",

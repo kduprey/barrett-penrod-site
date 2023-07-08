@@ -3,8 +3,8 @@
   "author": "Kenton Duprey",
   "private": true,
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "./apps/*",
+    "./packages/*"
   ],
   "scripts": {
     "vercel-build": "next build apps/site",
@@ -12,15 +12,21 @@
     "postinstall": "cd ./packages/db && npx prisma generate && cd ../..",
     "build:site": "npm run -w 'apps/site' build",
     "start:site": "npm run -w 'apps/site' start",
-    "dev:site": "npm run -w 'apps/site' dev",
+    "dev:site": "npm run dev -w @bpvs/site",
     "build:admin": "npm run -w 'apps/admin' build",
     "start:admin": "npm run -w 'apps/admin' start",
     "dev:admin": "npm run -w 'apps/admin' dev",
-    "cy:site": "npm run -w 'apps/site' cy:run"
+    "cy:site": "npm run -w 'apps/site' cy:run",
+    "start:db:local": "docker compose -f 'docker-compose.yml' up -d --build mongodb_container",
+    "stop:db:local": "docker compose -f 'docker-compose.yml' down",
+    "db:studio": "cd ./packages/db && dotenv -c -e ../../.env npx prisma studio",
+    "db:local:studio": "vercel env pull && npm run start:db:local && npm run db:studio",
+    "db:prod:studio": "vercel env pull --environment=production && npm run db:studio"
   },
   "dependencies": {
     "@bdsqqq/try": "^2.3.1",
     "axios": "^1.4.0",
+    "dotenv": "^16.3.1",
     "framer-motion": "^10.12.18",
     "graphql-request": "^6.1.0",
     "http-errors": "^2.0.0",

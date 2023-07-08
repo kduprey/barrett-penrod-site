@@ -46,12 +46,13 @@ model calendlyInviteePayloads {
     routing_form_submission String?
     status                  String
     text_reminder_number    String?
-    timezone                String
+    timezone                String?
     tracking                CalendlyInviteePayloadsResourceTracking
     updated_at              DateTime                                             @db.Date
     uri                     String                                               @unique
     client                  clients?                                             @relation(fields: [clientId], references: [id])
     clientId                String?                                              @db.ObjectId
+    scheduled_event         ScheduledEvent?
 }
 
 model clients {
@@ -73,6 +74,70 @@ model clients {
     totalSpend            Float                     @default(0)
     stripe_customer_id    String?                   @unique
     bookings              calendlyInviteePayloads[]
+}
+
+type ScheduledEvent {
+    uri               String
+    name              String?
+    status            String
+    start_time        DateTime                             @db.Date
+    end_time          DateTime                             @db.Date
+    event_type        String
+    location          Location
+    invitees_counter  InviteesCounter
+    created_at        DateTime                             @db.Date
+    updated_at        DateTime                             @db.Date
+    event_memberships EventMemberships[]
+    event_guests      EventGuests[]
+    cancellation      CalendlyInviteePayloadsCancellation?
+}
+
+type Location {
+    type     String
+    location String?
+    status   String?
+    join_url String?
+    data     ZoomLocationData?
+}
+
+type ZoomLocationData {
+    id       Int?
+    settings ZoomLocationSettings?
+    extra    ZoomLocationDataExtra?
+    password String?
+}
+
+type ZoomLocationDataExtra {
+    intl_numbers_url String?
+}
+
+type ZoomLocationSettings {
+    global_dial_in_numbers ZoomLocationGlobalDialInNumbers[]
+}
+
+type ZoomLocationGlobalDialInNumbers {
+    country      String?
+    number       String?
+    type         String?
+    city         String?
+    country_name String?
+}
+
+type EventGuests {
+    email      String
+    updated_at DateTime @db.Date
+    created_at DateTime @db.Date
+}
+
+type EventMemberships {
+    user       String
+    user_email String?
+}
+
+type InviteesCounter {
+    total  Int
+    active Int
+    limit  Int
 }
 
 type CalendlyInviteePayloadsCancellation {
@@ -113,7 +178,7 @@ type CalendlyInviteePayloadsResourceCancellation {
 }
 
 type CalendlyInviteePayloadsResourceQuestionsAndAnswers {
-    answer   String
+    answer   String?
     position Int
     question String
 }

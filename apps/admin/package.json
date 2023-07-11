@@ -9,24 +9,24 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@clerk/nextjs": "^4.21.1",
+    "@clerk/nextjs": "^4.21.15",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
     "@mantine/core": "^6.0.13",
-    "@mantine/dates": "^6.0.13",
-    "@mantine/dropzone": "^6.0.13",
-    "@mantine/form": "^6.0.13",
+    "@mantine/dates": "^6.0.16",
+    "@mantine/dropzone": "^6.0.14",
+    "@mantine/form": "^6.0.14",
     "@mantine/hooks": "^6.0.13",
-    "@mantine/modals": "^6.0.13",
-    "@mantine/next": "^6.0.13",
-    "@mantine/notifications": "^6.0.13",
-    "@mantine/spotlight": "^6.0.13",
-    "@mantine/tiptap": "^6.0.13",
-    "@tabler/icons-react": "^2.22.0",
+    "@mantine/modals": "^6.0.16",
+    "@mantine/next": "^6.0.16",
+    "@mantine/notifications": "^6.0.15",
+    "@mantine/spotlight": "^6.0.14",
+    "@mantine/tiptap": "^6.0.15",
+    "@tabler/icons-react": "^2.23.0",
     "@tiptap/extension-link": "^2.0.3",
     "@tiptap/react": "^2.0.3",
     "@tiptap/starter-kit": "^2.0.3",
     "cookies-next": "^2.1.2",
-    "dayjs": "^1.11.8"
+    "dayjs": "^1.11.9"
   }
 }

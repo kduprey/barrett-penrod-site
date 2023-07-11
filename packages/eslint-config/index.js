@@ -1,6 +1,7 @@
 module.exports = {
   extends: ["next", "turbo", "prettier"],
   rules: {
+    "turbo/no-undeclared-env-vars": "off",
     "@next/next/no-html-link-for-pages": "off",
     quotes: ["error", "double"],
     "arrow-body-style": ["error", "as-needed"],

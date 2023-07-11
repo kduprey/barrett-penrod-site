@@ -1,6 +1,7 @@
 import { Prisma, calendlyInviteePayloads, prisma } from "@bpvs/db";
-import { CalendlyEvent } from "@bpvs/types";
+import { CalendlyEvent, CalendlyPayloadData } from "@bpvs/types";
 import { getCalendlyEvent } from "@bpvs/utils";
+import { calendlyPayloadDataSchema } from "@bpvs/validation";
 import crypto from "crypto";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
@@ -77,8 +78,9 @@ const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
     .parse(bodySchema.event);
 
   if (event === "invitee.created") {
-    const payloadData: calendlyInviteePayloads =
-      bodySchema.payload as calendlyInviteePayloads;
+    const payloadData: CalendlyPayloadData = calendlyPayloadDataSchema.parse(
+      bodySchema.payload
+    );
 
     let eventData: CalendlyEvent,
       payloadDbEntry: Prisma.calendlyInviteePayloadsGetPayload<false>;
@@ -101,8 +103,7 @@ const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
       eventData = await getCalendlyEvent(payloadData.event);
       if (eventData.resource.name.includes("Consultation")) {
         const consultationHandlerResponse = await consultationHandler(
-          payloadData.event,
-          payloadData.uri,
+          payloadData,
           payloadDbEntry.id
         );
         res.status(200).json({

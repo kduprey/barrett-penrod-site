@@ -1,13 +1,13 @@
 import { stripe } from "@bpvs/config";
 import { clients, prisma } from "@bpvs/db";
 import { sendConsultationEmail } from "@bpvs/emails-temp";
-import { CalendlyEvent, CalendlyInvitee } from "@bpvs/types";
 import {
-  apiHandler,
-  getCalendlyEvent,
-  getCalendlyEventZoomLink,
-  getCalendlyInvitee,
-} from "@bpvs/utils";
+  CalendlyEvent,
+  CalendlyInvitee,
+  CalendlyPayloadData,
+} from "@bpvs/types";
+import { apiHandler, getCalendlyEventZoomLink } from "@bpvs/utils";
+import { calendlyPayloadDataSchema } from "@bpvs/validation";
 import createHttpError from "http-errors";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import Stripe from "stripe";
@@ -121,45 +121,26 @@ export const checkForClient = async (name: string, email: string) => {
 };
 
 const consultationParams = z.object({
-  eventURI: z.string({
-    required_error: "Event URI is required",
-  }),
-  inviteeURI: z.string({
-    required_error: "Invitee URI is required",
-  }),
+  calendlyEventPayload: calendlyPayloadDataSchema,
   calendlyPayloadId: z.string({
     required_error: "Calendly payload ID is required",
   }),
 });
 
 const consultationHandler = async (
-  eventURI: string,
-  inviteeURI: string,
+  calendlyEventPayload: CalendlyPayloadData,
   calendlyPayloadId: string
 ): Promise<string> => {
   let zoomLink: string | null;
-  let event: CalendlyEvent;
-  let invitee: CalendlyInvitee;
 
   console.log("Consultation handler started...");
-
-  try {
-    console.info("Getting Calendly event data");
-    // Get Calendly event data
-    event = await getCalendlyEvent(eventURI);
-    // Get invitee data
-    invitee = await getCalendlyInvitee(inviteeURI);
-  } catch (err: unknown) {
-    console.error(err);
-    if (err instanceof Error)
-      throw new Error("Error getting consultation data", err);
-    else throw new Error("Error getting consultation data");
-  }
 
   // Get Zoom link
   try {
     console.info("Getting Zoom link");
-    zoomLink = await getCalendlyEventZoomLink(event);
+    zoomLink = await getCalendlyEventZoomLink({
+      resource: calendlyEventPayload.scheduled_event,
+    });
     if (!zoomLink) throw new Error("No Zoom link found");
   } catch (err) {
     console.error(err);
@@ -169,18 +150,29 @@ const consultationHandler = async (
   // Check if user is client in database
   console.log("Checking if user is client");
   const existingCustomer = await checkForClient(
-    invitee.resource.name,
-    invitee.resource.email
+    calendlyEventPayload.name,
+    calendlyEventPayload.email
   );
 
   // If user is already a client, update their data
   if (existingCustomer)
-    await updateClient(existingCustomer, event, calendlyPayloadId);
+    await updateClient(
+      existingCustomer,
+      { resource: calendlyEventPayload.scheduled_event },
+      calendlyPayloadId
+    );
   else {
     // If not, create user in database and Stripe
 
-    const stripeCustomer = await createStripeCustomer(invitee);
-    await createClient(event, invitee, stripeCustomer, calendlyPayloadId);
+    const stripeCustomer = await createStripeCustomer({
+      resource: calendlyEventPayload,
+    });
+    await createClient(
+      { resource: calendlyEventPayload.scheduled_event },
+      { resource: calendlyEventPayload },
+      stripeCustomer,
+      calendlyPayloadId
+    );
   }
 
   // Send consultation email
@@ -189,10 +181,10 @@ const consultationHandler = async (
 
     await sendConsultationEmail({
       client: {
-        name: invitee.resource.name,
-        email: invitee.resource.email,
+        name: calendlyEventPayload.name,
+        email: calendlyEventPayload.email,
       },
-      bookingDate: new Date(event.resource.start_time),
+      bookingDate: new Date(calendlyEventPayload.scheduled_event.start_time),
       zoomLink,
     });
     return "Consultation email sent and client created";
@@ -208,13 +200,12 @@ const handler: NextApiHandler = async (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  const { eventURI, inviteeURI, calendlyPayloadId } = consultationParams.parse(
+  const { calendlyEventPayload, calendlyPayloadId } = consultationParams.parse(
     req.body
   );
   try {
     const response = await consultationHandler(
-      eventURI,
-      inviteeURI,
+      calendlyEventPayload,
       calendlyPayloadId
     );
     return res.status(200).json(response);

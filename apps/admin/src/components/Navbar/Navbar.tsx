@@ -22,38 +22,38 @@ import { UserButton } from "../UserButton/UserButton";
 
 const mockdata = [
   { label: "Dashboard", icon: IconGauge },
-  {
-    label: "Market news",
-    icon: IconNotes,
-    initiallyOpened: true,
-    links: [
-      { label: "Overview", link: "/" },
-      { label: "Forecasts", link: "/" },
-      { label: "Outlook", link: "/" },
-      { label: "Real time", link: "/" },
-    ],
-  },
-  {
-    label: "Releases",
-    icon: IconCalendarStats,
-    links: [
-      { label: "Upcoming releases", link: "/" },
-      { label: "Previous releases", link: "/" },
-      { label: "Releases schedule", link: "/" },
-    ],
-  },
-  { label: "Analytics", icon: IconPresentationAnalytics },
-  { label: "Contracts", icon: IconFileAnalytics },
-  { label: "Settings", icon: IconAdjustments },
-  {
-    label: "Security",
-    icon: IconLock,
-    links: [
-      { label: "Enable 2FA", link: "/" },
-      { label: "Change password", link: "/" },
-      { label: "Recovery codes", link: "/" },
-    ],
-  },
+  // {
+  //   label: "Market news",
+  //   icon: IconNotes,
+  //   initiallyOpened: true,
+  //   links: [
+  //     { label: "Overview", link: "/" },
+  //     { label: "Forecasts", link: "/" },
+  //     { label: "Outlook", link: "/" },
+  //     { label: "Real time", link: "/" },
+  //   ],
+  // },
+  // {
+  //   label: "Releases",
+  //   icon: IconCalendarStats,
+  //   links: [
+  //     { label: "Upcoming releases", link: "/" },
+  //     { label: "Previous releases", link: "/" },
+  //     { label: "Releases schedule", link: "/" },
+  //   ],
+  // },
+  // { label: "Analytics", icon: IconPresentationAnalytics },
+  // { label: "Contracts", icon: IconFileAnalytics },
+  // { label: "Settings", icon: IconAdjustments },
+  // {
+  //   label: "Security",
+  //   icon: IconLock,
+  //   links: [
+  //     { label: "Enable 2FA", link: "/" },
+  //     { label: "Change password", link: "/" },
+  //     { label: "Recovery codes", link: "/" },
+  //   ],
+  // },
 ];
 
 const useStyles = createStyles((theme) => ({
@@ -104,8 +104,7 @@ export const NavbarNested = () => {
     <Navbar width={{ sm: 300 }} p="md" className={classes.navbar}>
       <Navbar.Section className={classes.header}>
         <Group position="apart">
-          <Title order={1}>Logo</Title>
-          <Code sx={{ fontWeight: 700 }}>v3.1.2</Code>
+          <Title order={1}>BPVS Admin</Title>
         </Group>
       </Navbar.Section>
 

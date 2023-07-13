@@ -13,7 +13,7 @@ import {
   IconChevronLeft,
   IconChevronRight,
 } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const useStyles = createStyles((theme) => ({
   control: {
@@ -58,6 +58,14 @@ const useStyles = createStyles((theme) => ({
     },
   },
 
+  currentPath: {
+    backgroundColor:
+      theme.colorScheme === "dark"
+        ? theme.colors.dark[7]
+        : theme.colors.gray[2],
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+  },
+
   chevron: {
     transition: "transform 200ms ease",
   },
@@ -80,10 +88,18 @@ export function LinksGroup({
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
   const ChevronIcon = theme.dir === "ltr" ? IconChevronRight : IconChevronLeft;
+  const [pathName, setPathName] = useState<string | null>();
+
+  useEffect(() => {
+    if (window !== undefined) setPathName(window.location.pathname);
+  }, []);
+
   const items = (hasLinks ? links : []).map((link) => (
     <Text<"a">
       component="a"
-      className={classes.link}
+      className={
+        classes.link + (link.link === pathName ? " " + classes.currentPath : "")
+      }
       href={link.link}
       key={link.label}
       onClick={(event) => event.preventDefault()}
@@ -96,7 +112,11 @@ export function LinksGroup({
     <>
       <UnstyledButton
         onClick={() => setOpened((o) => !o)}
-        className={classes.control}
+        className={
+          classes.control +
+          " " +
+          (!hasLinks && pathName === "/" ? classes.currentPath : "")
+        }
       >
         <Group position="apart" spacing={0}>
           <Box sx={{ display: "flex", alignItems: "center" }}>

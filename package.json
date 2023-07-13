@@ -21,7 +21,8 @@
     "stop:db:local": "docker compose -f 'docker-compose.yml' down",
     "db:studio": "cd ./packages/db && dotenv -c -e ../../.env npx prisma studio",
     "db:local:studio": "vercel env pull && npm run start:db:local && npm run db:studio",
-    "db:prod:studio": "vercel env pull --environment=production && npm run db:studio"
+    "db:prod:studio": "vercel env pull --environment=production && npm run db:studio",
+    "db:seed": "npm run -w 'packages/db' seed"
   },
   "dependencies": {
     "@bdsqqq/try": "^2.3.1",

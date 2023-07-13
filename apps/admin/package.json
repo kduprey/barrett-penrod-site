@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "docker compose up -d && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@bpvs/db": "*",
     "@clerk/nextjs": "^4.21.15",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
@@ -28,5 +29,8 @@
     "@tiptap/starter-kit": "^2.0.3",
     "cookies-next": "^2.1.2",
     "dayjs": "^1.11.9"
+  },
+  "devDependencies": {
+    "@prisma/nextjs-monorepo-workaround-plugin": "^4.15.0"
   }
 }

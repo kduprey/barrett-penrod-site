@@ -1,5 +1,7 @@
+import { Box, Card, Container, Text, Title } from "@mantine/core";
 import Head from "next/head";
 import { PageWrapper } from "../components/PageWrapper/PageWrapper";
+import { TodaysLessons } from "../components/pages/Dashboard/TodaysLessons";
 
 const Home = () => {
   return (
@@ -11,7 +13,12 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PageWrapper>
-        <h1>Home</h1>
+        <h1>Dashboard</h1>
+        <Container>
+          <Box maw={340} mx="auto">
+            <TodaysLessons />
+          </Box>
+        </Container>
       </PageWrapper>
     </>
   );

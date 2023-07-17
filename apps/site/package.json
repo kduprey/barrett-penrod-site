@@ -27,7 +27,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@headlessui/react": "^1.7.14",
-    "@next/font": "^13.4.9",
+    "@next/font": "^13.4.10",
     "@sentry/nextjs": "^7.58.0",
     "framer-motion": "^10.12.20",
     "graphql-request": "^6.0.0",

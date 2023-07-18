@@ -74,11 +74,11 @@ export interface CalendlyPayloadData {
   tracking: Tracking;
   updated_at: Date | string;
   uri: string;
-  canceled: boolean;
+  canceled?: boolean;
   cancellation?: Cancellation;
-  payment?: Payment;
-  no_show: NoShow;
-  reconfirmation?: Reconfirmation;
+  payment?: Payment | null;
+  no_show?: NoShow | null;
+  reconfirmation?: Reconfirmation | null;
   // This is a new field. Old DB records will not have this field as of July 2023
   scheduled_event: CalendlyEventResource;
 }

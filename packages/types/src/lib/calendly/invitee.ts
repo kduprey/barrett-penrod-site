@@ -13,7 +13,7 @@ export interface CalendlyInviteeResource {
   last_name: string | null;
   name: string;
   new_invitee: string | null;
-  no_show: NoShow | null;
+  no_show?: NoShow | null;
   old_invitee: string | null;
   payment?: Payment | null;
   questions_and_answers: Array<Question>;

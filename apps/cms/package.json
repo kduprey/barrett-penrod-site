@@ -1,0 +1,31 @@
+{
+    "name": "cms",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "build": "next build",
+        "dev": "next dev --port 3333",
+        "lint": "next lint",
+        "publish": "sanity dataset export staging . --overwrite && sanity dataset import staging.tar.gz production --replace",
+        "pullData": "sanity dataset export production . --overwrite && sanity dataset import production.tar.gz staging --replace",
+        "start": "next start"
+    },
+    "dependencies": {
+        "@sanity/cli": "^3.8.2",
+        "@sanity/vision": "^3.8.2",
+        "next-sanity": "^5.1.1",
+        "sanity": "^3.14.3",
+        "styled-components": "^5.3.10"
+    },
+    "devDependencies": {
+        "@asbjorn/eslint-plugin-groq": "^2.0.0",
+        "@sanity/icons": "^2.2.2",
+        "@types/eslint": "^8.37.0",
+        "autoprefixer": "^10.4.14",
+        "eslint": "^8.37.0",
+        "eslint-plugin-simple-import-sort": "^10.0.0",
+        "postcss": "^8.4.21",
+        "tailwindcss": "^3.3.1",
+        "vite-tsconfig-paths": "^4.0.8"
+    }
+}

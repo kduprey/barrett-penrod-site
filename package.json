@@ -61,7 +61,7 @@
     "eslint-config-bpvs": "*",
     "prettier": "^3.0.0",
     "prettier-plugin-packagejson": "^2.4.3",
-    "prettier-plugin-tailwindcss": "^0.4.0",
+    "prettier-plugin-tailwindcss": "^0.4.1",
     "tslib": "^2.6.0",
     "tsup": "^7.1.0",
     "typescript": "^5.1.3",

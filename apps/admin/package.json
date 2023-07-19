@@ -31,6 +31,6 @@
     "dayjs": "^1.11.9"
   },
   "devDependencies": {
-    "@prisma/nextjs-monorepo-workaround-plugin": "^4.15.0"
+    "@prisma/nextjs-monorepo-workaround-plugin": "^5.0.0"
   }
 }

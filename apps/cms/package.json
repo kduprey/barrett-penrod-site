@@ -14,7 +14,7 @@
         "@sanity/cli": "^3.8.2",
         "@sanity/vision": "^3.8.2",
         "next-sanity": "^5.1.1",
-        "sanity": "^3.11.0",
+        "sanity": "^3.14.3",
         "styled-components": "^5.3.10"
     },
     "devDependencies": {

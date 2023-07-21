@@ -36,7 +36,7 @@
     "raw-body": "^2.5.2",
     "react-calendly": "^4.1.1",
     "react-scroll": "^1.8.9",
-    "sharp": "^0.32.2"
+    "sharp": "^0.32.3"
   },
   "devDependencies": {
     "@prisma/nextjs-monorepo-workaround-plugin": "^5.0.0",

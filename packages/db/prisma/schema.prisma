@@ -4,32 +4,32 @@ generator client {
 }
 
 datasource db {
-    provider = "mongodb"
+    provider = "postgresql"
     url      = env("DATABASE_URL")
 }
 
 model contacts {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    email     String   @unique
+    id        Int      @id @default(autoincrement())
+    email     String
     name      String
     message   String
-    timestamp DateTime @default(now()) @db.Date
+    timestamp DateTime @default(now())
 }
 
 model qr_code_logs {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    id        Int      @id @default(autoincrement())
     flyerSize Int
     campaign  Int
     designId  Int
     location  Int
-    timestamp DateTime @db.Date
+    timestamp DateTime @default(now())
 }
 
-model calendlyInviteePayloads {
-    id                      String                                               @id @default(auto()) @map("_id") @db.ObjectId
+model CalendlyInviteePayload {
+    id                      Int                   @id @default(autoincrement())
     cancel_url              String
-    cancellation            CalendlyInviteePayloadsResourceCancellation?
-    created_at              DateTime                                             @db.Date
+    cancellation            Cancellation?
+    created_at              DateTime
     email                   String
     event                   String
     first_name              String?
@@ -39,7 +39,7 @@ model calendlyInviteePayloads {
     no_show                 NoShow?
     old_invitee             String?
     payment                 Payment?
-    questions_and_answers   CalendlyInviteePayloadsResourceQuestionsAndAnswers[]
+    QuestionsAndAnswers     QuestionsAndAnswers[]
     reconfirmation          Reconfirmation?
     reschedule_url          String
     rescheduled             Boolean
@@ -47,147 +47,181 @@ model calendlyInviteePayloads {
     status                  String
     text_reminder_number    String?
     timezone                String?
-    tracking                CalendlyInviteePayloadsResourceTracking
-    updated_at              DateTime                                             @db.Date
-    uri                     String                                               @unique
-    client                  clients?                                             @relation(fields: [clientId], references: [id])
-    clientId                String?                                              @db.ObjectId
-    scheduled_event         ScheduledEvent?
+    tracking                Tracking?
+    updated_at              DateTime
+    uri                     String                @unique
+    client                  Client?               @relation(fields: [clientId], references: [id])
+    clientId                Int?                  @unique
+    scheduled_event         ScheduledEvent        @relation(fields: [scheduledEventId], references: [id])
+    scheduledEventId        Int                   @unique
 }
 
-model clients {
-    id                    String                    @id @default(auto()) @map("_id") @db.ObjectId
+model Client {
+    id                    Int                      @id @default(autoincrement())
     activeMember          Boolean
-    archived              Boolean                   @default(false)
-    email                 String                    @unique
-    dateJoined            DateTime                  @default("2001-01-01T00:00:00-05:00") @db.Date
-    firstLesson           DateTime?                 @db.Date
-    lastLesson            DateTime?                 @db.Date
-    nextLesson            DateTime?                 @db.Date
-    lessonsRemaining      Int                       @default(0)
-    name                  String                    @unique
+    archived              Boolean                  @default(false)
+    email                 String                   @unique
+    dateJoined            DateTime                 @default("2001-01-01T00:00:00-05:00")
+    firstLesson           DateTime?
+    lastLesson            DateTime?
+    nextLesson            DateTime?
+    lessonsRemaining      Int                      @default(0)
+    name                  String                   @unique
     notes                 String?
     preferredLessonFormat String?
     pronouns              String?
-    refundedVolume        Int                       @default(0)
-    totalLessons          Int                       @default(0)
-    totalSpend            Float                     @default(0)
-    stripe_customer_id    String?                   @unique
-    bookings              calendlyInviteePayloads[]
+    refundedVolume        Int                      @default(0)
+    totalLessons          Int                      @default(0)
+    totalSpend            Float                    @default(0)
+    stripe_customer_id    String?                  @unique
+    bookings              CalendlyInviteePayload[]
 }
 
-type ScheduledEvent {
+model ScheduledEvent {
+    id                Int                     @id @default(autoincrement())
     uri               String
     name              String?
     status            String
-    start_time        DateTime                             @db.Date
-    end_time          DateTime                             @db.Date
+    start_time        DateTime
+    end_time          DateTime
     event_type        String
-    location          Location
-    invitees_counter  InviteesCounter
-    created_at        DateTime                             @db.Date
-    updated_at        DateTime                             @db.Date
+    location          Location?
+    invitees_counter  InviteesCounter?
+    created_at        DateTime
+    updated_at        DateTime
     event_memberships EventMemberships[]
     event_guests      EventGuests[]
-    cancellation      CalendlyInviteePayloadsCancellation?
+    cancellation      Cancellation?
+    payload           CalendlyInviteePayload?
 }
 
-type Location {
-    type     String
-    location String?
-    status   String?
-    join_url String?
-    data     ZoomLocationData?
+model Location {
+    id               Int               @id @default(autoincrement())
+    type             String
+    location         String?
+    status           String?
+    join_url         String?
+    data             ZoomLocationData?
+    scheduledEvent   ScheduledEvent    @relation(fields: [scheduledEventId], references: [id])
+    scheduledEventId Int               @unique
 }
 
-type ZoomLocationData {
-    id       Int?
-    settings ZoomLocationSettings?
-    extra    ZoomLocationDataExtra?
-    password String?
+model ZoomLocationData {
+    id         Int                    @id @default(autoincrement())
+    settings   ZoomLocationSettings?
+    extra      ZoomLocationDataExtra?
+    password   String?
+    location   Location               @relation(fields: [locationId], references: [id])
+    locationId Int                    @unique
 }
 
-type ZoomLocationDataExtra {
-    intl_numbers_url String?
+model ZoomLocationDataExtra {
+    id                 Int              @id @default(autoincrement())
+    intl_numbers_url   String?
+    zoomLocationData   ZoomLocationData @relation(fields: [zoomLocationDataId], references: [id])
+    zoomLocationDataId Int              @unique
 }
 
-type ZoomLocationSettings {
+model ZoomLocationSettings {
+    id                     Int                               @id @default(autoincrement())
     global_dial_in_numbers ZoomLocationGlobalDialInNumbers[]
+    zoomLocationData       ZoomLocationData                  @relation(fields: [zoomLocationDataId], references: [id])
+    zoomLocationDataId     Int                               @unique
 }
 
-type ZoomLocationGlobalDialInNumbers {
-    country      String?
-    number       String?
-    type         String?
-    city         String?
-    country_name String?
+model ZoomLocationGlobalDialInNumbers {
+    id                     Int                  @id @default(autoincrement())
+    country                String?
+    number                 String?
+    type                   String?
+    city                   String?
+    country_name           String?
+    zoomLocationSettings   ZoomLocationSettings @relation(fields: [zoomLocationSettingsId], references: [id])
+    zoomLocationSettingsId Int                  @unique
 }
 
-type EventGuests {
-    email      String
-    updated_at DateTime @db.Date
-    created_at DateTime @db.Date
+model EventGuests {
+    id               Int            @id @default(autoincrement())
+    email            String
+    updated_at       DateTime
+    created_at       DateTime
+    scheduledEvent   ScheduledEvent @relation(fields: [scheduledEventId], references: [id])
+    scheduledEventId Int            @unique
 }
 
-type EventMemberships {
-    user       String
-    user_email String?
+model EventMemberships {
+    id               Int            @id @default(autoincrement())
+    user             String
+    user_email       String?
+    scheduledEvent   ScheduledEvent @relation(fields: [scheduledEventId], references: [id])
+    scheduledEventId Int            @unique
 }
 
-type InviteesCounter {
-    total  Int
-    active Int
-    limit  Int
+model InviteesCounter {
+    id               Int            @id @default(autoincrement())
+    total            Int
+    active           Int
+    limit            Int
+    scheduledEvent   ScheduledEvent @relation(fields: [scheduledEventId], references: [id])
+    scheduledEventId Int            @unique
 }
 
-type CalendlyInviteePayloadsCancellation {
-    canceled_by   String
-    canceler_type String
-    reason        String
+model Cancellation {
+    id               Int                     @id @default(autoincrement())
+    canceled_by      String
+    canceler_type    String
+    reason           String
+    payload          CalendlyInviteePayload? @relation(fields: [payloadId], references: [id])
+    payloadId        Int?                    @unique
+    scheduledEvent   ScheduledEvent?         @relation(fields: [scheduledEventId], references: [id])
+    scheduledEventId Int?                    @unique
 }
 
-type CalendlyInviteePayloadsQuestionsAndAnswers {
-    answer   String
-    position Int
-    question String
+model Reconfirmation {
+    id           Int                     @id @default(autoincrement())
+    created_at   DateTime
+    confirmed_at DateTime
+    payload      CalendlyInviteePayload? @relation(fields: [payloadId], references: [id])
+    payloadId    Int?                    @unique
 }
 
-type Reconfirmation {
-    created_at   DateTime @db.Date
-    confirmed_at DateTime @db.Date
-}
-
-type Payment {
+model Payment {
+    id          Int                     @id @default(autoincrement())
     external_id String
     provider    String
     amount      Float
     currency    String
     terms       String
     successful  Boolean
+    payload     CalendlyInviteePayload? @relation(fields: [payloadId], references: [id])
+    payloadId   Int?                    @unique
 }
 
-type NoShow {
+model NoShow {
+    id         Int                     @id @default(autoincrement())
     uri        String
-    created_at DateTime @db.Date
+    created_at DateTime
+    payload    CalendlyInviteePayload? @relation(fields: [payloadId], references: [id])
+    payloadId  Int?                    @unique
 }
 
-type CalendlyInviteePayloadsResourceCancellation {
-    canceled_by   String
-    canceler_type String
-    reason        String
+model QuestionsAndAnswers {
+    id        Int                    @id @default(autoincrement())
+    answer    String?
+    position  Int
+    question  String
+    payload   CalendlyInviteePayload @relation(fields: [payloadId], references: [id])
+    payloadId Int                    @unique
 }
 
-type CalendlyInviteePayloadsResourceQuestionsAndAnswers {
-    answer   String?
-    position Int
-    question String
-}
-
-type CalendlyInviteePayloadsResourceTracking {
+model Tracking {
+    id              Int                    @id @default(autoincrement())
     salesforce_uuid String?
     utm_campaign    String?
     utm_content     String?
     utm_medium      String?
     utm_source      String?
     utm_term        String?
+    payload         CalendlyInviteePayload @relation(fields: [payloadId], references: [id])
+    payloadId       Int                    @unique
 }

@@ -10,6 +10,6 @@
     "declaration": true
   },
   "files": [],
-  "include": ["src/**/*.ts", "src/*.ts", "src/**/*.js"],
+  "include": ["src/**/*.ts", "src/*.ts", "src/**/*.js", "/**/*.ts"],
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }

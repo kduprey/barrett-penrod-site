@@ -22,7 +22,7 @@
     "dev:cms": "npm run -w 'apps/cms' dev",
     "publish:cms": "npm run -w 'apps/cms' publish",
     "pullData:cms": "npm run -w 'apps/cms' pullData",
-    "start:db:local": "docker compose -f 'docker-compose.yml' up -d --build mongodb_container",
+    "start:db:local": "docker compose -f 'docker-compose.yml' up -d --build",
     "stop:db:local": "docker compose -f 'docker-compose.yml' down",
     "db:studio": "cd ./packages/db && dotenv -c -e ../../.env npx prisma studio",
     "db:local:studio": "vercel env pull && npm run start:db:local && npm run db:studio",
@@ -48,6 +48,7 @@
   "devDependencies": {
     "@bpvs/tsconfig": "*",
     "@bpvs/types": "*",
+    "@faker-js/faker": "^8.0.2",
     "@types/http-errors": "^2.0.1",
     "@types/node": "^20.4.2",
     "@types/prettier": "^2.7.3",

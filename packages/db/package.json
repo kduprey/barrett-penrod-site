@@ -9,8 +9,8 @@
     "generate": "dotenv -c -e ../../.env run npx prisma generate",
     "migrate": "dotenv -c -e ../../.env  npx prisma migrate dev",
     "studio": "npx prisma studio",
-    "push": "dotenv -c -e ../../.env run npx prisma db push",
-    "deploy": "dotenv -c -e ../../.env run npx prisma migrate deploy",
+    "push": "dotenv -c -e ../../.env npx prisma db push",
+    "deploy": "dotenv -c -e ../../.env npx prisma migrate deploy",
     "build": "tsup"
   },
   "tsup": {
@@ -26,6 +26,7 @@
     "json-schema-to-typescript": "^13.0.1"
   },
   "devDependencies": {
+    "prettier-plugin-prisma": "^5.0.0",
     "prisma": "^5.0.0"
   }
 }

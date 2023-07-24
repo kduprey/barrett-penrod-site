@@ -24,7 +24,7 @@
     "@mantine/tiptap": "^6.0.15",
     "@tabler/icons-react": "^2.26.0",
     "@tiptap/extension-link": "^2.0.4",
-    "@tiptap/react": "^2.0.3",
+    "@tiptap/react": "^2.0.4",
     "@tiptap/starter-kit": "^2.0.3",
     "cookies-next": "^2.1.2",
     "dayjs": "^1.11.9"

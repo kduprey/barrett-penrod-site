@@ -35,7 +35,7 @@
     "framer-motion": "^10.12.21",
     "graphql-request": "^6.1.0",
     "http-errors": "^2.0.0",
-    "next": "^13.4.10",
+    "next": "^13.4.12",
     "raw-body": "^2.5.2",
     "react": "^18.2.0",
     "react-dom": "18.2.0",

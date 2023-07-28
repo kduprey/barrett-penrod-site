@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import "../styles/globals.css";
 config.autoAddCss = false;
 
-export { reportWebVitals } from "next-axiom";
+export { useReportWebVitals } from "next-axiom";
 
 const montserrat = Montserrat({
   subsets: ["latin"],

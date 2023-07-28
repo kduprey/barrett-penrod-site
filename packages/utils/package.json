@@ -13,9 +13,5 @@
     ],
     "clean": true,
     "outDir": "../../dist/packages/types"
-  },
-  "devDependencies": {
-    "@bpvs/types": "*",
-    "http-errors": "^2.0.0"
   }
 }

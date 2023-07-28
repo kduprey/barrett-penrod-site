@@ -13,8 +13,5 @@
     ],
     "clean": true,
     "outDir": "../../dist/package/validation"
-  },
-  "devDependencies": {
-    "@bpvs/types": "*"
   }
 }

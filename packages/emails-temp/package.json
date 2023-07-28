@@ -13,12 +13,5 @@
     ],
     "clean": true,
     "outDir": "../../dist/packages/types"
-  },
-  "dependencies": {
-    "@bpvs/utils": "*",
-    "@sendgrid/mail": "^7.7.0"
-  },
-  "devDependencies": {
-    "@bpvs/types": "*"
   }
 }

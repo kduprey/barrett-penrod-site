@@ -22,7 +22,7 @@ export const config = {
 
 const webhookHandler = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ): Promise<void> => {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -41,7 +41,7 @@ const webhookHandler = async (
     event = stripe.webhooks.constructEvent(
       rawBody,
       sig,
-      process.env["STRIPE_WEBHOOK_SECRET"] as string
+      process.env["STRIPE_WEBHOOK_SECRET"] as string,
     );
   } catch (err: unknown) {
     return res.status(400).send(`Webhook Error: ${err as string}`);
@@ -54,10 +54,10 @@ const webhookHandler = async (
 
       try {
         const bookingData = await getCalendlyEvent(
-          session.client_reference_id as string
+          session.client_reference_id as string,
         );
         const inviteeData = await getCalendlyInvitee(
-          session.metadata?.inviteeURI as string
+          session.metadata?.inviteeURI as string,
         );
         const line_items = (
           await stripe.checkout.sessions.listLineItems(session.id)
@@ -78,7 +78,7 @@ const webhookHandler = async (
             session,
             existingCustomer,
             bookingData,
-            line_items
+            line_items,
           );
         // If customer doesn't exist, create a new one
         else
@@ -126,20 +126,26 @@ const webhookHandler = async (
       // Pull Calendly event info from API with client_reference_id field
       try {
         const eventInfo = await getCalendlyEvent(
-          sessionExpired.client_reference_id as string
+          sessionExpired.client_reference_id as string,
         );
         console.log("Event info", eventInfo);
 
         // Call cancellation Calendly API endpoint
         try {
           const cancellationResponse = await cancelCalendlyEvent(
-            eventInfo.resource.uri
+            eventInfo.resource.uri,
           );
           console.info("Cancelled event", cancellationResponse);
         } catch (err) {
           console.error("Error cancelling event", err);
           errors.push(err);
         }
+
+        if (sessionExpired.customer === null)
+          return res.status(200).send({
+            message: "Checkout session expired",
+            errors,
+          });
 
         try {
           const client = await prisma.clients.findUnique({
@@ -196,7 +202,7 @@ export const updateCustomer = async (
   session: Stripe.Checkout.Session,
   client: clients,
   event: CalendlyEvent,
-  line_items: Stripe.LineItem[]
+  line_items: Stripe.LineItem[],
 ) => {
   try {
     console.info("Updating Calendly webhook payload");
@@ -240,7 +246,7 @@ export const createCustomer = async (
   invitee: CalendlyInvitee,
   event: CalendlyEvent,
   session: Stripe.Checkout.Session,
-  line_items: Stripe.LineItem[]
+  line_items: Stripe.LineItem[],
 ) => {
   try {
     // Create new client

@@ -98,7 +98,7 @@
     "@types/jsdom": "^21.1.1",
     "@types/node": "^20.4.5",
     "@types/prettier": "^3.0.0",
-    "@types/react": "^18.2.17",
+    "@types/react": "^18.2.18",
     "@types/react-dom": "^18.2.7",
     "@types/react-scroll": "^1.8.5",
     "@typescript-eslint/eslint-plugin": "^6.2.0",

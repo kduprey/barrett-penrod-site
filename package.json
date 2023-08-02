@@ -86,7 +86,7 @@
     "@asbjorn/eslint-plugin-groq": "^2.0.0",
     "@bpvs/tsconfig": "*",
     "@bpvs/types": "*",
-    "@prisma/client": "^5.0.0",
+    "@prisma/client": "^5.1.0",
     "@prisma/nextjs-monorepo-workaround-plugin": "^5.1.0",
     "@sanity/icons": "^2.2.2",
     "@svgr/webpack": "^8.0.1",

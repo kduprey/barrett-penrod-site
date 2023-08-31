@@ -8,13 +8,13 @@ export const stripe = new Stripe(
     ? `${process.env.STRIPE_SECRET_KEY}`
     : `${process.env.STRIPE_TEST_SECRET_KEY}`,
   {
-    apiVersion: "2022-11-15",
+    apiVersion: "2023-08-16",
     typescript: true,
     appInfo: {
       name: "Booking Site",
       url: "https://barrettpendrod.com/bookings",
     },
-  }
+  },
 );
 
 export const server = dev
@@ -31,5 +31,5 @@ export const hygraphcms: GraphQLClient = new GraphQLClient(
     headers: {
       Authorization: `Bearer ${process.env.HYGRAPH_API_KEY}`,
     },
-  }
+  },
 );

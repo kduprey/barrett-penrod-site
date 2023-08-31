@@ -5,29 +5,29 @@ import { parseBody } from "next-sanity/webhook";
 export { config } from "next-sanity/webhook";
 
 export default async function revalidate(
-	req: NextApiRequest,
-	res: NextApiResponse
+    req: NextApiRequest,
+    res: NextApiResponse
 ) {
-	try {
-		const { isValidSignature, body } = await parseBody(
-			req,
-			process.env.SANITY_REVALIDATE_SECRET
-		);
+    try {
+        const { isValidSignature, body } = await parseBody(
+            req,
+            process.env.SANITY_REVALIDATE_SECRET
+        );
 
-		if (!isValidSignature) {
-			const message = "Invalid signature";
-			console.warn(message);
-			res.status(401).json({ message });
-			return;
-		}
+        if (!isValidSignature) {
+            const message = "Invalid signature";
+            console.warn(message);
+            res.status(401).json({ message });
+            return;
+        }
 
-		const staleRoute = `/${(body.slug as any).current}`;
-		await res.revalidate(staleRoute);
-		const message = `Updated route: ${staleRoute}`;
-		console.log(message);
-		return res.status(200).json({ message });
-	} catch (err: any) {
-		console.error(err);
-		return res.status(500).json({ message: err.message });
-	}
+        const staleRoute = `/${(body?.slug as any).current}`;
+        await res.revalidate(staleRoute);
+        const message = `Updated route: ${staleRoute}`;
+        console.log(message);
+        return res.status(200).json({ message });
+    } catch (err: any) {
+        console.error(err);
+        return res.status(500).json({ message: err.message });
+    }
 }

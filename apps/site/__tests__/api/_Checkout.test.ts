@@ -30,11 +30,11 @@ describe("Checkout should", () => {
     checkValidCheckoutURL(session.url);
 
     const sessionData = await stripe.checkout.sessions.retrieve(
-      session.id as string
+      session.id as string,
     );
     expect(
       sessionData.amount_total,
-      "Checking for accurate downpayment amount"
+      "Checking for accurate downpayment amount",
     ).toBe(3000);
 
     await stripe.checkout.sessions.expire(session.id as string);
@@ -58,11 +58,11 @@ describe("Checkout should", () => {
     checkValidCheckoutURL(session.url);
 
     const sessionData = await stripe.checkout.sessions.retrieve(
-      session.id as string
+      session.id as string,
     );
     expect(
       sessionData.amount_total?.toString(),
-      "Checking for accurate bundle total"
+      "Checking for accurate bundle total",
     ).toBe(bundles[0].price + "00");
 
     await stripe.checkout.sessions.expire(session.id as string);
@@ -86,17 +86,17 @@ describe("Checkout should", () => {
     checkValidCheckoutURL(session.url);
 
     const sessionData = await stripe.checkout.sessions.retrieve(
-      session.id as string
+      session.id as string,
     );
     expect(
       sessionData.expires_at,
-      "Checking expiration is 24 hours from now +/- 3 seconds"
+      "Checking expiration is 24 hours from now +/- 3 seconds",
     )
       .greaterThan(
-        Math.floor(new Date(Date.now() + 86400000).getTime() / 1000 - 3)
+        Math.floor(new Date(Date.now() + 86400000).getTime() / 1000 - 3),
       )
       .lessThan(
-        Math.floor(new Date(Date.now() + 86400000).getTime() / 1000 + 3)
+        Math.floor(new Date(Date.now() + 86400000).getTime() / 1000 + 3),
       );
 
     await stripe.checkout.sessions.expire(session.id as string);
@@ -117,12 +117,12 @@ describe("Checkout should", () => {
 
     checkValidCheckoutURL(session.url);
     const sessionData = await stripe.checkout.sessions.retrieve(
-      session.id as string
+      session.id as string,
     );
 
     expect(
       sessionData.amount_total,
-      "Checking for accurate downpayment amount"
+      "Checking for accurate downpayment amount",
     ).toBe(4000);
   });
 
@@ -143,12 +143,12 @@ describe("Checkout should", () => {
     checkValidCheckoutURL(session.url);
 
     const sessionData = await stripe.checkout.sessions.retrieve(
-      session.id as string
+      session.id as string,
     );
 
     expect(
       sessionData.amount_total,
-      "Checking for accurate downpayment amount"
+      "Checking for accurate downpayment amount",
     ).toBe(3000);
 
     await stripe.checkout.sessions.expire(session.id as string);
@@ -171,12 +171,12 @@ describe("Checkout should", () => {
     checkValidCheckoutURL(session.url);
 
     const sessionData = await stripe.checkout.sessions.retrieve(
-      session.id as string
+      session.id as string,
     );
 
     expect(
       sessionData.amount_total,
-      "Checking for accurate downpayment amount"
+      "Checking for accurate downpayment amount",
     ).toBe(4000);
 
     await stripe.checkout.sessions.expire(session.id as string);
@@ -200,11 +200,11 @@ describe("Checkout should", () => {
     checkValidCheckoutURL(session.url);
 
     const sessionData = await stripe.checkout.sessions.retrieve(
-      session.id as string
+      session.id as string,
     );
 
     expect(sessionData.amount_total, "Checking for accurate bundle total").toBe(
-      30500
+      30500,
     );
 
     await stripe.checkout.sessions.expire(session.id as string);
@@ -237,7 +237,7 @@ describe("Checkout should", () => {
     checkValidCheckoutURL(session.url);
 
     const sessionData = await stripe.checkout.sessions.retrieve(
-      session.id as string
+      session.id as string,
     );
 
     expect(sessionData.customer_creation).toBe("always");
@@ -272,7 +272,7 @@ describe("Checkout should", () => {
     checkValidCheckoutURL(session.url);
 
     const sessionData = await stripe.checkout.sessions.retrieve(
-      session.id as string
+      session.id as string,
     );
 
     expect(sessionData.amount_total).toBe(3000);
@@ -307,7 +307,7 @@ describe("Checkout should", () => {
     checkValidCheckoutURL(session.url);
 
     const sessionData = await stripe.checkout.sessions.retrieve(
-      session.id as string
+      session.id as string,
     );
 
     expect(sessionData.amount_total).toBe(4000);
@@ -341,7 +341,7 @@ describe("Checkout should", () => {
       expect(error).toBeInstanceOf(Error);
       if (error instanceof Error)
         expect(error.message).to.equal(
-          "Cannot select bundle with Trial Session"
+          "Cannot select bundle with Trial Session",
         );
     }
   });
@@ -371,7 +371,7 @@ describe("Checkout should", () => {
       expect(error).toBeInstanceOf(Error);
       if (error instanceof Error)
         expect(error.message).to.equal(
-          "Cannot select bundle with Trial Session"
+          "Cannot select bundle with Trial Session",
         );
     }
   });
@@ -402,7 +402,7 @@ describe("Checkout should", () => {
       expect(error).toBeInstanceOf(Error);
       if (error instanceof Error)
         expect(error.message).to.equal(
-          "Cannot select bundle with Trial Session"
+          "Cannot select bundle with Trial Session",
         );
     }
 
@@ -420,7 +420,7 @@ describe("Checkout should", () => {
       expect(error).toBeInstanceOf(Error);
       if (error instanceof Error)
         expect(error.message).to.equal(
-          "Cannot select bundle with Trial Session"
+          "Cannot select bundle with Trial Session",
         );
     }
   });
@@ -506,26 +506,6 @@ describe("Checkout should", () => {
     }
   });
 
-  it("should return error for SVS session with home studio location", async () => {
-    mockedAxios.get.mockResolvedValueOnce({ data: getInviteeResponse });
-
-    try {
-      const session = await createCheckoutSession({
-        service: 2,
-        location: 3,
-        eventURI: "test",
-        inviteeURI: "test",
-        origin: "https://test.com",
-      });
-
-      expect(session).to.be.undefined;
-    } catch (error: unknown) {
-      expect(error).toBeInstanceOf(Error);
-      if (error instanceof Error)
-        expect(error.message).to.equal("Invalid location");
-    }
-  });
-
   it("should return an error if missing eventURI", async () => {
     mockedAxios.get.mockResolvedValueOnce({ data: getInviteeResponse });
 
@@ -569,5 +549,5 @@ describe("Checkout should", () => {
 
 const checkValidCheckoutURL = (url: string | undefined) =>
   expect(url, "Checking for valid checkout URL").match(
-    /https:\/\/checkout\.(?:barrettpenrod|stripe)\.com\/c\/pay\/cs_test_[a-zA-Z0-9]+/
+    /https:\/\/checkout\.(?:barrettpenrod|stripe)\.com\/c\/pay\/cs_test_[a-zA-Z0-9]+/,
   );

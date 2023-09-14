@@ -1,10 +1,10 @@
 {
   "name": "eslint-config-bpvs",
   "version": "0.0.0",
-  "main": "index.js",
-  "license": "MIT",
   "private": true,
-  "publishConfig": {
-    "access": "public"
+  "author": "Kenton Duprey",
+  "dependencies": {
+    "@vercel/style-guide": "^5.0.1",
+    "eslint-config-turbo": "^1.10.13"
   }
 }

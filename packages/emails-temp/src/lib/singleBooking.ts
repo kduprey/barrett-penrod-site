@@ -1,5 +1,6 @@
-import { dev, SingleEmail } from "@bpvs/types";
-import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
+import type { SingleEmail } from "@bpvs/types";
+import { dev } from "@bpvs/types";
+import type { ClientResponse, MailDataRequired } from "@sendgrid/mail";
 import { sendgrid } from "./sendgrid";
 
 /**
@@ -61,12 +62,12 @@ export const sendSingleBookingEmail = async ({
 	};
 
 	try {
-		console.log("Sending single booking email...");
+		console.info("Sending single booking email...");
 
 		const response = await sendgrid.send(message);
 		return response[0];
 	} catch (error: unknown) {
-		console.log(error);
+		console.info(error);
 		if (error instanceof Error)
 			throw new Error(`Error sending email: ${error.message}`);
 

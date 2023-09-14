@@ -13,5 +13,15 @@
     ],
     "clean": true,
     "outDir": "../../dist/packages/types"
+  },
+  "dependencies": {
+    "@bpvs/types": "workspace:*",
+    "@bpvs/utils": "workspace:*",
+    "@sendgrid/mail": "^7.7.0",
+    "stripe": "^13.5.0"
+  },
+  "devDependencies": {
+    "eslint-config-bpvs": "workspace:*",
+    "tsconfig": "workspace:*"
   }
 }

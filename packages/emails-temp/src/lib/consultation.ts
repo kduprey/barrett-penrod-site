@@ -1,5 +1,6 @@
-import { ConsultationEmail, dev } from "@bpvs/types";
-import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
+import type { ConsultationEmail } from "@bpvs/types";
+import { dev } from "@bpvs/types";
+import type { ClientResponse, MailDataRequired } from "@sendgrid/mail";
 import { sendgrid } from "./sendgrid";
 
 /**
@@ -53,9 +54,9 @@ export const sendConsultationEmail = async ({
 	};
 
 	try {
-		console.log("Sending consultation email...");
+		console.info("Sending consultation email...");
 		const response = await sendgrid.send(message);
-		console.log("Consultation Email sent!");
+		console.info("Consultation Email sent!");
 		return response[0];
 	} catch (error: unknown) {
 		console.error(error);

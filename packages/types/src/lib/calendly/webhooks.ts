@@ -1,19 +1,19 @@
-import { CalendlyEventResource, Cancellation } from "./event";
-import { NoShow, Payment, Question, Reconfirmation, Tracking } from "./invitee";
+import type { CalendlyEventResource, Cancellation } from "./event";
+import type { NoShow, Payment, Question, Reconfirmation, Tracking } from "./invitee";
 
-export type CalendlyGetWebhook = {
+export interface CalendlyGetWebhook {
   /** Array of CalendlyWebhook objects */
   collection: CalendlyWebhook[];
   /** Object descriptor of pagination details */
   pagination: CalendlyPagination;
-};
+}
 
 export interface CalendlyPostWebhook {
   /** Object descriptor of the created webhook */
   resource: CalendlyWebhook;
 }
 
-export type CalendlyWebhook = {
+export interface CalendlyWebhook {
   /** The URI of the webhook */
   uri: string;
   /** The URL that will receive the webhook */
@@ -27,9 +27,7 @@ export type CalendlyWebhook = {
   /** Indicates if the webhook subscription is "active" or "disabled" */
   state: "active" | "disabled";
   /** The events that will trigger the webhook */
-  events: Array<
-    "invitee.created" | "invitee.canceled" | "routing_form_submission.created"
-  >;
+  events: ("invitee.created" | "invitee.canceled" | "routing_form_submission.created")[];
   /** The scope of the webhook subscription */
   scope: "user" | "organization";
   /** The URI of the organization that's associated with the webhook subscription */
@@ -38,9 +36,9 @@ export type CalendlyWebhook = {
   user: string;
   /** The URI of the creator of the webhook subscription */
   creator: string;
-};
+}
 
-export type CalendlyPagination = {
+export interface CalendlyPagination {
   /** The number of rows to return */
   count: number;
   /** URI to return the next page of an ordered list ("null" indicates no additional results are available) */
@@ -51,7 +49,7 @@ export type CalendlyPagination = {
   next_page_token: string | null;
   /** Token to return the previous page of an ordered list ("null" indicates no additional results are available) */
   previous_page_token: string | null;
-};
+}
 
 export interface CalendlyPayloadData {
   cancel_url: string;
@@ -64,7 +62,7 @@ export interface CalendlyPayloadData {
   last_name: string | null;
   new_invitee: string | null;
   old_invitee: string | null;
-  questions_and_answers: Array<Question>;
+  questions_and_answers: Question[];
   reschedule_url: string;
   rescheduled: boolean;
   routing_form_submission: string | null;

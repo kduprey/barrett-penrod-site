@@ -1,5 +1,5 @@
-import Stripe from "stripe";
-import { PackageType } from "../events/bundles";
+import type Stripe from "stripe";
+import type { PackageType } from "../events/bundles";
 
 export interface LessonBundle {
 	amtSessions: number;

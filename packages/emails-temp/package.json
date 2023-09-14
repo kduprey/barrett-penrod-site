@@ -1,27 +1,16 @@
 {
-  "name": "@bpvs/emails-temp",
-  "version": "0.0.1",
-  "private": true,
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
-  "scripts": {
-    "build": "tsup"
-  },
-  "tsup": {
-    "entry": [
-      "src/index.ts"
-    ],
-    "clean": true,
-    "outDir": "../../dist/packages/types"
-  },
-  "dependencies": {
-    "@bpvs/types": "workspace:*",
-    "@bpvs/utils": "workspace:*",
-    "@sendgrid/mail": "^7.7.0",
-    "stripe": "^13.5.0"
-  },
-  "devDependencies": {
-    "eslint-config-bpvs": "workspace:*",
-    "tsconfig": "workspace:*"
-  }
+	"name": "@bpvs/emails-temp",
+	"version": "0.0.1",
+	"private": true,
+	"main": "./src/index.ts",
+	"dependencies": {
+		"@sendgrid/mail": "^7.7.0",
+		"stripe": "^13.5.0"
+	},
+	"devDependencies": {
+		"eslint-config-bpvs": "workspace:*",
+		"tsconfig": "workspace:*",
+		"@bpvs/types": "workspace:*",
+		"@bpvs/utils": "workspace:*"
+	}
 }

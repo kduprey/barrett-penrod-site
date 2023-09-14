@@ -1,10 +1,11 @@
-import { LessonBundle, Price, SESSION_LOCATIONS } from "@bpvs/types";
+import type { LessonBundle, Price } from "@bpvs/types";
+import { SESSION_LOCATIONS } from "@bpvs/types";
 
 const bookingLink = (title: string, location: string): string =>
-	baseURL +
-	title.toLowerCase().split(" ").join("-") +
-	"-" +
-	location.toLowerCase().split(" ").join("-");
+	`${baseURL + title.toLowerCase().split(" ").join("-")}-${location
+		.toLowerCase()
+		.split(" ")
+		.join("-")}`;
 
 export const baseURL = "https://calendly.com/bpvoicestudio/";
 
@@ -23,7 +24,9 @@ export const services: Service[] = [
 		locations: [...SESSION_LOCATIONS],
 		get url() {
 			const title = this.title;
-			return this.locations.map((location) => bookingLink(title, location));
+			return this.locations.map((location) =>
+				bookingLink(title, location)
+			);
 		},
 	},
 	{
@@ -33,7 +36,9 @@ export const services: Service[] = [
 		locations: [...SESSION_LOCATIONS],
 		get url() {
 			const title = this.title;
-			return this.locations.map((location) => bookingLink(title, location));
+			return this.locations.map((location) =>
+				bookingLink(title, location)
+			);
 		},
 	},
 	{
@@ -43,7 +48,9 @@ export const services: Service[] = [
 		locations: ["Location Chosen By Client", "Open Jar", "Virtual"],
 		get url() {
 			const title = this.title;
-			return this.locations.map((location) => bookingLink(title, location));
+			return this.locations.map((location) =>
+				bookingLink(title, location)
+			);
 		},
 	},
 	{
@@ -53,7 +60,9 @@ export const services: Service[] = [
 		locations: [...SESSION_LOCATIONS],
 		get url() {
 			const title = this.title;
-			return this.locations.map((location) => bookingLink(title, location));
+			return this.locations.map((location) =>
+				bookingLink(title, location)
+			);
 		},
 	},
 ];

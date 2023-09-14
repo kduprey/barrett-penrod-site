@@ -1,17 +1,14 @@
 {
-  "name": "@bpvs/config",
-  "version": "0.0.1",
-  "private": true,
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
-  "scripts": {
-    "build": "tsup"
-  },
-  "tsup": {
-    "entry": [
-      "./src/index.ts"
-    ],
-    "outDir": "../../dist/packages/config",
-    "clean": true
-  }
+	"name": "@bpvs/config",
+	"version": "0.0.1",
+	"private": true,
+	"main": "./src/index.ts",
+	"devDependencies": {
+		"@bpvs/types": "workspace:*",
+		"eslint-config-bpvs": "workspace:*",
+		"tsconfig": "workspace:*"
+	},
+	"dependencies": {
+		"graphql-request": "^6.1.0"
+	}
 }

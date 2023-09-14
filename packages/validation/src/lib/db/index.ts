@@ -1,2 +1,2 @@
-export * from "./CalendlyInviteePayloads";
+export * from "./calendlyInviteePayloads";
 export * from "./clients";

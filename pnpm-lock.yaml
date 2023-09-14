@@ -83,12 +83,6 @@ importers:
 
   packages/emails-temp:
     dependencies:
-      '@bpvs/types':
-        specifier: workspace:*
-        version: link:../types
-      '@bpvs/utils':
-        specifier: workspace:*
-        version: link:../utils
       '@sendgrid/mail':
         specifier: ^7.7.0
         version: 7.7.0
@@ -96,6 +90,12 @@ importers:
         specifier: ^13.5.0
         version: 13.5.0
     devDependencies:
+      '@bpvs/types':
+        specifier: workspace:*
+        version: link:../types
+      '@bpvs/utils':
+        specifier: workspace:*
+        version: link:../utils
       eslint-config-bpvs:
         specifier: workspace:*
         version: link:../eslint-config
@@ -118,15 +118,9 @@ importers:
 
   packages/types:
     dependencies:
-      eslint-config-bpvs:
-        specifier: workspace:*
-        version: link:../eslint-config
       stripe:
         specifier: ^13.5.0
         version: 13.5.0
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
       zod:
         specifier: ^3.22.2
         version: 3.22.2
@@ -140,6 +134,12 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.7
         version: 18.2.7
+      eslint-config-bpvs:
+        specifier: workspace:*
+        version: link:../eslint-config
+      tsconfig:
+        specifier: workspace:*
+        version: link:../tsconfig
 
   packages/utils:
     dependencies:
@@ -149,34 +149,38 @@ importers:
       '@bpvs/db':
         specifier: workspace:*
         version: link:../db
-      '@bpvs/types':
-        specifier: workspace:*
-        version: link:../types
       axios:
         specifier: ^1.5.0
         version: 1.5.0
-      eslint-config-bpvs:
-        specifier: workspace:*
-        version: link:../eslint-config
       http-errors:
         specifier: ^2.0.0
         version: 2.0.0
       next:
         specifier: ^13.4.19
         version: 13.4.19(react-dom@18.2.0)(react@18.2.0)
-      tsconfig:
-        specifier: workspace:*
-        version: link:../tsconfig
       zod:
         specifier: ^3.22.2
         version: 3.22.2
     devDependencies:
+      '@bpvs/types':
+        specifier: workspace:*
+        version: link:../types
       '@types/http-errors':
         specifier: ^2.0.1
         version: 2.0.1
+      eslint-config-bpvs:
+        specifier: workspace:*
+        version: link:../eslint-config
+      tsconfig:
+        specifier: workspace:*
+        version: link:../tsconfig
 
   packages/validation:
     dependencies:
+      zod:
+        specifier: ^3.22.2
+        version: 3.22.2
+    devDependencies:
       '@bpvs/types':
         specifier: workspace:*
         version: link:../types
@@ -186,9 +190,6 @@ importers:
       tsconfig:
         specifier: workspace:*
         version: link:../tsconfig
-      zod:
-        specifier: ^3.22.2
-        version: 3.22.2
 
 packages:
 

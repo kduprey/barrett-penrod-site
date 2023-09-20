@@ -1,40 +1,37 @@
-import { apiHandler, getCalendlyInvitee } from "@bpvs/utils";
-import createHttpError from "http-errors";
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { trytm } from "@bdsqqq/try";
+import { getCalendlyInvitee } from "@bpvs/utils";
+import type { NextApiHandler, NextApiRequest } from "next";
+import { NextResponse } from "next/server";
 import { z } from "zod";
 
-const eventInviteeHandler: NextApiHandler = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
-  const { uri } = z
-    .object({
-      uri: z.string(),
-    })
-    .parse(req.query);
-  if (
-    !uri ||
-    typeof uri !== "string" ||
-    uri.length === 0 ||
-    uri === "undefined" ||
-    uri === typeof Array
-  )
-    throw new createHttpError[400]("Invalid URI");
+export const GET: NextApiHandler = async (req: NextApiRequest) => {
+	const result = z
+		.object({
+			uri: z.string(),
+		})
+		.safeParse(req.query);
 
-  try {
-    const inviteeRes = await getCalendlyInvitee(uri);
-    res.status(200).json(inviteeRes);
-  } catch (err) {
-    console.error(err);
-    throw new createHttpError[500](
-      JSON.stringify({
-        message: "Error getting invitee",
-        error: err,
-      })
-    );
-  }
+	if (!result.success)
+		return new NextResponse(
+			JSON.stringify({
+				message: "Invalid request query, must include uri",
+			}),
+			{ status: 400 }
+		);
+
+	const [inviteeRes, inviteeErr] = await trytm(
+		getCalendlyInvitee(result.data.uri)
+	);
+
+	if (inviteeErr) {
+		console.error(inviteeErr);
+		return new NextResponse(
+			JSON.stringify({
+				message: "Error getting invitee",
+			}),
+			{ status: 400 }
+		);
+	}
+
+	return NextResponse.json(inviteeRes, { status: 200 });
 };
-
-export default apiHandler({
-  GET: eventInviteeHandler,
-});

@@ -1,129 +1,96 @@
-import {
-  CalendlyGetWebhook,
-  CalendlyPostWebhook,
-  CalendlyWebhook,
-  dev,
+import { trytm } from "@bdsqqq/try";
+import { calendlyConfigParams, calendlyWebhookApi } from "@bpvs/config";
+import type {
+	CalendlyGetWebhook,
+	CalendlyPostWebhook,
+	CalendlyWebhook,
 } from "@bpvs/types";
-import { apiHandler } from "@bpvs/utils";
-import axios from "axios";
-import createHttpError from "http-errors";
-import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { dev } from "@bpvs/types";
+import type { NextApiRequest } from "next";
+import { NextResponse } from "next/server";
+import { z } from "zod";
 
 /**
  * Create a webhook for Calendly
- * @param url The URL to send the webhook to
+ * @param url - The URL to send the webhook to
  * @returns The webhook that was created
  * @throws Error if the webhook could not be created
  */
 const createWebhook = async (url: string): Promise<CalendlyWebhook> => {
-  // Check if in development
-  if (!dev) throw new Error("Not allowed in production");
+	// Check if in development
+	if (!dev) throw new Error("Not allowed in production");
 
-  // Check if the URL is valid
-  if (url === undefined || url === "") throw new Error("Invalid URL");
+	// Check if the URL is valid
+	if (!url || url === "") throw new Error("Invalid URL");
 
-  const organization =
-    "https://api.calendly.com/organizations/ac748a68-67c0-4e4a-b0d8-4bd791a831ac";
-  let webhooks: CalendlyWebhook[] = [];
+	// Get all current webhooks
+	const [webhookRes, webhookErr] = await trytm(
+		calendlyWebhookApi.get<CalendlyGetWebhook>("")
+	);
 
-  // Get all current webhooks
-  try {
-    const { data } = await axios.get<CalendlyGetWebhook>(
-      "https://api.calendly.com/webhook_subscriptions",
-      {
-        headers: {
-          Authorization: `Bearer ${process.env["CALENDLY_API_KEY"] || ""}`,
-        },
-        params: {
-          organization,
-          scope: "organization",
-        },
-      }
-    );
-    webhooks = data.collection;
-  } catch (err) {
-    console.warn("Error getting webhooks", err);
-  }
+	if (webhookErr) {
+		console.error("Error getting webhooks", webhookErr);
+		throw new Error("Error getting webhooks");
+	}
 
-  // Check if testing webhook already exists
-  const oldWebhookURI = webhooks.find((e) =>
-    e.callback_url.includes("ngrok") ? e : null
-  )?.uri;
+	// Check if testing webhook already exists
+	const oldWebhookURI = webhookRes.data.collection.find((webhook) =>
+		webhook.callback_url.includes("ngrok") ? webhook : null
+	)?.uri;
 
-  // Remove old webhook
-  if (oldWebhookURI)
-    try {
-      const response = await axios.delete(oldWebhookURI, {
-        headers: {
-          Authorization: `Bearer ${process.env["CALENDLY_API_KEY"] || ""}`,
-        },
-      });
+	// Remove old webhook
+	if (oldWebhookURI) {
+		const [deleteWebhookRes, deleteWebhookErr] = await trytm(
+			calendlyWebhookApi.delete(oldWebhookURI)
+		);
 
-      if (response.status === 204)
-        console.info("Old webhook deleted", oldWebhookURI);
-      else console.warn("Old webhook not deleted", oldWebhookURI);
-    } catch (error) {
-      console.warn("Error deleting old webhook", { error });
-    }
-  else console.warn("No old webhook to delete");
+		if (deleteWebhookErr) {
+			console.error("Error deleting old webhook", deleteWebhookErr);
+			throw new Error("Error deleting old webhook");
+		}
 
-  // Create new webhook
-  try {
-    const {
-      data: { resource: webhook },
-    } = await axios.post<CalendlyPostWebhook>(
-      "https://api.calendly.com/webhook_subscriptions",
-      {
-        url: url + "/api/webhooks/calendly",
-        events: ["invitee.created", "invitee.canceled"],
-        organization,
-        scope: "organization",
-        signing_key: process.env["CALENDLY_WEBHOOK_SIGNING_KEY"],
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${process.env["CALENDLY_API_KEY"] || ""}`,
-        },
-      }
-    );
+		if (deleteWebhookRes.status === 204)
+			console.info("Old webhook deleted", oldWebhookURI);
+		else console.warn("Old webhook not deleted", oldWebhookURI);
+	} else console.warn("No old webhook to delete");
 
-    console.info("New webhook created", webhook);
-    return webhook;
-  } catch (error: unknown) {
-    console.error(error);
+	// Create new webhook
+	const [createWebhookRes, createWebhookErr] = await trytm(
+		calendlyWebhookApi.post<CalendlyPostWebhook>("", {
+			url: `${url}/api/webhooks/calendly`,
+			events: ["invitee.created", "invitee.canceled"],
+			organization: calendlyConfigParams.organization,
+			scope: "organization",
+			signing_key: process.env.CALENDLY_WEBHOOK_SIGNING_KEY,
+		})
+	);
 
-    if (error instanceof Error)
-      throw new Error("Error creating webhook", error);
+	if (createWebhookErr) {
+		console.error("Error creating webhook", createWebhookErr);
+		throw new Error("Error creating webhook");
+	}
 
-    throw new Error("Error creating webhook");
-  }
-
-  throw new Error("Error creating webhook");
+	console.info("New webhook created", createWebhookRes);
+	return createWebhookRes.data.resource;
 };
 
 export { createWebhook };
 
-const createWebhookHandler: NextApiHandler = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
-  const { url } = req.body as { url: string };
-  if (!url || typeof url !== "string") {
-    throw new createHttpError[400]("Invalid URL");
-  }
+export const POST = async (req: NextApiRequest): Promise<NextResponse> => {
+	const url = z
+		.object({
+			url: z.string().url(),
+		})
+		.parse(req.body).url;
 
-  try {
-    const webhook = await createWebhook(url);
-    res.status(200).json(webhook);
-  } catch (err) {
-    console.error("Error creating webhook", err);
-    throw new createHttpError[500](
-      JSON.stringify({
-        message: "Error creating webhook",
-        error: err,
-      })
-    );
-  }
+	const [webhookRes, webhookErr] = await trytm(createWebhook(url));
+
+	if (webhookErr) {
+		console.error("Error creating webhook", webhookErr);
+		return new NextResponse("Error creating webhook", { status: 500 });
+	}
+
+	return NextResponse.json(webhookRes, {
+		status: 200,
+	});
 };
-
-export default apiHandler({ POST: createWebhookHandler });

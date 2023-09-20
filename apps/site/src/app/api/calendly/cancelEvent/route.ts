@@ -1,31 +1,15 @@
-import { apiHandler, cancelCalendlyEvent } from "@bpvs/utils";
-import createHttpError from "http-errors";
-import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { cancelCalendlyEvent } from "@bpvs/utils";
+import type { NextApiRequest } from "next";
+import { NextResponse } from "next/server";
 
-const cancelEventHandler: NextApiHandler = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
-  const { uri } = req.body as { uri: string };
+export const POST = async (req: NextApiRequest): Promise<NextResponse> => {
+	const { uri } = req.body as { uri: string };
 
-  if (!uri || uri === "") {
-    throw new createHttpError[400]("Invalid URI");
-  }
-
-  try {
-    const response = await cancelCalendlyEvent(uri);
-    res.status(200).json(response);
-  } catch (err) {
-    console.error(err);
-    throw new createHttpError[500](
-      JSON.stringify({
-        message: "Error cancelling event",
-        error: err,
-      })
-    );
-  }
+	try {
+		const response = await cancelCalendlyEvent(uri);
+		return NextResponse.json(response, { status: 200 });
+	} catch (err) {
+		console.error(err);
+		return new NextResponse(JSON.stringify({ error: err }));
+	}
 };
-
-export default apiHandler({
-  POST: cancelEventHandler,
-});

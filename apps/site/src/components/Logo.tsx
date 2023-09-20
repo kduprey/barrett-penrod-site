@@ -1,10 +1,8 @@
 import Image from "next/image";
-import VSLogo from "/public/vslogo.jpg";
+import VSLogo from "../../public/vslogo.jpg";
 
-const Logo = () => (
-		<div className="logo p-4">
-			<Image src={VSLogo} alt="Barrett Penrod Voice Studio Logo" />
-		</div>
-	);
-
-export default Logo;
+export const Logo = (): JSX.Element => (
+	<div className="logo p-4">
+		<Image alt="Barrett Penrod Voice Studio Logo" src={VSLogo} />
+	</div>
+);

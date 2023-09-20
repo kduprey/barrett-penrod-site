@@ -1,55 +1,54 @@
 const content = [
-  {
-    title: "My Fortune is My Face: Fade Out - Fade In",
-    link: "https://www.youtube-nocookie.com/embed/XEJW_xoeMQY",
-  },
-  {
-    title: "Lonely House - Street Scene",
-    link: "https://www.youtube-nocookie.com/embed/62kaB4j8uQ8",
-  },
-  {
-    title: "Make You Feel My Love",
-    link: "https://www.youtube-nocookie.com/embed/IFD5_IHgXz8",
-  },
-  {
-    title: "Cover Me, NYU - Hello (Adele) Country Rock",
-    link: "https://www.youtube-nocookie.com/embed/F1-LEy1_lTY",
-  },
+	{
+		title: "My Fortune is My Face: Fade Out - Fade In",
+		link: "https://www.youtube-nocookie.com/embed/XEJW_xoeMQY",
+	},
+	{
+		title: "Lonely House - Street Scene",
+		link: "https://www.youtube-nocookie.com/embed/62kaB4j8uQ8",
+	},
+	{
+		title: "Make You Feel My Love",
+		link: "https://www.youtube-nocookie.com/embed/IFD5_IHgXz8",
+	},
+	{
+		title: "Cover Me, NYU - Hello (Adele) Country Rock",
+		link: "https://www.youtube-nocookie.com/embed/F1-LEy1_lTY",
+	},
 ];
 
-const Video = ({ title, link }: { title: string; link: string }) => (
-		<div>
-					<iframe
-						className="h-[400px] w-full md:h-[315px] md:w-[560px]"
-						src={link}
-						title="YouTube video player"
-						frameBorder={0}
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-						allowFullScreen
-						loading="lazy"
-					 />
-					<p className="py-2 text-center text-primary">
-						{title}
-					</p>
-				</div>
-				  );
+const Video = ({
+	title,
+	link,
+}: {
+	title: string;
+	link: string;
+}): JSX.Element => (
+	<div>
+		<iframe
+			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+			allowFullScreen
+			className="h-[400px] w-full md:h-[315px] md:w-[560px]"
+			frameBorder={0}
+			loading="lazy"
+			src={link}
+			title="YouTube video player"
+		/>
+		<p className="py-2 text-center text-primary">{title}</p>
+	</div>
+);
 
-const Showreel = () => (
-		<div
-			id="video-sound-demo"
-			className="flex flex-col items-center justify-center space-y-4 bg-slate-100 py-6 md:justify-evenly"
-			data-cy="showreel"
-		>
-			<h2 className="text-primary">Video/Sound Demo</h2>
-			<div className="w-5/6 grid-cols-2 gap-3 space-y-4 md:grid md:w-auto md:space-y-0">
-				{
-					content.map((item) => (
-						<Video key={item.link} title={item.title} link={item.link} />
-					))
-
-				}
-			</div>
+export const Showreel = (): JSX.Element => (
+	<div
+		className="flex flex-col items-center justify-center space-y-4 bg-slate-100 py-6 md:justify-evenly"
+		data-cy="showreel"
+		id="video-sound-demo"
+	>
+		<h2 className="text-primary">Video/Sound Demo</h2>
+		<div className="w-5/6 grid-cols-2 gap-3 space-y-4 md:grid md:w-auto md:space-y-0">
+			{content.map((item) => (
+				<Video key={item.link} link={item.link} title={item.title} />
+			))}
 		</div>
-	);
-
-export default Showreel;
+	</div>
+);

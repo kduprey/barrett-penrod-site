@@ -4,21 +4,22 @@
 	"private": true,
 	"main": "./src/index.ts",
 	"scripts": {
-		"lint": "npx prisma format",
-		"generate": "dotenv -c -e ../../.env npx prisma generate",
-		"migrate": "dotenv -c -e ../../.env  npx prisma migrate dev",
-		"studio": "npx prisma studio",
-		"push": "dotenv -c -e ../../.env run npx prisma db push",
+		"build": "tsup",
 		"deploy": "dotenv -c -e ../../.env run npx prisma migrate deploy",
-		"build": "tsup"
+		"generate": "dotenv -c -e ../../.env npx prisma generate",
+		"lint": "npx prisma format",
+		"migrate": "dotenv -c -e ../../.env  npx prisma migrate dev",
+		"push": "dotenv -c -e ../../.env run npx prisma db push",
+		"studio": "npx prisma studio"
 	},
+	"prettier": "@bpvs/style-guide/prettier",
 	"dependencies": {
 		"@prisma/client": "^5.3.0"
 	},
 	"devDependencies": {
+		"@bpvs/style-guide": "workspace:*",
 		"@bpvs/types": "workspace:*",
 		"dotenv": "^16.3.1",
-		"eslint-config-bpvs": "workspace:*",
 		"prisma": "^5.3.0",
 		"tsconfig": "workspace:*"
 	}

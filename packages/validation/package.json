@@ -2,12 +2,13 @@
 	"name": "@bpvs/validation",
 	"version": "0.0.1",
 	"private": true,
+	"prettier": "@bpvs/style-guide/prettier",
 	"dependencies": {
 		"zod": "^3.22.2"
 	},
 	"devDependencies": {
-		"eslint-config-bpvs": "workspace:*",
-		"tsconfig": "workspace:*",
-		"@bpvs/types": "workspace:*"
+		"@bpvs/style-guide": "workspace:*",
+		"@bpvs/types": "workspace:*",
+		"tsconfig": "workspace:*"
 	}
 }

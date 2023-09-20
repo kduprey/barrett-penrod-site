@@ -1,4 +1,4 @@
 module.exports = {
 	root: true,
-	extends: ["bpvs/library"],
+	extends: ["@bpvs/style-guide/eslint/library"].map(require.resolve),
 };

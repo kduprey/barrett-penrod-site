@@ -3,15 +3,16 @@
 	"version": "0.0.1",
 	"private": true,
 	"main": "src/index.ts",
+	"prettier": "@bpvs/style-guide/prettier",
 	"dependencies": {
 		"stripe": "^13.5.0",
 		"zod": "^3.22.2"
 	},
 	"devDependencies": {
+		"@bpvs/style-guide": "workspace:*",
 		"@types/node": "^20.6.0",
 		"@types/react": "^18.2.21",
 		"@types/react-dom": "^18.2.7",
-		"eslint-config-bpvs": "workspace:*",
 		"tsconfig": "workspace:*"
 	}
 }

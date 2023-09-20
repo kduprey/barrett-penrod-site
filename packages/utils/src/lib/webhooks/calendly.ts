@@ -1,3 +1,4 @@
+import type { clients } from "@bpvs/db";
 import { prisma } from "@bpvs/db";
 import type { CalendlyEvent, Contact } from "@bpvs/types";
 
@@ -5,7 +6,7 @@ export const createDbClient = async (
 	client: Required<Contact>,
 	event: CalendlyEvent,
 	payloadId: string
-) => {
+): Promise<clients> => {
 	try {
 		// Create new client
 		console.info("Creating new customer");

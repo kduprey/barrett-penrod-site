@@ -9,7 +9,7 @@ export const updateCustomer = async (
 	client: clients,
 	event: CalendlyEvent,
 	lineItems: Stripe.LineItem[]
-) => {
+): Promise<clients> => {
 	try {
 		console.info("Updating Calendly webhook payload");
 
@@ -61,7 +61,7 @@ export const createCustomer = async (
 	event: CalendlyEvent,
 	session: Stripe.Checkout.Session,
 	lineItems: Stripe.LineItem[]
-) => {
+): Promise<clients> => {
 	if (!session.amount_total) throw new Error("No amount total in session");
 
 	try {

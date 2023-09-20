@@ -4,7 +4,7 @@ import { prisma } from "@bpvs/db";
 import type { CalendlyEvent, CalendlyInvitee } from "@bpvs/types";
 import type Stripe from "stripe";
 
-export const checkForClient = async (name: string, email: string) => {
+export const checkForClient = async (name: string, email: string): Promise<clients | null> => {
 	let existingCustomer: clients | null;
 	console.info("Checking for existing customer");
 	try {
@@ -34,7 +34,7 @@ export const updateClient = async (
 	existingCustomer: clients,
 	event: CalendlyEvent,
 	calendlyEventPayloadId: string
-) => {
+): Promise<void> => {
 	console.info("Updating existing customer");
 	try {
 		await prisma.clients.update({
@@ -59,7 +59,7 @@ export const updateClient = async (
 	}
 };
 
-export const createStripeCustomer = async (invitee: CalendlyInvitee) => {
+export const createStripeCustomer = async (invitee: CalendlyInvitee): Promise<Stripe.Customer> => {
 	let newCustomer: Stripe.Customer;
 	console.info("Creating new Stripe customer");
 	// Create new Stripe customer
@@ -81,7 +81,7 @@ export const createClient = async (
 	invitee: CalendlyInvitee,
 	newCustomer: Stripe.Customer,
 	payloadId: string
-) => {
+): Promise<clients> => {
 	// Create new client in database
 	console.info("Creating new client in DB");
 	try {

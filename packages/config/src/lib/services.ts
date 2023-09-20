@@ -24,9 +24,7 @@ export const services: Service[] = [
 		locations: [...SESSION_LOCATIONS],
 		get url() {
 			const title = this.title;
-			return this.locations.map((location) =>
-				bookingLink(title, location)
-			);
+			return this.locations.map((location) => bookingLink(title, location));
 		},
 	},
 	{
@@ -36,9 +34,7 @@ export const services: Service[] = [
 		locations: [...SESSION_LOCATIONS],
 		get url() {
 			const title = this.title;
-			return this.locations.map((location) =>
-				bookingLink(title, location)
-			);
+			return this.locations.map((location) => bookingLink(title, location));
 		},
 	},
 	{
@@ -48,9 +44,7 @@ export const services: Service[] = [
 		locations: ["Location Chosen By Client", "Open Jar", "Virtual"],
 		get url() {
 			const title = this.title;
-			return this.locations.map((location) =>
-				bookingLink(title, location)
-			);
+			return this.locations.map((location) => bookingLink(title, location));
 		},
 	},
 	{
@@ -60,9 +54,7 @@ export const services: Service[] = [
 		locations: [...SESSION_LOCATIONS],
 		get url() {
 			const title = this.title;
-			return this.locations.map((location) =>
-				bookingLink(title, location)
-			);
+			return this.locations.map((location) => bookingLink(title, location));
 		},
 	},
 ];
@@ -114,26 +106,32 @@ export const bundles: LessonBundle[] = [
 	},
 ];
 
-export const Prices: Price[] = [
+export const TEST_PRICES: Price[] = [
 	{
 		name: "SVS Session",
-		priceID: {
-			test: { price: "price_1LDhdeAMm0G1mbCt3nyv52uI", quantity: 1 },
-			live: { price: "price_1LDhS8AMm0G1mbCtVVMPsJiS", quantity: 1 },
-		},
+		priceID: { price: "price_1NliQFAMm0G1mbCtsfeYK3l8", quantity: 1 },
 	},
 	{
 		name: "Regular Session",
-		priceID: {
-			test: { price: "price_1LDhdeAMm0G1mbCtGFA3BJEJ", quantity: 1 },
-			live: { price: "price_1L88w7AMm0G1mbCt5xei9unc", quantity: 1 },
-		},
+		priceID: { price: "price_1LDhdeAMm0G1mbCtGFA3BJEJ", quantity: 1 },
 	},
 	{
 		name: "Open Jar Booking Fee",
-		priceID: {
-			test: { price: "price_1LmGq9AMm0G1mbCtMLd52ryM", quantity: 1 },
-			live: { price: "price_1LjwkaAMm0G1mbCtmfRqq7Io", quantity: 1 },
-		},
+		priceID: { price: "price_1LmGq9AMm0G1mbCtMLd52ryM", quantity: 1 },
+	},
+];
+
+export const LIVE_PRICES: Price[] = [
+	{
+		name: "SVS Session",
+		priceID: { price: "price_1LDhS8AMm0G1mbCtVVMPsJiS", quantity: 1 },
+	},
+	{
+		name: "Regular Session",
+		priceID: { price: "price_1L88w7AMm0G1mbCt5xei9unc", quantity: 1 },
+	},
+	{
+		name: "Open Jar Booking Fee",
+		priceID: { price: "price_1LjwkaAMm0G1mbCtmfRqq7Io", quantity: 1 },
 	},
 ];

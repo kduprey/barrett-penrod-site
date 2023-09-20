@@ -2,6 +2,7 @@ import { dev } from "@bpvs/types";
 import { GraphQLClient } from "graphql-request";
 import Stripe from "stripe";
 
+export * from "./axiosOptions";
 export * from "./lib/services";
 
 export const stripe = new Stripe(

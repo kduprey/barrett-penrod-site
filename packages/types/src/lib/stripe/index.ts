@@ -14,8 +14,5 @@ export interface LessonBundle {
 
 export interface Price {
 	name: "SVS Session" | "Regular Session" | "Open Jar Booking Fee";
-	priceID: {
-		live: Stripe.Checkout.SessionCreateParams.LineItem;
-		test: Stripe.Checkout.SessionCreateParams.LineItem;
-	};
+	priceID: Stripe.Checkout.SessionCreateParams.LineItem;
 }

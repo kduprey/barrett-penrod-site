@@ -1,5 +1,5 @@
-import fs from "fs";
 import { compile } from "json-schema-to-typescript";
+import fs from "node:fs";
 
 const transformer = async () => {
 	// get generated json-schema from ./prisma/json-schema/json-schema.json

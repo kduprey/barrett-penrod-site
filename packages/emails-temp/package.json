@@ -3,14 +3,15 @@
 	"version": "0.0.1",
 	"private": true,
 	"main": "./src/index.ts",
+	"prettier": "@bpvs/style-guide/prettier",
 	"dependencies": {
 		"@sendgrid/mail": "^7.7.0",
 		"stripe": "^13.5.0"
 	},
 	"devDependencies": {
-		"eslint-config-bpvs": "workspace:*",
-		"tsconfig": "workspace:*",
+		"@bpvs/style-guide": "workspace:*",
 		"@bpvs/types": "workspace:*",
-		"@bpvs/utils": "workspace:*"
+		"@bpvs/utils": "workspace:*",
+		"tsconfig": "workspace:*"
 	}
 }

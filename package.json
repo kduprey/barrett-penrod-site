@@ -6,6 +6,7 @@
 		"./apps/*",
 		"./packages/*"
 	],
+	"prettier": "@bpvs/style-guide/prettier",
 	"scripts": {
 		"vercel-build": "next build apps/site",
 		"temp:preinstall": "npx only-allow pnpm",
@@ -29,10 +30,13 @@
 		"db:prod:studio": "vercel env pull --environment=production && npm run db:studio"
 	},
 	"devDependencies": {
+		"@bpvs/style-guide": "workspace:*",
 		"barrelsby": "^2.8.0",
 		"eslint": "^8.46.0",
 		"prettier": "^3.0.1",
-		"tsconfig": "workspace:*"
+		"prettier-plugin-packagejson": "^2.4.5",
+		"tsconfig": "workspace:*",
+		"typescript": "^5.0.4"
 	},
 	"packageManager": "npm@9.7.1"
 }

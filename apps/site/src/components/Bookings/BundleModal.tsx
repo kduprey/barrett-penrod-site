@@ -1,3 +1,5 @@
+"use client";
+
 import { bundleServices } from "@bpvs/config";
 import { motion as m } from "framer-motion";
 import { useRouter } from "next/navigation";

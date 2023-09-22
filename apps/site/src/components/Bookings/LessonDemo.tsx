@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { SidePanel } from "../Modals/SidePanel";
 import { DemosSection } from "../content/DemosSection";

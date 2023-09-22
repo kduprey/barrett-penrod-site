@@ -1,3 +1,5 @@
+"use client";
+
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion as m } from "framer-motion";

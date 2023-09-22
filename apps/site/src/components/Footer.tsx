@@ -1,3 +1,5 @@
+"use client";
+
 import { trytm } from "@bdsqqq/try";
 import {
 	faInstagram,

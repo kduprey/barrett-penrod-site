@@ -1,10 +1,10 @@
+"use client";
+
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import { Link } from "react-scroll";
-import * as gtag from "../../lib/analytics";
 import type { NavMenu } from "../../types/types";
 
 interface SubmenuProps {
@@ -12,7 +12,6 @@ interface SubmenuProps {
 }
 
 export const Submenu = ({ menu }: SubmenuProps): JSX.Element => {
-	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
 
 	if (menu.sublinks) {
@@ -55,9 +54,6 @@ export const Submenu = ({ menu }: SubmenuProps): JSX.Element => {
 									offset={-100}
 									onClick={() => {
 										setIsOpen(false);
-										gtag.pageview(
-											new URL(window.location.href + router.route + sublink.id)
-										);
 									}}
 									smooth
 									spy
@@ -73,11 +69,6 @@ export const Submenu = ({ menu }: SubmenuProps): JSX.Element => {
 								className="cursor-pointer text-secondary underline-offset-2 hover:text-white hover:underline"
 								href={sublink.path}
 								key={sublink.name}
-								onClick={() => {
-									gtag.pageview(
-										new URL(window.location.href + router.route + menu.path)
-									);
-								}}
 							>
 								{sublink.name}
 							</NextLink>
@@ -92,11 +83,6 @@ export const Submenu = ({ menu }: SubmenuProps): JSX.Element => {
 			<NextLink
 				className="cursor-pointer pb-3 text-xl font-thin text-white underline-offset-2 hover:text-slate-300 hover:underline"
 				href={menu.path}
-				onClick={() => {
-					gtag.pageview(
-						new URL(window.location.href + router.route + menu.path)
-					);
-				}}
 			>
 				{menu.name}
 			</NextLink>
@@ -109,7 +95,6 @@ export const Submenu = ({ menu }: SubmenuProps): JSX.Element => {
 			offset={-120}
 			onClick={() => {
 				setIsOpen(false);
-				gtag.pageview(new URL(window.location.href + router.route + menu.path));
 			}}
 			smooth
 			spy

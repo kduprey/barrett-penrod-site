@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import type { PropsWithChildren } from "react";
 import "./globals.css";
-import { Footer, PageBar, SocialBar } from "@/components";
 
 config.autoAddCss = false;
 
@@ -48,13 +47,7 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: PropsWithChildren): JSX.Element => (
 	<html className={`${montserrat.variable}`} lang="en">
 		<body>
-			<main className="flex min-h-screen flex-col bg-primary">
-				<PageBar />
-
-				<SocialBar />
-				{children}
-				<Footer />
-			</main>
+			<main className="flex min-h-screen flex-col bg-primary">{children}</main>
 		</body>
 	</html>
 );

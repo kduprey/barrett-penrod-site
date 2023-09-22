@@ -1,3 +1,5 @@
+"use client";
+
 import { bundles } from "@bpvs/config";
 import { useState } from "react";
 import { BundleModal } from "./BundleModal";
@@ -18,14 +20,9 @@ export const Bundles = (): JSX.Element => {
 			</h2>
 			<div className="grid gap-6 sm:grid-cols-2">
 				{bundles.map((bundle, index) => (
-					<button
+					<div
 						className="withTransition flex max-w-sm flex-col items-center justify-center space-y-3 rounded-lg bg-secondary p-6 shadow-md hover:scale-105 hover:opacity-90"
 						key={bundle.title}
-						onClick={() => {
-							setIsBundleModalOpen(true);
-							setSelectedBundle(index);
-						}}
-						type="button"
 					>
 						<h4 className="text-center text-primary">{bundle.title}</h4>
 						<p className="text-center text-primary">{bundle.discount}</p>
@@ -42,7 +39,7 @@ export const Bundles = (): JSX.Element => {
 						>
 							Reserve Now!
 						</button>
-					</button>
+					</div>
 				))}
 			</div>
 		</section>

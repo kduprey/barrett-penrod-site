@@ -1,13 +1,43 @@
 {
-    "name": "cms",
-    "version": "0.1.0",
-    "private": true,
-    "scripts": {
-        "build": "next build",
-        "dev": "next dev --port 3333",
-        "lint": "next lint",
-        "publish": "sanity dataset export staging . --overwrite && sanity dataset import staging.tar.gz production --replace",
-        "pullData": "sanity dataset export production . --overwrite && sanity dataset import production.tar.gz staging --replace",
-        "start": "next start"
-    }
+	"name": "@bpvs/cms",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"build": "next build",
+		"dev": "next dev --port 3333",
+		"generate-barrels": "barrelsby --config barrelsby.config.json",
+		"lint": "next lint",
+		"publish": "sanity dataset export staging . --overwrite && sanity dataset import staging.tar.gz production --replace",
+		"pullData": "sanity dataset export production . --overwrite && sanity dataset import production.tar.gz staging --replace",
+		"start": "next start"
+	},
+	"prettier": "@bpvs/style-guide/prettier",
+	"dependencies": {
+		"@sanity/vision": "^3.16.7",
+		"next": "^13.5.2",
+		"next-sanity": "^5.5.4",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"sanity": "^3.16.7",
+		"sanity-plugin-iframe-pane": "^2.5.7"
+	},
+	"devDependencies": {
+		"@bpvs/style-guide": "workspace:*",
+		"@next/eslint-plugin-next": "^13.5.1",
+		"@sanity/cli": "^3.16.7",
+		"@sanity/icons": "^2.4.1",
+		"@types/node": "^20.6.0",
+		"@types/react": "^18.2.21",
+		"@types/react-dom": "^18.2.7",
+		"@typescript-eslint/eslint-plugin": "^6.7.2",
+		"@typescript-eslint/parser": "^6.7.2",
+		"autoprefixer": "^10.4.16",
+		"barrelsby": "^2.8.1",
+		"postcss": "^8.4.30",
+		"prettier-plugin-tailwindcss": "^0.5.4",
+		"tailwindcss": "^3.3.3",
+		"tsconfig": "workspace:*",
+		"typescript": "^5.2.2",
+		"vite-tsconfig-paths": "^4.2.1"
+	}
 }

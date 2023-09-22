@@ -29,7 +29,7 @@
 		"@fortawesome/react-fontawesome": "^0.2.0",
 		"axios": "^1.5.0",
 		"framer-motion": "^10.16.4",
-		"next": "^13.5.1",
+		"next": "^13.5.2",
 		"next-axiom": "^1.0.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
@@ -44,9 +44,9 @@
 		"@bpvs/types": "workspace:*",
 		"@bpvs/utils": "workspace:*",
 		"@bpvs/validation": "workspace:*",
-		"@next/eslint-plugin-next": "^13.5.1",
-		"@types/node": "^20.6.0",
-		"@types/react": "^18.2.21",
+		"@next/eslint-plugin-next": "^13.5.2",
+		"@types/node": "^20.6.3",
+		"@types/react": "^18.2.22",
 		"@types/react-dom": "^18.2.7",
 		"@types/react-scroll": "^1.8.7",
 		"@typescript-eslint/parser": "^6.7.2",
@@ -54,6 +54,6 @@
 		"cypress": "^13.2.0",
 		"prettier-plugin-packagejson": "^2.4.5",
 		"tsconfig": "workspace:*",
-		"typescript": "^5.0.4"
+		"typescript": "^5.2.2"
 	}
 }

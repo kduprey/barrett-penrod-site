@@ -10,13 +10,13 @@
 		"@bpvs/db": "workspace:*",
 		"axios": "^1.5.0",
 		"http-errors": "^2.0.0",
-		"next": "^13.4.19",
+		"next": "^13.5.2",
 		"zod": "^3.22.2"
 	},
 	"devDependencies": {
 		"@bpvs/style-guide": "workspace:*",
 		"@bpvs/types": "workspace:*",
-		"@types/http-errors": "^2.0.1",
+		"@types/http-errors": "^2.0.2",
 		"tsconfig": "workspace:*"
 	}
 }

@@ -14,13 +14,13 @@
 	},
 	"prettier": "@bpvs/style-guide/prettier",
 	"dependencies": {
-		"@prisma/client": "^5.3.0"
+		"@prisma/client": "^5.3.1"
 	},
 	"devDependencies": {
 		"@bpvs/style-guide": "workspace:*",
 		"@bpvs/types": "workspace:*",
 		"dotenv": "^16.3.1",
-		"prisma": "^5.3.0",
+		"prisma": "^5.3.1",
 		"tsconfig": "workspace:*"
 	}
 }

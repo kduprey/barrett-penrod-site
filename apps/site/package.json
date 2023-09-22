@@ -27,6 +27,8 @@
 		"@fortawesome/free-brands-svg-icons": "^6.4.2",
 		"@fortawesome/free-solid-svg-icons": "^6.4.2",
 		"@fortawesome/react-fontawesome": "^0.2.0",
+		"@prisma/nextjs-monorepo-workaround-plugin": "^5.3.1",
+		"@sentry/nextjs": "^7.70.0",
 		"axios": "^1.5.0",
 		"framer-motion": "^10.16.4",
 		"next": "^13.5.2",

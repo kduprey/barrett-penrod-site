@@ -5,7 +5,7 @@ const { withSentryConfig } = require("@sentry/nextjs");
 const { PrismaPlugin } = require("@prisma/nextjs-monorepo-workaround-plugin");
 
 const nextConfig = withAxiom({
-	transpilePackages: ["@bpvs/config", "@bpvs/types"],
+	transpilePackages: ["@bpvs/config", "@bpvs/types", "@bpvs/db"],
 	reactStrictMode: true,
 	webpack(config, { isServer }) {
 		if (isServer) {

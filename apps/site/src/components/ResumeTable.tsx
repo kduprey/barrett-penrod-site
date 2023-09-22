@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call -- TODO: Add conetnt to CMS to resolve this issue */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment -- TODO: Add conetnt to CMS to resolve this issue */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access -- TODO: Add conetnt to CMS to resolve this issue */
 import Image from "next/image";
 import headshot3 from "../../public/headshot3.jpg";
 import { eduTheatre, specialSkills, stats, theater, training } from "@/data";

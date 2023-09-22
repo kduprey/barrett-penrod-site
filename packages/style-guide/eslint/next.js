@@ -40,6 +40,13 @@ module.exports = {
 	// add rules configurations here
 	rules: {
 		"import/no-default-export": "off",
+		"import/no-extraneous-dependencies": "off",
+		"import/order": [
+			"error",
+			{
+				pathGroups: [],
+			},
+		],
 		"unicorn/filename-case": [
 			"error",
 			{
@@ -47,6 +54,7 @@ module.exports = {
 					camelCase: true,
 					pascalCase: true,
 				},
+				ignore: ["not-found.tsx"],
 			},
 		],
 		"no-console": "off",
@@ -68,6 +76,17 @@ module.exports = {
 		"@typescript-eslint/no-misused-promises": [
 			"error",
 			{ checksVoidReturn: { attributes: false } },
+		],
+		"@typescript-eslint/explicit-function-return-type": [
+			"off",
+			{
+				allowExpressions: true,
+				allowTypedFunctionExpressions: true,
+				allowHigherOrderFunctions: true,
+				allowConciseArrowFunctionExpressionsStartingWithVoid: true,
+				allowFunctionsWithoutTypeParameters: true,
+				allowIIFE: true,
+			},
 		],
 	},
 };

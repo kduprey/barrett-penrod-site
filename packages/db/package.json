@@ -5,11 +5,11 @@
 	"main": "./src/index.ts",
 	"scripts": {
 		"build": "tsup",
-		"deploy": "dotenv -c -e ../../.env run npx prisma migrate deploy",
-		"generate": "dotenv -c -e ../../.env npx prisma generate",
+		"deploy": "npx prisma migrate deploy",
+		"generate": "npx prisma generate",
 		"lint": "npx prisma format",
-		"migrate": "dotenv -c -e ../../.env  npx prisma migrate dev",
-		"push": "dotenv -c -e ../../.env run npx prisma db push",
+		"migrate": "npx prisma migrate dev",
+		"push": "npx prisma db push",
 		"studio": "npx prisma studio"
 	},
 	"prettier": "@bpvs/style-guide/prettier",

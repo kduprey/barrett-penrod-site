@@ -6,7 +6,7 @@
 		"coverage": "vitest --coverage",
 		"cy:open": "cypress open",
 		"cy:run": "cypress run",
-		"dev": "dotenv -c -e ../../.env next dev",
+		"dev": "next dev",
 		"generate-barrels": "barrelsby -c barrelsby.config.json",
 		"lint": "next lint --dir .",
 		"prisma:deploy": "npx prisma migrate deploy",

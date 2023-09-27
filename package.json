@@ -58,7 +58,7 @@
     "@sentry/nextjs": "^7.72.0",
     "@tabler/icons-react": "^2.35.0",
     "@tiptap/extension-link": "^2.1.11",
-    "@tiptap/react": "^2.0.4",
+    "@tiptap/react": "^2.1.11",
     "@tiptap/starter-kit": "^2.0.4",
     "axios": "^1.4.0",
     "cookies-next": "^4.0.0",

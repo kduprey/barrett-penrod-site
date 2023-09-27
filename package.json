@@ -51,7 +51,7 @@
     "@mantine/notifications": "^6.0.17",
     "@mantine/spotlight": "^6.0.17",
     "@mantine/tiptap": "^6.0.17",
-    "@next/font": "^13.4.10",
+    "@next/font": "^13.5.3",
     "@sanity/cli": "^3.14.5",
     "@sanity/vision": "^3.16.2",
     "@sendgrid/mail": "^7.7.0",

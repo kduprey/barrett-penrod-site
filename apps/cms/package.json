@@ -7,7 +7,7 @@
 		"dev": "next dev --port 3333",
 		"generate-barrels": "barrelsby --config barrelsby.config.json",
 		"lint": "next lint",
-		"publish": "sanity dataset export staging . --overwrite && sanity dataset import staging.tar.gz production --replace",
+		"publishContent": "sanity dataset export staging . --overwrite && sanity dataset import staging.tar.gz production --replace",
 		"pullData": "sanity dataset export production . --overwrite && sanity dataset import production.tar.gz staging --replace",
 		"start": "next start"
 	},

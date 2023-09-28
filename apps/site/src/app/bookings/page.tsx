@@ -87,7 +87,7 @@ const Bookings = () => {
         </div>
       )} */}
 			{/* Logo */}
-			<div className="w-full max-w-[25em] py-5">
+			<div className="max-w-screen- py-5">
 				<Logo />
 			</div>
 

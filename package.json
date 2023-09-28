@@ -2,10 +2,6 @@
 	"version": "1.0.0",
 	"private": true,
 	"author": "Kenton Duprey",
-	"workspaces": [
-		"./apps/*",
-		"./packages/*"
-	],
 	"scripts": {
 		"build:admin": "npm run -w 'apps/admin' build",
 		"build:cms": "npm run -w 'apps/cms' build",

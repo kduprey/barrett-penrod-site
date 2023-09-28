@@ -3,8 +3,9 @@ import { getCalendlyEvent } from "@bpvs/utils";
 import type { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { fromZodError } from "zod-validation-error";
 
-export const GET = async (req: NextApiRequest): Promise<NextResponse> => {
+export const GET = async (req: NextApiRequest) => {
 	const data = z
 		.object({
 			uri: z.string().url(),
@@ -12,12 +13,7 @@ export const GET = async (req: NextApiRequest): Promise<NextResponse> => {
 		.safeParse(req.query);
 
 	if (!data.success)
-		return new NextResponse(
-			JSON.stringify({
-				message: "Invalid request query, must include uri",
-			}),
-			{ status: 400 }
-		);
+		return new NextResponse(fromZodError(data.error).message, { status: 400 });
 
 	const [eventRes, eventErr] = await trytm(getCalendlyEvent(data.data.uri));
 

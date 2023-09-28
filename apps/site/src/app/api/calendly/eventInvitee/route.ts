@@ -3,6 +3,7 @@ import { getCalendlyInvitee } from "@bpvs/utils";
 import type { NextApiHandler, NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { fromZodError } from "zod-validation-error";
 
 export const GET: NextApiHandler = async (req: NextApiRequest) => {
 	const result = z
@@ -12,12 +13,9 @@ export const GET: NextApiHandler = async (req: NextApiRequest) => {
 		.safeParse(req.query);
 
 	if (!result.success)
-		return new NextResponse(
-			JSON.stringify({
-				message: "Invalid request query, must include uri",
-			}),
-			{ status: 400 }
-		);
+		return new NextResponse(fromZodError(result.error).message, {
+			status: 400,
+		});
 
 	const [inviteeRes, inviteeErr] = await trytm(
 		getCalendlyInvitee(result.data.uri)

@@ -9,6 +9,7 @@ import { dev } from "@bpvs/types";
 import type { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { fromZodError } from "zod-validation-error";
 
 /**
  * Create a webhook for Calendly
@@ -76,14 +77,19 @@ const createWebhook = async (url: string): Promise<CalendlyWebhook> => {
 
 export { createWebhook };
 
-export const POST = async (req: NextApiRequest): Promise<NextResponse> => {
+export const POST = async (req: NextApiRequest) => {
 	const url = z
 		.object({
 			url: z.string().url(),
 		})
-		.parse(req.body).url;
+		.safeParse(req.body);
 
-	const [webhookRes, webhookErr] = await trytm(createWebhook(url));
+	if (!url.success)
+		return new Response(fromZodError(url.error).message, {
+			status: 400,
+		});
+
+	const [webhookRes, webhookErr] = await trytm(createWebhook(url.data.url));
 
 	if (webhookErr) {
 		console.error("Error creating webhook", webhookErr);

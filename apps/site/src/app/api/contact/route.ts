@@ -1,69 +1,58 @@
-import { contacts, prisma } from "@bpvs/db";
-import { apiHandler } from "@bpvs/utils";
-import createHttpError from "http-errors";
-import type {
-  NextApiHandler,
-  NextApiRequest,
-  NextApiResponse,
-} from "next/types";
+import type { contacts } from "@bpvs/db";
+import { prisma } from "@bpvs/db";
+import type { NextApiHandler, NextApiRequest } from "next/types";
 import { z } from "zod";
+import { fromZodError } from "zod-validation-error";
 
-export type ContactFormBody = {
-  name: string;
-  email: string;
-  message: string;
-};
+export interface ContactFormBody {
+	name: string;
+	email: string;
+	message: string;
+}
 
 const ContactFormBodySchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email"),
-  message: z.string().min(2, "Message must be at least 2 characters"),
+	name: z.string().min(2, "Name must be at least 2 characters"),
+	email: z.string().email("Invalid email"),
+	message: z.string().min(2, "Message must be at least 2 characters"),
 });
 
 const contact = async (data: ContactFormBody): Promise<contacts> => {
-  const validData = ContactFormBodySchema.parse(data);
+	const validData = ContactFormBodySchema.safeParse(data);
 
-  try {
-    const data = await prisma.contacts.create({
-      data: validData,
-    });
+	if (!validData.success) {
+		throw new Error(fromZodError(validData.error).message);
+	}
 
-    return data;
-  } catch (error: unknown) {
-    if (error instanceof Error) throw error;
-    throw new Error("Error saving message");
-  }
+	try {
+		const response = await prisma.contacts.create({
+			data: validData.data,
+		});
+
+		return response;
+	} catch (error: unknown) {
+		if (error instanceof Error) throw error;
+		throw new Error("Error saving message");
+	}
 };
 
 export { contact };
 
-const POSTContact: NextApiHandler<contacts> = async (
-  req: NextApiRequest,
-  res: NextApiResponse
-) => {
-  try {
-    const data = await ContactFormBodySchema.parseAsync(req.body);
-    const response = await contact(data);
+export const POST: NextApiHandler<contacts> = async (req: NextApiRequest) => {
+	const data = ContactFormBodySchema.safeParse(req.body);
+	if (!data.success) {
+		return new Response(fromZodError(data.error).message, { status: 400 });
+	}
 
-    res.status(200).json(response);
-  } catch (error: unknown) {
-    console.error(error);
-    if (error instanceof Error)
-      throw new createHttpError.InternalServerError(
-        JSON.stringify({
-          message: "Error sending message",
-          error,
-        })
-      );
-    throw new createHttpError.InternalServerError(
-      JSON.stringify({
-        message: "Error sending message",
-        error: "Unknown error",
-      })
-    );
-  }
+	try {
+		const response = await contact(data.data);
+		return Response.json(response);
+	} catch (error: unknown) {
+		console.error(error);
+		return new Response(
+			JSON.stringify({
+				message: "There was an error saving the contact to the database.",
+			}),
+			{ status: 500 }
+		);
+	}
 };
-
-export default apiHandler({
-  POST: POSTContact,
-});

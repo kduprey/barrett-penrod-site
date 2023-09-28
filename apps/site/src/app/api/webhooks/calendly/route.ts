@@ -1,146 +1,150 @@
-import { Prisma, calendlyInviteePayloads, prisma } from "@bpvs/db";
-import { CalendlyEvent, CalendlyPayloadData } from "@bpvs/types";
+import crypto from "node:crypto";
+import type { calendlyInviteePayloads } from "@bpvs/db";
+import { prisma } from "@bpvs/db";
 import { getCalendlyEvent } from "@bpvs/utils";
-import { calendlyPayloadDataSchema } from "@bpvs/validation";
-import crypto from "crypto";
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest } from "next";
 import { z } from "zod";
-import { consultationHandler } from "../consultation";
-const calendlyWebhook = async (req: NextApiRequest, res: NextApiResponse) => {
-  const webhookSigningKey = process.env[
-    "CALENDLY_WEBHOOK_SIGNING_KEY"
-  ] as string;
+import { calendlyPayloadDataSchema } from "@bpvs/validation";
+import { trytm } from "@bdsqqq/try";
+import { fromZodError } from "zod-validation-error";
+import { consultationHandler } from "@/lib";
 
-  // Extract the timestamp and signature from the header
+export const POST = async (req: NextApiRequest) => {
+	const webhookSigningKey = process.env.CALENDLY_WEBHOOK_SIGNING_KEY;
 
-  const calendlySignature = req.headers["calendly-webhook-signature"] as string;
-  if (!calendlySignature) res.status(500).send("Invalid Signature");
-  const { t, signature } = calendlySignature?.split(",").reduce(
-    (acc, currentValue) => {
-      const [key, value] = currentValue.split("=");
-      if (key === "t") {
-        // UNIX timestamp
-        acc.t = value;
-      }
-      if (key === "v1") {
-        acc.signature = value;
-      }
-      return acc;
-    },
-    {
-      t: "",
-      signature: "",
-    }
-  );
+	// Extract the timestamp and signature from the header
+	try {
+		const calendlySignature = req.headers[
+			"calendly-webhook-signature"
+		] as string;
+		if (!calendlySignature) throw new Error("No Signature");
+		const { t, signature } = calendlySignature.split(",").reduce(
+			(acc, currentValue) => {
+				const [key, value] = currentValue.split("=");
+				if (key === "t") {
+					// UNIX timestamp
+					acc.t = value as string;
+				}
+				if (key === "v1") {
+					acc.signature = value as string;
+				}
+				return acc;
+			},
+			{
+				t: "",
+				signature: "",
+			}
+		);
 
-  if (!t || !signature) throw new Error("Invalid Signature");
+		if (!t || !signature) throw new Error("Invalid Signature");
 
-  // Create the signed payload by concatenating the timestamp (t), the character '.' and the request body's JSON payload.
+		// Create the signed payload by concatenating the timestamp (t), the character '.' and the request body's JSON payload.
 
-  const data = t + "." + JSON.stringify(req.body);
+		const data = `${t}.${JSON.stringify(req.body)}`;
 
-  const expectedSignature = crypto
-    .createHmac("sha256", webhookSigningKey)
-    .update(data, "utf8")
-    .digest("hex");
+		const expectedSignature = crypto
+			.createHmac("sha256", webhookSigningKey as string)
+			.update(data, "utf8")
+			.digest("hex");
 
-  // Determine the expected signature by computing an HMAC with the SHA256 hash function.
+		// Determine the expected signature by computing an HMAC with the SHA256 hash function.
 
-  if (expectedSignature !== signature) {
-    // Signature is invalid!
+		if (expectedSignature !== signature) {
+			// Signature is invalid!
 
-    throw new Error("Invalid Signature");
-  }
+			throw new Error("Invalid Signature");
+		}
 
-  const threeMinutes = 360000;
-  const tolerance = threeMinutes;
-  const timestampMilliseconds = Number(t) * 1000;
+		const threeMinutes = 360000;
+		const tolerance = threeMinutes;
+		const timestampMilliseconds = Number(t) * 1000;
 
-  if (timestampMilliseconds < Date.now() - tolerance) {
-    // Signature is invalid!
-    // The signature's timestamp is outside of the tolerance zone defined above.
-    throw new Error(
-      "Invalid Signature. The signature's timestamp is outside of the tolerance zone."
-    );
-  }
+		if (timestampMilliseconds < Date.now() - tolerance) {
+			// Signature is invalid!
+			// The signature's timestamp is outside of the tolerance zone defined above.
+			throw new Error(
+				"Invalid Signature. The signature's timestamp is outside of the tolerance zone."
+			);
+		}
 
-  // Signature is valid!
+		// Signature is valid!
 
-  const bodySchema = z
-    .object({
-      event: z.enum(["invitee.created", "invitee.canceled"]),
-      payload: z.unknown(),
-    })
-    .parse(req.body);
+		const bodySchema = z
+			.object({
+				event: z.enum(["invitee.created", "invitee.canceled"]),
+				payload: z.unknown(),
+			})
+			.safeParse(req.body);
 
-  const event = z
-    .enum(["invitee.created", "invitee.canceled"])
-    .parse(bodySchema.event);
+		if (!bodySchema.success) {
+			console.error(bodySchema.error);
+			return new Response(fromZodError(bodySchema.error).message, {
+				status: 400,
+			});
+		}
 
-  if (event === "invitee.created") {
-    const payloadData: CalendlyPayloadData = calendlyPayloadDataSchema.parse(
-      bodySchema.payload
-    );
+		const event = z
+			.enum(["invitee.created", "invitee.canceled"])
+			.safeParse(bodySchema.data.event);
 
-    let eventData: CalendlyEvent,
-      payloadDbEntry: Prisma.calendlyInviteePayloadsGetPayload<false>;
+		if (!event.success) {
+			console.error(event.error);
+			return new Response(fromZodError(event.error).message, {
+				status: 400,
+			});
+		}
 
-    // Add payload data to database
-    try {
-      console.log("Adding payload to database...");
-      payloadDbEntry = await prisma.calendlyInviteePayloads.create({
-        data: payloadData,
-      });
-      console.log("Payload added to database", payloadDbEntry);
-    } catch (error) {
-      console.log(error);
-      throw new Error("Error adding payload to database");
-    }
+		if (event.data === "invitee.created") {
+			const payloadData = calendlyPayloadDataSchema.safeParse(
+				bodySchema.data.payload
+			);
 
-    // If consultation is booked, run consultation handler
-    try {
-      console.log("Getting event info...");
-      eventData = await getCalendlyEvent(payloadData.event);
-      if (eventData.resource.name.includes("Consultation")) {
-        const consultationHandlerResponse = await consultationHandler(
-          payloadData,
-          payloadDbEntry.id
-        );
-        res.status(200).json({
-          eventData,
-          db: payloadDbEntry,
-          consultationHandlerResponse,
-        });
-      } else {
-        res.status(200).json({
-          eventData,
-          db: payloadDbEntry,
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({
-        err: new Error("Error running consultation handler"),
-      });
-    }
-  }
+			if (!payloadData.success) {
+				console.error(payloadData.error);
+				return new Response(fromZodError(payloadData.error).message, {
+					status: 400,
+				});
+			}
 
-  if (event === "invitee.canceled") {
-    const invitee: calendlyInviteePayloads =
-      bodySchema.payload as calendlyInviteePayloads;
-    try {
-      const response = await prisma.calendlyInviteePayloads.create({
-        data: invitee,
-      });
+			// Add payload data to database
+			console.info("Adding payload to database...");
+			const [payloadDbEntry, payloadDbEntryErr] = await trytm(
+				prisma.calendlyInviteePayloads.create({
+					data: payloadData.data,
+				})
+			);
 
-      return res.status(200).json(response);
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        err: new Error("Error: Failed to insert client"),
-      });
-    }
-  }
+			if (payloadDbEntryErr)
+				throw new Error("Error adding payload to database");
+			console.info("Payload added to database", payloadDbEntry);
+
+			// If consultation is booked, run consultation handler
+			console.info("Getting event info...");
+			const [eventData, eventDataErr] = await trytm(
+				getCalendlyEvent(payloadData.data.event)
+			);
+
+			if (eventDataErr) throw new Error("Error getting event info");
+
+			if (eventData.resource.name.includes("Consultation"))
+				await consultationHandler(payloadData.data, payloadDbEntry.id);
+
+			return Response.json(payloadDbEntry, {
+				status: 200,
+			});
+		}
+		// if event.data === "invitee.canceled"
+		const invitee = bodySchema.data.payload as calendlyInviteePayloads;
+		await prisma.calendlyInviteePayloads.create({
+			data: invitee,
+		});
+		return Response.json(invitee, {
+			status: 200,
+		});
+	} catch (error) {
+		console.error(error);
+		return new Response("Internal Server Error", {
+			status: 500,
+		});
+	}
 };
-
-export default calendlyWebhook;

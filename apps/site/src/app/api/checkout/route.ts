@@ -1,6 +1,6 @@
 import { bundles, services, stripe } from "@bpvs/config";
 import { getCalendlyInvitee } from "@bpvs/utils";
-import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest } from "next";
 import type Stripe from "stripe";
 import { z } from "zod";
 
@@ -196,24 +196,21 @@ const POSTCheckoutBody = z.object({
 	isLonger: z.boolean().optional(),
 });
 
-const POSTCheckout: NextApiHandler = async (
-	req: NextApiRequest,
-	res: NextApiResponse
-) => {
+export const POST = async (req: NextApiRequest) => {
 	const data = POSTCheckoutBody.parse(req.body);
 	const origin = z.string().parse(req.headers.origin);
 	try {
 		// Create checkout session
 		const session = await createCheckoutSession({ ...data, origin });
 
-		res.status(200).json({ url: session.url, id: session.id });
+		return Response.json({ url: session.url, id: session.id });
 	} catch (e: unknown) {
 		console.error(e);
-		if (e instanceof Error)
-			throw new createHttpError.InternalServerError(e.message);
+		return new Response(
+			JSON.stringify({
+				message: "There was an error creating the checkout session.",
+			}),
+			{ status: 500 }
+		);
 	}
 };
-
-export default apiHandler({
-	POST: POSTCheckout,
-});

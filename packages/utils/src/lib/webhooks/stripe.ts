@@ -30,8 +30,7 @@ export const updateCustomer = async (
 	try {
 		// Update client data
 
-		if (!session.amount_total)
-			throw new Error("No amount total in session");
+		if (!session.amount_total) throw new Error("No amount total in session");
 
 		const updatedCustomer = await prisma.clients.update({
 			where: {
@@ -43,8 +42,7 @@ export const updateCustomer = async (
 				totalSpend: client.totalSpend + session.amount_total,
 
 				lessonsRemaining:
-					client.lessonsRemaining +
-					getNumLessonsFromLineItems(lineItems),
+					client.lessonsRemaining + getNumLessonsFromLineItems(lineItems),
 			},
 		});
 		console.info("Updated Customer", updatedCustomer);

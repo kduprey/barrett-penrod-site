@@ -1,8 +1,7 @@
 import { sendFirstTimeEmail } from "@bpvs/emails-temp";
-import { apiHandler } from "@bpvs/utils";
 import { firstTimeEmailSchema } from "@bpvs/validation";
-import createHttpError from "http-errors";
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest } from "next";
+import { fromZodError } from "zod-validation-error";
 
 // Example for template data
 // {
@@ -15,38 +14,30 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 /**
  * This endpoint is used to send a first time email to a client after booking a session.
- * @param email The email address of the client
- * @param name The name of the client
- * @param bookingDate The date of the event
- * @param bookingName The name of the booking
- * @param zoomLink The zoom link for the event
+ * @param email - The email address of the client
+ * @param name - The name of the client
+ * @param bookingDate - The date of the event
+ * @param bookingName - The name of the booking
+ * @param zoomLink - The zoom link for the event
  * @returns The response from SendGrid
  */
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const data = firstTimeEmailSchema.parse(req.body);
+export const POST = async (req: NextApiRequest) => {
+	const data = firstTimeEmailSchema.safeParse(req.body);
 
-  try {
-    const response = await sendFirstTimeEmail(data);
-    res.status(200).json(response);
-  } catch (error: unknown) {
-    console.error(error);
-    if (error instanceof Error)
-      throw new createHttpError.InternalServerError(
-        JSON.stringify({
-          message: "There was an error sending the email.",
-          error,
-        })
-      );
+	if (!data.success)
+		return new Response(fromZodError(data.error).message, { status: 400 });
 
-    throw new createHttpError.InternalServerError(
-      JSON.stringify({
-        message: "There was an error sending the email.",
-      })
-    );
-  }
+	try {
+		const response = await sendFirstTimeEmail(data.data);
+		return Response.json(response);
+	} catch (error: unknown) {
+		console.error(error);
+		return new Response(
+			JSON.stringify({
+				message: "There was an error sending the email.",
+			}),
+			{ status: 500 }
+		);
+	}
 };
-
-export default apiHandler({
-  POST: handler,
-});

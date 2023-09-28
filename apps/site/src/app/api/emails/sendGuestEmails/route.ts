@@ -1,8 +1,7 @@
 import { sendGuestEmails } from "@bpvs/emails-temp";
-import { apiHandler } from "@bpvs/utils";
 import { guestEmailsSchema } from "@bpvs/validation";
-import createHttpError from "http-errors";
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest } from "next";
+import { fromZodError } from "zod-validation-error";
 
 // Template Data
 // {
@@ -22,31 +21,22 @@ import type { NextApiRequest, NextApiResponse } from "next";
  * @returns The response from SendGrid
  */
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const data = guestEmailsSchema.parse(req.body);
+export const POST = async (req: NextApiRequest) => {
+	const data = guestEmailsSchema.safeParse(req.body);
 
-  try {
-    const response = await sendGuestEmails(data);
-    console.log(response);
-    res.status(200).json(response);
-  } catch (error: unknown) {
-    console.error(error);
-    if (error instanceof Error) {
-      throw new createHttpError.InternalServerError(
-        JSON.stringify({
-          message: "There was an error sending the email.",
-          error,
-        })
-      );
-    }
-    throw new createHttpError.InternalServerError(
-      JSON.stringify({
-        message: "There was an error sending the email.",
-      })
-    );
-  }
+	if (!data.success)
+		return new Response(fromZodError(data.error).message, { status: 400 });
+
+	try {
+		const response = await sendGuestEmails(data.data);
+		return Response.json(response);
+	} catch (error: unknown) {
+		console.error(error);
+		return new Response(
+			JSON.stringify({
+				message: "There was an error sending the email.",
+			}),
+			{ status: 500 }
+		);
+	}
 };
-
-export default apiHandler({
-  POST: handler,
-});

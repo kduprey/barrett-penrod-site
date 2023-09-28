@@ -88,5 +88,6 @@ module.exports = {
 				allowIIFE: true,
 			},
 		],
+		"@typescript-eslint/non-nullable-type-assertion-style": "off",
 	},
 };

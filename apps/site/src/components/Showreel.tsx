@@ -29,7 +29,6 @@ const Video = ({
 			allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 			allowFullScreen
 			className="h-[400px] w-full md:h-[315px] md:w-[560px]"
-			frameBorder={0}
 			loading="lazy"
 			src={link}
 			title="YouTube video player"
@@ -44,7 +43,7 @@ export const Showreel = (): JSX.Element => (
 		data-cy="showreel"
 		id="video-sound-demo"
 	>
-		<h2 className="text-primary">Video/Sound Demo</h2>
+		<h2 className="text-primary">Video & Sound Demo</h2>
 		<div className="w-5/6 grid-cols-2 gap-3 space-y-4 md:grid md:w-auto md:space-y-0">
 			{content.map((item) => (
 				<Video key={item.link} link={item.link} title={item.title} />

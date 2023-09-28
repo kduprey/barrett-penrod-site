@@ -19,15 +19,13 @@ import { sendSingleBookingEmail } from "./singleBooking";
 export const sendCheckoutEmails = async (
 	session: Stripe.Checkout.Session,
 	lineItems: Stripe.LineItem[]
-): Promise<Error[] | boolean> => {
+): Promise<boolean> => {
 	let event: CalendlyEvent,
 		invitee: CalendlyInvitee,
 		zoomLink: string | null = null;
-	const errors: Error[] = [];
 
 	try {
-		if (!session.client_reference_id)
-			throw new Error("No client reference ID");
+		if (!session.client_reference_id) throw new Error("No client reference ID");
 
 		if (!session.metadata?.inviteeURI)
 			throw new Error("No invitee URI in metadata");
@@ -36,7 +34,7 @@ export const sendCheckoutEmails = async (
 		invitee = await getCalendlyInvitee(session.metadata.inviteeURI);
 	} catch (err: unknown) {
 		console.error("Error getting booking info", err);
-		if (err instanceof Error) errors.push(err);
+
 		throw new Error("Error getting booking info");
 	}
 
@@ -62,7 +60,6 @@ export const sendCheckoutEmails = async (
 			console.info("Guest Email Response: ", guestEmail);
 		} catch (error: unknown) {
 			console.error("Error sending guest email", error);
-			if (error instanceof Error) errors.push(error);
 			throw new Error("Error sending guest email");
 		}
 	}
@@ -79,8 +76,7 @@ export const sendCheckoutEmails = async (
 
 		for (const question of invitee.resource.questions_and_answers) {
 			if (
-				question.question ===
-					"Is this your first lesson with Barrett?" &&
+				question.question === "Is this your first lesson with Barrett?" &&
 				question.answer === "Yes"
 			)
 				// Send first-time customer email
@@ -102,11 +98,7 @@ export const sendCheckoutEmails = async (
 						firstTimeCustomerEmail
 					);
 				} catch (err: unknown) {
-					console.error(
-						"Error sending first-time customer email",
-						err
-					);
-					if (err instanceof Error) errors.push(err);
+					console.error("Error sending first-time customer email", err);
 
 					throw new Error("Error sending first-time customer email");
 				}
@@ -130,7 +122,6 @@ export const sendCheckoutEmails = async (
 			console.info("Package Email Response: ", packageEmail);
 		} catch (error: unknown) {
 			console.error("Error sending package email", error);
-			if (error instanceof Error) errors.push(error);
 
 			throw new Error("Error sending package email");
 		}
@@ -156,11 +147,10 @@ export const sendCheckoutEmails = async (
 			console.info("Single Session Email Response: ", singleSessionEmail);
 		} catch (error: unknown) {
 			console.error("Error sending single session email", error);
-			if (error instanceof Error) errors.push(error);
 
 			throw new Error("Error sending single session email");
 		}
 	}
 
-	return errors.length > 0 ? errors : true;
+	return true;
 };

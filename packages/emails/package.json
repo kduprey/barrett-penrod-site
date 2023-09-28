@@ -8,7 +8,7 @@
 	"dependencies": {
 		"@react-email/components": "^0.0.7",
 		"react": "^18.2.0",
-		"react-email": "^1.9.4"
+		"react-email": "^1.9.5"
 	},
 	"devDependencies": {
 		"typescript": "^5.2.2"

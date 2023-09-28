@@ -1,20 +1,9 @@
-"use client";
-
 import { bundles } from "@bpvs/config";
-import { useState } from "react";
-import { BundleModal } from "./BundleModal";
+import Link from "next/link";
 
 export const Bundles = (): JSX.Element => {
-	const [isBundleModalOpen, setIsBundleModalOpen] = useState(false);
-	const [selectedBundle, setSelectedBundle] = useState<number>();
-
 	return (
 		<section>
-			<BundleModal
-				isOpen={isBundleModalOpen}
-				selectedBundle={selectedBundle}
-				setIsOpen={setIsBundleModalOpen}
-			/>
 			<h2 className="pb-6 text-center text-secondary md:text-3xl lg:text-4xl xl:pt-5">
 				Discount Packages
 			</h2>
@@ -29,16 +18,14 @@ export const Bundles = (): JSX.Element => {
 						<p className="text-center text-3xl font-bold text-primary">
 							${bundle.price}
 						</p>
-						<button
-							className="cursor-pointer bg-primary text-secondary"
-							onClick={() => {
-								setIsBundleModalOpen(true);
-								setSelectedBundle(index);
-							}}
-							type="button"
-						>
-							Reserve Now!
-						</button>
+						<Link href={`/bookings/bundles/${index}`}>
+							<button
+								className="cursor-pointer bg-primary text-secondary"
+								type="button"
+							>
+								Reserve Now!
+							</button>
+						</Link>
 					</div>
 				))}
 			</div>

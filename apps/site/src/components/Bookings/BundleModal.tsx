@@ -7,13 +7,11 @@ import { useState } from "react";
 
 interface BundleModalProps {
 	isOpen: boolean;
-	setIsOpen: (isOpen: boolean) => void;
-	selectedBundle: number | undefined;
+	selectedBundle: number | string;
 }
 
 export const BundleModal = ({
 	isOpen,
-	setIsOpen,
 	selectedBundle,
 }: BundleModalProps): JSX.Element => {
 	const router = useRouter();
@@ -41,17 +39,13 @@ export const BundleModal = ({
 
 	return (
 		<m.div
-			animate={{ opacity: isOpen ? 1 : 0 }}
+			animate={{ opacity: 1 }}
 			className={`withTransition fixed inset-0 h-full w-full overflow-y-auto bg-gray-600 bg-opacity-50 duration-500 ${
 				isOpen ? "z-[70] opacity-100" : "-z-[40] opacity-0"
 			}`}
 			exit={{ opacity: 0 }}
 			id="modal"
-			onClick={(e) => {
-				if ((e.target as Element).id === "modal") {
-					setIsOpen(false);
-				}
-			}}
+			onb
 			transition={{ duration: 0.5 }}
 		>
 			<div

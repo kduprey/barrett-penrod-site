@@ -1,7 +1,7 @@
 import { trytm } from "@bdsqqq/try";
 import type { qr_code_logs as qrCodeLogs } from "@bpvs/db";
 import { prisma } from "@bpvs/db";
-import type { NextApiRequest } from "next";
+import type { NextRequest } from "next/server";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 
@@ -41,9 +41,7 @@ const updateQRDB = async (qrID: string): Promise<qrCodeLogs> => {
 	return response;
 };
 
-export { updateQRDB };
-
-export const POST = async (req: NextApiRequest) => {
+export const POST = async (req: NextRequest) => {
 	const data = z
 		.object({
 			qrID: z.string({

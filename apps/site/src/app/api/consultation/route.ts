@@ -1,6 +1,7 @@
 import { calendlyPayloadDataSchema } from "@bpvs/validation";
-import type { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { consultationHandler } from "@/lib";
 
 const consultationParams = z.object({
@@ -10,13 +11,13 @@ const consultationParams = z.object({
 	}),
 });
 
-export const POST = async (req: NextApiRequest, res: NextApiResponse) => {
+export const POST = async (req: NextRequest) => {
 	const { calendlyEventPayload, calendlyPayloadId } = consultationParams.parse(
 		req.body
 	);
 	try {
 		await consultationHandler(calendlyEventPayload, calendlyPayloadId);
-		res.status(200).json({ message: "Success" });
+		return NextResponse.json({ message: "Success" }, { status: 200 });
 	} catch (error) {
 		console.error(error);
 		return new Response(

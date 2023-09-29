@@ -1,6 +1,6 @@
-import { bundles, services, stripe } from "@bpvs/config";
+import { stripe } from "@bpvs/config";
 import { getCalendlyInvitee } from "@bpvs/utils";
-import type { NextApiRequest } from "next";
+import type { NextRequest } from "next/server";
 import type Stripe from "stripe";
 import { z } from "zod";
 
@@ -20,7 +20,7 @@ const createCheckoutSession = async (
 	url: string;
 	id: string;
 }> => {
-	const stripeMode = process.env.VERCEL_ENV !== "production" ? "test" : "live";
+	const _stripeMode = process.env.VERCEL_ENV !== "production" ? "test" : "live";
 
 	// SVS Trial Session = 5
 	// Trial Session = 4
@@ -51,50 +51,50 @@ const createCheckoutSession = async (
 		throw new Error("Invalid location for Trial Session");
 
 	// Check if Trial SVS Session with Open Jar
-	if (params.service === 5 && params.location === 1)
-		lineItems.push(Prices[0].priceID[stripeMode]);
+	// if (params.service === 5 && params.location === 1)
+	// 	lineItems.push(Prices[0].priceID[stripeMode]);
 
-	// Check if Trial Session with Open Jar
-	if (params.service === 4 && params.location === 1)
-		lineItems.push(Prices[1].priceID[stripeMode]);
+	// // Check if Trial Session with Open Jar
+	// if (params.service === 4 && params.location === 1)
+	// 	lineItems.push(Prices[1].priceID[stripeMode]);
 
-	// Check if service is valid if not a trial session
-	if (!isTrialSession && !services.includes(services[params.service]))
-		throw new Error("Invalid service");
+	// // Check if service is valid if not a trial session
+	// if (!isTrialSession && !services.includes(services[params.service]))
+	// 	throw new Error("Invalid service");
 
-	// Check if location is valid, and if it is valid for the service if not a trial session
-	if (
-		!isTrialSession &&
-		!services[params.service].locations.includes(
-			services[params.service].locations[params.location]
-		)
-	)
-		throw new Error("Invalid location");
+	// // Check if location is valid, and if it is valid for the service if not a trial session
+	// if (
+	// 	!isTrialSession &&
+	// 	!services[params.service].locations.includes(
+	// 		services[params.service].locations[params.location]
+	// 	)
+	// )
+	// 	throw new Error("Invalid location");
 
-	// Check if bundle is valid if it exists and not a trial session
-	if (
-		params.bundle !== undefined &&
-		!bundles.includes(bundles[params.bundle]) &&
-		!isTrialSession
-	)
-		throw new Error("Invalid bundle");
+	// // Check if bundle is valid if it exists and not a trial session
+	// if (
+	// 	params.bundle !== undefined &&
+	// 	!bundles.includes(bundles[params.bundle]) &&
+	// 	!isTrialSession
+	// )
+	// 	throw new Error("Invalid bundle");
 
-	// Check if SVS session type and bundle are both selected
-	if (params.service === 2 && params.bundle !== undefined)
-		throw new Error("Cannot select bundle for SVS Session");
+	// // Check if SVS session type and bundle are both selected
+	// if (params.service === 2 && params.bundle !== undefined)
+	// 	throw new Error("Cannot select bundle for SVS Session");
 
-	// if is a bundle purchase, add the bundle to the line items if not a trial session
-	if (params.bundle !== undefined && !isTrialSession)
-		lineItems.push(bundles[params.bundle].priceID[stripeMode]);
-	// If not a bundle purchase, add lesson downpayment to line items
-	// if SVS Session, add the downpayment for SVS Session
-	else if (params.service === 2) lineItems.push(Prices[0].priceID[stripeMode]);
-	// if not SVS Session, add the regular downpayment if not a trial session
-	else !isTrialSession ? lineItems.push(Prices[1].priceID[stripeMode]) : null;
+	// // if is a bundle purchase, add the bundle to the line items if not a trial session
+	// if (params.bundle !== undefined && !isTrialSession)
+	// 	lineItems.push(bundles[params.bundle].priceID[stripeMode]);
+	// // If not a bundle purchase, add lesson downpayment to line items
+	// // if SVS Session, add the downpayment for SVS Session
+	// else if (params.service === 2) lineItems.push(Prices[0].priceID[stripeMode]);
+	// // if not SVS Session, add the regular downpayment if not a trial session
+	// else !isTrialSession ? lineItems.push(Prices[1].priceID[stripeMode]) : null;
 
-	// If location is Open Jar and a bundle, add the Open Jar booking fee
-	if (params.location === 1 && params.bundle !== undefined && !isTrialSession)
-		lineItems.push(Prices[2].priceID[stripeMode]);
+	// // If location is Open Jar and a bundle, add the Open Jar booking fee
+	// if (params.location === 1 && params.bundle !== undefined && !isTrialSession)
+	// 	lineItems.push(Prices[2].priceID[stripeMode]);
 
 	// Create success url
 	const successURL: URL = new URL(`${params.origin}/bookings/success`);
@@ -147,7 +147,7 @@ const createCheckoutSession = async (
 
 			if (customerSearch.data.length > 0) {
 				// If user is previous client, use that customer id for checkout session
-				sessionTemplate.customer = customerSearch.data[0].id;
+				sessionTemplate.customer = customerSearch.data[0]?.id;
 				sessionTemplate.customer_update = {
 					address: "auto",
 				};
@@ -185,8 +185,6 @@ const createCheckoutSession = async (
 	throw new Error("Unknown error");
 };
 
-export { createCheckoutSession };
-
 const POSTCheckoutBody = z.object({
 	service: z.coerce.number(),
 	location: z.coerce.number(),
@@ -196,9 +194,9 @@ const POSTCheckoutBody = z.object({
 	isLonger: z.boolean().optional(),
 });
 
-export const POST = async (req: NextApiRequest) => {
+export const POST = async (req: NextRequest) => {
 	const data = POSTCheckoutBody.parse(req.body);
-	const origin = z.string().parse(req.headers.origin);
+	const origin = z.string().parse(req.headers.get("origin"));
 	try {
 		// Create checkout session
 		const session = await createCheckoutSession({ ...data, origin });

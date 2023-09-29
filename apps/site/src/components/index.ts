@@ -15,7 +15,6 @@ export * from "./Showreel";
 export * from "./SocialBar";
 export * from "./Bookings/AboutStudio";
 export * from "./Bookings/Bio";
-export * from "./Bookings/BundleModal";
 export * from "./Bookings/Bundles";
 export * from "./Bookings/ConsultationSession";
 export * from "./Bookings/IndividualSession";

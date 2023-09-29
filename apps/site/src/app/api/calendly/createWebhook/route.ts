@@ -6,7 +6,7 @@ import type {
 	CalendlyWebhook,
 } from "@bpvs/types";
 import { dev } from "@bpvs/types";
-import type { NextApiRequest } from "next";
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
@@ -75,9 +75,7 @@ const createWebhook = async (url: string): Promise<CalendlyWebhook> => {
 	return createWebhookRes.data.resource;
 };
 
-export { createWebhook };
-
-export const POST = async (req: NextApiRequest) => {
+export const POST = async (req: NextRequest) => {
 	const url = z
 		.object({
 			url: z.string().url(),

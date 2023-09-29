@@ -1,6 +1,6 @@
 import { sendSingleBookingEmail } from "@bpvs/emails-temp";
 import { singleEmailSchema } from "@bpvs/validation";
-import type { NextApiRequest } from "next";
+import type { NextRequest } from "next/server";
 import { fromZodError } from "zod-validation-error";
 
 // Example of data for email template:
@@ -22,7 +22,7 @@ import { fromZodError } from "zod-validation-error";
  * @returns - The response from SendGrid
  */
 
-export const POST = async (req: NextApiRequest) => {
+export const POST = async (req: NextRequest) => {
 	const data = singleEmailSchema.safeParse(req.body);
 
 	if (!data.success)

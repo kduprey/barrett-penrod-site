@@ -1,6 +1,6 @@
 import { sendGuestEmails } from "@bpvs/emails-temp";
 import { guestEmailsSchema } from "@bpvs/validation";
-import type { NextApiRequest } from "next";
+import type { NextRequest } from "next/server";
 import { fromZodError } from "zod-validation-error";
 
 // Template Data
@@ -21,7 +21,7 @@ import { fromZodError } from "zod-validation-error";
  * @returns The response from SendGrid
  */
 
-export const POST = async (req: NextApiRequest) => {
+export const POST = async (req: NextRequest) => {
 	const data = guestEmailsSchema.safeParse(req.body);
 
 	if (!data.success)

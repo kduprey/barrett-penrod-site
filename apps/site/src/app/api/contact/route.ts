@@ -1,6 +1,6 @@
 import type { contacts } from "@bpvs/db";
 import { prisma } from "@bpvs/db";
-import type { NextApiHandler, NextApiRequest } from "next/types";
+import type { NextRequest } from "next/server";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 
@@ -35,9 +35,7 @@ const contact = async (data: ContactFormBody): Promise<contacts> => {
 	}
 };
 
-export { contact };
-
-export const POST: NextApiHandler<contacts> = async (req: NextApiRequest) => {
+export const POST = async (req: NextRequest) => {
 	const data = ContactFormBodySchema.safeParse(req.body);
 	if (!data.success) {
 		return new Response(fromZodError(data.error).message, { status: 400 });

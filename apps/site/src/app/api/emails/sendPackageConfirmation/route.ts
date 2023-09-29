@@ -1,6 +1,6 @@
 import { sendPackageConfirmationEmail } from "@bpvs/emails-temp";
 import { packageConfirmationEmailSchema } from "@bpvs/validation";
-import type { NextApiRequest } from "next";
+import type { NextRequest } from "next/server";
 import { fromZodError } from "zod-validation-error";
 
 // Example of email template data:
@@ -24,7 +24,7 @@ import { fromZodError } from "zod-validation-error";
  * @returns - The response from SendGrid
  */
 
-export const POST = async (req: NextApiRequest) => {
+export const POST = async (req: NextRequest) => {
 	const data = packageConfirmationEmailSchema.safeParse(req.body);
 
 	if (!data.success)

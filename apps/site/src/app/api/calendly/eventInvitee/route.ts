@@ -1,16 +1,16 @@
 import { trytm } from "@bdsqqq/try";
 import { getCalendlyInvitee } from "@bpvs/utils";
-import type { NextApiHandler, NextApiRequest } from "next";
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 
-export const GET: NextApiHandler = async (req: NextApiRequest) => {
+export const GET = async (req: NextRequest) => {
 	const result = z
 		.object({
 			uri: z.string(),
 		})
-		.safeParse(req.query);
+		.safeParse(req.nextUrl.searchParams);
 
 	if (!result.success)
 		return new NextResponse(fromZodError(result.error).message, {

@@ -1,10 +1,10 @@
 import { cancelCalendlyEvent } from "@bpvs/utils";
-import type { NextApiRequest } from "next";
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 
-export const POST = async (req: NextApiRequest): Promise<NextResponse> => {
+export const POST = async (req: NextRequest): Promise<NextResponse> => {
 	const uri = z
 		.object({
 			uri: z.string().url(),

@@ -2,21 +2,19 @@ import crypto from "node:crypto";
 import type { calendlyInviteePayloads } from "@bpvs/db";
 import { prisma } from "@bpvs/db";
 import { getCalendlyEvent } from "@bpvs/utils";
-import type { NextApiRequest } from "next";
 import { z } from "zod";
 import { calendlyPayloadDataSchema } from "@bpvs/validation";
 import { trytm } from "@bdsqqq/try";
 import { fromZodError } from "zod-validation-error";
+import type { NextRequest } from "next/server";
 import { consultationHandler } from "@/lib";
 
-export const POST = async (req: NextApiRequest) => {
+export const POST = async (req: NextRequest) => {
 	const webhookSigningKey = process.env.CALENDLY_WEBHOOK_SIGNING_KEY;
 
 	// Extract the timestamp and signature from the header
 	try {
-		const calendlySignature = req.headers[
-			"calendly-webhook-signature"
-		] as string;
+		const calendlySignature = req.headers.get("calendly-webhook-signature");
 		if (!calendlySignature) throw new Error("No Signature");
 		const { t, signature } = calendlySignature.split(",").reduce(
 			(acc, currentValue) => {

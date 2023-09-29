@@ -432,9 +432,6 @@ importers:
       '@bpvs/db':
         specifier: workspace:*
         version: link:../db
-      '@bpvs/emails-temp':
-        specifier: workspace:*
-        version: link:../emails-temp
       axios:
         specifier: ^1.5.1
         version: 1.5.1

@@ -9,7 +9,6 @@
 		"@bdsqqq/try": "^2.3.1",
 		"@bpvs/config": "workspace:*",
 		"@bpvs/db": "workspace:*",
-		"@bpvs/emails-temp": "workspace:*",
 		"axios": "^1.5.1",
 		"http-errors": "^2.0.0",
 		"next": "^13.5.3",

@@ -30,9 +30,9 @@
 		"barrelsby": "^2.8.1",
 		"eslint": "^8.50.0",
 		"prettier": "^3.0.3",
-		"prettier-plugin-packagejson": "^2.4.5",
+		"prettier-plugin-packagejson": "^2.4.6",
 		"tsconfig": "workspace:*",
 		"typescript": "^5.2.2"
 	},
-	"packageManager": "npm@9.7.1"
+	"packageManager": "pnpm@8.8.0"
 }

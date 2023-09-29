@@ -1,17 +1,17 @@
 {
-  "name": "@bpvs/emails-temp",
-  "version": "0.0.1",
-  "private": true,
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
-  "scripts": {
-    "build": "tsup"
-  },
-  "tsup": {
-    "entry": [
-      "src/index.ts"
-    ],
-    "clean": true,
-    "outDir": "../../dist/packages/types"
-  }
+	"name": "@bpvs/emails-temp",
+	"version": "0.0.1",
+	"private": true,
+	"main": "./src/index.ts",
+	"prettier": "@bpvs/style-guide/prettier",
+	"dependencies": {
+		"@sendgrid/mail": "^7.7.0",
+		"stripe": "^13.8.0"
+	},
+	"devDependencies": {
+		"@bpvs/style-guide": "workspace:*",
+		"@bpvs/types": "workspace:*",
+		"@bpvs/utils": "workspace:*",
+		"tsconfig": "workspace:*"
+	}
 }

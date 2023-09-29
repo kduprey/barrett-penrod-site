@@ -1,4 +1,4 @@
-import { PackageType, SessionLocation, SessionType } from "../events";
+import type { PackageType, SessionLocation, SessionType } from "../events";
 
 export interface Contact {
 	email: string;

@@ -1,4 +1,8 @@
-export const theater = [
+export const theater: {
+	"Show Name": string;
+	Role: string;
+	"Theater Company": string;
+}[] = [
 	{
 		"Show Name": "Slow Jam",
 		Role: "Jaimie",
@@ -61,7 +65,11 @@ export const theater = [
 	},
 ];
 
-export const eduTheatre = [
+export const eduTheatre: {
+	"Show Name": string;
+	Role: string;
+	"Theater Company": string;
+}[] = [
 	{
 		"Show Name": "Speed Dating",
 		Role: "Soloist ",
@@ -94,7 +102,16 @@ export const eduTheatre = [
 	},
 ];
 
-export const training = {
+export const training: {
+	Cornish: {
+		Skill: string;
+		Instructor: string;
+	}[];
+	NYU: {
+		Skill: string;
+		Instructor: string;
+	}[];
+} = {
 	Cornish: [
 		{
 			Skill: "Voice (Singing)",
@@ -149,7 +166,12 @@ export const training = {
 export const specialSkills =
 	"Large tenor voice with strong middle and lower voice (can and have played baritone roles). Advanced Part Singing. Sight Reading. Drag Performer. Dialects (IPA Trained). Singing Voice Specialist. Fitness Enthusiast. Visual Artist. Carol Channing Impression. SVS and Directing resumes available on request.";
 
-export const stats = {
+export interface Stats {
+	"Voice Range": string;
+	height: string;
+}
+
+export const stats: Stats = {
 	"Voice Range": "Tenor - A2 - D5 Chest/Mix, - G5 Head",
 	height: "6 feet",
 };

@@ -1,4 +1,4 @@
-import { InPersonLocation, ZoomLocation } from "@bpvs/types";
+import type { InPersonLocation, ZoomLocation } from "@bpvs/types";
 import { zoomLocationSchema } from "./validation";
 
 export const isZoomLocation = (

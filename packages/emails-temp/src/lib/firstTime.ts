@@ -1,14 +1,15 @@
-import { dev, FirstTimeEmail } from "@bpvs/types";
-import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
+import type { FirstTimeEmail } from "@bpvs/types";
+import { dev } from "@bpvs/types";
+import type { ClientResponse, MailDataRequired } from "@sendgrid/mail";
 import { sendgrid } from "./sendgrid";
 
 /**
  * This endpoint is used to send a first time email to a client after booking a session.
- * @param email The email address of the client
- * @param name The name of the client
- * @param bookingDate The date of the event
- * @param bookingName The name of the booking
- * @param zoomLink The zoom link for the event
+ * @param email - The email address of the client
+ * @param name - The name of the client
+ * @param bookingDate - The date of the event
+ * @param bookingName - The name of the booking
+ * @param zoomLink - The zoom link for the event
  * @returns The response from SendGrid
  */
 
@@ -59,10 +60,10 @@ export const sendFirstTimeEmail = async ({
 	};
 
 	try {
-		console.log("Sending first time email...");
+		console.info("Sending first time email...");
 
 		const response = await sendgrid.send(message);
-		console.log("Email sent!");
+		console.info("Email sent!");
 
 		return response[0];
 	} catch (error: unknown) {

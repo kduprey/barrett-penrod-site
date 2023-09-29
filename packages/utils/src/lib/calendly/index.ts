@@ -1,9 +1,9 @@
 export { cancelCalendlyEvent } from "./cancelCalendlyEvent";
 export {
-  checkForClient,
-  createClient,
-  createStripeCustomer,
-  updateClient,
+	checkForClient,
+	createClient,
+	createStripeCustomer,
+	updateClient,
 } from "./consultationHelpers";
 export { getCalendlyEvent } from "./getCalendlyEvent";
 export { getCalendlyEventZoomLink } from "./getCalendlyEventZoomLink";

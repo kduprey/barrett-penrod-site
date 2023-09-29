@@ -1,17 +1,18 @@
 {
-  "name": "@bpvs/types",
-  "version": "0.0.1",
-  "private": true,
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
-  "scripts": {
-    "build": "tsup"
-  },
-  "tsup": {
-    "entry": [
-      "src/index.ts"
-    ],
-    "clean": true,
-    "outDir": "../../dist/packages/types"
-  }
+	"name": "@bpvs/types",
+	"version": "0.0.1",
+	"private": true,
+	"main": "src/index.ts",
+	"prettier": "@bpvs/style-guide/prettier",
+	"dependencies": {
+		"stripe": "^13.8.0",
+		"zod": "^3.22.2"
+	},
+	"devDependencies": {
+		"@bpvs/style-guide": "workspace:*",
+		"@types/node": "^20.7.1",
+		"@types/react": "^18.2.23",
+		"@types/react-dom": "^18.2.8",
+		"tsconfig": "workspace:*"
+	}
 }

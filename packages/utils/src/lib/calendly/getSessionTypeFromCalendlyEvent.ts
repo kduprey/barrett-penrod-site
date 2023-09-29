@@ -1,4 +1,5 @@
-import { CalendlyEvent, SessionType, SessionTypeEnum } from "@bpvs/types";
+import type { CalendlyEvent, SessionType } from "@bpvs/types";
+import { SessionTypeEnum } from "@bpvs/types";
 
 export const getSessionTypeFromCalendlyEvent = (
 	bookingName: CalendlyEvent

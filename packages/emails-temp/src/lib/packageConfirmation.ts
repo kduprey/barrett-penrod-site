@@ -1,5 +1,6 @@
-import { dev, PackageConfirmationEmail } from "@bpvs/types";
-import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
+import type { PackageConfirmationEmail } from "@bpvs/types";
+import { dev } from "@bpvs/types";
+import type { ClientResponse, MailDataRequired } from "@sendgrid/mail";
 import { sendgrid } from "./sendgrid";
 
 /**
@@ -62,14 +63,14 @@ export const sendPackageConfirmationEmail = async ({
 	};
 
 	try {
-		console.log("Sending package confirmation email...");
+		console.info("Sending package confirmation email...");
 
 		const response = await sendgrid.send(message);
-		console.log("Package confirmation email sent!");
+		console.info("Package confirmation email sent!");
 
 		return response[0];
 	} catch (error: unknown) {
-		console.log(error);
+		console.info(error);
 		if (error instanceof Error)
 			throw new Error(`Error sending email: ${error.message}`);
 

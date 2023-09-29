@@ -1,4 +1,4 @@
-import Stripe from "stripe";
+import type Stripe from "stripe";
 
 export const getNumLessonsFromLineItems = (
 	lineItems: Stripe.LineItem[]
@@ -7,8 +7,8 @@ export const getNumLessonsFromLineItems = (
 	const downpaymentRegex = new RegExp(/downpayment$/i);
 
 	const numLessons = lineItems.reduce((acc, item) => {
-		const num = Number(item.description.match(digitRegex)?.[0]);
-		const numDownpayments = item.description.match(downpaymentRegex) ? 1 : 0;
+		const num = Number(digitRegex.exec(item.description)?.[0]);
+		const numDownpayments = downpaymentRegex.exec(item.description) ? 1 : 0;
 
 		return acc + num + numDownpayments;
 	}, 0);

@@ -1,5 +1,6 @@
-import { PackageType, PackageTypeEnum } from "@bpvs/types";
-import Stripe from "stripe";
+import type { PackageType } from "@bpvs/types";
+import { PackageTypeEnum } from "@bpvs/types";
+import type Stripe from "stripe";
 
 // const tempLineItems: Stripe.LineItem[] = [
 // 	{

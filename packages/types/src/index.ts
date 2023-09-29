@@ -1,5 +1,5 @@
 export * from "./lib";
-export const dev = process.env["VERCEL_ENV"] !== "production";
+export const dev = process.env.VERCEL_ENV !== "production";
 export interface Page {
 	name: string;
 	id: string;

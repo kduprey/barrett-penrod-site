@@ -1,11 +1,30 @@
 {
-  "name": "admin",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  }
+	"name": "@bpvs/admin",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"build": "next build",
+		"dev": "next dev",
+		"lint": "next lint",
+		"start": "next start"
+	},
+	"prettier": "@bpvs/style-guide/prettier",
+	"dependencies": {
+		"@clerk/nextjs": "^4.24.2",
+		"next": "^13.5.3",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
+	},
+	"devDependencies": {
+		"@bpvs/style-guide": "workspace:*",
+		"@next/eslint-plugin-next": "^13.5.3",
+		"@types/node": "^20.7.1",
+		"@types/react": "^18.2.23",
+		"@types/react-dom": "^18.2.8",
+		"@typescript-eslint/eslint-plugin": "^6.7.3",
+		"@typescript-eslint/parser": "^6.7.3",
+		"prettier-plugin-tailwindcss": "^0.5.4",
+		"tsconfig": "workspace:*",
+		"typescript": "^5.2.2"
+	}
 }

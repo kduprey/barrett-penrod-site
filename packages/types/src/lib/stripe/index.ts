@@ -1,5 +1,5 @@
-import Stripe from "stripe";
-import { PackageType } from "../events/bundles";
+import type Stripe from "stripe";
+import type { PackageType } from "../events/bundles";
 
 export interface LessonBundle {
 	amtSessions: number;
@@ -14,8 +14,5 @@ export interface LessonBundle {
 
 export interface Price {
 	name: "SVS Session" | "Regular Session" | "Open Jar Booking Fee";
-	priceID: {
-		live: Stripe.Checkout.SessionCreateParams.LineItem;
-		test: Stripe.Checkout.SessionCreateParams.LineItem;
-	};
+	priceID: Stripe.Checkout.SessionCreateParams.LineItem;
 }

@@ -20,10 +20,6 @@ export const checkoutSessionCompleted: Stripe.Checkout.Session = {
 	created: 1676690096,
 	currency: "usd",
 	custom_fields: [],
-	custom_text: {
-		shipping_address: null,
-		submit: null,
-	},
 	customer: "cus_NNRmKpeWKc8i07",
 	customer_creation: "always",
 	customer_details: {
@@ -93,6 +89,11 @@ export const checkoutSessionCompleted: Stripe.Checkout.Session = {
 	},
 	url: null,
 	currency_conversion: null,
+	custom_text: {
+		shipping_address: null,
+		submit: null,
+		terms_of_service_acceptance: null,
+	},
 };
 
 export const lineItems: Stripe.LineItem[] = [

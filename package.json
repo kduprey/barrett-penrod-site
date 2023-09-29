@@ -76,7 +76,7 @@
     "react-dom": "18.2.0",
     "react-scroll": "^1.8.9",
     "sanity": "^3.16.2",
-    "sharp": "^0.32.4",
+    "sharp": "^0.32.6",
     "stripe": "^13.3.0",
     "styled-components": "^5.3.11",
     "zod": "^3.21.4"

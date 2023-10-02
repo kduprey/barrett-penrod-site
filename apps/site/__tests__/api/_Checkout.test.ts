@@ -35,7 +35,7 @@ describe("Checkout should", () => {
     expect(
       sessionData.amount_total,
       "Checking for accurate downpayment amount",
-    ).toBe(3000);
+    ).toBe(6000);
 
     await stripe.checkout.sessions.expire(session.id as string);
   });
@@ -123,7 +123,7 @@ describe("Checkout should", () => {
     expect(
       sessionData.amount_total,
       "Checking for accurate downpayment amount",
-    ).toBe(4000);
+    ).toBe(6000);
   });
 
   it("create a successful checkout session with a lesson downpayment", async () => {
@@ -149,7 +149,7 @@ describe("Checkout should", () => {
     expect(
       sessionData.amount_total,
       "Checking for accurate downpayment amount",
-    ).toBe(3000);
+    ).toBe(8600);
 
     await stripe.checkout.sessions.expire(session.id as string);
   });
@@ -177,7 +177,7 @@ describe("Checkout should", () => {
     expect(
       sessionData.amount_total,
       "Checking for accurate downpayment amount",
-    ).toBe(4000);
+    ).toBe(8600);
 
     await stripe.checkout.sessions.expire(session.id as string);
   });
@@ -204,7 +204,7 @@ describe("Checkout should", () => {
     );
 
     expect(sessionData.amount_total, "Checking for accurate bundle total").toBe(
-      30500,
+      44600,
     );
 
     await stripe.checkout.sessions.expire(session.id as string);
@@ -275,7 +275,7 @@ describe("Checkout should", () => {
       session.id as string,
     );
 
-    expect(sessionData.amount_total).toBe(3000);
+    expect(sessionData.amount_total).toBe(8600);
 
     await stripe.checkout.sessions.expire(session.id as string);
   });
@@ -310,7 +310,7 @@ describe("Checkout should", () => {
       session.id as string,
     );
 
-    expect(sessionData.amount_total).toBe(4000);
+    expect(sessionData.amount_total).toBe(8600);
 
     await stripe.checkout.sessions.expire(session.id as string);
   });

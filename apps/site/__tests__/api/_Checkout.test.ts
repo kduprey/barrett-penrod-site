@@ -149,7 +149,7 @@ describe("Checkout should", () => {
     expect(
       sessionData.amount_total,
       "Checking for accurate downpayment amount",
-    ).toBe(8600);
+    ).toBe(6000);
 
     await stripe.checkout.sessions.expire(session.id as string);
   });
@@ -177,7 +177,7 @@ describe("Checkout should", () => {
     expect(
       sessionData.amount_total,
       "Checking for accurate downpayment amount",
-    ).toBe(8600);
+    ).toBe(6000);
 
     await stripe.checkout.sessions.expire(session.id as string);
   });
@@ -275,7 +275,7 @@ describe("Checkout should", () => {
       session.id as string,
     );
 
-    expect(sessionData.amount_total).toBe(8600);
+    expect(sessionData.amount_total).toBe(6000);
 
     await stripe.checkout.sessions.expire(session.id as string);
   });
@@ -310,7 +310,7 @@ describe("Checkout should", () => {
       session.id as string,
     );
 
-    expect(sessionData.amount_total).toBe(8600);
+    expect(sessionData.amount_total).toBe(6000);
 
     await stripe.checkout.sessions.expire(session.id as string);
   });

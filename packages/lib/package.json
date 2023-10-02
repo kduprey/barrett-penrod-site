@@ -1,0 +1,22 @@
+{
+	"name": "@bpvs/lib",
+	"version": "0.0.1",
+	"private": true,
+	"main": "./src/index.ts",
+	"prettier": "@bpvs/style-guide/prettier",
+	"dependencies": {
+		"@bpvs/db": "workspace:*",
+		"@bpvs/validation": "workspace:*",
+		"axios": "^1.5.1",
+		"googleapis": "^126.0.1",
+		"graphql-request": "^6.1.0",
+		"tslog": "^4.9.2",
+		"zod": "^3.22.2"
+	},
+	"devDependencies": {
+		"@bpvs/style-guide": "workspace:*",
+		"@bpvs/types": "workspace:*",
+		"@types/node": "^20.8.0",
+		"tsconfig": "workspace:*"
+	}
+}

@@ -1,0 +1,8 @@
+{
+	"baseurl": ".",
+	"delete": true,
+	"directory": ["./src/components"],
+	"noHeader": true,
+	"include": ".tsx",
+	"exclude": [".test.tsx", ".story.tsx", ".css"]
+}

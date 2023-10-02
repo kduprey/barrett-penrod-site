@@ -12,8 +12,7 @@
 		"**/*.ts",
 		"**/*.tsx",
 		".next/types/**/*.ts",
-		"./.eslintrc.js",
-		"./next.config.js"
+		"../../packages/lib/src/calendar/calendarService.ts"
 	],
 	"exclude": ["node_modules"]
 }

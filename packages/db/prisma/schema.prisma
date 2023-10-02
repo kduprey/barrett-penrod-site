@@ -3,190 +3,423 @@ generator client {
 }
 
 datasource db {
-    provider = "mongodb"
+    provider = "postgresql"
     url      = env("DATABASE_URL")
 }
 
-model contacts {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+model ContactSubmission {
+    id        String   @id @default(uuid())
     email     String   @unique
     name      String
     message   String
-    timestamp DateTime @default(now()) @db.Date
+    timestamp DateTime @default(now())
+
+    @@map("contact_submissions")
 }
 
-model qr_code_logs {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+model QrScan {
+    id        String   @id @default(uuid())
     flyerSize Int
     campaign  Int
     designId  Int
     location  Int
-    timestamp DateTime @db.Date
+    timestamp DateTime @default(now())
+
+    @@map("qr_scans")
 }
 
-model calendlyInviteePayloads {
-    id                      String                                               @id @default(auto()) @map("_id") @db.ObjectId
-    cancel_url              String
-    cancellation            CalendlyInviteePayloadsResourceCancellation?
-    created_at              DateTime                                             @db.Date
-    email                   String
-    event                   String
-    first_name              String?
-    last_name               String?
-    name                    String
-    new_invitee             String?
-    no_show                 NoShow?
-    old_invitee             String?
-    payment                 Payment?
-    questions_and_answers   CalendlyInviteePayloadsResourceQuestionsAndAnswers[]
-    reconfirmation          Reconfirmation?
-    reschedule_url          String
-    rescheduled             Boolean
-    routing_form_submission String?
-    status                  String
-    text_reminder_number    String?
-    timezone                String?
-    tracking                CalendlyInviteePayloadsResourceTracking
-    updated_at              DateTime                                             @db.Date
-    uri                     String                                               @unique
-    client                  clients?                                             @relation(fields: [clientId], references: [id])
-    clientId                String?                                              @db.ObjectId
-    scheduled_event         ScheduledEvent?
+model CalendlyEventUpdate {
+    id               Int                          @id @default(autoincrement())
+    createdAt        DateTime                     @default(now())
+    cancelUrl        String
+    email            String
+    event            String
+    firstName        String?
+    lastName         String?
+    name             String
+    newInvitee       String?
+    rescheduleUrl    String
+    rescheduled      Boolean
+    status           Status
+    timezone         String
+    uri              String                       @unique
+    clientId         Int?                         @unique
+    client           Client?                      @relation(fields: [clientId], references: [id])
+    updatedAt        DateTime
+    scheduledEventId Int?                         @unique
+    scheduledEvent   CalendlyEventScheduledEvent? @relation(fields: [scheduledEventId], references: [id])
+    cancellationId   Int?                         @unique
+    cancellation     CalendlyEventCancellation?   @relation(fields: [cancellationId], references: [id])
+
+    @@map("calendly_event_updates")
 }
 
-model clients {
-    id                    String                    @id @default(auto()) @map("_id") @db.ObjectId
-    activeMember          Boolean
-    archived              Boolean                   @default(false)
-    email                 String                    @unique
-    dateJoined            DateTime                  @default("2001-01-01T00:00:00-05:00") @db.Date
-    firstLesson           DateTime?                 @db.Date
-    lastLesson            DateTime?                 @db.Date
-    nextLesson            DateTime?                 @db.Date
-    lessonsRemaining      Int                       @default(0)
-    name                  String                    @unique
-    notes                 String?
-    preferredLessonFormat String?
-    pronouns              String?
-    refundedVolume        Int                       @default(0)
-    totalLessons          Int                       @default(0)
-    totalSpend            Float                     @default(0)
-    stripe_customer_id    String?                   @unique
-    bookings              calendlyInviteePayloads[]
+model CalendlyEventScheduledEvent {
+    id                               Int                                 @id @default(autoincrement())
+    createdAt                        DateTime                            @default(now())
+    eventType                        String
+    name                             String
+    startTime                        DateTime
+    updatedAt                        DateTime
+    uri                              String                              @unique
+    status                           Status
+    locationId                       Int                                 @unique
+    location                         CalendlyEventScheduledEventLocation @relation(fields: [locationId], references: [id])
+    calendlyEventUpdate              CalendlyEventUpdate?
+    calendlyEventQuestionsAndAnswers CalendlyEventQuestionResponse?
+
+    @@map("calendly_event_scheduled_events")
 }
 
-type ScheduledEvent {
-    uri               String
-    name              String?
-    status            String
-    start_time        DateTime                             @db.Date
-    end_time          DateTime                             @db.Date
-    event_type        String
-    location          Location
-    invitees_counter  InviteesCounter
-    created_at        DateTime                             @db.Date
-    updated_at        DateTime                             @db.Date
-    event_memberships EventMemberships[]
-    event_guests      EventGuests[]
-    cancellation      CalendlyInviteePayloadsCancellation?
+model CalendlyEventScheduledEventLocation {
+    id                          Int                          @id @default(autoincrement())
+    createdAt                   DateTime
+    joinUrl                     String
+    status                      String?
+    type                        CalendlyLocationType
+    location                    String?
+    calendlyEventScheduledEvent CalendlyEventScheduledEvent?
+
+    @@map("calendly_event_scheduled_event_locations")
 }
 
-type Location {
-    type     String
-    location String?
-    status   String?
-    join_url String?
-    data     ZoomLocationData?
+model CalendlyEventCancellation {
+    id                   Int                  @id @default(autoincrement())
+    createdAt            DateTime             @default(now())
+    canceledBy           String
+    cancelerType         CalendlyCancelerType
+    reason               String?
+    calendlyEventUpdates CalendlyEventUpdate?
+
+    @@map("calendly_event_cancellations")
 }
 
-type ZoomLocationData {
-    id       Int?
-    settings ZoomLocationSettings?
-    extra    ZoomLocationDataExtra?
-    password String?
+model CalendlyEventQuestionResponse {
+    id              Int                         @id @default(autoincrement())
+    createdAt       DateTime                    @default(now())
+    answer          String
+    question        String
+    calendlyEventId Int                         @unique
+    calendlyEvent   CalendlyEventScheduledEvent @relation(fields: [calendlyEventId], references: [id])
+
+    @@map("calendly_event_question_responses")
 }
 
-type ZoomLocationDataExtra {
-    intl_numbers_url String?
+enum CalendlyLocationType {
+    zoom
+    physical
+
+    @@map("CalendlyLocationType")
 }
 
-type ZoomLocationSettings {
-    global_dial_in_numbers ZoomLocationGlobalDialInNumbers[]
+enum Status {
+    active
+    canceled
+
+    @@map("Status")
 }
 
-type ZoomLocationGlobalDialInNumbers {
-    country      String?
-    number       String?
-    type         String?
-    city         String?
-    country_name String?
+enum CalendlyCancelerType {
+    invitee
+    host
+
+    @@map("CalendlyCancelerType")
 }
 
-type EventGuests {
-    email      String
-    updated_at DateTime @db.Date
-    created_at DateTime @db.Date
+model Client {
+    id                   Int                  @id @default(autoincrement())
+    createdAt            DateTime             @default(now())
+    activeMember         Boolean
+    archived             Boolean              @default(false)
+    email                String               @unique
+    firstSession         DateTime?
+    lastSession          DateTime?
+    nextSession          DateTime?
+    sessionsRemaining    Int                  @default(0)
+    name                 String               @unique
+    notes                String?
+    preferredSessionType String?
+    pronouns             String?
+    refundedVolume       Int                  @default(0)
+    totalSessions        Int                  @default(0)
+    totalSpend           Float                @default(0)
+    stripeCustomerId     String?              @unique
+    authId               String?              @unique
+    calendlyEventUpdates CalendlyEventUpdate?
+    Attendee             Attendee[]
+
+    @@index([email])
+    @@index([name])
+    @@index([authId])
+    @@index([stripeCustomerId])
+    @@map("clients")
 }
 
-type EventMemberships {
-    user       String
-    user_email String?
+// This is the user of the calendar, not the user of the app - aka frontend users who book events
+model CalendarOwner {
+    // user_id is the clerk auth id - use this to get the user info
+    id                String             @id
+    createdAt         DateTime           @default(now())
+    updatedAt         DateTime           @updatedAt
+    connectedCalendar ConnectedCalendar?
+    eventTypes        EventType[] // User-created events
+    events            Event[] // Event bookings made by users on the frontend
+    schedule          Schedule[]
+    availability      Availability[]
+    webhooks          Webhook[]
+
+    calendarConnection CalendarConnection[]
+    reccurring         EventRecurrence[]
+
+    @@map("calendarOwners")
 }
 
-type InviteesCounter {
-    total  Int
-    active Int
-    limit  Int
+model ConnectedCalendar {
+    // calendar id from Google
+    id              String        @id
+    createdAt       DateTime      @default(now())
+    updatedAt       DateTime      @updatedAt
+    calendarOwner   CalendarOwner @relation(fields: [calendarOwnerId], references: [id])
+    calendarOwnerId String        @unique
+
+    @@index([calendarOwnerId])
+    @@map("connected_calendars")
 }
 
-type CalendlyInviteePayloadsCancellation {
-    canceled_by   String
-    canceler_type String
-    reason        String
+// Event types are the types of events that can be booked by users
+
+model EventType {
+    id          Int           @id @default(autoincrement())
+    title       String
+    slug        String        @unique
+    description String?
+    duration    Int           @default(60) // Duration in minutes
+    padding     Int           @default(0) // Padding in minutes
+    locations   Location[] // locations where the event is held
+    is_hidden   Boolean       @default(false) // Whether the event is hidden from the public 
+    capacity    Int // Maximum attendees
+    createdBy   CalendarOwner @relation(fields: [createdById], references: [id])
+    createdById String // Foreign key to User 
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime      @updatedAt
+    event       Event[]
+    webhooks    Webhook[]
+    schedule    Schedule      @relation(fields: [scheduleId], references: [id])
+    scheduleId  Int           @unique
+
+    @@index([scheduleId])
+    @@index([slug])
+    @@index([createdById])
+    @@map("eventTypes")
 }
 
-type CalendlyInviteePayloadsQuestionsAndAnswers {
-    answer   String
-    position Int
-    question String
+// Schedule is a set of availability blocks to be used for an event type
+model Schedule {
+    id              Int            @id @default(autoincrement())
+    name            String
+    timezone        String
+    availability    Availability[]
+    createdAt       DateTime       @default(now())
+    updatedAt       DateTime       @updatedAt
+    calendarOwner   CalendarOwner  @relation(fields: [calendarOwnerId], references: [id])
+    calendarOwnerId String
+    eventType       EventType?
+
+    @@index([calendarOwnerId])
+    @@map("schedules")
 }
 
-type Reconfirmation {
-    created_at   DateTime @db.Date
-    confirmed_at DateTime @db.Date
+// Availability is blocks of time that are available for booking
+model Availability {
+    id              Int           @id @default(autoincrement())
+    daysOfWeek      Int[] // 0 = Sunday, 1 = Monday, etc.
+    startTime       DateTime
+    endTime         DateTime
+    createdAt       DateTime      @default(now())
+    updatedAt       DateTime      @updatedAt
+    calendarOwner   CalendarOwner @relation(fields: [calendarOwnerId], references: [id])
+    calendarOwnerId String
+    schedule        Schedule      @relation(fields: [scheduleId], references: [id])
+    scheduleId      Int
+
+    @@index([calendarOwnerId])
+    @@index([scheduleId])
+    @@map("availabilities")
 }
 
-type Payment {
-    external_id String
-    provider    String
-    amount      Float
-    currency    String
-    terms       String
-    successful  Boolean
+model Location {
+    id                      Int          @id @default(autoincrement())
+    type                    LocationType
+    address                 Address?     @relation(fields: [addressId], references: [id])
+    addressId               Int? // Foreign key to address
+    link                    String?
+    displayLocationPublicly Boolean      @default(true)
+    hostPhoneNumber         String?
+    credentialId            String?
+    createdAt               DateTime     @default(now())
+    updatedAt               DateTime     @updatedAt
+    eventType               EventType[]
+    event                   Event[]
+
+    @@index([addressId])
+    @@index([credentialId])
+    @@index([type])
+    @@map("locations")
 }
 
-type NoShow {
-    uri        String
-    created_at DateTime @db.Date
+enum LocationType {
+    zoom
+    attendeeInPerson
+    hostInPerson
+    attendeePhoneNumber
+    hostPhoneNumber
+    otherLink
+
+    @@map("LOCATION_TYPE")
 }
 
-type CalendlyInviteePayloadsResourceCancellation {
-    canceled_by   String
-    canceler_type String
-    reason        String
+model Address {
+    id        Int        @id @default(autoincrement())
+    street    String
+    city      String
+    state     String
+    zip       String
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    location  Location[]
+
+    @@map("addresses")
 }
 
-type CalendlyInviteePayloadsResourceQuestionsAndAnswers {
-    answer   String?
-    position Int
-    question String
+model Event {
+    id                 Int              @id @default(autoincrement())
+    createdAt          DateTime         @default(now())
+    updatedAt          DateTime         @updatedAt
+    calendarOwner      CalendarOwner    @relation(fields: [calendarOwnerId], references: [id])
+    calendarOwnerId    String // Foreign key to User 
+    eventType          EventType        @relation(fields: [eventTypeId], references: [id])
+    eventTypeId        Int // Foreign key to Event 
+    location           Location         @relation(fields: [locationId], references: [id])
+    locationId         Int // Foreign key to Location 
+    startTime          DateTime
+    endTime            DateTime
+    attendees          Attendee[] // People who have booked this event
+    recurrance         EventRecurrence?
+    status             EventStatus      @default(ACCEPTED)
+    paid               Boolean          @default(false)
+    cancellationReason String?
+    rejectionReason    String?
+    rescheduled        Boolean          @default(false)
+
+    @@map("events")
 }
 
-type CalendlyInviteePayloadsResourceTracking {
-    salesforce_uuid String?
-    utm_campaign    String?
-    utm_content     String?
-    utm_medium      String?
-    utm_source      String?
-    utm_term        String?
+enum EventStatus {
+    PENDING   @map("pending")
+    ACCEPTED  @map("accepted")
+    CANCELLED @map("cancelled")
+    REJECTED  @map("rejected")
+
+    @@map("EVENT_STATUS")
+}
+
+// Attendee is an attendee of an event
+model Attendee {
+    id        Int      @id @default(autoincrement())
+    // possible client
+    client    Client?  @relation(fields: [clientId], references: [id])
+    clientId  Int? // Foreign key to Client @map("client_id")
+    // possible guest
+    guest     Guest?   @relation(fields: [guestId], references: [id])
+    guestId   Int?     @unique // Foreign key to Guest @map("guest_id")
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    event     Event    @relation(fields: [eventId], references: [id])
+    eventId   Int
+
+    @@map("attendees")
+}
+
+// guest is a person who is not a client
+model Guest {
+    id        Int       @id @default(autoincrement())
+    name      String
+    email     String
+    phone     String?
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    attendee  Attendee?
+
+    @@map("guests")
+}
+
+model EventRecurrence {
+    id              Int            @id @default(autoincrement())
+    event           Event          @relation(fields: [eventId], references: [id])
+    eventId         Int            @unique // Foreign key to Event 
+    daysOfWeek      Int[] // 0 = Sunday, 1 = Monday, etc.
+    repeatEvery     Int            @default(1) // Repeat every x weeks
+    repeatUntil     DateTime // Repeat until this date
+    createdAt       DateTime       @default(now())
+    updatedAt       DateTime       @updatedAt
+    calendarOwner   CalendarOwner? @relation(fields: [calendarOwnerId], references: [id])
+    calendarOwnerId String?
+
+    @@index([eventId, calendarOwnerId])
+    @@map("event_recurrences")
+}
+
+model CalendarConnection {
+    id              Int           @id @default(autoincrement())
+    calendarOwner   CalendarOwner @relation(fields: [calendarOwnerId], references: [id])
+    calendarOwnerId String // Foreign key to User @map("user_id")
+    createdAt       DateTime      @default(now())
+    updatedAt       DateTime      @updatedAt
+
+    @@index([calendarOwnerId])
+    @@map("calendar_connections")
+}
+
+model App {
+    slug      String    @id @unique
+    keys      Json?
+    createdAt DateTime  @default(now())
+    upated_at DateTime  @updatedAt
+    enabled   Boolean   @default(false)
+    webhooks  Webhook[]
+
+    @@index([enabled])
+    @@map("apps")
+}
+
+model Webhook {
+    id            Int                    @id @default(autoincrement())
+    user          CalendarOwner          @relation(fields: [user_id], references: [id])
+    user_id       String // Foreign key to User
+    eventType     EventType              @relation(fields: [eventTypeId], references: [id])
+    eventTypeId   Int // Foreign key to Event
+    subscribeUrl  String
+    secret        String
+    active        Boolean                @default(true)
+    eventTriggers WebhookTriggerEvents[]
+    app           App                    @relation(fields: [app_id], references: [slug])
+    app_id        String
+    createdAt     DateTime               @default(now())
+    updatedAt     DateTime               @updatedAt
+
+    @@index([user_id])
+    @@index([eventTypeId])
+    @@map("webhooks")
+}
+
+enum WebhookTriggerEvents {
+    BOOKING_CREATED
+    BOOKING_PAID
+    BOOKING_REscheduleD
+    BOOKING_REQUESTED
+    BOOKING_CANCELLED
+    BOOKING_REJECTED
+    FORM_SUBMITTED
+    MEETING_ENDED
+    RECORDING_READY
 }

@@ -3,17 +3,9 @@
 	"compilerOptions": {
 		"plugins": [{ "name": "next" }],
 		"baseUrl": ".",
-		"paths": { "@/*": ["src/*"] }
+		"paths": { "@/*": ["src/*"] },
+		"allowJs": true
 	},
-	"include": [
-		"next-env.d.ts",
-		"**/*.ts",
-		"**/*.tsx",
-		".next/types/**/*.ts",
-		"./.eslintrc.js",
-		"./next.config.js",
-		"./tailwind.config.js",
-		"./postcss.config.js"
-	],
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
 	"exclude": ["node_modules"]
 }

@@ -47,6 +47,7 @@ module.exports = {
 				pathGroups: [],
 			},
 		],
+		"@typescript-eslint/no-unsafe-assignment": "off",
 		"unicorn/filename-case": [
 			"error",
 			{

@@ -33,6 +33,22 @@ module.exports = {
 				},
 			},
 		],
+		"@typescript-eslint/no-confusing-void-expression": [
+			"error",
+			{
+				ignoreArrowShorthand: true,
+				ignoreVoidOperator: true,
+			},
+		],
+		"@typescript-eslint/naming-convention": [
+			"error",
+			{
+				selector: "enumMember",
+				format: ["UPPER_CASE"],
+			},
+		],
+		"@typescript-eslint/no-unsafe-assignment": "off",
+		"@typescript-eslint/no-unsafe-member-access": "off",
 		"no-console": "off",
 		"no-restricted-syntax": [
 			"error",

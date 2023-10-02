@@ -1,4 +1,4 @@
-version: '3.8'
+version: "latest"
 services:
   mongodb_container:
     # This image automatically creates a replica set required for transactions
@@ -18,6 +18,6 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:
-      - '5432:5432'
+      - "5433:5432"
 volumes:
   postgres:

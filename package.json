@@ -69,7 +69,7 @@
     "next": "^13.5.4",
     "next-axiom": "^1.0.0-rc.1",
     "next-connect": "^1.0.0",
-    "next-sanity": "^5.5.4",
+    "next-sanity": "^5.5.8",
     "raw-body": "^2.5.2",
     "react": "^18.2.0",
     "react-calendly": "^4.2.0",

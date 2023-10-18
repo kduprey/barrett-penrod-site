@@ -75,7 +75,7 @@
     "react-calendly": "^4.2.0",
     "react-dom": "18.2.0",
     "react-scroll": "^1.9.0",
-    "sanity": "^3.18.0",
+    "sanity": "^3.18.1",
     "sharp": "^0.32.4",
     "stripe": "^13.10.0",
     "styled-components": "^5.3.11",

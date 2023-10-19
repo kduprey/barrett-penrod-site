@@ -59,7 +59,7 @@
     "@tabler/icons-react": "^2.39.0",
     "@tiptap/extension-link": "^2.1.11",
     "@tiptap/react": "^2.1.12",
-    "@tiptap/starter-kit": "^2.1.11",
+    "@tiptap/starter-kit": "^2.1.12",
     "axios": "^1.4.0",
     "cookies-next": "^4.0.0",
     "dayjs": "^1.11.9",

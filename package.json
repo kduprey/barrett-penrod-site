@@ -72,7 +72,7 @@
     "next-sanity": "^5.5.8",
     "raw-body": "^2.5.2",
     "react": "^18.2.0",
-    "react-calendly": "^4.2.0",
+    "react-calendly": "^4.3.0",
     "react-dom": "18.2.0",
     "react-scroll": "^1.9.0",
     "sanity": "^3.18.1",

@@ -126,6 +126,37 @@ enum CalendlyCancelerType {
     @@map("CalendlyCancelerType")
 }
 
+model User {
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    role      Role
+    C2        C2?
+
+    @@map("users")
+}
+
+enum Role {
+    ADMIN
+    C1
+    C2
+
+    @@map("Role")
+}
+
+model C2 {
+    user      User     @relation(fields: [userId], references: [id])
+    userId    String   @id @unique
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    stripeId  String   @unique
+    // futureBookings is the number of bookings that can be made in the future
+    // allBookings is the number of bookings that a C2 has in the future and the past
+    // s3BucketUrl is the url to the s3 bucket where the C2's recordings are stored
+
+    @@map("c2s")
+}
+
 model Client {
     id                   Int                  @id @default(autoincrement())
     createdAt            DateTime             @default(now())

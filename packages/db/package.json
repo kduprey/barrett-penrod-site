@@ -13,16 +13,16 @@
 		"push": "npx prisma db push",
 		"studio": "npx prisma studio"
 	},
-	"prettier": "@bpvs/style-guide/prettier",
+	"prettier": "@bpvs/eslint-config/prettier",
 	"dependencies": {
-		"@prisma/client": "^5.3.1"
+		"@prisma/client": "^5.5.2"
 	},
 	"devDependencies": {
-		"@bpvs/style-guide": "workspace:*",
+		"@bpvs/eslint-config": "workspace:*",
 		"@bpvs/types": "workspace:*",
-		"@types/node": "^20.7.1",
+		"@types/node": "^20.8.10",
 		"dotenv": "^16.3.1",
-		"prisma": "^5.3.1",
+		"prisma": "^5.5.2",
 		"tsconfig": "workspace:*",
 		"tsup": "^7.2.0"
 	}

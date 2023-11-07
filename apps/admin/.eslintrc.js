@@ -1,6 +1,6 @@
 module.exports = {
 	root: true,
-	extends: ["@bpvs/style-guide/eslint/next"].map(require.resolve),
+	extends: ["@bpvs/eslint-config/eslint/next"].map(require.resolve),
 	parserOptions: {
 		project: ["./tsconfig.json"],
 	},

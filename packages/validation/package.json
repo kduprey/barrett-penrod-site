@@ -6,12 +6,12 @@
 	"scripts": {
 		"generate-barrels": "barrelsby --config barrelsby.config.json"
 	},
-	"prettier": "@bpvs/style-guide/prettier",
+	"prettier": "@bpvs/eslint-config/prettier",
 	"dependencies": {
-		"zod": "^3.22.2"
+		"zod": "^3.22.4"
 	},
 	"devDependencies": {
-		"@bpvs/style-guide": "workspace:*",
+		"@bpvs/eslint-config": "workspace:*",
 		"@bpvs/types": "workspace:*",
 		"tsconfig": "workspace:*"
 	}

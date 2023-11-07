@@ -3,20 +3,20 @@
 	"version": "0.0.1",
 	"private": true,
 	"main": "./src/index.ts",
-	"prettier": "@bpvs/style-guide/prettier",
+	"prettier": "@bpvs/eslint-config/prettier",
 	"dependencies": {
 		"@bpvs/db": "workspace:*",
 		"@bpvs/validation": "workspace:*",
-		"axios": "^1.5.1",
-		"googleapis": "^126.0.1",
+		"axios": "^1.6.0",
+		"googleapis": "^128.0.0",
 		"graphql-request": "^6.1.0",
 		"tslog": "^4.9.2",
-		"zod": "^3.22.2"
+		"zod": "^3.22.4"
 	},
 	"devDependencies": {
-		"@bpvs/style-guide": "workspace:*",
+		"@bpvs/eslint-config": "workspace:*",
 		"@bpvs/types": "workspace:*",
-		"@types/node": "^20.8.0",
+		"@types/node": "^20.8.10",
 		"tsconfig": "workspace:*"
 	}
 }

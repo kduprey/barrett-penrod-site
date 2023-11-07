@@ -25,11 +25,11 @@
 		"temp:preinstall": "npx only-allow pnpm",
 		"vercel-build": "next build apps/site"
 	},
-	"prettier": "@bpvs/style-guide/prettier",
+	"prettier": "@bpvs/eslint-config/prettier",
 	"devDependencies": {
-		"@bpvs/style-guide": "workspace:*",
+		"@bpvs/eslint-config": "workspace:*",
 		"barrelsby": "^2.8.1",
-		"eslint": "^8.50.0",
+		"eslint": "^8.53.0",
 		"prettier": "^3.0.3",
 		"prettier-plugin-packagejson": "^2.4.6",
 		"tsconfig": "workspace:*",

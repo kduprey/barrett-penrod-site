@@ -14,12 +14,14 @@ describe("CreateWebhook should", () => {
 		mockedAxios.get.mockReset();
 		mockedAxios.delete.mockReset();
 		mockedAxios.post.mockReset();
+		mockedAxios.create.mockReset();
 	});
 
 	it("Should handle a correct data submission", async () => {
 		mockedAxios.get.mockResolvedValueOnce({ getWebhooks });
 		mockedAxios.delete.mockResolvedValueOnce({ status: 204 });
 		mockedAxios.post.mockResolvedValueOnce({ createWebhookResponse });
+		mockedAxios.create.mockReturnValueOnce(mockedAxios);
 
 		try {
 			const response = await createCalendlyWebhook("test");
@@ -34,6 +36,7 @@ describe("CreateWebhook should", () => {
 		mockedAxios.get.mockResolvedValueOnce({ getWebhooks });
 		mockedAxios.delete.mockResolvedValueOnce({ status: 204 });
 		mockedAxios.post.mockResolvedValueOnce({ createWebhookResponse });
+		mockedAxios.create.mockReturnValueOnce(mockedAxios);
 
 		try {
 			await createCalendlyWebhook("");

@@ -7,45 +7,49 @@ vi.mock("axios");
 const mockedAxios = axios as Mocked<typeof axios>;
 
 describe("cancelEvent should", () => {
-  afterEach(() => {
-    mockedAxios.post.mockReset();
-  });
+	afterEach(() => {
+		mockedAxios.post.mockReset();
+		mockedAxios.create.mockReset();
+	});
 
-  it("Should handle a correct data submission", async () => {
-    mockedAxios.post.mockResolvedValueOnce({ data });
+	it("Should handle a correct data submission", async () => {
+		mockedAxios.create.mockReturnValueOnce(mockedAxios);
+		mockedAxios.post.mockResolvedValueOnce({ data });
 
-    try {
-      const response = await cancelCalendlyEvent("test");
+		try {
+			const response = await cancelCalendlyEvent("test");
 
-      expect(mockedAxios.post).toHaveBeenCalledTimes(1);
-      expect(response).toEqual(data);
-    } catch (error) {
-      expect(error).toBeUndefined();
-    }
-  });
+			expect(mockedAxios.post).toHaveBeenCalledTimes(1);
+			expect(response).toEqual(data);
+		} catch (error) {
+			expect(error).toBeUndefined();
+		}
+	});
 
-  it("Should handle an incorrect data submission", async () => {
-    mockedAxios.post.mockResolvedValueOnce({ data });
+	it("Should handle an incorrect data submission", async () => {
+		mockedAxios.create.mockReturnValueOnce(mockedAxios);
+		mockedAxios.post.mockResolvedValueOnce({ data });
 
-    try {
-      const response = await cancelCalendlyEvent("");
+		try {
+			const response = await cancelCalendlyEvent("");
 
-      expect(response).toBeUndefined();
-    } catch (error) {
-      expect(error).toBeInstanceOf(Error);
-      expect(error).toEqual(Error("Invalid URI"));
-    }
-  });
+			expect(response).toBeUndefined();
+		} catch (error) {
+			expect(error).toBeInstanceOf(Error);
+			expect(error).toEqual(Error("Invalid URI"));
+		}
+	});
 
-  it("Should throw an error if axios fails", async () => {
-    mockedAxios.post.mockRejectedValue(new Error("Error cancelling event"));
+	it("Should throw an error if axios fails", async () => {
+		mockedAxios.create.mockReturnValueOnce(mockedAxios);
+		mockedAxios.post.mockRejectedValue(new Error("Error cancelling event"));
 
-    try {
-      await cancelCalendlyEvent("test");
-    } catch (error: unknown) {
-      expect(error).toBeInstanceOf(Error);
-      if (error instanceof Error)
-        expect(error.message).contain("Error cancelling event");
-    }
-  });
+		try {
+			await cancelCalendlyEvent("test");
+		} catch (error: unknown) {
+			expect(error).toBeInstanceOf(Error);
+			if (error instanceof Error)
+				expect(error.message).contain("Error cancelling event");
+		}
+	});
 });

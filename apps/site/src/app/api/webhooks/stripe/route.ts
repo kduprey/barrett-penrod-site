@@ -40,14 +40,14 @@ export const POST = async (req: Request) => {
 		switch (event.type) {
 			case "checkout.session.completed": {
 				console.info("Checkout session completed");
-				const session = event.data.object as Stripe.Checkout.Session;
+				const session = event.data.object;
 
 				await checkoutSessionCompleted(session);
 				break;
 			}
 			case "checkout.session.expired": {
 				// Handle expired checkout sessions
-				const sessionExpired = event.data.object as Stripe.Checkout.Session;
+				const sessionExpired = event.data.object;
 
 				if (sessionExpired.client_reference_id === "test")
 					return Response.json(

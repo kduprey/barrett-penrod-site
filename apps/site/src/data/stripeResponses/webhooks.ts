@@ -94,6 +94,8 @@ export const checkoutSessionCompleted: Stripe.Checkout.Session = {
 		submit: null,
 		terms_of_service_acceptance: null,
 	},
+	client_secret: null,
+	ui_mode: null,
 };
 
 export const lineItems: Stripe.LineItem[] = [

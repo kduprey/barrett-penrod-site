@@ -23,6 +23,7 @@
 		"start:site": "pnpm --filter @bpvs/site start",
 		"stop:db:local": "docker compose -f 'docker-compose.yml' down",
 		"temp:preinstall": "npx only-allow pnpm",
+		"test:ci": "pnpm --filter @bpvs/site test:ci",
 		"vercel-build": "next build apps/site"
 	},
 	"prettier": "@bpvs/style-guide/prettier",

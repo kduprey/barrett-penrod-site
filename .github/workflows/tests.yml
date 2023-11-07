@@ -1,8 +1,8 @@
 name: Unit & E2E Tests
 env:
-  VERCEL_ORG_ID: '${{ secrets.VERCEL_ORG_ID }}'
-  VERCEL_PROJECT_ID: '${{ secrets.VERCEL_PROJECT_ID }}'
-  GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+  VERCEL_ORG_ID: "${{ secrets.VERCEL_ORG_ID }}"
+  VERCEL_PROJECT_ID: "${{ secrets.VERCEL_PROJECT_ID }}"
+  GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
 on: [pull_request]
 concurrency:
@@ -20,26 +20,20 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
         with:
-          node-version: '18'
-          cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
+          version: 8
+          run_install: false
 
-      - name: Cache NPM dependencies and Prisma Client
-        uses: actions/cache@v3
-        id: cache-primes
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          path: |
-            apps/**/node_modules
-            packages/**/node_modules
-            node_modules
-            packages/db/src/client
-          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          node-version: "18"
+          cache: "pnpm" # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
 
       - name: Install dependencies
-        if: steps.cache-primes.outputs.cache-hit != 'true'
-        run: npm i
+        run: pnpm install --frozen-lockfile
 
   cypress-run-tests:
     name: Cypress Tests
@@ -64,37 +58,33 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 8
+          run_install: false
+
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
+          node-version: "18"
+          cache: "pnpm" # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
 
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            apps/**/node_modules
-            packages/**/node_modules
-            node_modules
-            packages/db/src/client
-          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
-
-      - name: Generate Prisma Client
-        run: npm run postinstall
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Build NextJS
-        run: npm run build:site
+        run: pnpm build:site
 
       - name: E2E on Chrome
         uses: cypress-io/github-action@v5.8.1
         with:
-          config: 'viewportWidth=1000,viewportHeight=660'
+          config: "viewportWidth=1000,viewportHeight=660"
           browser: chrome
           project: ./apps/site
-          start: npm run start:site
-          command: npm run cy:site
-          wait-on: 'http://localhost:3000'
+          start: pnpm start:site
+          command: pnpm cy:site
+          wait-on: "http://localhost:3000"
         env:
           # pass GitHub token to detect new build vs re-run build
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
@@ -103,7 +93,7 @@ jobs:
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: 'cypress-screenshots'
+          name: "cypress-screenshots"
           path: cypress/screenshots
 
       # Test run video was always captured, so this action uses "always()" condition
@@ -144,27 +134,23 @@ jobs:
           DOCKER_MONGO_PWD: ${{ secrets.DOCKER_MONGO_PWD }}
           DOCKER_MONGO_DBNAME: test
 
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 8
+          run_install: false
+
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
+          node-version: "18"
+          cache: "pnpm" # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
 
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
-        with:
-          path: |
-            apps/**/node_modules
-            packages/**/node_modules
-            node_modules
-            packages/db/src/client
-          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
-
-      - name: Generate Prisma Client
-        run: npm run postinstall
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Unit Tests
-        run: npm -w 'apps/site' run test:ci
+        run: pnpm test:ci
 
       - name: Stop container
         if: always()

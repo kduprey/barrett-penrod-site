@@ -5,14 +5,14 @@
 	"main": "src/index.ts",
 	"prettier": "@bpvs/style-guide/prettier",
 	"dependencies": {
-		"stripe": "^13.8.0",
-		"zod": "^3.22.2"
+		"stripe": "^14.3.0",
+		"zod": "^3.22.4"
 	},
 	"devDependencies": {
 		"@bpvs/style-guide": "workspace:*",
-		"@types/node": "^20.7.1",
-		"@types/react": "^18.2.23",
-		"@types/react-dom": "^18.2.8",
+		"@types/node": "^20.8.10",
+		"@types/react": "^18.2.36",
+		"@types/react-dom": "^18.2.14",
 		"tsconfig": "workspace:*"
 	}
 }

@@ -5,8 +5,9 @@
 	"main": "./src/index.ts",
 	"prettier": "@bpvs/style-guide/prettier",
 	"dependencies": {
-		"axios": "^1.5.1",
-		"graphql-request": "^6.1.0"
+		"axios": "^1.6.0",
+		"graphql-request": "^6.1.0",
+		"stripe": "^14.3.0"
 	},
 	"devDependencies": {
 		"@bpvs/style-guide": "workspace:*",

@@ -1,0 +1,6 @@
+{
+	"baseurl": "./src",
+	"delete": true,
+	"directory": ["./src/components", "./src/data", "./src/lib", "./src/types"],
+	"noHeader": true
+}

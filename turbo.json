@@ -1,0 +1,35 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"globalDependencies": ["**/.env.*local"],
+	"globalEnv": [
+		"CALENDLY_WEBHOOK_SIGNING_KEY",
+		"SENDGRID_API_KEY",
+		"SENDGRID_DEV_API_KEY",
+		"HYGRAPH_API_KEY",
+		"STRIPE_SECRET_KEY",
+		"STRIPE_TEST_SECRET_KEY",
+		"DATABASE_URL",
+		"VERCEL_ENV",
+		"SENTRY_AUTH_TOKEN",
+		"STRIPE_WEBHOOK_SECRET",
+		"SENTRY_DSN",
+		"NEXT_PUBLIC_SENTRY_DSN",
+		"NODE_ENV"
+	],
+	"pipeline": {
+		"build": {
+			"outputs": [".next/**", "!.next/cache/**"]
+		},
+		"lint": {},
+		"deploy": {
+			"dependsOn": ["build", "test", "lint"]
+		},
+		"test": {
+			"dependsOn": ["build"]
+		},
+		"dev": {
+			"cache": false,
+			"persistent": true
+		}
+	}
+}

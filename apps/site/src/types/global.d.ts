@@ -1,7 +1,7 @@
-import { PrismaClient } from "@bpvs/db";
+import type { PrismaClient } from "@bpvs/db";
+
 declare global {
-  type Window = {
-    prisma: PrismaClient;
-    gtag: (...args: any[]) => void;
-  };
+	interface Window {
+		prisma: PrismaClient;
+	}
 }

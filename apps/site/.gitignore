@@ -54,3 +54,4 @@ cypress/downloads
 next.config.original.js
 
 .vscode/
+.env*.local

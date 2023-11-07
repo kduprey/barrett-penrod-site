@@ -1,0 +1,4 @@
+__mocks__
+__tests__
+cypress
+next-env.d.ts

@@ -1,12 +1,12 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import {
 	faInstagram,
 	faTwitter,
 	faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const SocialBar = () => (
+export const SocialBar = (): JSX.Element => {
+	return (
 		<>
 			<div className="mx-6 flex items-center justify-evenly bg-secondary p-2 text-black md:hidden">
 				<a
@@ -50,5 +50,4 @@ const SocialBar = () => (
 			</div>
 		</>
 	);
-
-export default SocialBar;
+};

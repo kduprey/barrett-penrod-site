@@ -1,9 +1,11 @@
-import { useState } from "react";
-import Nav from "./Navbar/Nav";
-import TitleBar from "./Navbar/TitleBar";
+"use client";
 
-const PageBar = () => {
-	const [isNavOpen, setIsNavOpen] = useState(false as boolean);
+import { useState } from "react";
+import { Nav } from "./Navbar/Nav";
+import { TitleBar } from "./Navbar/TitleBar";
+
+export const PageBar = (): JSX.Element => {
+	const [isNavOpen, setIsNavOpen] = useState<boolean>(false);
 
 	return (
 		<>
@@ -12,5 +14,3 @@ const PageBar = () => {
 		</>
 	);
 };
-
-export default PageBar;

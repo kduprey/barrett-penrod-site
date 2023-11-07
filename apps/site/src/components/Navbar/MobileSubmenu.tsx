@@ -1,31 +1,35 @@
+"use client";
+
 import { motion, useAnimation } from "framer-motion";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import { Link } from "react-scroll";
-import * as gtag from "../../lib/analytics";
-import { NavMenu } from "../../types/types";
+import type { NavMenu } from "../../types/types";
 
-type Props = {
+interface MobileSubmenuProps {
 	menu: NavMenu;
 	setIsNavOpen: (isOpen: boolean) => void;
 	isNavOpen: boolean;
-};
+}
 
-const MobileSubmenu = ({ menu, setIsNavOpen }: Props) => {
-	const router = useRouter();
-
+export const MobileSubmenu = ({
+	menu,
+	setIsNavOpen,
+}: MobileSubmenuProps): JSX.Element => {
 	const [isOpen, setIsOpen] = useState(false);
 	const controls = useAnimation();
 
 	if (menu.sublinks) {
 		return (
 			<>
-				<div
+				<button
+					aria-expanded={isOpen}
+					aria-haspopup="true"
+					aria-label="Open Submenu"
 					className="relative cursor-pointer py-2 text-xl font-thin text-white"
-					onClick={() => {
+					onClick={async () => {
 						if (!isOpen)
-							controls.start({
+							await controls.start({
 								display: "flex",
 								visibility: "visible",
 								height: "auto",
@@ -37,7 +41,7 @@ const MobileSubmenu = ({ menu, setIsNavOpen }: Props) => {
 							});
 
 						if (isOpen)
-							controls.start({
+							await controls.start({
 								x: "0%",
 								opacity: 0,
 								height: 0,
@@ -53,55 +57,82 @@ const MobileSubmenu = ({ menu, setIsNavOpen }: Props) => {
 
 						setIsOpen(!isOpen);
 					}}
+					onKeyDown={async (e) => {
+						if (e.key === "Enter") {
+							if (!isOpen)
+								await controls.start({
+									display: "flex",
+									visibility: "visible",
+									height: "auto",
+									opacity: 1,
+									transition: {
+										duration: 0.5,
+										ease: "easeInOut",
+									},
+								});
+
+							if (isOpen)
+								await controls.start({
+									x: "0%",
+									opacity: 0,
+									height: 0,
+									transition: {
+										duration: 0.5,
+										ease: "easeInOut",
+									},
+									transitionEnd: {
+										display: "none",
+										visibility: "hidden",
+									},
+								});
+
+							setIsOpen(!isOpen);
+						}
+					}}
+					type="button"
 				>
 					{menu.name}
-				</div>
+				</button>
 				<motion.div
-					layout
 					animate={controls}
+					className="flex flex-col "
 					initial={{
 						visibility: "hidden",
 						opacity: 0,
 						height: 0,
 						display: "none",
 					}}
-					className={"flex flex-col "}
+					layout
 				>
 					{menu.sublinks.map((sublink) => {
 						if (sublink.scrollTo) {
 							return (
 								<Link
 									className="cursor-pointer pb-3 text-xl font-thin text-white hover:text-slate-300"
-									onClick={() => {
-										setIsNavOpen(false);
-										gtag.pageview(
-											new URL(
-												window.location.href +
-													router.route +
-													sublink.id
-											)
-										);
-									}}
-									to={sublink.id}
-									spy={true}
-									smooth={true}
-									offset={-75}
 									duration={500}
 									key={sublink.id}
+									offset={-75}
+									onClick={() => {
+										setIsNavOpen(false);
+										// TODO: Implement Analytics
+									}}
+									smooth
+									spy
+									to={sublink.id}
 								>
 									{sublink.name}
 								</Link>
 							);
-						} else
-							return (
-								<NextLink
-									href={sublink.path}
-									key={sublink.name}
-									className="pb-3 text-xl font-thin text-white hover:text-slate-300"
-								>
-									{sublink.name}
-								</NextLink>
-							);
+						}
+						return (
+							<NextLink
+								className="pb-3 text-xl font-thin text-white hover:text-slate-300"
+								href={sublink.path}
+								key={sublink.name}
+							>
+								{sublink.name}
+							</NextLink>
+						);
 					})}
 				</motion.div>
 			</>
@@ -111,13 +142,9 @@ const MobileSubmenu = ({ menu, setIsNavOpen }: Props) => {
 	if (!menu.path?.includes("#") && menu.path) {
 		return (
 			<NextLink
-				href={menu.path}
-				onClick={() => {
-					gtag.pageview(
-						new URL(window.location.href + router.route + menu.path)
-					);
-				}}
 				className="cursor-pointer pb-3 text-xl font-thin text-white underline-offset-2 hover:text-slate-300 hover:underline"
+				href={menu.path}
+				// TODO: Implement Analytics
 			>
 				{menu.name}
 			</NextLink>
@@ -128,18 +155,16 @@ const MobileSubmenu = ({ menu, setIsNavOpen }: Props) => {
 		<Link
 			as="a"
 			className="cursor-pointer pb-3 text-xl font-thin text-white hover:text-slate-300"
+			duration={500}
+			offset={-75}
 			onClick={() => {
 				setIsNavOpen(false);
 			}}
+			smooth
+			spy
 			to={menu.name.toLowerCase()}
-			spy={true}
-			smooth={true}
-			offset={-75}
-			duration={500}
 		>
 			{menu.name}
 		</Link>
 	);
 };
-
-export default MobileSubmenu;

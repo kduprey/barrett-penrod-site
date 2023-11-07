@@ -1,4 +1,4 @@
-import { Cancellation } from "./event";
+import type { Cancellation } from "./event";
 
 export interface CalendlyInvitee {
   resource: CalendlyInviteeResource;
@@ -16,7 +16,7 @@ export interface CalendlyInviteeResource {
   no_show?: NoShow | null;
   old_invitee: string | null;
   payment?: Payment | null;
-  questions_and_answers: Array<Question>;
+  questions_and_answers: Question[];
   reconfirmation?: Reconfirmation | null;
   reschedule_url: string;
   rescheduled: boolean;

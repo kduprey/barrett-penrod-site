@@ -1,5 +1,6 @@
-import { dev, GuestEmails } from "@bpvs/types";
-import { ClientResponse, MailDataRequired } from "@sendgrid/mail";
+import type { GuestEmails } from "@bpvs/types";
+import { dev } from "@bpvs/types";
+import type { ClientResponse, MailDataRequired } from "@sendgrid/mail";
 import { sendgrid } from "./sendgrid";
 
 /**
@@ -58,12 +59,12 @@ export const sendGuestEmails = async ({
 	};
 
 	try {
-		console.log("Sending guest emails...");
+		console.info("Sending guest emails...");
 
 		const response = await sendgrid.send(message);
-		console.log("Guest emails sent!");
+		console.info("Guest emails sent!");
 
-		console.log(response);
+		console.info(response);
 		return response[0];
 	} catch (error: unknown) {
 		console.error(error);

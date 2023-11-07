@@ -7,3 +7,4 @@ packages/db/src/client
 packages/db/src/migrationData
 .next
 .env*.local
+.turbo

@@ -1,8 +1,4 @@
 module.exports = {
 	root: true,
-	extends: ["bpvs"],
-	parserOptions: {
-		project: ["./tsconfig.json"],
-		tsconfigRootDir: __dirname,
-	},
+	extends: ["@bpvs/style-guide/eslint/library"].map(require.resolve),
 };

@@ -60,7 +60,7 @@
     "@tiptap/extension-link": "^2.1.12",
     "@tiptap/react": "^2.1.12",
     "@tiptap/starter-kit": "^2.1.12",
-    "axios": "^1.4.0",
+    "axios": "^1.6.0",
     "cookies-next": "^4.0.0",
     "dayjs": "^1.11.9",
     "framer-motion": "^10.16.4",

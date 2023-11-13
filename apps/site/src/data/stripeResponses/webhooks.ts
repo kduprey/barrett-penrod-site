@@ -94,6 +94,9 @@ export const checkout_session_completed: Stripe.Checkout.Session = {
   },
   url: null,
   currency_conversion: null,
+  client_secret: null,
+  payment_method_configuration_details: null,
+  ui_mode: null,
 };
 
 export const line_items: Stripe.LineItem[] = [

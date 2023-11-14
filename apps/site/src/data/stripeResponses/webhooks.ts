@@ -1,6 +1,7 @@
 import type Stripe from "stripe";
 
-export const checkoutSessionCompleted: Stripe.Checkout.Session = {
+// eslint-disable-next-line camelcase -- this is a Stripe object, camelcase
+export const checkout_session_completed: Stripe.Checkout.Session = {
 	id: "cs_test_a1J2KOs6B3hcfD5o1YFHnECAf59BLD9Pcxb6MiXWzUpU4a8JCyyRoWnor3",
 	object: "checkout.session",
 	after_expiration: null,
@@ -20,6 +21,11 @@ export const checkoutSessionCompleted: Stripe.Checkout.Session = {
 	created: 1676690096,
 	currency: "usd",
 	custom_fields: [],
+	custom_text: {
+		shipping_address: null,
+		submit: null,
+		terms_of_service_acceptance: null,
+	},
 	customer: "cus_NNRmKpeWKc8i07",
 	customer_creation: "always",
 	customer_details: {
@@ -89,11 +95,6 @@ export const checkoutSessionCompleted: Stripe.Checkout.Session = {
 	},
 	url: null,
 	currency_conversion: null,
-	custom_text: {
-		shipping_address: null,
-		submit: null,
-		terms_of_service_acceptance: null,
-	},
 };
 
 export const lineItems: Stripe.LineItem[] = [

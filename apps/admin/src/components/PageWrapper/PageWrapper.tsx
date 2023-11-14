@@ -1,53 +1,35 @@
-import {
-  AppShell,
-  Burger,
-  Footer,
-  Header,
-  MediaQuery,
-  Text,
-  useMantineTheme,
-} from "@mantine/core";
-import { PropsWithChildren, useState } from "react";
-import { NavbarNested } from "../Navbar/Navbar";
+import { useDisclosure } from "@mantine/hooks";
+import { AppShell, Burger, Group, Skeleton } from "@mantine/core";
+import { PropsWithChildren } from "react";
 
 export const PageWrapper = ({ children }: PropsWithChildren) => {
-  const theme = useMantineTheme();
-  const [opened, setOpened] = useState(false);
+  const [opened, { toggle }] = useDisclosure();
 
   return (
     <AppShell
-      styles={{
-        main: {
-          background:
-            theme.colorScheme === "dark"
-              ? theme.colors.dark[8]
-              : theme.colors.gray[0],
-        },
+      header={{ height: { base: 60, md: 70, lg: 80 } }}
+      navbar={{
+        width: { base: 200, md: 300, lg: 400 },
+        breakpoint: "sm",
+        collapsed: { mobile: !opened },
       }}
-      navbarOffsetBreakpoint="sm"
-      asideOffsetBreakpoint="sm"
-      navbar={<NavbarNested />}
-      header={
-        <Header height={{ base: 50, md: 70 }} p="md">
-          <div
-            style={{ display: "flex", alignItems: "center", height: "100%" }}
-          >
-            <MediaQuery largerThan="sm" styles={{ display: "none" }}>
-              <Burger
-                opened={opened}
-                onClick={() => setOpened((o) => !o)}
-                size="sm"
-                color={theme.colors.gray[6]}
-                mr="xl"
-              />
-            </MediaQuery>
-
-            <Text>Application header</Text>
-          </div>
-        </Header>
-      }
+      padding="md"
     >
-      {children}
+      <AppShell.Header>
+        <Group h="100%" px="md">
+          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+          App Name
+        </Group>
+      </AppShell.Header>
+      <AppShell.Navbar p="md">
+        Navbar
+        {Array(15)
+          .fill(0)
+          .map((_, index) => (
+            <Skeleton key={index} h={28} mt="sm" animate={false} />
+          ))}
+      </AppShell.Navbar>
+      <AppShell.Main>{children}</AppShell.Main>
     </AppShell>
   );
 };

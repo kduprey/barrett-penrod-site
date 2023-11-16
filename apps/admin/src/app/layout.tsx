@@ -1,8 +1,11 @@
-import "@mantine/core/styles.css";
 import type { PropsWithChildren } from "react";
-import React from "react";
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 import { theme } from "../theme";
+import { PageWrapper } from "@/components/PageWrapper/PageWrapper";
+import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
+import "mantine-datatable/styles.css";
 
 export const metadata = {
 	title: "Mantine Next.js template",
@@ -21,7 +24,10 @@ const RootLayout = ({ children }: PropsWithChildren) => {
 				/>
 			</head>
 			<body>
-				<MantineProvider theme={theme}>{children}</MantineProvider>
+				<MantineProvider theme={theme}>
+					<Notifications />
+					<PageWrapper>{children}</PageWrapper>
+				</MantineProvider>
 			</body>
 		</html>
 	);

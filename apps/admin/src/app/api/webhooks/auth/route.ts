@@ -40,7 +40,7 @@ export const POST = async (req: NextRequest) => {
 		return new NextResponse("Invalid webhook signature", {
 			status: 400,
 		});
-	}.
+	}
 
 	const { id } = event.data;
 	const eventType = event.type;

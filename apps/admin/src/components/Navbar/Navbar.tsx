@@ -13,6 +13,7 @@ import {
 	IconLogout,
 } from "@tabler/icons-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import classes from "./Navbar.module.css";
 
 interface NavbarLinkProps {
@@ -56,8 +57,10 @@ const mockdata = [
 ];
 
 export const Navbar = () => {
+	const path = usePathname();
+
 	const [active, setActive] = useState(
-		mockdata.findIndex((link) => link.href === location.pathname)
+		mockdata.findIndex((link) => link.href === path)
 	);
 
 	const links = mockdata.map((link, index) => (

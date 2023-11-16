@@ -4,7 +4,7 @@
 	"private": true,
 	"main": "./src/index.ts",
 	"scripts": {
-		"build": "pnpm deploy && tsup",
+		"build": "pnpm dlx prisma migrate deploy && tsup",
 		"deploy": "npx prisma migrate deploy",
 		"generate": "npx prisma generate",
 		"lint": "npx prisma format",

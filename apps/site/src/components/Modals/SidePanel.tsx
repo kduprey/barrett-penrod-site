@@ -1,17 +1,24 @@
+"use client";
+
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion as m } from "framer-motion";
 import React, { useEffect } from "react";
 
-type Props = {
+interface SidePanelProps {
 	isOpen: boolean;
 	setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	header: string;
 	children: React.ReactNode;
-};
+}
 
-const SidePanel = ({ isOpen, setIsOpen, header, children }: Props) => {
-	const handleClose = () => {
+export const SidePanel = ({
+	isOpen,
+	setIsOpen,
+	header,
+	children,
+}: SidePanelProps): JSX.Element => {
+	const handleClose = (): void => {
 		document.body.style.overflow = "unset";
 		setIsOpen(false);
 	};
@@ -24,30 +31,27 @@ const SidePanel = ({ isOpen, setIsOpen, header, children }: Props) => {
 
 	return (
 		<AnimatePresence>
-			{isOpen && (
-				// Modal Background
+			{isOpen ? (
 				<div className="fixed top-[6em] left-0 z-[60] h-full ">
 					<m.div
-						className=" fixed inset-0 top-[6em] bg-secondary   "
-						initial={{ opacity: 0 }}
 						animate={{
 							opacity: "40%",
 						}}
+						className=" fixed inset-0 top-[6em] bg-secondary   "
 						exit={{ opacity: 0 }}
-						transition={{ duration: 0.3 }}
+						initial={{ opacity: 0 }}
 						onClick={handleClose}
-					 />
+						transition={{ duration: 0.3 }}
+					/>
 
 					{/* Modal Dialog */}
 					<m.div
-						className={`fixed right-0 z-[61] w-screen bg-primary pb-[12em] md:w-auto md:max-w-lg ${
-							isOpen ? "block" : "hidden"
-						}`}
-						initial={{ x: "100%" }}
 						animate={{
 							x: 0,
 						}}
+						className="fixed right-0 z-[61] w-screen bg-primary pb-[12em] md:w-auto md:max-w-lg block"
 						exit={{ x: "100%" }}
+						initial={{ x: "100%" }}
 						transition={{ duration: 0.3 }}
 					>
 						{/* Modal Header */}
@@ -55,6 +59,13 @@ const SidePanel = ({ isOpen, setIsOpen, header, children }: Props) => {
 							<div
 								className="absolute left-3 text-3xl text-secondary"
 								onClick={handleClose}
+								onKeyDown={(e) => {
+									if (e.key === "Enter") {
+										handleClose();
+									}
+								}}
+								role="button"
+								tabIndex={0}
 							>
 								{/* Arrow */}
 								<FontAwesomeIcon icon={faArrowLeft} />
@@ -64,14 +75,10 @@ const SidePanel = ({ isOpen, setIsOpen, header, children }: Props) => {
 						</div>
 
 						{/* Modal Body */}
-						<div className="h-full h-[85vh] overflow-y-scroll p-6">
-							{children}
-						</div>
+						<div className=" h-[85vh] overflow-y-scroll p-6">{children}</div>
 					</m.div>
 				</div>
-			)}
+			) : null}
 		</AnimatePresence>
 	);
 };
-
-export default SidePanel;

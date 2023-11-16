@@ -1,8 +1,5 @@
-import {
-	CalendlyEvent,
-	SessionLocation,
-	SessionLocationEnum,
-} from "@bpvs/types";
+import type { CalendlyEvent, SessionLocation } from "@bpvs/types";
+import { SessionLocationEnum } from "@bpvs/types";
 
 export const getSessionLocation = (
 	bookingData: CalendlyEvent
@@ -17,7 +14,7 @@ export const getSessionLocation = (
 	return SessionLocationEnum.parse(locationData);
 };
 
-const testResponses: CalendlyEvent[] = [
+const _testResponses: CalendlyEvent[] = [
 	{
 		resource: {
 			calendar_event: {

@@ -1,18 +1,17 @@
+"use client";
+
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import { Link } from "react-scroll";
-import * as gtag from "../../lib/analytics";
-import { NavMenu } from "../../types/types";
+import type { NavMenu } from "../../types/types";
 
-type Props = {
+interface SubmenuProps {
 	menu: NavMenu;
-};
+}
 
-const Submenu = ({ menu }: Props) => {
-	const router = useRouter();
+export const Submenu = ({ menu }: SubmenuProps): JSX.Element => {
 	const [isOpen, setIsOpen] = useState(false);
 
 	if (menu.sublinks) {
@@ -22,14 +21,20 @@ const Submenu = ({ menu }: Props) => {
 				onClick={() => {
 					setIsOpen(!isOpen);
 				}}
+				onKeyDown={(e) => {
+					if (e.key === "Enter") {
+						setIsOpen(!isOpen);
+					}
+				}}
+				role="menuitem"
 			>
 				{menu.name}
 
 				<FontAwesomeIcon
-					icon={faChevronDown}
 					className={`ml-2 transition-all duration-150 ${
 						isOpen ? "rotate-180" : "rotate-0"
 					}`}
+					icon={faChevronDown}
 				/>
 
 				<ul
@@ -39,27 +44,20 @@ const Submenu = ({ menu }: Props) => {
 							: "-top-60 w-0 opacity-0"
 					} `}
 				>
-					{menu.sublinks?.map((sublink, index) => {
+					{menu.sublinks.map((sublink) => {
 						if (sublink.scrollTo) {
 							return (
 								<Link
-									key={index}
 									className="cursor-pointer text-secondary underline-offset-2 hover:text-white hover:underline"
+									duration={500}
+									key={sublink.id}
+									offset={-100}
 									onClick={() => {
 										setIsOpen(false);
-										gtag.pageview(
-											new URL(
-												window.location.href +
-													router.route +
-													sublink.id
-											)
-										);
 									}}
+									smooth
+									spy
 									to={sublink.id}
-									spy={true}
-									smooth={true}
-									offset={-100}
-									duration={500}
 								>
 									{sublink.name}
 								</Link>
@@ -68,18 +66,9 @@ const Submenu = ({ menu }: Props) => {
 
 						return (
 							<NextLink
-								key={index}
-								href={sublink.path}
 								className="cursor-pointer text-secondary underline-offset-2 hover:text-white hover:underline"
-								onClick={() => {
-									gtag.pageview(
-										new URL(
-											window.location.href +
-												router.route +
-												menu.path
-										)
-									);
-								}}
+								href={sublink.path}
+								key={sublink.name}
 							>
 								{sublink.name}
 							</NextLink>
@@ -92,13 +81,8 @@ const Submenu = ({ menu }: Props) => {
 	if (!menu.path?.includes("#") && menu.path) {
 		return (
 			<NextLink
-				href={menu.path}
-				onClick={() => {
-					gtag.pageview(
-						new URL(window.location.href + router.route + menu.path)
-					);
-				}}
 				className="cursor-pointer pb-3 text-xl font-thin text-white underline-offset-2 hover:text-slate-300 hover:underline"
+				href={menu.path}
 			>
 				{menu.name}
 			</NextLink>
@@ -107,25 +91,16 @@ const Submenu = ({ menu }: Props) => {
 	return (
 		<Link
 			className="cursor-pointer pb-3 text-xl font-thin text-white hover:text-slate-300"
+			duration={500}
+			offset={-120}
 			onClick={() => {
 				setIsOpen(false);
-				gtag.pageview(
-					new URL(window.location.href + router.route + menu.path)
-				);
 			}}
-			to={
-				menu.name.toLowerCase() === "home"
-					? "home"
-					: menu.name.toLowerCase()
-			}
-			spy={true}
-			smooth={true}
-			offset={-120}
-			duration={500}
+			smooth
+			spy
+			to={menu.name.toLowerCase() === "home" ? "home" : menu.name.toLowerCase()}
 		>
 			{menu.name}
 		</Link>
 	);
 };
-
-export default Submenu;

@@ -1,0 +1,6 @@
+{
+	"baseurl": ".",
+	"delete": true,
+	"directory": ["./src"],
+	"noHeader": true
+}

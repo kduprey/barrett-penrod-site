@@ -1,62 +1,62 @@
 import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
 import { deskTool } from "sanity/desk";
+import { homeSchema } from "@/schemas";
 import {
-  deskStructure,
-  documentActions,
-  schemaTemplatesFilter,
-} from "./config/deskStructure";
-import { schemaTypes } from "./schemas";
+	deskStructure,
+	documentActions,
+	schemaTemplatesFilter,
+} from "@/config";
 
 export default defineConfig([
-  {
-    name: "production",
-    title: "Barrett Penrod Studio - Production",
-    basePath: "/production",
-    projectId: "n8emrwer",
-    dataset: "production",
-	api: {
+	{
+		name: "production",
+		title: "Barrett Penrod Studio - Production",
+		basePath: "/production",
 		projectId: "n8emrwer",
 		dataset: "production",
-	},
-    plugins: [
-      deskTool({
-        structure: deskStructure,
-      }),
-      visionTool(),
-    ],
+		api: {
+			projectId: "n8emrwer",
+			dataset: "production",
+		},
+		plugins: [
+			deskTool({
+				structure: deskStructure,
+			}),
+			visionTool(),
+		],
 
-    schema: {
-      types: schemaTypes,
-      templates: schemaTemplatesFilter,
-    },
-    document: {
-      actions: documentActions,
-    },
-  },
-  {
-    name: "staging",
-    title: "Barrett Penrod Studio - Staging",
-    basePath: "/staging",
-    projectId: "n8emrwer",
-    dataset: "staging",
-	api: {
+		schema: {
+			types: [homeSchema],
+			templates: schemaTemplatesFilter,
+		},
+		document: {
+			actions: documentActions,
+		},
+	},
+	{
+		name: "staging",
+		title: "Barrett Penrod Studio - Staging",
+		basePath: "/staging",
 		projectId: "n8emrwer",
 		dataset: "staging",
-	},
-    plugins: [
-      deskTool({
-        structure: deskStructure,
-      }),
-      visionTool(),
-    ],
+		api: {
+			projectId: "n8emrwer",
+			dataset: "staging",
+		},
+		plugins: [
+			deskTool({
+				structure: deskStructure,
+			}),
+			visionTool(),
+		],
 
-    schema: {
-      types: schemaTypes,
-      templates: schemaTemplatesFilter,
-    },
-    document: {
-      actions: documentActions,
-    },
-  },
+		schema: {
+			types: [homeSchema],
+			templates: schemaTemplatesFilter,
+		},
+		document: {
+			actions: documentActions,
+		},
+	},
 ]);

@@ -1,0 +1,192 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+}
+
+model contacts {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    email     String   @unique
+    name      String
+    message   String
+    timestamp DateTime @default(now()) @db.Date
+}
+
+model qr_code_logs {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    flyerSize Int
+    campaign  Int
+    designId  Int
+    location  Int
+    timestamp DateTime @db.Date
+}
+
+model calendlyInviteePayloads {
+    id                      String                                               @id @default(auto()) @map("_id") @db.ObjectId
+    cancel_url              String
+    cancellation            CalendlyInviteePayloadsResourceCancellation?
+    created_at              DateTime                                             @db.Date
+    email                   String
+    event                   String
+    first_name              String?
+    last_name               String?
+    name                    String
+    new_invitee             String?
+    no_show                 NoShow?
+    old_invitee             String?
+    payment                 Payment?
+    questions_and_answers   CalendlyInviteePayloadsResourceQuestionsAndAnswers[]
+    reconfirmation          Reconfirmation?
+    reschedule_url          String
+    rescheduled             Boolean
+    routing_form_submission String?
+    status                  String
+    text_reminder_number    String?
+    timezone                String?
+    tracking                CalendlyInviteePayloadsResourceTracking
+    updated_at              DateTime                                             @db.Date
+    uri                     String                                               @unique
+    client                  clients?                                             @relation(fields: [clientId], references: [id])
+    clientId                String?                                              @db.ObjectId
+    scheduled_event         ScheduledEvent?
+}
+
+model clients {
+    id                    String                    @id @default(auto()) @map("_id") @db.ObjectId
+    activeMember          Boolean
+    archived              Boolean                   @default(false)
+    email                 String                    @unique
+    dateJoined            DateTime                  @default("2001-01-01T00:00:00-05:00") @db.Date
+    firstLesson           DateTime?                 @db.Date
+    lastLesson            DateTime?                 @db.Date
+    nextLesson            DateTime?                 @db.Date
+    lessonsRemaining      Int                       @default(0)
+    name                  String                    @unique
+    notes                 String?
+    preferredLessonFormat String?
+    pronouns              String?
+    refundedVolume        Int                       @default(0)
+    totalLessons          Int                       @default(0)
+    totalSpend            Float                     @default(0)
+    stripe_customer_id    String?                   @unique
+    bookings              calendlyInviteePayloads[]
+}
+
+type ScheduledEvent {
+    uri               String
+    name              String?
+    status            String
+    start_time        DateTime                             @db.Date
+    end_time          DateTime                             @db.Date
+    event_type        String
+    location          Location
+    invitees_counter  InviteesCounter
+    created_at        DateTime                             @db.Date
+    updated_at        DateTime                             @db.Date
+    event_memberships EventMemberships[]
+    event_guests      EventGuests[]
+    cancellation      CalendlyInviteePayloadsCancellation?
+}
+
+type Location {
+    type     String
+    location String?
+    status   String?
+    join_url String?
+    data     ZoomLocationData?
+}
+
+type ZoomLocationData {
+    id       Int?
+    settings ZoomLocationSettings?
+    extra    ZoomLocationDataExtra?
+    password String?
+}
+
+type ZoomLocationDataExtra {
+    intl_numbers_url String?
+}
+
+type ZoomLocationSettings {
+    global_dial_in_numbers ZoomLocationGlobalDialInNumbers[]
+}
+
+type ZoomLocationGlobalDialInNumbers {
+    country      String?
+    number       String?
+    type         String?
+    city         String?
+    country_name String?
+}
+
+type EventGuests {
+    email      String
+    updated_at DateTime @db.Date
+    created_at DateTime @db.Date
+}
+
+type EventMemberships {
+    user       String
+    user_email String?
+}
+
+type InviteesCounter {
+    total  Int
+    active Int
+    limit  Int
+}
+
+type CalendlyInviteePayloadsCancellation {
+    canceled_by   String
+    canceler_type String
+    reason        String
+}
+
+type CalendlyInviteePayloadsQuestionsAndAnswers {
+    answer   String
+    position Int
+    question String
+}
+
+type Reconfirmation {
+    created_at   DateTime @db.Date
+    confirmed_at DateTime @db.Date
+}
+
+type Payment {
+    external_id String
+    provider    String
+    amount      Float
+    currency    String
+    terms       String
+    successful  Boolean
+}
+
+type NoShow {
+    uri        String
+    created_at DateTime @db.Date
+}
+
+type CalendlyInviteePayloadsResourceCancellation {
+    canceled_by   String
+    canceler_type String
+    reason        String
+}
+
+type CalendlyInviteePayloadsResourceQuestionsAndAnswers {
+    answer   String?
+    position Int
+    question String
+}
+
+type CalendlyInviteePayloadsResourceTracking {
+    salesforce_uuid String?
+    utm_campaign    String?
+    utm_content     String?
+    utm_medium      String?
+    utm_source      String?
+    utm_term        String?
+}

@@ -3,7 +3,6 @@
 	"private": true,
 	"author": "Kenton Duprey",
 	"scripts": {
-		"prebuild": "pnpm prisma:deploy",
 		"build": "turbo build",
 		"build:admin": "pnpm --filter @bpvs/admin build",
 		"build:cms": "pnpm --filter @bpvs/cms build",

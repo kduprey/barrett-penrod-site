@@ -41,5 +41,8 @@
 		"tsconfig": "workspace:*",
 		"typescript": "^5.2.2"
 	},
-	"packageManager": "pnpm@8.8.0"
+	"packageManager": "pnpm@8.8.0",
+	"prisma": {
+		"schema": "./packages/db/prisma/schema.prisma"
+	}
 }

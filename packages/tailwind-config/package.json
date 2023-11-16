@@ -6,7 +6,7 @@
 	"prettier": "@bpvs/eslint-config/prettier",
 	"dependencies": {
 		"@bpvs/eslint-config": "workspace:*",
-		"@tailwindcss/forms": "^0.5.6",
+		"@tailwindcss/forms": "^0.5.7",
 		"@tailwindcss/typography": "^0.5.10",
 		"tailwindcss": "^3.3.5",
 		"tsconfig": "workspace:*"

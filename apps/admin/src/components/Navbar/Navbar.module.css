@@ -9,12 +9,8 @@
 }
 
 .link {
-	width: rem(50px);
-	height: rem(50px);
 	border-radius: var(--mantine-radius-md);
-	display: flex;
-	align-items: center;
-	justify-content: center;
+
 	color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
 
 	&:hover {
@@ -31,4 +27,16 @@
 			color: var(--mantine-color-blue-light-color);
 		}
 	}
+}
+
+.linkIcon {
+	width: rem(50px);
+	height: rem(50px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.linkText {
+	margin: var(--mantine-spacing-xs) var(--mantine-spacing-md);
 }

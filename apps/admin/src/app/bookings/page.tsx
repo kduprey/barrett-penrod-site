@@ -1,5 +1,10 @@
-const Page = () => {
-	return <h1>Hello</h1>;
-};
+import { Container } from "@mantine/core";
 
+const Page = () => {
+	return (
+		<Container>
+			<h1>Bookings</h1>
+		</Container>
+	);
+};
 export default Page;

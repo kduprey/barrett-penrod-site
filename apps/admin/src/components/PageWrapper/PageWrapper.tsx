@@ -1,6 +1,5 @@
 "use client";
 
-import { useDisclosure } from "@mantine/hooks";
 import {
 	AppShell,
 	Burger,
@@ -10,10 +9,12 @@ import {
 	AppShellMain,
 } from "@mantine/core";
 import type { PropsWithChildren } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Navbar } from "../Navbar/Navbar";
 
 export const PageWrapper = ({ children }: PropsWithChildren) => {
-	const [opened, { toggle }] = useDisclosure();
+	const params = useSearchParams();
+	const router = useRouter();
 
 	return (
 		<AppShell
@@ -21,13 +22,24 @@ export const PageWrapper = ({ children }: PropsWithChildren) => {
 			navbar={{
 				width: { base: 80 },
 				breakpoint: "sm",
-				collapsed: { mobile: !opened },
+				collapsed: { mobile: params.get("isNavOpen") !== "true" },
 			}}
 			padding="md"
 		>
 			<AppShellHeader withBorder={false}>
 				<Group h="100%" px="md">
-					<Burger hiddenFrom="sm" onClick={toggle} opened={opened} size="sm" />
+					<Burger
+						hiddenFrom="sm"
+						onClick={() => {
+							if (params.get("isNavOpen") === "true") {
+								router.back();
+								return;
+							}
+							router.push("/?isNavOpen=true");
+						}}
+						opened={params.get("isNavOpen") === "true"}
+						size="sm"
+					/>
 					Barrett Penrod Voice Studio
 				</Group>
 			</AppShellHeader>

@@ -1,16 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Tooltip, UnstyledButton, Stack, rem } from "@mantine/core";
+import { Tooltip, UnstyledButton, Text, Stack, rem, Flex } from "@mantine/core";
 import {
 	IconHome2,
-	IconGauge,
 	IconDeviceDesktopAnalytics,
-	IconFingerprint,
 	IconCalendarStats,
-	IconUser,
 	IconSettings,
 	IconLogout,
+	IconUsers,
+	IconBrandStripe,
 } from "@tabler/icons-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -32,15 +31,30 @@ const NavbarLink = ({
 	href,
 }: NavbarLinkProps) => {
 	return (
-		<Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
+		<Tooltip
+			label={label}
+			position="right"
+			transitionProps={{ duration: 0 }}
+			visibleFrom="sm"
+		>
 			<UnstyledButton
-				className={classes.link}
 				component={Link}
 				data-active={active || undefined}
 				href={href}
 				onClick={onClick}
+				w="100%"
 			>
-				<Icon stroke={1.5} style={{ width: rem(20), height: rem(20) }} />
+				<Flex
+					align="center"
+					className={classes.link}
+					data-active={active || undefined}
+					gap="xs"
+				>
+					<div className={classes.linkIcon}>
+						<Icon stroke={1.5} style={{ width: rem(20), height: rem(20) }} />
+					</div>
+					<Text hiddenFrom="sm">{label}</Text>
+				</Flex>
 			</UnstyledButton>
 		</Tooltip>
 	);
@@ -48,11 +62,10 @@ const NavbarLink = ({
 
 const mockdata = [
 	{ icon: IconHome2, label: "Home", href: "/" },
-	{ icon: IconGauge, label: "Dashboard", href: "/dashboard" },
+	{ icon: IconUsers, label: "Clients", href: "/clients" },
+	{ icon: IconCalendarStats, label: "Bookings", href: "/bookings" },
+	{ icon: IconBrandStripe, label: "Finance", href: "/finance" },
 	{ icon: IconDeviceDesktopAnalytics, label: "Analytics", href: "/analytics" },
-	{ icon: IconCalendarStats, label: "Releases", href: "/releases" },
-	{ icon: IconUser, label: "Account", href: "/account" },
-	{ icon: IconFingerprint, label: "Security", href: "/security" },
 	{ icon: IconSettings, label: "Settings", href: "/settings" },
 ];
 
@@ -78,7 +91,7 @@ export const Navbar = () => {
 	return (
 		<nav className={classes.navbar}>
 			<div className={classes.navbarMain}>
-				<Stack gap={0} justify="center">
+				<Stack gap={rem(10)} justify="center">
 					{links}
 				</Stack>
 			</div>

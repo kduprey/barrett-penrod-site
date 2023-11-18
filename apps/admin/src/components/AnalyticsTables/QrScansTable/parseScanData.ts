@@ -20,6 +20,7 @@ export const parseScanData = (
 		const flyerSize = flyerSizes.find((fS) => fS.id === scan.flyerSize);
 
 		return {
+			id: scan.id,
 			location: location?.name,
 			design: design?.name,
 			campaign: campaign?.name,

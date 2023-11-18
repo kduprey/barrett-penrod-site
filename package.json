@@ -25,7 +25,7 @@
 		"pullData:cms": "pnpm --filter @bpvs/cms pullData",
 		"start:admin": "pnpm --filter @bpvs/admin start",
 		"start:cms": "pnpm --filter @bpvs/cms start",
-		"start:db:local": "docker compose up -d --build mongodb_container",
+		"start:db:local": "docker compose up -d --build postgres",
 		"start:site": "pnpm --filter @bpvs/site start",
 		"stop:db:local": "docker compose down",
 		"temp:preinstall": "npx only-allow pnpm",

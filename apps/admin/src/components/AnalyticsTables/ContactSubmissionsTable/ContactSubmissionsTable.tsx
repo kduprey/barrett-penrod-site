@@ -3,7 +3,7 @@
 import type { ContactSubmission } from "@bpvs/db";
 import { DataTable } from "mantine-datatable";
 import { showNotification } from "@mantine/notifications";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 interface ContactSubmissionsTableProps {
@@ -42,19 +42,24 @@ export const ContactSubmissionsTable = ({
 				{
 					accessor: "timestamp",
 					title: "Submitted At",
-					render: (record) => record.timestamp.toLocaleString(),
+					render: (record) => {
+						const time = record.timestamp.toLocaleString();
+						return <p suppressHydrationWarning>{time}</p>;
+					},
 				},
 			]}
 			height={700}
 			highlightOnHover
 			mah={150}
-			onRowClick={({ record: { name, email, message, timestamp } }) =>
+			onRowClick={({ record: { name, email, message, timestamp } }) => {
+				const time = timestamp.toLocaleString();
+
 				showNotification({
 					title: `Clicked on ${name}`,
-					message: `You clicked on ${name}'s message. Here is their email: ${email}. Here is their message: ${message}. They submitted this at ${timestamp.toLocaleString()}.`,
+					message: `You clicked on ${name}'s message. Here is their email: ${email}. Here is their message: ${message}. They submitted this at ${time}.`,
 					withBorder: true,
-				})
-			}
+				});
+			}}
 			records={records}
 			striped
 			withColumnBorders

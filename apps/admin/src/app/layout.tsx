@@ -16,7 +16,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
 	return (
 		<html lang="en">
 			<head>
-				<ColorSchemeScript />
+				<ColorSchemeScript defaultColorScheme="auto" />
 				<link href="/favicon.svg" rel="shortcut icon" />
 				<meta
 					content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
@@ -24,7 +24,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
 				/>
 			</head>
 			<body>
-				<MantineProvider theme={theme}>
+				<MantineProvider defaultColorScheme="auto" theme={theme}>
 					<Notifications />
 					<PageWrapper>{children}</PageWrapper>
 				</MantineProvider>

@@ -9,3 +9,5 @@ packages/db/src/migrationData
 .env*.local
 .turbo
 packages/db/prisma/scanData.ts
+
+.DS_Store

@@ -15,7 +15,7 @@
 		"SENTRY_DSN",
 		"NEXT_PUBLIC_SENTRY_DSN",
 		"NODE_ENV",
-		"CLERK_WEBHOOK_SECRET"
+		"NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"
 	],
 	"pipeline": {
 		"build": {

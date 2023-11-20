@@ -61,7 +61,7 @@
     "@tiptap/react": "^2.1.12",
     "@tiptap/starter-kit": "^2.1.12",
     "axios": "^1.6.2",
-    "cookies-next": "^4.0.0",
+    "cookies-next": "^4.1.0",
     "dayjs": "^1.11.10",
     "framer-motion": "^10.16.5",
     "graphql-request": "^6.1.0",

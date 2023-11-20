@@ -12,6 +12,7 @@
 	"prettier": "@bpvs/eslint-config/prettier",
 	"dependencies": {
 		"@bdsqqq/try": "^2.3.1",
+		"@bpvs/config": "workspace:*",
 		"@bpvs/db": "workspace:*",
 		"@clerk/nextjs": "^4.27.1",
 		"@clerk/themes": "^1.7.9",
@@ -27,7 +28,7 @@
 		"@mantine/nprogress": "^7.2.2",
 		"@mantine/tiptap": "^7.2.2",
 		"@next/bundle-analyzer": "^14.0.3",
-		"@tabler/icons-react": "^2.40.0",
+		"@tabler/icons-react": "^2.41.0",
 		"@tiptap/extension-link": "^2.1.12",
 		"@tiptap/react": "^2.1.12",
 		"@tiptap/starter-kit": "^2.1.12",
@@ -44,7 +45,7 @@
 	"devDependencies": {
 		"@bpvs/eslint-config": "workspace:*",
 		"@next/eslint-plugin-next": "^14.0.3",
-		"@types/node": "^20.9.1",
+		"@types/node": "^20.9.2",
 		"@types/react": "^18.2.37",
 		"@types/react-dom": "^18.2.15",
 		"@typescript-eslint/eslint-plugin": "^6.11.0",

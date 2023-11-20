@@ -1,4 +1,17 @@
+"use client";
+
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
 const Page = () => {
-	return <h1>Hello</h1>;
+	const user = useUser();
+	const router = useRouter();
+
+	useEffect(() => {
+		if (user) router.push("/dashboard");
+		router.push("/login");
+	}, [user, router]);
 };
+
 export default Page;

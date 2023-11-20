@@ -1,11 +1,11 @@
 import type { PropsWithChildren } from "react";
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
-import { theme } from "../theme";
-import { PageWrapper } from "@/components/PageWrapper/PageWrapper";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 import "mantine-datatable/styles.css";
+import { ClerkProvider } from "@clerk/nextjs";
+import { theme } from "../theme";
 
 export const metadata = {
 	title: "Mantine Next.js template",
@@ -15,20 +15,28 @@ export const metadata = {
 const RootLayout = ({ children }: PropsWithChildren) => {
 	return (
 		<html lang="en">
-			<head>
-				<ColorSchemeScript defaultColorScheme="auto" />
-				<link href="/favicon.svg" rel="shortcut icon" />
-				<meta
-					content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
-					name="viewport"
-				/>
-			</head>
-			<body>
-				<MantineProvider defaultColorScheme="auto" theme={theme}>
-					<Notifications />
-					<PageWrapper>{children}</PageWrapper>
-				</MantineProvider>
-			</body>
+			<ClerkProvider
+				publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+				signInUrl={`/login`}
+				signUpUrl={`/sign-up`}
+				afterSignInUrl="/dashboard"
+				afterSignUpUrl="/dashboard"
+			>
+				<head>
+					<ColorSchemeScript defaultColorScheme="auto" />
+					<link href="/favicon.svg" rel="shortcut icon" />
+					<meta
+						content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no"
+						name="viewport"
+					/>
+				</head>
+				<body>
+					<MantineProvider defaultColorScheme="auto" theme={theme}>
+						<Notifications />
+						{children}
+					</MantineProvider>
+				</body>
+			</ClerkProvider>
 		</html>
 	);
 };

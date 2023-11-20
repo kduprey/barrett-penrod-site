@@ -1,4 +1,4 @@
-import { stripe } from "@bpvs/config";
+import { SITE_URL, stripe } from "@bpvs/config";
 import { getCalendlyInvitee } from "@bpvs/utils";
 import type { NextRequest } from "next/server";
 import type Stripe from "stripe";
@@ -97,10 +97,10 @@ const createCheckoutSession = async (
 	// 	lineItems.push(Prices[2].priceID[stripeMode]);
 
 	// Create success url
-	const successURL: URL = new URL(`${params.origin}/bookings/success`);
+	const successURL: URL = new URL(`${SITE_URL}/bookings/success`);
 
 	// Create cancel url
-	const cancelURL: URL = new URL(`${params.origin}/bookings/cancel`);
+	const cancelURL: URL = new URL(`${SITE_URL}/bookings/cancel`);
 
 	// Create the Checkout Session Template
 	const sessionTemplate: Stripe.Checkout.SessionCreateParams = {

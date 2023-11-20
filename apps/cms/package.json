@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"build": "next build",
-		"dev": "next dev --port 3333",
+		"dev": "next dev --port 3102",
 		"generate-barrels": "barrelsby --config barrelsby.config.json",
 		"lint": "next lint",
 		"publishContent": "sanity dataset export staging . --overwrite && sanity dataset import staging.tar.gz production --replace",

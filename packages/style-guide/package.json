@@ -22,5 +22,8 @@
 	},
 	"peerDependencies": {
 		"prettier-plugin-packagejson": "^2.4.5"
+	},
+	"devDependencies": {
+		"@tanstack/eslint-plugin-query": "^5.8.4"
 	}
 }

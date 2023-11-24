@@ -61,7 +61,7 @@ const NavbarLink = ({
 };
 
 const mockdata = [
-	{ icon: IconHome2, label: "Home", href: "/" },
+	{ icon: IconHome2, label: "Home", href: "" },
 	{ icon: IconUsers, label: "Clients", href: "/clients" },
 	{ icon: IconCalendarStats, label: "Bookings", href: "/bookings" },
 	{ icon: IconBrandStripe, label: "Finance", href: "/finance" },
@@ -73,14 +73,14 @@ export const Navbar = () => {
 	const path = usePathname();
 
 	const [active, setActive] = useState(
-		mockdata.findIndex((link) => link.href === path)
+		mockdata.findIndex((link) => link.href.includes(path))
 	);
 
 	const links = mockdata.map((link, index) => (
 		<NavbarLink
 			{...link}
 			active={index === active}
-			href={link.href}
+			href={`/dashboard/${link.href}`}
 			key={link.label}
 			onClick={() => {
 				setActive(index);

@@ -32,7 +32,7 @@
     "@bdsqqq/try": "^2.3.1",
     "@bpvs/config": "^0.0.1",
     "@bpvs/utils": "^0.0.1",
-    "@clerk/nextjs": "^4.27.1",
+    "@clerk/nextjs": "^4.27.2",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",

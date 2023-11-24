@@ -1,11 +1,10 @@
 import type { PropsWithChildren } from "react";
-import { MantineProvider, ColorSchemeScript } from "@mantine/core";
-import { Notifications } from "@mantine/notifications";
+import { ColorSchemeScript } from "@mantine/core";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 import "mantine-datatable/styles.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import { theme } from "../theme";
+import { Providers } from "@/providers";
 
 export const metadata = {
 	title: "Mantine Next.js template",
@@ -16,11 +15,11 @@ const RootLayout = ({ children }: PropsWithChildren) => {
 	return (
 		<html lang="en">
 			<ClerkProvider
-				publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
-				signInUrl={`/login`}
-				signUpUrl={`/sign-up`}
 				afterSignInUrl="/dashboard"
 				afterSignUpUrl="/dashboard"
+				publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+				signInUrl="/login"
+				signUpUrl="/sign-up"
 			>
 				<head>
 					<ColorSchemeScript defaultColorScheme="auto" />
@@ -31,10 +30,7 @@ const RootLayout = ({ children }: PropsWithChildren) => {
 					/>
 				</head>
 				<body>
-					<MantineProvider defaultColorScheme="auto" theme={theme}>
-						<Notifications />
-						{children}
-					</MantineProvider>
+					<Providers>{children}</Providers>
 				</body>
 			</ClerkProvider>
 		</html>

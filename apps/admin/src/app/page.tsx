@@ -9,7 +9,7 @@ const Page = () => {
 	const router = useRouter();
 
 	useEffect(() => {
-		if (user) router.push("/dashboard");
+		if (user.isSignedIn) router.push("/dashboard");
 		router.push("/login");
 	}, [user, router]);
 };

@@ -10,6 +10,5 @@ module.exports = {
 				project: ["./tsconfig.json"],
 			},
 		},
-		"@typescript-eslint/no-unsafe-assignment": "off",
 	},
 };

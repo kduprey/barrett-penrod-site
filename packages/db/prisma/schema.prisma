@@ -67,6 +67,34 @@ model QrScanFlyerSize {
     @@map("qr_scan_flyer_sizes")
 }
 
+model AppKey {
+    id        Int      @id @default(autoincrement())
+    name      String   @unique
+    keys      String
+    isValid   Boolean  @default(true)
+    timestamp DateTime @default(now())
+    updatedAt DateTime @default(now()) @updatedAt
+
+    @@index([name])
+    @@map("app_keys")
+}
+
+model ConnectedCalendar {
+    id                    Int      @id @default(autoincrement())
+    externalCalId         String   @unique
+    name                  String
+    isPrimary             Boolean  @default(false)
+    timestamp             DateTime @default(now())
+    updatedAt             DateTime @updatedAt
+    isDestinationCalendar Boolean  @default(false)
+
+    @@index([isPrimary])
+    @@index([name])
+    @@index([isDestinationCalendar])
+    @@index([externalCalId])
+    @@map("connected_calendars")
+}
+
 // model CalendlyEventUpdate {
 //     id               Int                          @id @default(autoincrement())
 //     createdAt        DateTime                     @default(now())

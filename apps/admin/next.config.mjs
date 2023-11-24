@@ -12,6 +12,10 @@ export default withBundleAnalyzer({
 		defaultLocale: "en",
 	},
 	experimental: {
-		optimizePackageImports: ["@mantine/core", "@mantine/hooks"],
+		optimizePackageImports: [
+			"@mantine/core",
+			"@mantine/hooks",
+			"@tanstack/react-query",
+		],
 	},
 });

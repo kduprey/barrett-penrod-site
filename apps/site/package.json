@@ -9,15 +9,15 @@
 		"dev": "next dev -p 3100",
 		"generate-barrels": "barrelsby -c barrelsby.config.json",
 		"lint": "next lint --dir .",
-		"prisma:deploy": "npx prisma migrate deploy",
-		"prisma:format": "npx prisma format",
-		"prisma:generate": "npx prisma generate",
-		"prisma:migrate": "npx prisma migrate dev",
-		"prisma:studio": "npx prisma studio",
+		"prisma:deploy": "bunx prisma migrate deploy",
+		"prisma:format": "bunx prisma format",
+		"prisma:generate": "bunx prisma generate",
+		"prisma:migrate": "bunx prisma migrate dev",
+		"prisma:studio": "bunx prisma studio",
 		"start": "next start",
-		"test": "dotenv -f ../../.env run vitest",
+		"test": "bun run vitest",
 		"test:ci": "vitest run",
-		"test:ui": "dotenv -c -e ../../.env vitest --ui",
+		"test:ui": "bun run vitest --ui",
 		"vercel:dev": "vercel dev"
 	},
 	"prettier": "@bpvs/eslint-config/prettier",
@@ -59,8 +59,6 @@
 		"cypress": "^13.6.0",
 		"prettier-plugin-packagejson": "^2.4.6",
 		"tsconfig": "workspace:*",
-		"typescript": "^5.3.2",
-		"vite-tsconfig-paths": "^4.2.1",
-		"vitest": "^0.34.6"
+		"typescript": "^5.3.2"
 	}
 }

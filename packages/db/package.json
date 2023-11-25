@@ -4,15 +4,14 @@
 	"private": true,
 	"main": "./src/index.ts",
 	"scripts": {
-		"build": "pnpm dlx prisma migrate deploy && tsup",
-		"deploy": "npx prisma migrate deploy",
-		"generate": "npx prisma generate",
-		"lint": "npx prisma format",
-		"migrate": "npx prisma migrate dev",
-		"predev": "npx prisma run generate",
-		"push": "npx prisma db push",
-		"seed": "npx prisma db seed",
-		"studio": "npx prisma studio"
+		"build": "bunx prisma migrate deploy && tsup",
+		"deploy": "bunx prisma migrate deploy",
+		"generate": "bunx prisma generate",
+		"lint": "bunx prisma format",
+		"migrate": "bunx prisma migrate dev",
+		"push": "bunx prisma db push",
+		"seed": "bunx prisma db seed",
+		"studio": "bunx prisma studio"
 	},
 	"prettier": "@bpvs/eslint-config/prettier",
 	"dependencies": {
@@ -33,5 +32,11 @@
 	"prisma": {
 		"seed": "ts-node prisma/seed.ts",
 		"schema": "./prisma/schema.prisma"
-	}
+	},
+	"trustedDependencies": [
+		"@bpvs/site",
+		"@bpvs/cms",
+		"@bpvs/admin",
+		"@bpvs/db"
+	]
 }

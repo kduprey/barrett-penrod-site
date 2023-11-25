@@ -37,12 +37,10 @@
 	},
 	"prettier": "@bpvs/eslint-config/prettier",
 	"devDependencies": {
-		"@bpvs/eslint-config": "workspace:*",
 		"barrelsby": "^2.8.1",
 		"eslint": "^8.54.0",
 		"prettier": "^3.1.0",
 		"prettier-plugin-packagejson": "^2.4.6",
-		"@bpvs/tsconfig": "workspace:*",
 		"typescript": "^5.3.2"
 	},
 	"packageManager": "bun@8.8.0",

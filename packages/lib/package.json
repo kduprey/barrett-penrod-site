@@ -17,6 +17,6 @@
 		"@bpvs/eslint-config": "workspace:*",
 		"@bpvs/types": "workspace:*",
 		"@types/node": "^20.10.0",
-		"tsconfig": "workspace:*"
+		"@bpvs/tsconfig": "workspace:*"
 	}
 }

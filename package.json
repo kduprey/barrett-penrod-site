@@ -57,7 +57,7 @@
     "@sendgrid/mail": "^7.7.0",
     "@sentry/nextjs": "^7.82.0",
     "@tabler/icons-react": "^2.42.0",
-    "@tiptap/extension-link": "^2.1.12",
+    "@tiptap/extension-link": "^2.1.13",
     "@tiptap/react": "^2.1.12",
     "@tiptap/starter-kit": "^2.1.12",
     "axios": "^1.6.2",

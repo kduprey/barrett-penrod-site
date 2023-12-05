@@ -33,6 +33,7 @@
 		"@tiptap/extension-link": "^2.1.12",
 		"@tiptap/react": "^2.1.12",
 		"@tiptap/starter-kit": "^2.1.12",
+		"axios": "^1.6.2",
 		"clsx": "^2.0.0",
 		"dayjs": "^1.11.10",
 		"googleapis": "^128.0.0",

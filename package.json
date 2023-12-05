@@ -48,7 +48,7 @@
     "@mantine/hooks": "^7.2.2",
     "@mantine/modals": "^7.2.2",
     "@mantine/next": "^6.0.21",
-    "@mantine/notifications": "^7.2.2",
+    "@mantine/notifications": "^7.3.0",
     "@mantine/spotlight": "^7.2.2",
     "@mantine/tiptap": "^7.2.2",
     "@next/font": "^14.0.3",

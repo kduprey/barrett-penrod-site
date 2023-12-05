@@ -1,6 +1,6 @@
 import { trytm } from "@bdsqqq/try";
 import { prisma } from "@bpvs/db";
-import type { AxiosResponse } from "axios";
+import type { AxiosResponse, AxiosRequestConfig } from "axios";
 import axios, { isAxiosError } from "axios";
 import { z } from "zod";
 
@@ -103,6 +103,36 @@ export const zoomAuth = (credentials: ZoomCredentials) => {
 			return expiresIn > Date.now()
 				? Promise.resolve(accessToken)
 				: refreshAccessToken(refreshToken);
+		},
+	};
+};
+
+export const zoomApi = (credential: ZoomCredentials) => {
+	const fetchZoomApi = async <T>(
+		endpoint: string,
+		options?: AxiosRequestConfig
+	) => {
+		const auth = zoomAuth(credential);
+		const token = await auth.getToken();
+		const [res, err] = await trytm(
+			axios.get<T>(endpoint, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+				...options,
+			})
+		);
+
+		return handleZoomResponse<T>(res, err);
+	};
+
+	return {
+		getAvailability: async () => {
+			const response = await fetchZoomApi(
+				"users/me/meetings?type=scheduled&page_size=300"
+			);
+			if (!response) return [];
+			return response;
 		},
 	};
 };

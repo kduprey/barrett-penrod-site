@@ -21,6 +21,4 @@ export const ZoomSettingsWidget = async () => {
 			</Card>
 		);
 	}
-
-	// return <GCalList />;
 };

@@ -52,7 +52,7 @@
     "@mantine/spotlight": "^7.2.2",
     "@mantine/tiptap": "^7.2.2",
     "@next/font": "^14.0.3",
-    "@sanity/cli": "^3.20.2",
+    "@sanity/cli": "^3.21.1",
     "@sanity/vision": "^3.21.1",
     "@sendgrid/mail": "^8.0.0",
     "@sentry/nextjs": "^7.85.0",

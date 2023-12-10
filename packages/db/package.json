@@ -16,19 +16,19 @@
 	},
 	"prettier": "@bpvs/eslint-config/prettier",
 	"dependencies": {
-		"@prisma/client": "^5.6.0"
+		"@prisma/client": "^5.7.0"
 	},
 	"devDependencies": {
 		"@bpvs/eslint-config": "workspace:*",
 		"@bpvs/types": "workspace:*",
 		"@faker-js/faker": "^8.3.1",
-		"@types/node": "^20.10.0",
+		"@types/node": "^20.10.4",
 		"dotenv": "^16.3.1",
-		"prisma": "^5.6.0",
-		"ts-node": "^10.9.1",
+		"prisma": "^5.7.0",
+		"ts-node": "^10.9.2",
 		"tsconfig": "workspace:*",
 		"tsup": "^8.0.1",
-		"typescript": "^5.3.2"
+		"typescript": "^5.3.3"
 	},
 	"prisma": {
 		"seed": "ts-node prisma/seed.ts",

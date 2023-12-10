@@ -9,21 +9,21 @@
 	],
 	"prettier": "./prettier",
 	"dependencies": {
-		"@next/eslint-plugin-next": "^14.0.3",
-		"@typescript-eslint/eslint-plugin": "^6.12.0",
-		"@typescript-eslint/parser": "^6.12.0",
+		"@next/eslint-plugin-next": "^14.0.4",
+		"@typescript-eslint/eslint-plugin": "^6.13.2",
+		"@typescript-eslint/parser": "^6.13.2",
 		"@vercel/style-guide": "^5.1.0",
-		"eslint": "^8.54.0",
-		"eslint-config-prettier": "^9.0.0",
-		"eslint-config-turbo": "^1.10.16",
+		"eslint": "^8.55.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-config-turbo": "^1.11.1",
 		"eslint-plugin-import": "^2.29.0",
 		"eslint-plugin-tailwindcss": "^3.13.0",
-		"typescript": "^5.3.2"
+		"typescript": "^5.3.3"
 	},
 	"peerDependencies": {
 		"prettier-plugin-packagejson": "^2.4.5"
 	},
 	"devDependencies": {
-		"@tanstack/eslint-plugin-query": "^5.8.4"
+		"@tanstack/eslint-plugin-query": "^5.12.1"
 	}
 }

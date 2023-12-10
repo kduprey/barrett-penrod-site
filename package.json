@@ -15,10 +15,12 @@
 		"db:local:studio": "vercel env pull && bun run start:db:local && bun run db:studio",
 		"db:prod:studio": "vercel env pull --environment=production && bun run db:studio",
 		"db:studio": "cd ./packages/db && dotenv -c -e ../../.env bunx prisma studio",
+		"predev:admin": "bun start:db:local",
 		"dev:admin": "bun --cwd apps/admin dev",
+		"postdev:admin": "bun stop:db:local",
 		"dev:cms": "bun --cwd apps/cms dev",
 		"dev:site": "bun --cwd apps/site dev",
-		"postinstall": "bun --cwd packages/db generate",
+		"postinstall": "bun --cwd packages/db generate && bun --filter @bpvs/admin generate-barrels",
 		"prisma:deploy": "bun --cwd packages/db deploy",
 		"prisma:generate": "bun --cwd packages/db generate",
 		"prisma:migrate": "bun --cwd packages/db migrate",
@@ -38,10 +40,10 @@
 	"prettier": "@bpvs/eslint-config/prettier",
 	"devDependencies": {
 		"barrelsby": "^2.8.1",
-		"eslint": "^8.54.0",
+		"eslint": "^8.55.0",
 		"prettier": "^3.1.0",
-		"prettier-plugin-packagejson": "^2.4.6",
-		"typescript": "^5.3.2"
+		"prettier-plugin-packagejson": "^2.4.7",
+		"typescript": "^5.3.3"
 	},
 	"packageManager": "bun@8.8.0",
 	"prisma": {

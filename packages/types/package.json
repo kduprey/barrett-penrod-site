@@ -5,13 +5,13 @@
 	"main": "src/index.ts",
 	"prettier": "@bpvs/eslint-config/prettier",
 	"dependencies": {
-		"stripe": "^14.5.0",
+		"stripe": "^14.8.0",
 		"zod": "^3.22.4"
 	},
 	"devDependencies": {
 		"@bpvs/eslint-config": "workspace:*",
-		"@types/node": "^20.10.0",
-		"@types/react": "^18.2.38",
+		"@types/node": "^20.10.4",
+		"@types/react": "^18.2.43",
 		"@types/react-dom": "^18.2.17",
 		"@bpvs/tsconfig": "workspace:*"
 	}

@@ -8,3 +8,4 @@ packages/db/src/migrationData
 .next
 .env*.local
 .turbo
+packages/db/prisma/scanData.ts

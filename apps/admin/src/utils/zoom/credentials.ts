@@ -1,13 +1,16 @@
 import { trytm } from "@bdsqqq/try";
+import { ADMIN_URL } from "@bpvs/config";
 import { prisma } from "@bpvs/db";
 import type { AxiosResponse, AxiosRequestConfig } from "axios";
 import axios, { isAxiosError } from "axios";
 import { z } from "zod";
+import type { ZoomGetUserId } from "./schemas";
 
 const getZoomAppKeys = () => {
 	return {
-		clientId: process.env.ZOOM_CLIENT_ID,
-		clientSecret: process.env.ZOOM_CLIENT_SECRET,
+		clientId: z.string().parse(process.env.ZOOM_CLIENT_ID),
+		clientSecret: z.string().parse(process.env.ZOOM_CLIENT_SECRET),
+		redirectUri: `${ADMIN_URL}/api/oauth/zoom/callback`,
 	};
 };
 
@@ -115,7 +118,7 @@ export const zoomApi = (credential: ZoomCredentials) => {
 		const auth = zoomAuth(credential);
 		const token = await auth.getToken();
 		const [res, err] = await trytm(
-			axios.get<T>(endpoint, {
+			axios.get<T>(`https://api.zoom.us/v2/${endpoint}`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -133,6 +136,15 @@ export const zoomApi = (credential: ZoomCredentials) => {
 			);
 			if (!response) return [];
 			return response;
+		},
+		getZoomUser: async (): Promise<ZoomGetUserId | undefined> => {
+			const response = await fetchZoomApi<ZoomGetUserId>("users/me");
+			if (!response) return;
+			return response;
+		},
+		deleteZoomConnection: async () => {
+			const [_, err] = await trytm(invalidateZoomCredentials());
+			if (err) return Promise.reject(err);
 		},
 	};
 };
@@ -161,6 +173,50 @@ const invalidateZoomCredentials = async () => {
 	await prisma.appKey.delete({
 		where: {
 			name: "zoom",
+		},
+	});
+};
+
+export const getZoomRedirectUrl = (userId: string) => {
+	const { clientId, redirectUri } = getZoomAppKeys();
+	return `https://zoom.us/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${Buffer.from(
+		userId
+	).toString("base64")}`;
+};
+
+export const setZoomKeys = async (code: string): Promise<void> => {
+	const [res, err] = await trytm(
+		axios.post<ZoomRefreshTokenResponse>(
+			"https://zoom.us/oauth/token",
+			new URLSearchParams({
+				code,
+				grant_type: "authorization_code",
+				redirect_uri: getZoomAppKeys().redirectUri,
+			}),
+			{
+				headers: {
+					Authorization: `Basic ${Buffer.from(
+						`${getZoomAppKeys().clientId}:${getZoomAppKeys().clientSecret}`
+					).toString("base64")}`,
+				},
+			}
+		)
+	);
+
+	const [responseBody, responseBodyError] = await trytm(
+		handleZoomResponse<ZoomRefreshTokenResponse>(res, err)
+	);
+
+	if (responseBodyError?.message === "invalid_grant") {
+		return Promise.reject(new Error("Invalid grant for zoom app"));
+	}
+	if (!responseBody)
+		return Promise.reject(new Error("Invalid Zoom token response"));
+
+	await prisma.appKey.create({
+		data: {
+			name: "zoom",
+			keys: encodeZoomCredentials(responseBody),
 		},
 	});
 };

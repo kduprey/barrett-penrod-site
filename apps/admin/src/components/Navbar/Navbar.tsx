@@ -60,27 +60,39 @@ const NavbarLink = ({
 	);
 };
 
+const PAGE_ROOT = "/dashboard";
+
 const mockdata = [
-	{ icon: IconHome2, label: "Home", href: "" },
-	{ icon: IconUsers, label: "Clients", href: "/clients" },
-	{ icon: IconCalendarStats, label: "Bookings", href: "/bookings" },
-	{ icon: IconBrandStripe, label: "Finance", href: "/finance" },
-	{ icon: IconDeviceDesktopAnalytics, label: "Analytics", href: "/analytics" },
-	{ icon: IconSettings, label: "Settings", href: "/settings" },
+	{ icon: IconHome2, label: "Home", href: PAGE_ROOT },
+	{ icon: IconUsers, label: "Clients", href: `${PAGE_ROOT}/clients` },
+	{
+		icon: IconCalendarStats,
+		label: "Bookings",
+		href: `${PAGE_ROOT}/bookings`,
+	},
+	{ icon: IconBrandStripe, label: "Finance", href: `${PAGE_ROOT}/finance` },
+	{
+		icon: IconDeviceDesktopAnalytics,
+		label: "Analytics",
+		href: `${PAGE_ROOT}/analytics`,
+	},
+	{ icon: IconSettings, label: "Settings", href: `${PAGE_ROOT}/settings` },
 ];
 
 export const Navbar = () => {
 	const path = usePathname();
 
 	const [active, setActive] = useState(
-		mockdata.findIndex((link) => link.href.includes(path))
+		mockdata.findIndex(
+			(link) => path.split("/dashboard")[1] === link.href.split("/dashboard")[1]
+		)
 	);
 
 	const links = mockdata.map((link, index) => (
 		<NavbarLink
 			{...link}
 			active={index === active}
-			href={`/dashboard/${link.href}`}
+			href={`${link.href}`}
 			key={link.label}
 			onClick={() => {
 				setActive(index);

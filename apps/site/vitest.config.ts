@@ -32,8 +32,16 @@ export default defineConfig({
     //   ],
     // },
     globals: true,
-    isolate: true,
-    threads: false,
+    poolOptions: {
+      threads: {
+        isolate: true,
+          singleThread: true,
+      },
+      forks: {
+        isolate: true
+      }
+    },
+   
   },
   resolve: {
     alias: {
@@ -45,4 +53,5 @@ export default defineConfig({
       "@bpvs/validation": path.resolve(__dirname, "../../packages/validation"),
     },
   },
+  
 });

@@ -58,7 +58,7 @@
 		"postcss-preset-mantine": "^1.11.1",
 		"postcss-simple-vars": "^7.0.1",
 		"prettier-plugin-tailwindcss": "^0.5.9",
-		"tsconfig": "workspace:*",
+		"@bpvs/tsconfig": "workspace:*",
 		"typescript": "^5.3.3"
 	}
 }

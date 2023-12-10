@@ -19,6 +19,6 @@
 		"@bpvs/eslint-config": "workspace:*",
 		"@bpvs/types": "workspace:*",
 		"@types/http-errors": "^2.0.4",
-		"tsconfig": "workspace:*"
+		"@bpvs/tsconfig": "workspace:*"
 	}
 }

@@ -13,6 +13,6 @@
 	"devDependencies": {
 		"@bpvs/eslint-config": "workspace:*",
 		"@bpvs/types": "workspace:*",
-		"tsconfig": "workspace:*"
+		"@bpvs/tsconfig": "workspace:*"
 	}
 }

@@ -4,14 +4,14 @@
 	"private": true,
 	"main": "./src/index.ts",
 	"scripts": {
-		"build": "bunx prisma migrate deploy && tsup",
-		"deploy": "bunx prisma migrate deploy",
-		"generate": "bunx prisma generate",
-		"lint": "bunx prisma format",
-		"migrate": "bunx prisma migrate dev",
-		"push": "bunx prisma db push",
-		"seed": "bunx prisma db seed",
-		"studio": "bunx prisma studio"
+		"build": "bun x prisma migrate deploy && tsup",
+		"deploy": "bun x prisma migrate deploy",
+		"generate": "bun x prisma generate",
+		"lint": "bun x prisma format",
+		"migrate": "bun x prisma migrate dev",
+		"push": "bun x prisma db push",
+		"seed": "bun x prisma db seed",
+		"studio": "bun x prisma studio"
 	},
 	"prettier": "@bpvs/eslint-config/prettier",
 	"dependencies": {
@@ -19,13 +19,13 @@
 	},
 	"devDependencies": {
 		"@bpvs/eslint-config": "workspace:*",
+		"@bpvs/tsconfig": "workspace:*",
 		"@bpvs/types": "workspace:*",
 		"@faker-js/faker": "^8.3.1",
 		"@types/node": "^20.10.4",
 		"dotenv": "^16.3.1",
 		"prisma": "^5.7.0",
 		"ts-node": "^10.9.2",
-		"@bpvs/tsconfig": "workspace:*",
 		"tsup": "^8.0.1",
 		"typescript": "^5.3.3"
 	},

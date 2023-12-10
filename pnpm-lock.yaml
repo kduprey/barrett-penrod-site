@@ -98,6 +98,9 @@ importers:
       '@tiptap/starter-kit':
         specifier: ^2.1.12
         version: 2.1.12(@tiptap/pm@2.1.12)
+      axios:
+        specifier: ^1.6.2
+        version: 1.6.2
       clsx:
         specifier: ^2.0.0
         version: 2.0.0

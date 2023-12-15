@@ -55,7 +55,7 @@
     "@sanity/cli": "^3.21.1",
     "@sanity/vision": "^3.21.3",
     "@sendgrid/mail": "^8.1.0",
-    "@sentry/nextjs": "^7.87.0",
+    "@sentry/nextjs": "^7.88.0",
     "@tabler/icons-react": "^2.44.0",
     "@tiptap/extension-link": "^2.1.13",
     "@tiptap/react": "^2.1.13",

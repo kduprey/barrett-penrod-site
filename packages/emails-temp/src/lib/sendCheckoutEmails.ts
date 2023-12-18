@@ -14,10 +14,11 @@ import { sendFirstTimeEmail } from "./firstTime";
 import { sendGuestEmails } from "./guestEmail";
 import { sendPackageConfirmationEmail } from "./packageConfirmation";
 import { sendSingleBookingEmail } from "./singleBooking";
+import { formatBookingDate } from "./utils";
 
 export const sendCheckoutEmails = async (
   session: Stripe.Checkout.Session,
-  lineItems: Stripe.LineItem[]
+  lineItems: Stripe.LineItem[],
 ): Promise<Error[] | boolean> => {
   let event: CalendlyEvent,
     invitee: CalendlyInvitee,
@@ -35,7 +36,10 @@ export const sendCheckoutEmails = async (
 
   const name = invitee.resource.name;
   const email = dev ? "kdtech18@gmail.com" : invitee.resource.email;
-  const bookingDate = new Date(event.resource.start_time);
+  const formattedBookingDate = formatBookingDate(
+    new Date(event.resource.start_time),
+    invitee.resource.timezone,
+  );
 
   zoomLink = await getCalendlyEventZoomLink(event);
 
@@ -48,8 +52,8 @@ export const sendCheckoutEmails = async (
         guests: event.resource.event_guests,
         sessionType: getSessionTypeFromCalendlyEvent(event),
         bookingLocation: getSessionLocation(event),
-        bookingDate,
-        zoomLink: zoomLink ? zoomLink : undefined,
+        formattedBookingDate,
+        zoomLink: zoomLink ?? undefined,
       });
 
       console.info("Guest Email Response: ", guestEmail);
@@ -65,14 +69,14 @@ export const sendCheckoutEmails = async (
   // If not, send booking confirmation email
   if (
     invitee.resource.questions_and_answers.find(
-      (e) => e.question === "Is this your first lesson with Barrett?"
+      (e) => e.question === "Is this your first lesson with Barrett?",
     )
   ) {
-    for (let i = 0; i < invitee.resource.questions_and_answers.length; i++) {
-      const element = invitee.resource.questions_and_answers[i];
+    for (const questionAndAnswer of invitee.resource.questions_and_answers) {
       if (
-        element.question === "Is this your first lesson with Barrett?" &&
-        element.answer === "Yes"
+        questionAndAnswer.question ===
+          "Is this your first lesson with Barrett?" &&
+        questionAndAnswer.answer === "Yes"
       )
         // Send first-time customer email
         try {
@@ -81,14 +85,14 @@ export const sendCheckoutEmails = async (
               email,
               name,
             },
-            bookingDate,
+            formattedBookingDate,
             sessionType: getSessionTypeFromCalendlyEvent(event),
             bookingLocation: getSessionLocation(event),
-            zoomLink: zoomLink ? zoomLink : undefined,
+            zoomLink: zoomLink ?? undefined,
           });
           console.info(
             "First Time Customer Email Response: ",
-            firstTimeCustomerEmail
+            firstTimeCustomerEmail,
           );
         } catch (err: unknown) {
           console.error("Error sending first-time customer email", err);
@@ -108,9 +112,9 @@ export const sendCheckoutEmails = async (
         client: { email, name },
         packageName: getPackageTypeFromLineItems(lineItems),
         sessionType: getSessionTypeFromCalendlyEvent(event),
-        bookingDate,
+        formattedBookingDate,
         bookingLocation: getSessionLocation(event),
-        zoomLink: zoomLink ? zoomLink : undefined,
+        zoomLink: zoomLink ?? undefined,
       });
       console.info("Package Email Response: ", packageEmail);
     } catch (error: unknown) {
@@ -126,7 +130,7 @@ export const sendCheckoutEmails = async (
   if (
     isDownpayment &&
     invitee.resource.questions_and_answers.find(
-      (e) => e.question === "Is this your first lesson with Barrett?"
+      (e) => e.question === "Is this your first lesson with Barrett?",
     )?.answer === "No"
   ) {
     // Send single session email
@@ -134,9 +138,9 @@ export const sendCheckoutEmails = async (
       const singleSessionEmail = await sendSingleBookingEmail({
         client: { email, name },
         sessionType: getSessionTypeFromCalendlyEvent(event),
-        bookingDate,
+        formattedBookingDate,
         bookingLocation: getSessionLocation(event),
-        zoomLink: zoomLink ? zoomLink : undefined,
+        zoomLink: zoomLink ?? undefined,
       });
       console.info("Single Session Email Response: ", singleSessionEmail);
     } catch (error: unknown) {

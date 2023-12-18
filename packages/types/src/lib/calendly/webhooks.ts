@@ -79,6 +79,11 @@ export interface CalendlyPayloadData {
   timezone: string | null;
   tracking: Tracking;
   updated_at: Date | string;
+  /**
+   * URI of the invitee
+   * Example: "/scheduled_events/ABC123/invitees/DEF456"
+   * Type: string
+   */
   uri: string;
   canceled?: boolean;
   cancellation?: Cancellation;

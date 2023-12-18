@@ -1,4 +1,5 @@
 import { sendGuestEmails, sendgrid } from "@bpvs/emails-temp";
+import { formatBookingDate } from "packages/emails-temp/src/lib/utils";
 import { expect, it, vitest as vi } from "vitest";
 
 const guests = [
@@ -7,7 +8,10 @@ const guests = [
     name: "Test User",
   },
 ];
-const bookingDate = new Date();
+const formattedBookingDate = formatBookingDate(
+  new Date(Date.now()),
+  "America/New_York",
+);
 const zoomLink = "https://example.com";
 const sessionType = "Voice Lesson";
 const bookingLocation = "Virtual";
@@ -24,16 +28,7 @@ const sendgridSendBody = {
     {
       to: [...guests],
       dynamicTemplateData: {
-        bookingTime: new Date(bookingDate).toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-        bookingDate: new Date(bookingDate).toLocaleDateString([], {
-          weekday: "long",
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-        }),
+        ...formattedBookingDate,
         sessionType,
         bookingLocation,
         zoomLink,
@@ -62,7 +57,7 @@ describe("sendFirstTimeEmail should", () => {
   it("should send an email with the correct parameters", async () => {
     await sendGuestEmails({
       guests,
-      bookingDate,
+      formattedBookingDate,
       zoomLink,
       sessionType,
       bookingLocation,
@@ -82,11 +77,11 @@ describe("sendFirstTimeEmail should", () => {
     await expect(
       sendGuestEmails({
         guests,
-        bookingDate,
+        formattedBookingDate,
         zoomLink,
         sessionType,
         bookingLocation,
-      })
+      }),
     ).rejects.toThrowError("Error sending email");
   });
 });

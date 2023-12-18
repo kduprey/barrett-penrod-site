@@ -1,11 +1,12 @@
 import { sendPackageConfirmationEmail, sendgrid } from "@bpvs/emails-temp";
+import { formatBookingDate } from "packages/emails-temp/src/lib/utils";
 import { expect, it, vitest as vi } from "vitest";
 
 const client = {
   email: "test@example.com",
   name: "Test User",
 };
-const bookingDate = new Date();
+const bookingDate = formatBookingDate(new Date(Date.now()), "America/New_York");
 const zoomLink = "https://example.com";
 const sessionType = "Voice Lesson";
 const bookingLocation = "Virtual";
@@ -24,16 +25,7 @@ const sendgridSendBody = {
       to: client,
       dynamicTemplateData: {
         packageName,
-        bookingTime: new Date(bookingDate).toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-        bookingDate: new Date(bookingDate).toLocaleDateString([], {
-          weekday: "long",
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-        }),
+        ...bookingDate,
         sessionType,
         bookingLocation,
         zoomLink,
@@ -63,7 +55,7 @@ describe("sendFirstTimeEmail should", () => {
     await sendPackageConfirmationEmail({
       packageName,
       client,
-      bookingDate,
+      formattedBookingDate: bookingDate,
       zoomLink,
       sessionType,
       bookingLocation,
@@ -84,11 +76,11 @@ describe("sendFirstTimeEmail should", () => {
       sendPackageConfirmationEmail({
         packageName,
         client,
-        bookingDate,
+        formattedBookingDate: bookingDate,
         zoomLink,
         sessionType,
         bookingLocation,
-      })
+      }),
     ).rejects.toThrowError("Error sending email");
   });
 });

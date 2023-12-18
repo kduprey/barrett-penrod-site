@@ -2,21 +2,21 @@
   "name": "@bpvs/site",
   "private": true,
   "scripts": {
-    "dev": "dotenv -c -e ../../.env next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint --dir .",
-    "prisma:studio": "npx prisma studio",
-    "prisma:migrate": "npx prisma migrate dev",
-    "prisma:deploy": "npx prisma migrate deploy",
-    "prisma:generate": "npx prisma generate",
-    "prisma:format": "npx prisma format",
-    "vercel:dev": "vercel dev",
-    "cy:run": "cypress run",
+    "coverage": "vitest --coverage",
     "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "dev": "dotenv -c -e ../../.env next dev -- -p 3100",
+    "lint": "next lint --dir .",
+    "prisma:deploy": "npx prisma migrate deploy",
+    "prisma:format": "npx prisma format",
+    "prisma:generate": "npx prisma generate",
+    "prisma:migrate": "npx prisma migrate dev",
+    "prisma:studio": "npx prisma studio",
+    "start": "next start",
     "test": "dotenv -f ../../.env run vitest",
-    "test:ui": "dotenv -c -e ../../.env vitest --ui",
     "test:ci": "vitest run",
-    "coverage": "vitest --coverage"
+    "test:ui": "dotenv -c -e ../../.env vitest --ui",
+    "vercel:dev": "vercel dev"
   }
 }

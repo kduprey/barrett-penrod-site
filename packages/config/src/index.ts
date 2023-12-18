@@ -18,7 +18,7 @@ export const stripe = new Stripe(
 );
 
 export const server = dev
-  ? "https://ad14-2600-4040-9a9b-9200-2582-1bd4-300-a0fb.ngrok.io"
+  ? process.env.DEV_SERVER_URL ?? "http://localhost:3000"
   : "https://barrettpenrod.com";
 
 export const stripeMode = dev ? "test" : "live";

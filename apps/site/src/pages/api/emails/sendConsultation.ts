@@ -14,7 +14,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 /**
  * This endpoint is used to send a confirmation email to a client after booking a consultation.
  * @param client - The client's email and name
- * @param bookingDate - The start time of the consultation
+ * @param formattedBookingDate - The formatted start time and date of the consultation
  * @param zoomLink - The link to the Zoom meeting
  * @returns The response from SendGrid
  */
@@ -32,13 +32,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         JSON.stringify({
           message: "There was an error sending the email.",
           error,
-        })
+        }),
       );
 
     throw new createHttpError.InternalServerError(
       JSON.stringify({
         message: "There was an error sending the email.",
-      })
+      }),
     );
   }
 };

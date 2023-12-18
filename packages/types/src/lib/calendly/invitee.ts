@@ -16,7 +16,7 @@ export interface CalendlyInviteeResource {
   no_show?: NoShow | null;
   old_invitee: string | null;
   payment?: Payment | null;
-  questions_and_answers: Array<Question>;
+  questions_and_answers: Array<QuestionAndAnswer>;
   reconfirmation?: Reconfirmation | null;
   reschedule_url: string;
   rescheduled: boolean;
@@ -49,7 +49,7 @@ export interface Payment {
   successful: boolean;
 }
 
-export interface Question {
+export interface QuestionAndAnswer {
   question: string;
   answer?: string;
   position: number;

@@ -38,7 +38,7 @@ const createWebhook = async (url: string): Promise<CalendlyWebhook> => {
           organization,
           scope: "organization",
         },
-      }
+      },
     );
     webhooks = data.collection;
   } catch (err) {
@@ -47,7 +47,9 @@ const createWebhook = async (url: string): Promise<CalendlyWebhook> => {
 
   // Check if testing webhook already exists
   const oldWebhookURI = webhooks.find((e) =>
-    e.callback_url.includes("ngrok") ? e : null
+    e.callback_url.includes("ngrok") || e.callback_url.includes("kduprey.dev")
+      ? e
+      : null,
   )?.uri;
 
   // Remove old webhook
@@ -84,7 +86,7 @@ const createWebhook = async (url: string): Promise<CalendlyWebhook> => {
         headers: {
           Authorization: `Bearer ${process.env["CALENDLY_API_KEY"] || ""}`,
         },
-      }
+      },
     );
 
     console.info("New webhook created", webhook);
@@ -105,7 +107,7 @@ export { createWebhook };
 
 const createWebhookHandler: NextApiHandler = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   const { url } = req.body as { url: string };
   if (!url || typeof url !== "string") {
@@ -121,7 +123,7 @@ const createWebhookHandler: NextApiHandler = async (
       JSON.stringify({
         message: "Error creating webhook",
         error: err,
-      })
+      }),
     );
   }
 };

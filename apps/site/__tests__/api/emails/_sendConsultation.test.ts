@@ -1,11 +1,15 @@
 import { sendConsultationEmail, sendgrid } from "@bpvs/emails-temp";
+import { formatBookingDate } from "packages/emails-temp/src/lib/utils";
 import { expect, it, vitest as vi } from "vitest";
 
 const client = {
   email: "test@example.com",
   name: "Test User",
 };
-const bookingDate = new Date();
+const formattedBookingDate = formatBookingDate(
+  new Date(Date.now()),
+  "America/New_York",
+);
 const zoomLink = "https://example.com";
 const sendgridSendBody = {
   from: {
@@ -20,16 +24,7 @@ const sendgridSendBody = {
     {
       to: client,
       dynamicTemplateData: {
-        bookingTime: new Date(bookingDate).toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-        bookingDate: new Date(bookingDate).toLocaleDateString([], {
-          weekday: "long",
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-        }),
+        ...formattedBookingDate,
         zoomLink,
       },
     },
@@ -54,7 +49,7 @@ describe("sendConsultationEmail", () => {
   });
 
   it("should send an email with the correct parameters", async () => {
-    await sendConsultationEmail({ client, bookingDate, zoomLink });
+    await sendConsultationEmail({ client, formattedBookingDate, zoomLink });
 
     // Expect the sendgrid.send function to have been called with the correct parameters
     expect(sendgrid.send).toHaveBeenCalledWith(sendgridSendBody);
@@ -68,7 +63,7 @@ describe("sendConsultationEmail", () => {
     sendgrid.send = vi.fn().mockRejectedValue(new Error("Error sending email"));
 
     await expect(
-      sendConsultationEmail({ client, bookingDate, zoomLink })
+      sendConsultationEmail({ client, formattedBookingDate, zoomLink }),
     ).rejects.toThrowError("Error sending consultation email");
   });
 });

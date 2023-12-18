@@ -6,10 +6,15 @@ import {
   CalendlyInvitee,
   CalendlyPayloadData,
 } from "@bpvs/types";
-import { apiHandler, getCalendlyEventZoomLink } from "@bpvs/utils";
+import {
+  apiHandler,
+  getCalendlyEventZoomLink,
+  getCalendlyInvitee,
+} from "@bpvs/utils";
 import { calendlyPayloadDataSchema } from "@bpvs/validation";
 import createHttpError from "http-errors";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { formatBookingDate } from "packages/emails-temp/src/lib/utils";
 import Stripe from "stripe";
 import { z } from "zod";
 
@@ -34,7 +39,7 @@ export const createClient = async (
   event: CalendlyEvent,
   invitee: CalendlyInvitee,
   newCustomer: Stripe.Customer,
-  payloadId: string
+  payloadId: string,
 ) => {
   // Create new client in database
   console.info("Creating new client in DB");
@@ -68,7 +73,7 @@ export const createClient = async (
 export const updateClient = async (
   existingCustomer: clients,
   event: CalendlyEvent,
-  calendlyEventPayloadId: string
+  calendlyEventPayloadId: string,
 ) => {
   console.info("Updating existing customer");
   try {
@@ -129,7 +134,7 @@ const consultationParams = z.object({
 
 const consultationHandler = async (
   calendlyEventPayload: CalendlyPayloadData,
-  calendlyPayloadId: string
+  calendlyPayloadId: string,
 ): Promise<string> => {
   let zoomLink: string | null;
 
@@ -151,7 +156,7 @@ const consultationHandler = async (
   console.log("Checking if user is client");
   const existingCustomer = await checkForClient(
     calendlyEventPayload.name,
-    calendlyEventPayload.email
+    calendlyEventPayload.email,
   );
 
   // If user is already a client, update their data
@@ -159,7 +164,7 @@ const consultationHandler = async (
     await updateClient(
       existingCustomer,
       { resource: calendlyEventPayload.scheduled_event },
-      calendlyPayloadId
+      calendlyPayloadId,
     );
   else {
     // If not, create user in database and Stripe
@@ -171,20 +176,24 @@ const consultationHandler = async (
       { resource: calendlyEventPayload.scheduled_event },
       { resource: calendlyEventPayload },
       stripeCustomer,
-      calendlyPayloadId
+      calendlyPayloadId,
     );
   }
 
   // Send consultation email
   try {
     console.log("Sending consultation email");
+    const invitee = await getCalendlyInvitee(calendlyEventPayload.uri);
 
     await sendConsultationEmail({
       client: {
         name: calendlyEventPayload.name,
         email: calendlyEventPayload.email,
       },
-      bookingDate: new Date(calendlyEventPayload.scheduled_event.start_time),
+      formattedBookingDate: formatBookingDate(
+        new Date(calendlyEventPayload.scheduled_event.start_time),
+        invitee.resource.timezone,
+      ),
       zoomLink,
     });
     return "Consultation email sent and client created";
@@ -198,21 +207,21 @@ export { consultationHandler };
 
 const handler: NextApiHandler = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   const { calendlyEventPayload, calendlyPayloadId } = consultationParams.parse(
-    req.body
+    req.body,
   );
   try {
     const response = await consultationHandler(
       calendlyEventPayload,
-      calendlyPayloadId
+      calendlyPayloadId,
     );
     return res.status(200).json(response);
   } catch (error) {
     console.error(error);
     throw new createHttpError.InternalServerError(
-      JSON.stringify({ error, message: "Error processing request" })
+      JSON.stringify({ error, message: "Error processing request" }),
     );
   }
 };

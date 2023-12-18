@@ -1,5 +1,11 @@
 import { CalendlyEventResource, Cancellation } from "./event";
-import { NoShow, Payment, Question, Reconfirmation, Tracking } from "./invitee";
+import {
+  NoShow,
+  Payment,
+  QuestionAndAnswer,
+  Reconfirmation,
+  Tracking,
+} from "./invitee";
 
 export type CalendlyGetWebhook = {
   /** Array of CalendlyWebhook objects */
@@ -64,7 +70,7 @@ export interface CalendlyPayloadData {
   last_name: string | null;
   new_invitee: string | null;
   old_invitee: string | null;
-  questions_and_answers: Array<Question>;
+  questions_and_answers: Array<QuestionAndAnswer>;
   reschedule_url: string;
   rescheduled: boolean;
   routing_form_submission: string | null;
@@ -73,6 +79,11 @@ export interface CalendlyPayloadData {
   timezone: string | null;
   tracking: Tracking;
   updated_at: Date | string;
+  /**
+   * URI of the invitee
+   * Example: "/scheduled_events/ABC123/invitees/DEF456"
+   * Type: string
+   */
   uri: string;
   canceled?: boolean;
   cancellation?: Cancellation;

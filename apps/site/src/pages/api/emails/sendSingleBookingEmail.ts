@@ -17,7 +17,7 @@ import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
  * This endpoint is used to send a single booking email to a client after booking a session.
  * @param client - The email address and name of the client
  * @param sessionType - The type of session
- * @param bookingDate - The date of the event
+ * @param formattedBookingDate - The formatted date and time of the event
  * @param bookingLocation - The Location of the booking
  * @param zoomLink - The zoom link for the event (optional)
  * @returns - The response from SendGrid
@@ -25,7 +25,7 @@ import type { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
 const handler: NextApiHandler = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   const data = singleEmailSchema.parse(req.body);
 
@@ -39,13 +39,13 @@ const handler: NextApiHandler = async (
         JSON.stringify({
           message: "There was an error sending the email.",
           error,
-        })
+        }),
       );
 
     throw new createHttpError.InternalServerError(
       JSON.stringify({
         message: "There was an error sending the email.",
-      })
+      }),
     );
   }
 };

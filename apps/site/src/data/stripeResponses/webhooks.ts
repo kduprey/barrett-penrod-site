@@ -24,6 +24,7 @@ export const checkout_session_completed: Stripe.Checkout.Session = {
     shipping_address: null,
     submit: null,
     terms_of_service_acceptance: null,
+    after_submit: null,
   },
   customer: "cus_NNRmKpeWKc8i07",
   customer_creation: "always",

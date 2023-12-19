@@ -10,13 +10,13 @@
 	"prettier": "./prettier",
 	"dependencies": {
 		"@next/eslint-plugin-next": "^14.0.4",
-		"@typescript-eslint/eslint-plugin": "^6.13.2",
-		"@typescript-eslint/parser": "^6.13.2",
+		"@typescript-eslint/eslint-plugin": "^6.14.0",
+		"@typescript-eslint/parser": "^6.14.0",
 		"@vercel/style-guide": "^5.1.0",
 		"eslint": "^8.55.0",
 		"eslint-config-prettier": "^9.1.0",
-		"eslint-config-turbo": "^1.11.1",
-		"eslint-plugin-import": "^2.29.0",
+		"eslint-config-turbo": "^1.11.2",
+		"eslint-plugin-import": "^2.29.1",
 		"eslint-plugin-tailwindcss": "^3.13.0",
 		"typescript": "^5.3.3"
 	},

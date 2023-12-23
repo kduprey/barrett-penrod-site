@@ -16,15 +16,15 @@
 	},
 	"prettier": "@bpvs/eslint-config/prettier",
 	"dependencies": {
-		"@prisma/client": "^5.7.0"
+		"@prisma/client": "^5.7.1"
 	},
 	"devDependencies": {
 		"@bpvs/eslint-config": "workspace:*",
 		"@bpvs/types": "workspace:*",
 		"@faker-js/faker": "^8.3.1",
-		"@types/node": "^20.10.4",
+		"@types/node": "^20.10.5",
 		"dotenv": "^16.3.1",
-		"prisma": "^5.7.0",
+		"prisma": "^5.7.1",
 		"ts-node": "^10.9.2",
 		"tsconfig": "workspace:*",
 		"tsup": "^8.0.1",

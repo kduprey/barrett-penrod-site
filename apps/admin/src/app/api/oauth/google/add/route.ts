@@ -23,7 +23,7 @@ export const GET = () => {
 		access_type: "offline",
 		scope: ["https://www.googleapis.com/auth/calendar"],
 		prompt: "consent",
-		state: `${Buffer.from(userId).toString("base64")}`,
+		state: Buffer.from(userId).toString("base64"),
 	});
 
 	return redirect(url);

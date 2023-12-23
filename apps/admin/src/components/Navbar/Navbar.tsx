@@ -92,7 +92,7 @@ export const Navbar = () => {
 		<NavbarLink
 			{...link}
 			active={index === active}
-			href={`${link.href}`}
+			href={link.href}
 			key={link.label}
 			onClick={() => {
 				setActive(index);

@@ -95,6 +95,140 @@ model ConnectedCalendar {
     @@map("connected_calendars")
 }
 
+// Aka Event Type - a type of service that can be booked
+model ServiceType {
+    id               Int                @id @default(autoincrement())
+    name             String             @unique
+    description      String?
+    // productId is the id of the product in stripe
+    productId        String
+    // duration is in minutes
+    duration         Int                @default(60)
+    bufferTimeBefore Int                @default(0)
+    bufferTimeAfter  Int                @default(0)
+    locations        ServiceLocations[]
+
+    timestamp              DateTime             @default(now())
+    updatedAt              DateTime             @default(now()) @updatedAt
+    ServiceAvailability    AvailabilitySchedule @relation(fields: [availabilityScheduleId], references: [id])
+    availabilityScheduleId Int
+    ServiceBooking         ServiceBooking[]
+
+    @@map("services")
+}
+
+model ServiceLocations {
+    id        Int           @id @default(autoincrement())
+    serviceId Int
+    location  String?
+    type      LOCATION_TYPE
+    Service   ServiceType   @relation(fields: [serviceId], references: [id])
+    Client    Client[]
+
+    @@map("service_locations")
+}
+
+enum LOCATION_TYPE {
+    ZOOM
+    PHYSICAL
+
+    @@map("LOCATION_TYPE")
+}
+
+model AvailabilitySchedule {
+    id        Int                  @id @default(autoincrement())
+    // dayOfWeek is the day of the week, 0 = Sunday, 1 = Monday, etc.
+    dayOfWeek Int
+    startTime DateTime
+    endTime   DateTime
+    oneOffs   OneOffAvailability[]
+    Service   ServiceType[]
+
+    @@map("availability_schedules")
+}
+
+model OneOffAvailability {
+    id                     Int                   @id @default(autoincrement())
+    // dayOfWeek is the day of the week, 0 = Sunday, 1 = Monday, etc.
+    startTime              DateTime
+    endTime                DateTime
+    date                   DateTime
+    AvailabilitySchedule   AvailabilitySchedule? @relation(fields: [availabilityScheduleId], references: [id])
+    availabilityScheduleId Int?
+
+    @@index([availabilityScheduleId])
+    @@map("one_off_availabilities")
+}
+
+model ServiceBooking {
+    id            Int            @id @default(autoincrement())
+    serviceType   ServiceType    @relation(fields: [serviceTypeId], references: [id])
+    serviceTypeId Int
+    title         String?
+    description   String?
+    startTime     DateTime
+    endTime       DateTime
+    client        Client         @relation(fields: [clientId], references: [id])
+    clientId      Int
+    guests        Guest[]
+    status        BOOKING_STATUS @default(PENDING)
+    paid          Boolean        @default(false)
+    payment       String         @unique
+    rescheduled   Boolean        @default(false)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+enum BOOKING_STATUS {
+    CANCELLED     @map("cancelled")
+    PENDING       @map("pending")
+    ACCEPTED      @map("accepted")
+    REJECTED      @map("rejected")
+    AWAITING_HOST @map("awaiting_host")
+}
+
+model Client {
+    id                 Int               @id @default(autoincrement())
+    createdAt          DateTime          @default(now())
+    updatedAt          DateTime          @updatedAt
+    activeMember       Boolean           @default(true)
+    archived           Boolean           @default(false)
+    email              String            @unique
+    sessionsRemaining  Int               @default(0)
+    name               String            @unique
+    notes              String?
+    preferredLocation  ServiceLocations? @relation(fields: [serviceLocationsId], references: [id])
+    pronouns           String?
+    stripeCustomerId   String?           @unique
+    authId             String?           @unique
+    serviceBookings    ServiceBooking[]
+    serviceLocationsId Int?
+
+    @@index([email])
+    @@index([name])
+    @@index([authId])
+    @@index([stripeCustomerId])
+    @@index([activeMember])
+    @@map("clients")
+}
+
+model Guest {
+    id               Int            @id @default(autoincrement())
+    name             String
+    email            String
+    phone            String?
+    createdAt        DateTime       @default(now())
+    updatedAt        DateTime       @updatedAt
+    serviceBooking   ServiceBooking @relation(fields: [serviceBookingId], references: [id])
+    serviceBookingId Int
+
+    @@index([email])
+    @@index([name])
+    @@index([phone])
+    @@map("guests")
+}
+
 // model CalendlyEventUpdate {
 //     id               Int                          @id @default(autoincrement())
 //     createdAt        DateTime                     @default(now())

@@ -1,9 +1,8 @@
 import { GCalList } from "./GCalList";
 import { GCalSettingsWidget } from "./GCalSettingsWidget";
-import { getConnectedCalendars, getGCalList } from "./actions";
+import { getGCalList } from "./actions";
 
 export const GCalWidget = async () => {
-	const cals = await getConnectedCalendars();
 	const gCals = await getGCalList();
 
 	if (!gCals) return <GCalSettingsWidget />;
@@ -11,7 +10,6 @@ export const GCalWidget = async () => {
 	return (
 		<GCalList
 			{...{
-				cals,
 				gCals,
 			}}
 		/>

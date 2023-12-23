@@ -2,31 +2,24 @@
 
 import { Card, Group, Badge, SwitchGroup, Stack } from "@mantine/core";
 import { CalendarSwitch } from "./CalendarSwitch";
-import { onCalendarToggle } from "./actions";
+import { useConnectedCalendars, useUpdateConnectedCalendars } from "./hooks";
 
 export const GCalList = ({
-	cals,
 	gCals,
 }: {
-	cals?: {
-		id: number;
-		externalCalId: string;
-		name: string;
-		isPrimary: boolean;
-		timestamp: Date;
-		updatedAt: Date;
-		isDestinationCalendar: boolean;
-	}[];
 	gCals?: {
 		id: string;
-		name: string | null | undefined;
+		name?: string | null;
 		primary: boolean;
 		readOnly: boolean;
-		email: string | null | undefined;
-		description: string | null | undefined;
-		timeZone: string | null | undefined;
+		email?: string | null;
+		description?: string | null;
+		timeZone?: string | null;
 	}[];
 }) => {
+	const { mutate, isPending } = useUpdateConnectedCalendars();
+	const { data: cals } = useConnectedCalendars();
+
 	return (
 		<Card>
 			<Group justify="space-between">
@@ -36,8 +29,8 @@ export const GCalList = ({
 
 			<SwitchGroup
 				label="Select the calendars to check against for conflicts"
-				onChange={async (value) => {
-					await onCalendarToggle(
+				onChange={(value) => {
+					mutate(
 						value.map((id) => {
 							return {
 								id,
@@ -63,6 +56,7 @@ export const GCalList = ({
 						.map((cal) => {
 							return (
 								<CalendarSwitch
+									disabled={isPending}
 									id={cal.id}
 									key={cal.id}
 									name={String(cal.name)}

@@ -27,8 +27,8 @@
 		"@fortawesome/free-brands-svg-icons": "^6.5.1",
 		"@fortawesome/free-solid-svg-icons": "^6.5.1",
 		"@fortawesome/react-fontawesome": "^0.2.0",
-		"@prisma/nextjs-monorepo-workaround-plugin": "^5.7.0",
-		"@sentry/nextjs": "^7.88.0",
+		"@prisma/nextjs-monorepo-workaround-plugin": "^5.7.1",
+		"@sentry/nextjs": "^7.91.0",
 		"axios": "^1.6.2",
 		"framer-motion": "^10.16.16",
 		"next": "^14.0.4",
@@ -49,11 +49,11 @@
 		"@bpvs/utils": "workspace:*",
 		"@bpvs/validation": "workspace:*",
 		"@next/eslint-plugin-next": "^14.0.4",
-		"@types/node": "^20.10.4",
+		"@types/node": "^20.10.5",
 		"@types/react": "^18.2.45",
-		"@types/react-dom": "^18.2.17",
+		"@types/react-dom": "^18.2.18",
 		"@types/react-scroll": "^1.8.10",
-		"@typescript-eslint/parser": "^6.14.0",
+		"@typescript-eslint/parser": "^6.15.0",
 		"@vitejs/plugin-react": "^4.2.1",
 		"barrelsby": "^2.8.1",
 		"cypress": "^13.6.1",
@@ -61,6 +61,6 @@
 		"tsconfig": "workspace:*",
 		"typescript": "^5.3.3",
 		"vite-tsconfig-paths": "^4.2.2",
-		"vitest": "^1.0.4"
+		"vitest": "^1.1.0"
 	}
 }

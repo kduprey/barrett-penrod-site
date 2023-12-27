@@ -105,7 +105,7 @@
     "@vitest/coverage-v8": "^1.1.0",
     "@vitest/ui": "^1.1.0",
     "autoprefixer": "^10.4.16",
-    "cypress": "^13.6.1",
+    "cypress": "^13.6.2",
     "dotenv": "^16.3.1",
     "eslint": "^8.55.0",
     "eslint-config-bpvs": "^0.0.0",

@@ -26,7 +26,7 @@ const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
 
   const handleBackStep = (
     e: React.MouseEvent<HTMLDivElement>,
-    currentStep: number
+    currentStep: number,
   ): void => {
     if (currentStep === 1) {
       setStep([1]);
@@ -52,7 +52,7 @@ const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
       exit={{ opacity: 0 }}
     >
       <div
-        className={` withTransition relative top-20 m-6 mx-auto flex max-w-[95%] grow flex-col items-center rounded-lg bg-secondary py-6 px-4 lg:max-w-screen-md ${
+        className={` withTransition relative top-20 m-6 mx-auto flex max-w-[95%] grow flex-col items-center rounded-lg bg-secondary px-4 py-6 lg:max-w-screen-md ${
           isOpen ? "top-20" : "-top-full"
         }`}
       >
@@ -189,7 +189,7 @@ const BundleModal = ({ isOpen, setIsOpen, selectedBundle }: Props) => {
                 isOpen ? setIsOpen(false) : setIsOpen(true);
 
                 router.push(
-                  `/bookings/bookNow?service=${service}&location=${location}&bundle=${selectedBundle}`
+                  `/voice-studio/bookNow?service=${service}&location=${location}&bundle=${selectedBundle}`,
                 );
               }
             }}

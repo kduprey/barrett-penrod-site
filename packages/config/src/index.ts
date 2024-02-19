@@ -12,7 +12,7 @@ export const stripe = new Stripe(
     typescript: true,
     appInfo: {
       name: "Booking Site",
-      url: "https://barrettpendrod.com/bookings",
+      url: "https://barrettpendrod.com/voice-studio",
     },
   },
 );

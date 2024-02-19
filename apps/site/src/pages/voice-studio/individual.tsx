@@ -22,7 +22,7 @@ const Individual: NextPageWithLayout = () => {
 
   const handleBackStep = (
     e: React.MouseEvent<HTMLDivElement>,
-    currentStep: number
+    currentStep: number,
   ): void => {
     if (currentStep === 1) {
       setStep([1]);
@@ -44,7 +44,7 @@ const Individual: NextPageWithLayout = () => {
           Book your Individual Session
         </h3>
 
-        <div className="order-2 m-3 flex flex-col items-center rounded-lg bg-secondary py-6 px-4 lg:order-1 ">
+        <div className="order-2 m-3 flex flex-col items-center rounded-lg bg-secondary px-4 py-6 lg:order-1 ">
           <div className="flex w-full items-start justify-evenly space-x-3">
             {/* Step 1 */}
             <div
@@ -172,7 +172,7 @@ const Individual: NextPageWithLayout = () => {
                 if (!step.includes(3)) handleContinue(e);
                 if (step.includes(3)) {
                   router.push(
-                    `/bookings/bookNow?service=${service}&location=${location}`
+                    `/voice-studio/bookNow?service=${service}&location=${location}`,
                   );
                 }
               }}

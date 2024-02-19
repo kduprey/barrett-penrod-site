@@ -16,7 +16,7 @@ interface CheckoutParams {
 }
 
 const createCheckoutSession = async (
-  params: CheckoutParams
+  params: CheckoutParams,
 ): Promise<{
   url: string;
   id: string;
@@ -63,7 +63,7 @@ const createCheckoutSession = async (
   if (
     !isTrialSession &&
     services[params.service].locations.indexOf(
-      services[params.service].locations[params.location]
+      services[params.service].locations[params.location],
     ) === -1
   )
     throw new Error("Invalid location");
@@ -97,10 +97,10 @@ const createCheckoutSession = async (
     line_items.push(Prices[2].priceID[stripeMode]);
 
   // Create success url
-  const successURL: URL = new URL(params.origin + "/bookings/success");
+  const successURL: URL = new URL(params.origin + "/voice-studio/success");
 
   // Create cancel url
-  const cancelURL: URL = new URL(params.origin + "/bookings/cancel");
+  const cancelURL: URL = new URL(params.origin + "/voice-studio/cancel");
 
   // Create the Checkout Session Template
   const sessionTemplate: Stripe.Checkout.SessionCreateParams = {
@@ -198,7 +198,7 @@ const POSTCheckoutBody = z.object({
 
 const POSTCheckout: NextApiHandler = async (
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) => {
   const data = POSTCheckoutBody.parse(req.body);
   const origin = z.string().parse(req.headers.origin);

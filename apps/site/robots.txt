@@ -3,6 +3,6 @@ Disallow:
 Crawl-delay: 5
 Disallow: /cgi-bin/
 Disallow: /api/
-Disallow: /bookings/success
-Disallow: /bookings/cancel
-Disallow: /bookings/bookNow
+Disallow: /voice-studio/success
+Disallow: /voice-studio/cancel
+Disallow: /voice-studio/bookNow

@@ -62,6 +62,6 @@ export const menus: NavMenu[] = [
   },
   {
     name: "Voice Studio",
-    path: "/bookings",
+    path: "/voice-studio",
   },
 ];

@@ -16,7 +16,7 @@ const Consultation: NextPageWithLayout = () => {
       // TODO: Update URLS to use window location
 
       // Redirect to Success Page
-      const successURL = new URL(`${server}/bookings/consultationSuccess`);
+      const successURL = new URL(`${server}/voice-studio/consultationSuccess`);
       // Add query params to success URL
       // Add service name to query params
       successURL.searchParams.append("eventURI", e.data.payload.event.uri);

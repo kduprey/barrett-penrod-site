@@ -173,7 +173,7 @@ describe("Homepage", () => {
 
     it("should navigate to Voice Studio when clicked", () => {
       cy.getByData("navbar").contains("Voice Studio").click();
-      cy.url().should("include", "/bookings");
+      cy.url().should("include", "/voice-studio");
     });
   });
 });

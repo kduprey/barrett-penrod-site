@@ -17,5 +17,6 @@ export default withBundleAnalyzer({
 			"@mantine/hooks",
 			"@tanstack/react-query",
 		],
+		// instrumentationHook: true,
 	},
 });

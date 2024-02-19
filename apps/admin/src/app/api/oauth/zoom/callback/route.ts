@@ -3,7 +3,13 @@ import { clerkClient } from "@clerk/nextjs";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { redirect } from "next/navigation";
+import { z } from "zod";
 import { setZoomKeys } from "@/utils/zoom/credentials";
+
+const stateSchema = z.object({
+	userId: z.string(),
+	isFirstTime: z.boolean().optional(),
+});
 
 export const GET = async (req: NextRequest) => {
 	const code = req.nextUrl.searchParams.get("code");
@@ -24,7 +30,9 @@ export const GET = async (req: NextRequest) => {
 		});
 	}
 
-	const userId = Buffer.from(state, "base64").toString("utf-8");
+	const { userId, isFirstTime } = stateSchema.parse(
+		JSON.parse(Buffer.from(state, "base64").toString("utf-8"))
+	);
 
 	const [_, userErr] = await trytm(clerkClient.users.getUser(userId));
 	if (userErr)
@@ -41,5 +49,7 @@ export const GET = async (req: NextRequest) => {
 		});
 	}
 
-	return redirect("/dashboard/settings");
+	return redirect(
+		`/dashboard/settings${isFirstTime ? "?isFirstTime=true" : ""}`
+	);
 };

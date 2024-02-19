@@ -1,10 +1,11 @@
 import { auth } from "@clerk/nextjs";
 import { Auth } from "googleapis";
 import { redirect } from "next/navigation";
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { ADMIN_URL } from "@bpvs/config";
 
-export const GET = () => {
+export const GET = (req: NextRequest) => {
 	const { userId } = auth();
 
 	if (!userId) {
@@ -14,9 +15,11 @@ export const GET = () => {
 	}
 
 	const oAuthClient = new Auth.OAuth2Client({
-		clientId: process.env.GOOGLE_OAUTH_CLIENT_ID,
-		clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
-		redirectUri: `${ADMIN_URL}/api/oauth/google/callback`,
+		clientId: process.env.GOOGLE_OAUTH_CLIENT_ID as string,
+		clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET as string,
+		redirectUri: `${ADMIN_URL}/api/oauth/google/callback${
+			req.nextUrl.searchParams.get("isFirstTime") ? "?isFirstTime=true" : ""
+		}`,
 	});
 
 	const url = oAuthClient.generateAuthUrl({

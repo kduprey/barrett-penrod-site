@@ -8,9 +8,12 @@ import { redirect } from "next/navigation";
 import { ADMIN_URL } from "@bpvs/config";
 
 export const GET = async (req: NextRequest) => {
+	const isFirstTime =
+		req.nextUrl.searchParams.get("isFirstTime")?.toLowerCase() === "true";
+
 	const oAuthClient = new Auth.OAuth2Client({
-		clientId: process.env.GOOGLE_OAUTH_CLIENT_ID,
-		clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+		clientId: process.env.GOOGLE_OAUTH_CLIENT_ID as string,
+		clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET as string,
 		redirectUri: `${ADMIN_URL}/api/oauth/google/callback`,
 	});
 
@@ -51,6 +54,10 @@ export const GET = async (req: NextRequest) => {
 			),
 		},
 	});
+
+	if (isFirstTime) {
+		return redirect("/dashboard/settings?isFirstTime=true");
+	}
 
 	return redirect("/dashboard/settings");
 };

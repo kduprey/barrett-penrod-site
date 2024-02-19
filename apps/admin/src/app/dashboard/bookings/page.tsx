@@ -1,9 +1,24 @@
-import { Container } from "@mantine/core";
+import { Button, Container, Group, Space, Title } from "@mantine/core";
+import Link from "next/link";
+import { TodaysBookingsWidget, WeeksBookingsWidget } from "@/components";
 
 const Page = () => {
 	return (
-		<Container>
-			<h1>Bookings</h1>
+		<Container fluid>
+			<Group justify="space-between" p="xs">
+				<Title>Bookings</Title>
+				<Button
+					component={Link}
+					href="/dashboard/bookings/services"
+					variant="light"
+				>
+					Manage Services
+				</Button>
+			</Group>
+
+			<TodaysBookingsWidget />
+			<Space h={20} />
+			<WeeksBookingsWidget />
 		</Container>
 	);
 };

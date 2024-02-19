@@ -1,5 +1,5 @@
-import { ZoomAccountWidget } from "./ZoomAccountWidget";
-import { ZoomSettingsWidget } from "./ZoomSettingsWidget";
+import { ZoomAccountWidget } from "./ZoomAccountWidget/ZoomAccountWidget";
+import { ZoomSettingsWidget } from "./ZoomSettingsWidget/ZoomSettingsWidget";
 import { getZoomInfo } from "./actions";
 
 export const ZoomWidget = async () => {

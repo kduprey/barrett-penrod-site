@@ -1,7 +1,7 @@
 "use client";
 
 import { Badge, Button, Card, Group, Stack, Title } from "@mantine/core";
-import { disconnectZoom } from "./actions";
+import { disconnectZoom } from "../actions";
 import type { ZoomGetUserId } from "@/utils/zoom/schemas";
 
 export const ZoomAccountWidget = ({
@@ -9,19 +9,6 @@ export const ZoomAccountWidget = ({
 }: {
 	userData: ZoomGetUserId;
 }) => {
-	// if (status === "pending" || disconnectStatus === "pending") {
-	// 	return (
-	// 		<Card>
-	// 			<Group justify="space-between">
-	// 				<h1>Zoom</h1>
-	// 				<Badge color="green">Connected</Badge>
-	// 			</Group>
-
-	// 			<Loader type="dots" />
-	// 		</Card>
-	// 	);
-	// }
-
 	return (
 		<Card>
 			<Group justify="space-between">

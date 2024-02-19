@@ -21,13 +21,13 @@
 	"devDependencies": {
 		"@bpvs/eslint-config": "workspace:*",
 		"@bpvs/types": "workspace:*",
-		"@faker-js/faker": "^8.4.0",
-		"@types/node": "^20.11.16",
-		"dotenv": "^16.4.1",
+		"@faker-js/faker": "^8.4.1",
+		"@types/node": "^20.11.19",
+		"dotenv": "^16.4.4",
 		"prisma": "^5.9.1",
 		"ts-node": "^10.9.2",
 		"tsconfig": "workspace:*",
-		"tsup": "^8.0.1",
+		"tsup": "^8.0.2",
 		"typescript": "^5.3.3"
 	},
 	"prisma": {

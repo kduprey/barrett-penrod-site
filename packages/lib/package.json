@@ -8,7 +8,7 @@
 		"@bpvs/db": "workspace:*",
 		"@bpvs/validation": "workspace:*",
 		"axios": "^1.6.7",
-		"googleapis": "^132.0.0",
+		"googleapis": "^133.0.0",
 		"graphql-request": "^6.1.0",
 		"tslog": "^4.9.2",
 		"zod": "^3.22.4"
@@ -16,7 +16,7 @@
 	"devDependencies": {
 		"@bpvs/eslint-config": "workspace:*",
 		"@bpvs/types": "workspace:*",
-		"@types/node": "^20.11.16",
+		"@types/node": "^20.11.19",
 		"tsconfig": "workspace:*"
 	}
 }

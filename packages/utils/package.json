@@ -13,7 +13,7 @@
 		"http-errors": "^2.0.0",
 		"next": "^14.1.0",
 		"zod": "^3.22.4",
-		"zod-validation-error": "^3.0.0"
+		"zod-validation-error": "^3.0.2"
 	},
 	"devDependencies": {
 		"@bpvs/eslint-config": "workspace:*",

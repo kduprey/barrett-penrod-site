@@ -1,5 +1,6 @@
 import { Container, Space } from "@mantine/core";
 import { GCalWidget, ZoomWidget } from "@/components";
+import { StripeWidget } from "@/components/Widgets/StripeWidget/StripeWidget";
 
 const Page = () => {
 	return (
@@ -8,6 +9,8 @@ const Page = () => {
 			<GCalWidget />
 			<Space h={20} />
 			<ZoomWidget />
+			<Space h={20} />
+			<StripeWidget />
 		</Container>
 	);
 };

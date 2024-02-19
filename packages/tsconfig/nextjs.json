@@ -10,14 +10,23 @@
 		"incremental": true,
 		"jsx": "preserve",
 		"lib": ["dom", "dom.iterable", "esnext"],
-		"module": "esnext",
-		"noEmit": true,
 		"resolveJsonModule": true,
-		"target": "es5",
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
-		"noFallthroughCasesInSwitch": true,
 		"skipLibCheck": true,
-		"strict": true
+		"module": "ESNext",
+		"target": "ESNext",
+		"strict": true,
+		"noEmit": true,
+		"useUnknownInCatchVariables": true,
+		"noImplicitOverride": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"exactOptionalPropertyTypes": true,
+		"noImplicitReturns": true,
+		"noUncheckedIndexedAccess": true,
+		"allowImportingTsExtensions": true,
+		"verbatimModuleSyntax": true
 	}
 }

@@ -48,13 +48,23 @@ const nextConfig = withAxiom({
         permanent: true,
       },
       {
-        source: "/bookings/trial",
+        source: "/voice-studio/trial",
         destination: "/bookings/bookNow?service=4&location=1",
         permanent: true,
       },
       {
-        source: "/bookings/trial-svs",
+        source: "/voice-studio/trial-svs",
         destination: "/bookings/bookNow?service=5&location=1",
+        permanent: true,
+      },
+      {
+        source: "/bookings/:slug*",
+        destination: "/voice-studio/:slug*",
+        permanent: true,
+      },
+      {
+        source: "/voicestudio/:slug*",
+        destination: "/voice-studio/:slug*",
         permanent: true,
       },
     ];

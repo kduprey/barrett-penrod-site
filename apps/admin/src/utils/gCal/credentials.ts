@@ -9,7 +9,7 @@ const gCalCredentialsSchema = z.object({
 	scope: z.string(),
 	token_type: z.string(),
 	expiry_date: z.number(),
-	id_token: z.string().optional(),
+	id_token: z.string().nullable().optional(),
 });
 
 export type GCalCredentials = z.infer<typeof gCalCredentialsSchema>;
@@ -49,7 +49,7 @@ export class GCal {
 
 	constructor(credential: GCalCredentials) {
 		this.credential = credential;
-		this.auth = this.googleAuth(credential);
+		this.auth = this.googleAuth(this.credential);
 		this.credential = credential;
 	}
 
@@ -61,7 +61,10 @@ export class GCal {
 				getGoogleAppKeys().clientSecret,
 				getGoogleAppKeys().redirectUri
 			);
-			auth.setCredentials(credential);
+			auth.setCredentials({
+				...googleCredentials,
+				id_token: googleCredentials.id_token ?? null,
+			});
 			return auth;
 		}
 
@@ -85,7 +88,10 @@ export class GCal {
 						),
 					},
 				});
-				googleAuth.setCredentials(googleCredentials);
+				googleAuth.setCredentials({
+					...googleCredentials,
+					id_token: googleCredentials.id_token ?? null,
+				});
 			} catch (error) {
 				let message;
 				if (error instanceof Error) message = error.message;
@@ -165,11 +171,11 @@ export class GCal {
 }
 
 class MyGoogleAuth extends Auth.OAuth2Client {
-	isTokenExpiring() {
+	override isTokenExpiring() {
 		return super.isTokenExpiring();
 	}
 
-	async refreshToken(token: string | null | undefined) {
+	override async refreshToken(token: string | null | undefined) {
 		return super.refreshToken(token);
 	}
 }

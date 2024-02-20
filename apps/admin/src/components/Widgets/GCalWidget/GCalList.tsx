@@ -9,12 +9,12 @@ export const GCalList = ({
 }: {
 	gCals?: {
 		id: string;
-		name?: string | null;
+		name?: string | null | undefined;
 		primary: boolean;
 		readOnly: boolean;
-		email?: string | null;
-		description?: string | null;
-		timeZone?: string | null;
+		email?: string | null | undefined;
+		description?: string | null | undefined;
+		timeZone?: string | null | undefined;
 	}[];
 }) => {
 	const { mutate, isPending } = useUpdateConnectedCalendars();
@@ -40,7 +40,7 @@ export const GCalList = ({
 					);
 				}}
 				pos="relative"
-				value={cals?.map((cal) => cal.externalCalId)}
+				value={cals?.map((cal) => cal.externalCalId) ?? []}
 			>
 				<Stack p="sm">
 					{gCals

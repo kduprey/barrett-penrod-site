@@ -1,9 +1,10 @@
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { getZoomRedirectUrl } from "@/utils/zoom/credentials";
 
-export const GET = () => {
+export const GET = (req: NextRequest) => {
 	const { userId } = auth();
 
 	if (!userId) {
@@ -12,5 +13,10 @@ export const GET = () => {
 		});
 	}
 
-	return redirect(getZoomRedirectUrl(userId));
+	return redirect(
+		getZoomRedirectUrl(
+			userId,
+			req.nextUrl.searchParams.get("isFirstTime") === "true"
+		)
+	);
 };

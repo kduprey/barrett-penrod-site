@@ -177,10 +177,10 @@ const invalidateZoomCredentials = async () => {
 	});
 };
 
-export const getZoomRedirectUrl = (userId: string) => {
+export const getZoomRedirectUrl = (userId: string, isFirstTime?: boolean) => {
 	const { clientId, redirectUri } = getZoomAppKeys();
 	return `https://zoom.us/oauth/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${Buffer.from(
-		userId
+		JSON.stringify({ userId, isFirstTime })
 	).toString("base64")}`;
 };
 

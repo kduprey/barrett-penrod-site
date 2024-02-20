@@ -9,7 +9,7 @@ import type {
 	ListBuilder,
 	ListItemBuilder,
 	StructureBuilder,
-} from "sanity/desk";
+} from "sanity/structure";
 import { homeSchema } from "@/schemas/home";
 
 export const singleTypes: SchemaTypeDefinition[] = [];

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type MouseEventHandler } from "react";
 import { Tooltip, UnstyledButton, Text, Stack, rem, Flex } from "@mantine/core";
 import {
 	IconHome2,
@@ -19,7 +19,7 @@ interface NavbarLinkProps {
 	icon: typeof IconHome2;
 	label: string;
 	active?: boolean;
-	onClick?: () => void;
+	onClick?: MouseEventHandler<HTMLAnchorElement>;
 	href: string;
 }
 
@@ -39,15 +39,15 @@ const NavbarLink = ({
 		>
 			<UnstyledButton
 				component={Link}
-				data-active={active || undefined}
+				data-active={active}
 				href={href}
 				onClick={onClick}
 				w="100%"
 			>
 				<Flex
 					align="center"
-					className={classes.link}
-					data-active={active || undefined}
+					className={classes.link ?? ""}
+					data-active={active}
 					gap="xs"
 				>
 					<div className={classes.linkIcon}>

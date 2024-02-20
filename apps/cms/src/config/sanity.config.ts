@@ -1,6 +1,6 @@
 import { defineConfig } from "sanity";
 import { visionTool } from "@sanity/vision";
-import { deskTool } from "sanity/desk";
+import { structureTool } from "sanity/structure";
 import { defaultDocumentNode } from "./defaultDocumentNode";
 import { deskStructure, schemaTemplatesFilter } from "./deskStructure";
 import * as schemas from "@/schemas";
@@ -18,7 +18,7 @@ export default defineConfig({
 		dataset: "production",
 	},
 	plugins: [
-		deskTool({
+		structureTool({
 			structure: deskStructure,
 			defaultDocumentNode,
 		}),

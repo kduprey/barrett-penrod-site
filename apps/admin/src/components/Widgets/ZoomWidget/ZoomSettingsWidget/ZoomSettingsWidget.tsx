@@ -1,11 +1,11 @@
-import { Text, Button, Card, Group, Badge } from "@mantine/core";
+import { Text, Button, Card, Group, Badge, Title } from "@mantine/core";
 import Link from "next/link";
 
 export const ZoomSettingsWidget = () => {
 	return (
 		<Card>
 			<Group justify="space-between">
-				<h1>Zoom </h1>
+				<Title>Zoom</Title>
 				<Badge color="red">Disconnected</Badge>
 			</Group>
 

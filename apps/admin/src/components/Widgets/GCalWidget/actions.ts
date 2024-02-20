@@ -41,6 +41,7 @@ export const getConnectedCalendars = async () => {
 
 export const getGCalList = async () => {
 	const gCalCredentials = await getGCalAppCredentials();
+
 	if (!gCalCredentials) return;
 	const gCal = new GCal(gCalCredentials);
 	return gCal.getCalendarList();

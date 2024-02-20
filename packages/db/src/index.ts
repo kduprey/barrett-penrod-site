@@ -19,11 +19,11 @@ export const prismaConfig =
 		? {
 				log: ["query", "info", "warn", "error"] as PrismaClientOptions["log"],
 				errorFormat: "pretty" as PrismaClientOptions["errorFormat"],
-		  }
+			}
 		: {
 				log: ["query", "info", "warn", "error"] as PrismaClientOptions["log"],
 				errorFormat: "minimal" as PrismaClientOptions["errorFormat"],
-		  };
+			};
 
 // eslint-disable-next-line import/no-mutable-exports -- Adding gloabl PrismaClient
 let prisma: PrismaClient;

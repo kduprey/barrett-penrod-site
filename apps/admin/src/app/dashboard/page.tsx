@@ -1,4 +1,13 @@
+import { Container, Title } from "@mantine/core";
+import { FirstTimeSetup } from "@/components";
+
 const Page = () => {
-	return <h1>Hello</h1>;
+	return (
+		<Container fluid>
+			<Title pb="md">Dashboard</Title>
+
+			<FirstTimeSetup />
+		</Container>
+	);
 };
 export default Page;

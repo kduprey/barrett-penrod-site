@@ -8,7 +8,7 @@ const Page = () => {
 	const { colorScheme } = useMantineColorScheme();
 
 	return (
-		<Center h={"100%"} bg={"black"}>
+		<Center bg="black" h="100%">
 			<SignUp
 				appearance={{
 					baseTheme: colorScheme === "dark" ? dark : undefined,

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Group, Switch, em, rem } from "@mantine/core";
+import { Button, Group, Switch, em } from "@mantine/core";
 import { IconCopy, IconPlus } from "@tabler/icons-react";
 import { useState } from "react";
 import { TimeSelect } from "@/components/TimeSelect/TimeSelect";
@@ -83,10 +83,10 @@ export const SetupWorkingHoursStep = (props: SetupWorkingHoursStepProps) => {
 		Sunday: "",
 	});
 
-	const toggleAvailability = (day: string, availability: string) => {
+	const toggleAvailability = (day: string, avail: string) => {
 		setAvailability((current) => ({
 			...current,
-			[day]: availability,
+			[day]: avail,
 		}));
 	};
 

@@ -8,7 +8,6 @@ export * from "./FirstTimeSetup/steps/ConnectZoomStep";
 export * from "./FirstTimeSetup/steps/SetupWorkingHoursStep";
 export * from "./Navbar/Navbar";
 export * from "./PageWrapper/PageWrapper";
-export * from "./TimeSelect/TimeSelect.stories";
 export * from "./TimeSelect/TimeSelect";
 export * from "./Widgets/GCalWidget/CalendarSwitch";
 export * from "./Widgets/GCalWidget/GCalList";
@@ -20,10 +19,7 @@ export * from "./Widgets/StripeWidget/StripeDisconnectedCard/StripeDisconnectedC
 export * from "./Widgets/TodaysBookingsWidget/TodaysBookingsWidget";
 export * from "./Widgets/WeeksBookingsWidget/WeeksBookingsWidget";
 export * from "./Widgets/ZoomWidget/ZoomWidget";
-export * from "./Widgets/ZoomWidget/ZoomAccountWidget/ZoomAccountWidget.stories";
 export * from "./Widgets/ZoomWidget/ZoomAccountWidget/ZoomAccountWidget";
-export * from "./Widgets/ZoomWidget/ZoomSettingsWidget/ZoomSettingsWidget.stories";
 export * from "./Widgets/ZoomWidget/ZoomSettingsWidget/ZoomSettingsWidget";
-export * from "./services/new/NewServiceForm/NewServiceForm.stories";
 export * from "./services/new/NewServiceForm/NewServiceForm";
 export * from "./services/new/NewServiceQuickForm/NewServiceQuickForm";

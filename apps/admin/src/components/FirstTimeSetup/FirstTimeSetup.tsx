@@ -2,7 +2,6 @@
 
 import {
 	Button,
-	Modal,
 	Stepper,
 	StepperCompleted,
 	StepperStep,
@@ -40,7 +39,7 @@ export const FirstTimeSetup = () => {
 		<div>
 			{/* <Modal onClose={close} opened title="Welcome to BPVS Admin!"> */}
 			<Stepper active={value} allowNextStepsSelect>
-				{/* <StepperStep
+				<StepperStep
 					description="Connect Google Calendar"
 					icon={<IconBrandGoogle />}
 					label="Connect Google Calendar"
@@ -63,7 +62,7 @@ export const FirstTimeSetup = () => {
 					loading={stripeData.isLoading}
 				>
 					<ConnectStripeStep {...{ nextStep, stripeData }} />
-				</StepperStep> */}
+				</StepperStep>
 				<StepperStep
 					allowStepClick
 					allowStepSelect

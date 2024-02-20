@@ -49,7 +49,7 @@ export class GCal {
 
 	constructor(credential: GCalCredentials) {
 		this.credential = credential;
-		this.auth = this.googleAuth(credential);
+		this.auth = this.googleAuth(this.credential);
 		this.credential = credential;
 	}
 

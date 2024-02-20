@@ -11,7 +11,6 @@ import {
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
-import { FirstTimeSetup } from "@/components/FirstTimeSetup/FirstTimeSetup";
 
 const serviceSchema = z.object({
 	name: z.string(),

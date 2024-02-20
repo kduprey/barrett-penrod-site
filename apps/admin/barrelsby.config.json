@@ -4,5 +4,5 @@
 	"directory": ["./src/components"],
 	"noHeader": true,
 	"include": ".tsx",
-	"exclude": [".test.tsx", ".story.tsx", ".css"]
+	"exclude": [".test.tsx", ".story.tsx", ".css", ".stories.tsx"]
 }

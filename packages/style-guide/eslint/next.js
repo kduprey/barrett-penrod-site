@@ -24,7 +24,6 @@ module.exports = {
 		].map(require.resolve),
 		"plugin:@tanstack/eslint-plugin-query/recommended",
 	],
-	plugins: ["tailwindcss"],
 	parserOptions: {
 		project,
 	},

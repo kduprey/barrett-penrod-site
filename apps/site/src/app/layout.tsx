@@ -3,6 +3,8 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import type { PropsWithChildren } from "react";
+import { ColorSchemeScript, MantineProvider } from "@mantine/core";
+import "@mantine/core/styles.css";
 import "./globals.css";
 
 config.autoAddCss = false;
@@ -45,13 +47,18 @@ export const metadata: Metadata = {
 };
 
 const RootLayout = ({ children }: PropsWithChildren): JSX.Element => (
-	<html className={`${montserrat.variable}`} lang="en">
+	<html className={montserrat.variable} lang="en">
+		<head>
+			<ColorSchemeScript defaultColorScheme="auto" />
+		</head>
 		<body>
-			<main className="flex min-h-screen flex-col bg-primary">{children}</main>
+			<MantineProvider defaultColorScheme="auto">
+				<main className="flex min-h-screen flex-col bg-primary">
+					{children}
+				</main>
+			</MantineProvider>
 		</body>
 	</html>
 );
-
-// {getLayout(<Component {...pageProps} />)}
 
 export default RootLayout;

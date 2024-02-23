@@ -5,6 +5,19 @@ const { withSentryConfig } = require("@sentry/nextjs");
 const { PrismaPlugin } = require("@prisma/nextjs-monorepo-workaround-plugin");
 
 const nextConfig = withAxiom({
+	experimental: {
+		optimizePackageImports: [
+			"@mantine/carousel",
+			"@mantine/core",
+			"@mantine/dates",
+			"@mantine/dropzone",
+			"@mantine/form",
+			"@mantine/hooks",
+			"@mantine/modals",
+			"@mantine/notifications",
+			"@mantine/nprogress",
+		],
+	},
 	transpilePackages: ["@bpvs/config", "@bpvs/types", "@bpvs/db"],
 	reactStrictMode: true,
 	webpack(config, { isServer }) {

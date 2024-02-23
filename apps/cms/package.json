@@ -13,18 +13,18 @@
 	},
 	"prettier": "@bpvs/eslint-config/prettier",
 	"dependencies": {
-		"@sanity/vision": "^3.29.1",
+		"@sanity/vision": "^3.30.0",
 		"next": "^14.1.0",
 		"next-sanity": "^8.0.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
-		"sanity": "^3.29.1",
+		"sanity": "^3.30.0",
 		"sanity-plugin-iframe-pane": "^3.1.3"
 	},
 	"devDependencies": {
 		"@bpvs/eslint-config": "workspace:*",
 		"@next/eslint-plugin-next": "^14.1.0",
-		"@sanity/cli": "^3.29.1",
+		"@sanity/cli": "^3.30.0",
 		"@sanity/icons": "^2.10.2",
 		"@types/node": "^20.11.19",
 		"@types/react": "^18.2.57",

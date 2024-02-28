@@ -1,6 +1,6 @@
 import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
-import { deskTool } from "sanity/desk";
+import { structureTool } from "sanity/structure";
 import { homeSchema } from "@/schemas";
 import {
 	deskStructure,
@@ -20,7 +20,7 @@ export default defineConfig([
 			dataset: "production",
 		},
 		plugins: [
-			deskTool({
+			structureTool({
 				structure: deskStructure,
 			}),
 			visionTool(),
@@ -45,7 +45,7 @@ export default defineConfig([
 			dataset: "staging",
 		},
 		plugins: [
-			deskTool({
+			structureTool({
 				structure: deskStructure,
 			}),
 			visionTool(),

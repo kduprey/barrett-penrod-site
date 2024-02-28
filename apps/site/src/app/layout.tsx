@@ -6,6 +6,8 @@ import type { PropsWithChildren } from "react";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import "./globals.css";
+import { HomeAppShell } from "@/components";
+import "@mantine/carousel/styles.css";
 
 config.autoAddCss = false;
 
@@ -53,8 +55,8 @@ const RootLayout = ({ children }: PropsWithChildren): JSX.Element => (
 		</head>
 		<body>
 			<MantineProvider defaultColorScheme="auto">
-				<main className="flex min-h-screen flex-col bg-primary">
-					{children}
+				<main>
+					<HomeAppShell>{children}</HomeAppShell>
 				</main>
 			</MantineProvider>
 		</body>

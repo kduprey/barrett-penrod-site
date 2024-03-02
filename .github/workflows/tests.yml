@@ -16,7 +16,7 @@ jobs:
     environment: preview
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -60,7 +60,7 @@ jobs:
       STRIPE_TEST_PUBLISHABLE_KEY: ${{ secrets.STRIPE_TEST_PUBLISHABLE_KEY }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -87,7 +87,7 @@ jobs:
         run: npm run build:site
 
       - name: E2E on Chrome
-        uses: cypress-io/github-action@v5.8.1
+        uses: cypress-io/github-action@v6.6.1
         with:
           config: 'viewportWidth=1000,viewportHeight=660'
           browser: chrome
@@ -133,7 +133,7 @@ jobs:
       STRIPE_TEST_PUBLISHABLE_KEY: ${{ secrets.STRIPE_TEST_PUBLISHABLE_KEY }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 

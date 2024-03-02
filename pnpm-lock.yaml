@@ -81,8 +81,8 @@ importers:
         specifier: ^7.6.1
         version: 7.6.1(@mantine/core@7.6.1)(@mantine/hooks@7.6.1)(@tiptap/extension-link@2.2.4)(@tiptap/react@2.2.4)(react-dom@18.2.0)(react@18.2.0)
       '@next/bundle-analyzer':
-        specifier: ^14.1.0
-        version: 14.1.0
+        specifier: ^14.1.1
+        version: 14.1.1
       '@tabler/icons-react':
         specifier: ^2.47.0
         version: 2.47.0(react@18.2.0)
@@ -3566,8 +3566,8 @@ packages:
       tar-fs: 2.1.1
     dev: true
 
-  /@next/bundle-analyzer@14.1.0:
-    resolution: {integrity: sha512-RJWjnlMp/1WSW0ahAdawV22WgJiC6BVaFS5Xfhw6gP7NJEX3cAJjh4JqSHKGr8GnLNRaFCVTQdDPoX84E421BA==}
+  /@next/bundle-analyzer@14.1.1:
+    resolution: {integrity: sha512-vM8PLggRNodmJo8FJy6+Bnv4jWsVtOuH87naJA7/sdmBUZrBk2fj3xkI1zwarWzDAYzNYTxiMRGVioyNPxBvXg==}
     dependencies:
       webpack-bundle-analyzer: 4.10.1
     transitivePeerDependencies:

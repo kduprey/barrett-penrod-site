@@ -87,7 +87,7 @@ jobs:
         run: npm run build:site
 
       - name: E2E on Chrome
-        uses: cypress-io/github-action@v5.8.1
+        uses: cypress-io/github-action@v6.6.1
         with:
           config: 'viewportWidth=1000,viewportHeight=660'
           browser: chrome

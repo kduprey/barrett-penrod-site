@@ -65,3 +65,62 @@ export const menus: NavMenu[] = [
 		path: "/bookings",
 	},
 ];
+
+export const headerMenus: {
+	link: string;
+	label: string;
+	links?: { link: string; label: string }[];
+}[] = [
+	{
+		link: "/",
+		label: "Home",
+	},
+	{
+		link: "/about",
+		label: "About",
+		links: [
+			{
+				link: "/#about-me",
+				label: "About Me",
+			},
+			{
+				link: "/#headshots",
+				label: "Headshots",
+			},
+			{
+				link: "/#resume",
+				label: "Resumé",
+			},
+		],
+	},
+	{
+		link: "/media",
+		label: "Media",
+		links: [
+			{
+				link: "/#video-sound-demo",
+				label: "Video/Sound Demo",
+			},
+			{
+				link: "/#production-photos",
+				label: "Production Photos",
+			},
+		],
+	},
+	{
+		link: "/#news",
+		label: "News",
+	},
+	{
+		link: "/#contact",
+		label: "Contact",
+	},
+	{
+		link: "/voice-studio",
+		label: "Voice Studio",
+	},
+	{
+		link: "/contact",
+		label: "Contact",
+	},
+];

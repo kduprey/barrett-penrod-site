@@ -1,3 +1,4 @@
+import { Title, Text, Group, Stack } from "@mantine/core";
 import { HeroCarousel } from "@/components";
 
 const Page = () => {
@@ -7,21 +8,19 @@ const Page = () => {
 
 			{/* <SocialBar /> */}
 			<section id="home">
-				<HeroCarousel />
-
-				{/* <div className="flex justify-center p-3">
-				{/* Heading Text */}
-				{/* <Headline /> */}
-
-				{/* Headshot 1 */}
-				{/* <div className="flex w-full flex-col items-center justify-center bg-slate-400 py-4 md:hidden">
-				<Image
-					alt="Barret Penrod"
-					loading="lazy"
-					placeholder="blur"
-					src={headshot5}
-				/>
-			</div> */}
+				{/* Hero Section */}
+				<Group justify="space-around">
+					<HeroCarousel />
+					<Stack
+						style={{
+							alignSelf: "start",
+						}}
+					>
+						<Text>Hey, I&apos;m</Text>
+						<Title>Barrett Penrod</Title>
+						<Text>Actor, Singer, Mover</Text>
+					</Stack>
+				</Group>
 
 				{/* About Section */}
 

@@ -16,12 +16,12 @@ jobs:
     environment: preview
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
@@ -60,12 +60,12 @@ jobs:
       STRIPE_TEST_PUBLISHABLE_KEY: ${{ secrets.STRIPE_TEST_PUBLISHABLE_KEY }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
@@ -87,7 +87,7 @@ jobs:
         run: npm run build:site
 
       - name: E2E on Chrome
-        uses: cypress-io/github-action@v5.8.1
+        uses: cypress-io/github-action@v6.6.1
         with:
           config: 'viewportWidth=1000,viewportHeight=660'
           browser: chrome
@@ -100,7 +100,7 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
       - name: Uploading Screenshots
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: 'cypress-screenshots'
@@ -108,7 +108,7 @@ jobs:
 
       # Test run video was always captured, so this action uses "always()" condition
       - name: Uploading Videos
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: cypress-videos
@@ -133,7 +133,7 @@ jobs:
       STRIPE_TEST_PUBLISHABLE_KEY: ${{ secrets.STRIPE_TEST_PUBLISHABLE_KEY }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -145,7 +145,7 @@ jobs:
           DOCKER_MONGO_DBNAME: test
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data

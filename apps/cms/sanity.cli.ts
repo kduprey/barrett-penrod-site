@@ -1,5 +1,4 @@
 import { defineCliConfig } from "sanity/cli";
-import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineCliConfig({
     api: {
@@ -15,8 +14,4 @@ export default defineCliConfig({
             workspace: "staging",
         },
     ],
-    vite: (config) => ({
-        ...config,
-        plugins: [tsconfigPaths()],
-    }),
 });

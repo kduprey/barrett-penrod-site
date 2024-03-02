@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
@@ -65,7 +65,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
@@ -145,7 +145,7 @@ jobs:
           DOCKER_MONGO_DBNAME: test
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data

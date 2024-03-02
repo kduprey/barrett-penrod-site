@@ -1,51 +1,42 @@
-import Image from "next/image";
-import headshot5 from "../../public/headshot5.jpg";
-import {
-	About,
-	Footer,
-	Headline,
-	Headshots,
-	News,
-	PageBar,
-	Photos,
-	ResumeTable,
-	Showreel,
-	SocialBar,
-} from "@/components";
+import { HeroCarousel } from "@/components";
 
-const Page = () => (
-	<>
-		<PageBar />
+const Page = () => {
+	return (
+		<>
+			{/* <PageBar /> */}
 
-		<SocialBar />
-		<section id="home">
-			{/* Heading Text */}
-			<Headline />
+			{/* <SocialBar /> */}
+			<section id="home">
+				<HeroCarousel />
 
-			{/* Headshot 1 */}
-			<div className="flex w-full flex-col items-center justify-center bg-slate-400 py-4 md:hidden">
+				{/* <div className="flex justify-center p-3">
+				{/* Heading Text */}
+				{/* <Headline /> */}
+
+				{/* Headshot 1 */}
+				{/* <div className="flex w-full flex-col items-center justify-center bg-slate-400 py-4 md:hidden">
 				<Image
 					alt="Barret Penrod"
 					loading="lazy"
 					placeholder="blur"
 					src={headshot5}
 				/>
-			</div>
+			</div> */}
 
-			{/* About Section */}
+				{/* About Section */}
 
-			<About />
+				{/* <About /> */}
 
-			{/* Resume/Headshots */}
+				{/* Resume/Headshots */}
 
-			<Headshots />
+				{/* <Headshots />
 
 			<div className="flex justify-center p-3">
 				<hr className="h-1 w-3/4" />
-			</div>
+			</div> */}
 
-			{/* Resume */}
-			<div className="py-6 md:p-0" id="resume">
+				{/* Resume */}
+				{/* <div className="py-6 md:p-0" id="resume">
 				<h1 className="text-center text-secondary">Resumé</h1>
 
 				<ResumeTable />
@@ -59,22 +50,23 @@ const Page = () => (
 						Download Resume
 					</a>
 				</div>
-			</div>
+			</div> */}
 
-			{/* Showreel */}
+				{/* Showreel */}
 
-			<Showreel />
+				{/* <Showreel /> */}
 
-			{/* Photos */}
+				{/* Photos */}
 
-			<Photos />
+				{/* <Photos /> */}
 
-			{/* News */}
+				{/* News */}
 
-			<News />
-		</section>
-		<Footer />
-	</>
-);
+				{/* <News /> */}
+			</section>
+			{/* <Footer /> */}
+		</>
+	);
+};
 
 export default Page;

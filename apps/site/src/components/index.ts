@@ -33,6 +33,7 @@ export * from "./Navbar/MobileSubmenu";
 export * from "./Navbar/Nav";
 export * from "./Navbar/Submenu";
 export * from "./Navbar/TitleBar";
+export * from "./NewComponents/HeroCarousel/HeroCarousel";
 export * from "./content/AboutStudioSection";
 export * from "./content/DemosSection";
 export * from "./content/MoreAboutSection";

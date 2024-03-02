@@ -16,18 +16,18 @@ jobs:
     environment: preview
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
 
       - name: Cache NPM dependencies and Prisma Client
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-primes
         with:
           path: |
@@ -60,18 +60,18 @@ jobs:
       STRIPE_TEST_PUBLISHABLE_KEY: ${{ secrets.STRIPE_TEST_PUBLISHABLE_KEY }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
 
       - name: Cache NPM dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             apps/**/node_modules
@@ -87,7 +87,7 @@ jobs:
         run: npm run build:site
 
       - name: E2E on Chrome
-        uses: cypress-io/github-action@v5.8.1
+        uses: cypress-io/github-action@v6.6.1
         with:
           config: 'viewportWidth=1000,viewportHeight=660'
           browser: chrome
@@ -133,7 +133,7 @@ jobs:
       STRIPE_TEST_PUBLISHABLE_KEY: ${{ secrets.STRIPE_TEST_PUBLISHABLE_KEY }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -145,13 +145,13 @@ jobs:
           DOCKER_MONGO_DBNAME: test
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
 
       - name: Cache NPM dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             apps/**/node_modules

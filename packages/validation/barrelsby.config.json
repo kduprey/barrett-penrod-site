@@ -1,6 +1,11 @@
 {
 	"baseurl": ".",
 	"delete": true,
-	"directory": ["./src"],
+	"directory": [
+		"./src",
+		"./src/lib/calendar",
+		"./src/lib/calendly",
+		"./src/lib/db"
+	],
 	"noHeader": true
 }

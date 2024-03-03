@@ -1,14 +1,14 @@
 import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
-import { homeSchema } from "@/schemas";
 import {
 	deskStructure,
 	documentActions,
 	schemaTemplatesFilter,
-} from "@/config";
+} from "./deskStructure";
+import { homeSchema } from "@/schemas";
 
-export default defineConfig([
+export const config = defineConfig([
 	{
 		name: "production",
 		title: "Barrett Penrod Studio - Production",

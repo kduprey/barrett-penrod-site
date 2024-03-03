@@ -36,6 +36,8 @@
 	"prettier": "@bpvs/eslint-config/prettier",
 	"devDependencies": {
 		"@bpvs/eslint-config": "workspace:*",
+		"@types/eslint": "^8.56.5",
+		"@types/node": "^20.11.24",
 		"barrelsby": "^2.8.1",
 		"eslint": "^8.57.0",
 		"prettier": "^3.2.5",

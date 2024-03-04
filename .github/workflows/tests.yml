@@ -27,7 +27,7 @@ jobs:
           cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
 
       - name: Cache NPM dependencies and Prisma Client
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-primes
         with:
           path: |
@@ -71,7 +71,7 @@ jobs:
           cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
 
       - name: Cache NPM dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             apps/**/node_modules
@@ -151,7 +151,7 @@ jobs:
           cache: 'npm' # See here for monorepo caching https://github.com/actions/setup-node#caching-global-packages-data
 
       - name: Cache NPM dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             apps/**/node_modules

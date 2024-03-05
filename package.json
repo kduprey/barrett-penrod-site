@@ -114,7 +114,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-simple-import-sort": "^12.0.0",
     "eslint-plugin-tsdoc": "^0.2.17",
-    "eslint-plugin-vitest": "^0.3.20",
+    "eslint-plugin-vitest": "^0.3.22",
     "http-errors": "^2.0.0",
     "jsdom": "^24.0.0",
     "json-schema-to-typescript": "^13.1.1",

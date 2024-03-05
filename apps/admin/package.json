@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@bpvs/eslint-config": "workspace:*",
-    "@next/eslint-plugin-next": "^14.1.1",
+    "@next/eslint-plugin-next": "^14.1.2",
     "@storybook/addon-essentials": "^7.6.17",
     "@storybook/addon-interactions": "^7.6.17",
     "@storybook/addon-links": "^7.6.17",

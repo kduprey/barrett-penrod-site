@@ -62,7 +62,7 @@
 		"@bpvs/types": "workspace:*",
 		"@bpvs/utils": "workspace:*",
 		"@bpvs/validation": "workspace:*",
-		"@next/eslint-plugin-next": "^14.1.1",
+		"@next/eslint-plugin-next": "^14.1.2",
 		"@testing-library/dom": "^9.3.4",
 		"@testing-library/jest-dom": "^6.4.2",
 		"@testing-library/react": "^14.2.1",

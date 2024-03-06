@@ -118,7 +118,7 @@
     "http-errors": "^2.0.0",
     "jsdom": "^24.0.0",
     "json-schema-to-typescript": "^13.1.1",
-    "postcss": "^8.4.32",
+    "postcss": "^8.4.35",
     "postcss-preset-mantine": "^1.12.3",
     "postcss-simple-vars": "^7.0.1",
     "prettier": "^3.2.5",

@@ -9,7 +9,7 @@
 	],
 	"prettier": "./prettier",
 	"dependencies": {
-		"@next/eslint-plugin-next": "^14.1.2",
+		"@next/eslint-plugin-next": "^14.1.3",
 		"@typescript-eslint/eslint-plugin": "^7.1.1",
 		"@typescript-eslint/parser": "^7.1.1",
 		"@vercel/style-guide": "^5.2.0",

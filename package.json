@@ -41,7 +41,7 @@
 		"prettier": "^3.2.5",
 		"prettier-plugin-packagejson": "^2.4.12",
 		"tsconfig": "workspace:*",
-		"typescript": "^5.3.3"
+		"typescript": "^5.4.2"
 	},
 	"packageManager": "pnpm@8.8.0",
 	"prisma": {

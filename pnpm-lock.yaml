@@ -248,8 +248,8 @@ importers:
         specifier: ^14.1.3
         version: 14.1.3
       '@sanity/cli':
-        specifier: ^3.30.1
-        version: 3.30.1
+        specifier: ^3.32.0
+        version: 3.32.0
       '@sanity/icons':
         specifier: ^2.10.3
         version: 2.10.3(react@18.2.0)
@@ -5010,28 +5010,6 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /@sanity/cli@3.30.1:
-    resolution: {integrity: sha512-9j+HhV1bYel5A7uO8Dk8cbNziJHm0gHAUDo1kiJ+hVlXPaDqZXc6OnYL37jnyHA6V6DJzsugWDY5BnrjXwCrNw==}
-    engines: {node: '>=18'}
-    hasBin: true
-    dependencies:
-      '@babel/traverse': 7.23.9
-      '@sanity/telemetry': 0.7.7
-      '@sanity/util': 3.30.1
-      chalk: 4.1.2
-      decompress: 4.2.1
-      esbuild: 0.19.12
-      esbuild-register: 3.5.0(esbuild@0.19.12)
-      get-it: 8.4.10
-      golden-fleece: 1.0.9
-      node-machine-id: 1.1.12
-      pkg-dir: 5.0.0
-      semver: 7.6.0
-      validate-npm-package-name: 3.0.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   /@sanity/cli@3.32.0:
     resolution: {integrity: sha512-m2Ocm7Fh5RvrXat5qNTYabUTb7O3qY1Ndo04ObXhLkgPIIVn7hgZOC+v46I0O/Wg3uUaWktybTB+oKtAq9gR8w==}
     engines: {node: '>=18'}
@@ -5052,7 +5030,6 @@ packages:
       validate-npm-package-name: 3.0.0
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@sanity/client@6.15.1:
     resolution: {integrity: sha512-WA85uX8FX7PbWyDyQiTsRn75OLt1GNtQPTzlHyNymAfItDgVmbP7Cwk5aH2B+7gMSkAK7wuK9Ea2YyHl7Kl2WA==}
@@ -5064,6 +5041,7 @@ packages:
       rxjs: 7.8.1
     transitivePeerDependencies:
       - supports-color
+    dev: false
 
   /@sanity/client@6.15.3:
     resolution: {integrity: sha512-7P6OMUeXr87aDzWHlXhP4QXYm02f9jc8f5xr736Er3RybuhSg+ZnetoxBFWhzlV6QA1F0fiC/8yGJKVJmrO+sg==}
@@ -5075,7 +5053,6 @@ packages:
       rxjs: 7.8.1
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@sanity/color@2.2.5:
     resolution: {integrity: sha512-tTi22KoKuER3sldXYl4c1Dq2zU7tMLDkljFiaUKVkBbu4PBvRGCFw75kXZnD2b4Bsp6vin+7sI+AKdCKRhfRuw==}
@@ -5202,7 +5179,7 @@ packages:
     engines: {node: '>=18'}
     dependencies:
       '@bjoerge/mutiny': 0.5.3
-      '@sanity/client': 6.15.1
+      '@sanity/client': 6.15.3
       '@sanity/types': 3.32.0
       '@sanity/util': 3.32.0
       arrify: 2.0.1
@@ -5361,23 +5338,13 @@ packages:
       rxjs: 7.8.1
       typeid-js: 0.3.0
 
-  /@sanity/types@3.30.1:
-    resolution: {integrity: sha512-JrFYZQJShRpmDrhLfoUGU+szhCV1brU/ufS+HZWkfRZB/QeClLkvOwwhi90LQdm+3BD3G/3QvdqzLnfbi9BZiQ==}
-    dependencies:
-      '@sanity/client': 6.15.1
-      '@types/react': 18.2.64
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   /@sanity/types@3.32.0:
     resolution: {integrity: sha512-eQh1+z97cJe6Ziep4s+i9PpQx37OiyK3+oP0WV8l8Fj16Yxe+y1Cwfln2eG+9hBBot0xdj4QyHMQoV0bGP7AWw==}
     dependencies:
-      '@sanity/client': 6.15.1
+      '@sanity/client': 6.15.3
       '@types/react': 18.2.64
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@sanity/ui@1.9.3(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)(styled-components@6.1.8):
     resolution: {integrity: sha512-AdWEVFaK0Snk6xxP0lGPVP3QQYKwzkfGFpFZnL9d6UtWt8yeuS8BMLVAzmXzg14hrqH50ex9nvNl3eq6a0MWiw==}
@@ -5421,31 +5388,17 @@ packages:
       styled-components: 6.1.8(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
-  /@sanity/util@3.30.1:
-    resolution: {integrity: sha512-GLld25WE9+mbXM+hAhLyTbuMuxBRUCAf2i8HqMFSThHj9IVZI3BTRnDvtbLXrkfbSXok71NdrbcUb/M60Bj8tQ==}
-    engines: {node: '>=18'}
-    dependencies:
-      '@sanity/client': 6.15.1
-      '@sanity/types': 3.30.1
-      get-random-values-esm: 1.0.0
-      moment: 2.30.1
-      rxjs: 7.8.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   /@sanity/util@3.32.0:
     resolution: {integrity: sha512-tObVDX7Gmwm/mbsGeObDn1Dqbhs1nvX6wKahU980BrCZrqzsQDjYWnbvAbk6T5jGJBhpDPRSSc2CXXADo+SQhg==}
     engines: {node: '>=18'}
     dependencies:
-      '@sanity/client': 6.15.1
+      '@sanity/client': 6.15.3
       '@sanity/types': 3.32.0
       get-random-values-esm: 1.0.2
       moment: 2.30.1
       rxjs: 7.8.1
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@sanity/uuid@3.0.2:
     resolution: {integrity: sha512-vzdhqOrX7JGbMyK40KuIwwyXHm7GMLOGuYgn3xlC09e4ZVNofUO5mgezQqnRv0JAMthIRhofqs9f6ufUjMKOvw==}
@@ -12426,17 +12379,10 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /get-random-values-esm@1.0.0:
-    resolution: {integrity: sha512-BVgZ1PZwR5NKDpHpUcPmWcAQpoIOPXaFy6Vni3UdPbOlxO7eknhxsfytxwss16f75EABfnAC+XZjzTurNlPY/g==}
-    dependencies:
-      get-random-values: 1.2.2
-    dev: true
-
   /get-random-values-esm@1.0.2:
     resolution: {integrity: sha512-HMSDTgj1HPFAuZG0FqxzHbYt5JeEGDUeT9r1RLXhS6RZQS8rLRjokgjZ0Pd28CN0lhXlRwfH6eviZqZEJ2kIoA==}
     dependencies:
       get-random-values: 1.2.2
-    dev: false
 
   /get-random-values@1.2.2:
     resolution: {integrity: sha512-lMyPjQyl0cNNdDf2oR+IQ/fM3itDvpoHy45Ymo2r0L1EjazeSl13SfbKZs7KtZ/3MDCeueiaJiuOEfKqRTsSgA==}

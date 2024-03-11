@@ -6,7 +6,7 @@
 	"prettier": "@bpvs/eslint-config/prettier",
 	"dependencies": {
 		"@sendgrid/mail": "^8.1.1",
-		"stripe": "^14.19.0"
+		"stripe": "^14.20.0"
 	},
 	"devDependencies": {
 		"@bpvs/eslint-config": "workspace:*",

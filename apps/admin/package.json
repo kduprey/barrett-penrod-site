@@ -57,7 +57,7 @@
     "@storybook/addon-styling-webpack": "^0.0.6",
     "@storybook/blocks": "^7.6.17",
     "@storybook/nextjs": "^8.0.0",
-    "@storybook/preview-api": "^7.6.17",
+    "@storybook/preview-api": "^8.0.0",
     "@storybook/react": "^7.6.17",
     "@storybook/test": "^7.6.17",
     "@tanstack/react-query-devtools": "^5.25.0",

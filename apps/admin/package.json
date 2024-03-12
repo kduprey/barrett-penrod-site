@@ -55,7 +55,7 @@
     "@storybook/addon-links": "^7.6.17",
     "@storybook/addon-onboarding": "^8.0.0",
     "@storybook/addon-styling-webpack": "^0.0.6",
-    "@storybook/blocks": "^7.6.17",
+    "@storybook/blocks": "^8.0.0",
     "@storybook/nextjs": "^8.0.0",
     "@storybook/preview-api": "^8.0.0",
     "@storybook/react": "^7.6.17",

@@ -54,7 +54,7 @@
     "@next/font": "^14.0.4",
     "@sanity/cli": "^3.30.1",
     "@sanity/vision": "^3.32.0",
-    "@sendgrid/mail": "^8.1.0",
+    "@sendgrid/mail": "^8.1.1",
     "@sentry/nextjs": "^7.104.0",
     "@tabler/icons-react": "^2.45.0",
     "@tiptap/extension-link": "^2.1.13",

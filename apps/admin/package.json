@@ -58,7 +58,7 @@
     "@storybook/blocks": "^8.0.0",
     "@storybook/nextjs": "^8.0.0",
     "@storybook/preview-api": "^8.0.0",
-    "@storybook/react": "^7.6.17",
+    "@storybook/react": "^8.0.0",
     "@storybook/test": "^7.6.17",
     "@tanstack/react-query-devtools": "^5.25.0",
     "@types/node": "^20.11.25",

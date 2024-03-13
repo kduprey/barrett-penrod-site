@@ -163,8 +163,8 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0
       '@storybook/react':
-        specifier: ^7.6.17
-        version: 7.6.17(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.2)
+        specifier: ^8.0.0
+        version: 8.0.0(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.2)
       '@storybook/test':
         specifier: ^7.6.17
         version: 7.6.17
@@ -6241,13 +6241,6 @@ packages:
       - '@types/react'
     dev: true
 
-  /@storybook/core-client@7.6.17:
-    resolution: {integrity: sha512-LuDbADK+DPNAOOCXOlvY09hdGVueXlDetsdOJ/DgYnSa9QSWv9Uv+F8QcEgR3QckZJbPlztKJIVLgP2n/Xkijw==}
-    dependencies:
-      '@storybook/client-logger': 7.6.17
-      '@storybook/preview-api': 7.6.17
-    dev: true
-
   /@storybook/core-common@7.6.17:
     resolution: {integrity: sha512-me2TP3Q9/qzqCLoDHUSsUF+VS1MHxfHbTVF6vAz0D/COTxzsxLpu9TxTbzJoBCxse6XRb6wWI1RgF1mIcjic7g==}
     dependencies:
@@ -6772,46 +6765,6 @@ packages:
     dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-    dev: true
-
-  /@storybook/react@7.6.17(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.2):
-    resolution: {integrity: sha512-lVqzQSU03rRJWYW+gK2gq6mSo3/qtnVICY8B8oP7gc36jVu4ksDIu45bTfukM618ODkUZy0vZe6T4engK3azjA==}
-    engines: {node: '>=16.0.0'}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-      typescript: '*'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@storybook/client-logger': 7.6.17
-      '@storybook/core-client': 7.6.17
-      '@storybook/docs-tools': 7.6.17
-      '@storybook/global': 5.0.0
-      '@storybook/preview-api': 7.6.17
-      '@storybook/react-dom-shim': 7.6.17(react-dom@18.2.0)(react@18.2.0)
-      '@storybook/types': 7.6.17
-      '@types/escodegen': 0.0.6
-      '@types/estree': 0.0.51
-      '@types/node': 18.19.21
-      acorn: 7.4.1
-      acorn-jsx: 5.3.2(acorn@7.4.1)
-      acorn-walk: 7.2.0
-      escodegen: 2.1.0
-      html-tags: 3.3.1
-      lodash: 4.17.21
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      react-element-to-jsx-string: 15.0.0(react-dom@18.2.0)(react@18.2.0)
-      ts-dedent: 2.2.0
-      type-fest: 2.19.0
-      typescript: 5.4.2
-      util-deprecate: 1.0.2
-    transitivePeerDependencies:
-      - encoding
-      - supports-color
     dev: true
 
   /@storybook/react@8.0.0(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.2):

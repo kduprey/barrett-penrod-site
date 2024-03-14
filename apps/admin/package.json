@@ -17,7 +17,7 @@
     "@bpvs/config": "workspace:*",
     "@bpvs/db": "workspace:*",
     "@clerk/nextjs": "^4.29.9",
-    "@clerk/themes": "^1.7.9",
+    "@clerk/themes": "^1.7.10",
     "@formkit/auto-animate": "^0.8.1",
     "@google-cloud/local-auth": "3.0.1",
     "@mantine/core": "^7.6.1",

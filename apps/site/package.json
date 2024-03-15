@@ -38,7 +38,7 @@
 		"@mantine/notifications": "^7.6.1",
 		"@mantine/nprogress": "^7.6.1",
 		"@prisma/nextjs-monorepo-workaround-plugin": "^5.10.2",
-		"@sentry/nextjs": "^7.106.0",
+		"@sentry/nextjs": "^7.107.0",
 		"@tabler/icons-react": "^3.0.2",
 		"axios": "^1.6.7",
 		"dayjs": "^1.11.10",

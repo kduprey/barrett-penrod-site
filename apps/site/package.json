@@ -40,7 +40,7 @@
 		"@prisma/nextjs-monorepo-workaround-plugin": "^5.10.2",
 		"@sentry/nextjs": "^7.107.0",
 		"@tabler/icons-react": "^3.0.2",
-		"axios": "^1.6.7",
+		"axios": "^1.6.8",
 		"dayjs": "^1.11.10",
 		"embla-carousel-autoplay": "^8.0.0",
 		"embla-carousel-react": "8.0.0",

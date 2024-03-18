@@ -7,7 +7,7 @@
 	"dependencies": {
 		"@bpvs/db": "workspace:*",
 		"@bpvs/validation": "workspace:*",
-		"axios": "^1.6.7",
+		"axios": "^1.6.8",
 		"googleapis": "^133.0.0",
 		"graphql-request": "^6.1.0",
 		"tslog": "^4.9.2",

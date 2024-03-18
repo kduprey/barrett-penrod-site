@@ -20,7 +20,7 @@
     "@clerk/themes": "^1.7.10",
     "@formkit/auto-animate": "^0.8.1",
     "@google-cloud/local-auth": "3.0.1",
-    "@mantine/core": "^7.6.1",
+    "@mantine/core": "^7.6.2",
     "@mantine/dates": "^7.6.1",
     "@mantine/dropzone": "^7.6.1",
     "@mantine/form": "^7.6.1",

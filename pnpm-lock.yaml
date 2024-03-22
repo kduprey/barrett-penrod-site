@@ -60,8 +60,8 @@ importers:
         specifier: ^7.6.1
         version: 7.6.1(@mantine/core@7.6.2)(@mantine/hooks@7.6.2)(dayjs@1.11.10)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/dropzone':
-        specifier: ^7.6.1
-        version: 7.6.1(@mantine/core@7.6.2)(@mantine/hooks@7.6.2)(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^7.6.2
+        version: 7.6.2(@mantine/core@7.6.2)(@mantine/hooks@7.6.2)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/form':
         specifier: ^7.6.2
         version: 7.6.2(react@18.2.0)
@@ -320,8 +320,8 @@ importers:
         specifier: ^7.6.1
         version: 7.6.1(@mantine/core@7.6.2)(@mantine/hooks@7.6.2)(dayjs@1.11.10)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/dropzone':
-        specifier: ^7.6.1
-        version: 7.6.1(@mantine/core@7.6.2)(@mantine/hooks@7.6.2)(react-dom@18.2.0)(react@18.2.0)
+        specifier: ^7.6.2
+        version: 7.6.2(@mantine/core@7.6.2)(@mantine/hooks@7.6.2)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/form':
         specifier: ^7.6.2
         version: 7.6.2(react@18.2.0)
@@ -3496,11 +3496,11 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@mantine/dropzone@7.6.1(@mantine/core@7.6.2)(@mantine/hooks@7.6.2)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-qkj681fV5DmCPW44PBhS5cKB2iYtU3UsEWA2VfC2vizU5FpSqFRF8qmaiH6OXyPYzeDK0X+IaEjUma1pqB5ZWA==}
+  /@mantine/dropzone@7.6.2(@mantine/core@7.6.2)(@mantine/hooks@7.6.2)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-xhbUKWGzLkZfZu5rEqUQsVhLvfEkDtR8zxyCnMI9UgXcJ+xbzk9aqfwTd4c3+MogqINv5EHlyTcJR1SXGN592w==}
     peerDependencies:
-      '@mantine/core': 7.6.1
-      '@mantine/hooks': 7.6.1
+      '@mantine/core': 7.6.2
+      '@mantine/hooks': 7.6.2
       react: ^18.2.0
       react-dom: ^18.2.0
     dependencies:

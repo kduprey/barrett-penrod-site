@@ -22,7 +22,7 @@
     "@google-cloud/local-auth": "3.0.1",
     "@mantine/core": "^7.6.2",
     "@mantine/dates": "^7.6.1",
-    "@mantine/dropzone": "^7.6.1",
+    "@mantine/dropzone": "^7.6.2",
     "@mantine/form": "^7.6.2",
     "@mantine/hooks": "^7.6.2",
     "@mantine/modals": "^7.6.2",

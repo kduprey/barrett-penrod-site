@@ -1,3 +1,5 @@
+// @ts-check
+
 const { resolve } = require("node:path");
 
 const project = resolve(process.cwd(), "tsconfig.json");
@@ -10,22 +12,23 @@ const project = resolve(process.cwd(), "tsconfig.json");
  * For more information, see https://github.com/vercel/style-guide
  *
  */
-
+/** @type {import("eslint").Linter.Config} */
 module.exports = {
 	extends: [
 		...[
 			"@vercel/style-guide/eslint/node",
-			"@vercel/style-guide/eslint/browser",
 			"@vercel/style-guide/eslint/typescript",
+			"@vercel/style-guide/eslint/browser",
 			"@vercel/style-guide/eslint/react",
 			"@vercel/style-guide/eslint/next",
 			"eslint-config-turbo",
 			"eslint-config-prettier",
-		].map(require.resolve),
+		].map((v) => require.resolve(v)),
 		"plugin:@tanstack/eslint-plugin-query/recommended",
 	],
 	parserOptions: {
-		project,
+		project: true,
+		tsconfigRootDir: process.cwd(),
 	},
 	globals: {
 		React: true,

@@ -2,7 +2,7 @@
 
 import { NextStudio } from "next-sanity/studio";
 import { StudioLayout, StudioProvider } from "sanity";
-import config from "@/config/sanity.config";
+import { config } from "@/config";
 
 const Studio = () => {
 	return (

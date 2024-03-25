@@ -1,31 +1,62 @@
-import { defineConfig } from "sanity";
 import { visionTool } from "@sanity/vision";
+import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
-import { defaultDocumentNode } from "./defaultDocumentNode";
-import { deskStructure, schemaTemplatesFilter } from "./deskStructure";
-import * as schemas from "@/schemas";
+import {
+	deskStructure,
+	documentActions,
+	schemaTemplatesFilter,
+} from "./deskStructure";
+import { homeSchema } from "@/schemas";
 
-const schemaTypes = Object.values(schemas);
-
-export default defineConfig({
-	name: "production",
-	title: "BPVS - Production",
-	basePath: "/production",
-	projectId: "n8emrwer",
-	dataset: "production",
-	api: {
+export const config = defineConfig([
+	{
+		name: "production",
+		title: "Barrett Penrod Studio - Production",
+		basePath: "/production",
 		projectId: "n8emrwer",
 		dataset: "production",
+		api: {
+			projectId: "n8emrwer",
+			dataset: "production",
+		},
+		plugins: [
+			structureTool({
+				structure: deskStructure,
+			}),
+			visionTool(),
+		],
+
+		schema: {
+			types: [homeSchema],
+			templates: schemaTemplatesFilter,
+		},
+		document: {
+			actions: documentActions,
+		},
 	},
-	plugins: [
-		structureTool({
-			structure: deskStructure,
-			defaultDocumentNode,
-		}),
-		visionTool(),
-	],
-	schema: {
-		types: schemaTypes,
-		templates: schemaTemplatesFilter,
+	{
+		name: "staging",
+		title: "Barrett Penrod Studio - Staging",
+		basePath: "/staging",
+		projectId: "n8emrwer",
+		dataset: "staging",
+		api: {
+			projectId: "n8emrwer",
+			dataset: "staging",
+		},
+		plugins: [
+			structureTool({
+				structure: deskStructure,
+			}),
+			visionTool(),
+		],
+
+		schema: {
+			types: [homeSchema],
+			templates: schemaTemplatesFilter,
+		},
+		document: {
+			actions: documentActions,
+		},
 	},
-});
+]);

@@ -502,8 +502,8 @@ importers:
   packages/db:
     dependencies:
       '@prisma/client':
-        specifier: ^5.10.2
-        version: 5.10.2(prisma@5.10.2)
+        specifier: ^5.12.0
+        version: 5.12.0(prisma@5.10.2)
     devDependencies:
       '@bpvs/eslint-config':
         specifier: workspace:*
@@ -3952,8 +3952,8 @@ packages:
     engines: {node: ^14.13.1 || >=16.0.0 || >=18.0.0}
     dev: false
 
-  /@prisma/client@5.10.2(prisma@5.10.2):
-    resolution: {integrity: sha512-ef49hzB2yJZCvM5gFHMxSFL9KYrIP9udpT5rYo0CsHD4P9IKj473MbhU1gjKKftiwWBTIyrt9jukprzZXazyag==}
+  /@prisma/client@5.12.0(prisma@5.10.2):
+    resolution: {integrity: sha512-bk/+KPpRm0+IzqFCtAxrj+/TNiHzulspnO+OkysaYY/atc/eX0Gx8V3tTLxbHKVX0LKD4Hi8KKCcSbU1U72n7Q==}
     engines: {node: '>=16.13'}
     requiresBuild: true
     peerDependencies:

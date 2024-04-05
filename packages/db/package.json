@@ -16,7 +16,7 @@
 	},
 	"prettier": "@bpvs/eslint-config/prettier",
 	"dependencies": {
-		"@prisma/client": "^5.10.2"
+		"@prisma/client": "^5.12.1"
 	},
 	"devDependencies": {
 		"@bpvs/eslint-config": "workspace:*",

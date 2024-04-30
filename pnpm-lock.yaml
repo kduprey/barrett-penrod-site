@@ -160,8 +160,8 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0(esbuild@0.20.2)(next@14.2.2)(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.2)(webpack@5.90.3)
       '@storybook/preview-api':
-        specifier: ^8.0.4
-        version: 8.0.4
+        specifier: ^8.0.9
+        version: 8.0.9
       '@storybook/react':
         specifier: ^8.0.9
         version: 8.0.9(react-dom@18.2.0)(react@18.2.0)(typescript@5.4.2)

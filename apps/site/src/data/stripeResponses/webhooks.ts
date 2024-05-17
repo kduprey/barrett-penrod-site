@@ -10,6 +10,7 @@ export const checkout_session_completed: Stripe.Checkout.Session = {
   automatic_tax: {
     enabled: false,
     status: null,
+    liability: null
   },
   billing_address_collection: null,
   cancel_url: "https://httpbin.org/post",
@@ -55,6 +56,7 @@ export const checkout_session_completed: Stripe.Checkout.Session = {
       footer: null,
       metadata: {},
       rendering_options: null,
+      issuer: null
     },
   },
   livemode: false,

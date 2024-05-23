@@ -18,5 +18,8 @@
     "test:ci": "vitest run",
     "test:ui": "dotenv -c -e ../../.env vitest --ui",
     "vercel:dev": "vercel dev"
+  },
+  "dependencies": {
+    "cookie": "^0.6.0"
   }
 }

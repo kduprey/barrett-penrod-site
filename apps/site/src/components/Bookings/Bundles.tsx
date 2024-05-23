@@ -1,10 +1,10 @@
-import { bundles } from "@bpvs/config";
 import { useState } from "react";
 import BundleModal from "./BundleModal";
+import { LessonBundle } from "@bpvs/types";
 
-const Bundles = () => {
+const Bundles = ({ bundleData }: { bundleData: LessonBundle[] }) => {
   const [isBundleModalOpen, setIsBundleModalOpen] = useState(false);
-  const [selectedBundle, setselectedBundle] = useState<number>();
+  const [selectedBundle, setSelectedBundle] = useState<number>();
 
   return (
     <section>
@@ -17,13 +17,13 @@ const Bundles = () => {
         Discount Packages
       </h2>
       <div className="grid gap-6 sm:grid-cols-2">
-        {bundles.map((bundle, index) => (
+        {bundleData.map((bundle, index) => (
           <div
             key={bundle.title}
             className="withTransition flex max-w-sm flex-col items-center justify-center space-y-3 rounded-lg bg-secondary p-6 shadow-md hover:scale-105 hover:opacity-90"
             onClick={() => {
               setIsBundleModalOpen(true);
-              setselectedBundle(index);
+              setSelectedBundle(index);
             }}
           >
             <h4 className="text-center text-primary">{bundle.title}</h4>
@@ -35,7 +35,7 @@ const Bundles = () => {
               className="cursor-pointer bg-primary text-secondary"
               onClick={() => {
                 setIsBundleModalOpen(true);
-                setselectedBundle(index);
+                setSelectedBundle(index);
               }}
             >
               Reserve Now!

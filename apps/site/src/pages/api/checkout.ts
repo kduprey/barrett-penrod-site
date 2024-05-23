@@ -13,6 +13,7 @@ interface CheckoutParams {
   inviteeURI: string;
   isLonger?: boolean;
   origin: string;
+  clientType?: string;
 }
 
 const createCheckoutSession = async (
@@ -24,12 +25,17 @@ const createCheckoutSession = async (
   // eslint-disable-next-line turbo/no-undeclared-env-vars
   const stripeMode = process.env.VERCEL_ENV !== "production" ? "test" : "live";
 
+  const coupons = await stripe.coupons.list();
+
   // SVS Trial Session = 5
   // Trial Session = 4
   // Trial Session Location will be 1 - Open Jar
-  const isTrialSession =
-    params.service >= 4 && params.service <= 5 ? true : false;
+  const isTrialSession = params.service === 4 || params.service === 5;
   const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
+  const discounts: Stripe.Checkout.SessionCreateParams.Discount[] = [];
+  const oldClientType = params.clientType
+    ? Buffer.from(params.clientType, "base64").toString("utf-8")
+    : null;
 
   // Check if eventURI is valid
   if (params.eventURI === undefined || params.eventURI === "")
@@ -81,15 +87,44 @@ const createCheckoutSession = async (
     throw new Error("Cannot select bundle for SVS Session");
 
   // if is a bundle purchase, add the bundle to the line items if not a trial session
-  if (params.bundle !== undefined && !isTrialSession)
+  if (params.bundle !== undefined && !isTrialSession) {
     line_items.push(bundles[params.bundle].priceID[stripeMode]);
+    if (oldClientType) {
+      discounts.push({
+        coupon: coupons.data.find(
+          (c) =>
+            params.bundle !== undefined &&
+            c.name?.includes(
+              `${oldClientType} - ` + bundles[params.bundle].title,
+            ),
+        )?.id,
+      });
+    }
+  }
   // If not a bundle purchase, add lesson downpayment to line items
   // if SVS Session, add the downpayment for SVS Session
-  else {
-    if (params.service === 2) line_items.push(Prices[0].priceID[stripeMode]);
-    // if not SVS Session, add the regular downpayment if not a trial session
-    else
-      !isTrialSession ? line_items.push(Prices[1].priceID[stripeMode]) : null;
+  else if (params.service === 2) {
+    line_items.push(Prices[0].priceID[stripeMode]);
+
+    if (oldClientType) {
+      discounts.push({
+        coupon: coupons.data.find((c) =>
+          c.name?.includes(`${oldClientType} - Session Down Payment`),
+        )?.id,
+      });
+    }
+  }
+  // if not SVS Session, add the regular downpayment if not a trial session
+  else if (!isTrialSession) {
+    line_items.push(Prices[1].priceID[stripeMode]);
+
+    if (oldClientType) {
+      discounts.push({
+        coupon: coupons.data.find((c) =>
+          c.name?.includes(`${oldClientType} - Session Down Payment`),
+        )?.id,
+      });
+    }
   }
 
   // If location is Open Jar and a bundle, add the Open Jar booking fee
@@ -110,13 +145,13 @@ const createCheckoutSession = async (
     automatic_tax: {
       enabled: true,
     },
+
     phone_number_collection: {
       enabled: true,
     },
     payment_intent_data: {
       setup_future_usage: "off_session",
     },
-    allow_promotion_codes: true,
     submit_type: "book",
     expires_at: params.isLonger
       ? Math.floor(new Date(Date.now() + 86400000).getTime() / 1000)
@@ -124,7 +159,6 @@ const createCheckoutSession = async (
     after_expiration: {
       recovery: {
         enabled: true,
-        allow_promotion_codes: true,
       },
     },
     billing_address_collection: "required",
@@ -133,6 +167,23 @@ const createCheckoutSession = async (
       inviteeURI: params.inviteeURI,
     },
   };
+
+  if (discounts.length > 0) {
+    sessionTemplate.discounts = discounts;
+    sessionTemplate.after_expiration = {
+      recovery: {
+        enabled: true,
+      },
+    };
+  } else {
+    sessionTemplate.allow_promotion_codes = true;
+    sessionTemplate.after_expiration = {
+      recovery: {
+        enabled: true,
+        allow_promotion_codes: true,
+      },
+    };
+  }
 
   // Look for a customer with the email address or name in Stripe and create one if it doesn't exist
   try {
@@ -200,11 +251,17 @@ const POSTCheckout: NextApiHandler = async (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
+  const cookie = z.string().parse(req.cookies["__Secure-clientType"] ?? "");
+
   const data = POSTCheckoutBody.parse(req.body);
   const origin = z.string().parse(req.headers.origin);
   try {
     // Create checkout session
-    const session = await createCheckoutSession({ ...data, origin });
+    const session = await createCheckoutSession({
+      ...data,
+      origin,
+      clientType: cookie,
+    });
 
     res.status(200).json({ url: session.url, id: session.id });
   } catch (e: unknown) {

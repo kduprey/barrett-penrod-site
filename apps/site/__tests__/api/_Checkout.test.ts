@@ -315,6 +315,116 @@ describe("Checkout should", () => {
     await stripe.checkout.sessions.expire(session.id as string);
   });
 
+  it("session should have correct downpayment for valid old clientType discount", async () => {
+    const responseWithNonExistantEmail: CalendlyInvitee = {
+      resource: {
+        ...getInviteeResponse.resource,
+        name: "Test User 100",
+        email: "test100@email.com",
+      },
+    };
+
+    mockedAxios.get.mockResolvedValueOnce({
+      data: { ...responseWithNonExistantEmail },
+    });
+
+    const session = await createCheckoutSession({
+      service: 0,
+      location: 2,
+      eventURI: "test",
+      inviteeURI: "test",
+      origin: "https://test.com",
+      clientType: process.env.VALID_OLD_CLIENT_TYPE,
+    });
+
+    // Check for no errors
+    expect(session).not.toBeInstanceOf(Error);
+
+    checkValidCheckoutURL(session.url);
+
+    const sessionData = await stripe.checkout.sessions.retrieve(
+      session.id as string,
+    );
+
+    expect(sessionData.amount_total).toBe(4000);
+
+    await stripe.checkout.sessions.expire(session.id as string);
+  });
+
+  it("session should have correct bundle amount for valid old clientType discount", async () => {
+    const responseWithNonExistantEmail: CalendlyInvitee = {
+      resource: {
+        ...getInviteeResponse.resource,
+        name: "Test User 100",
+        email: "test100@email.com",
+      },
+    };
+
+    mockedAxios.get.mockResolvedValueOnce({
+      data: { ...responseWithNonExistantEmail },
+    });
+
+    const session = await createCheckoutSession({
+      service: 0,
+      location: 2,
+      bundle: 0,
+      eventURI: "test",
+      inviteeURI: "test",
+      origin: "https://test.com",
+      clientType: process.env.VALID_OLD_CLIENT_TYPE,
+    });
+
+    // Check for no errors
+    expect(session).not.toBeInstanceOf(Error);
+
+    checkValidCheckoutURL(session.url);
+
+    const sessionData = await stripe.checkout.sessions.retrieve(
+      session.id as string,
+    );
+
+    expect(sessionData.amount_total).toBe(28000);
+
+    await stripe.checkout.sessions.expire(session.id as string);
+  });
+
+  it("session should have correct bundle + openjar fee amount for valid old clientType discount", async () => {
+    const responseWithNonExistantEmail: CalendlyInvitee = {
+      resource: {
+        ...getInviteeResponse.resource,
+        name: "Test User 100",
+        email: "test100@email.com",
+      },
+    };
+
+    mockedAxios.get.mockResolvedValueOnce({
+      data: { ...responseWithNonExistantEmail },
+    });
+
+    const session = await createCheckoutSession({
+      service: 0,
+      location: 1,
+      bundle: 0,
+      eventURI: "test",
+      inviteeURI: "test",
+      origin: "https://test.com",
+      clientType: process.env.VALID_OLD_CLIENT_TYPE,
+    });
+
+    // Check for no errors
+    expect(session).not.toBeInstanceOf(Error);
+
+    checkValidCheckoutURL(session.url);
+
+    const sessionData = await stripe.checkout.sessions.retrieve(
+      session.id as string,
+    );
+
+    expect(sessionData.amount_total).toBe(30600);
+
+    await stripe.checkout.sessions.expire(session.id as string);
+  });
+
   it("session should throw error for trial session with bundle", async () => {
     const responseWithNonExistantEmail: CalendlyInvitee = {
       resource: {

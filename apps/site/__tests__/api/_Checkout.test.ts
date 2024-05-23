@@ -315,7 +315,7 @@ describe("Checkout should", () => {
     await stripe.checkout.sessions.expire(session.id as string);
   });
 
-  it.only("session should have correct downpayment for valid old clientType discount", async () => {
+  it("session should have correct downpayment for valid old clientType discount", async () => {
     const responseWithNonExistantEmail: CalendlyInvitee = {
       resource: {
         ...getInviteeResponse.resource,
@@ -351,7 +351,7 @@ describe("Checkout should", () => {
     await stripe.checkout.sessions.expire(session.id as string);
   });
 
-  it.only("session should have correct bundle amount for valid old clientType discount", async () => {
+  it("session should have correct bundle amount for valid old clientType discount", async () => {
     const responseWithNonExistantEmail: CalendlyInvitee = {
       resource: {
         ...getInviteeResponse.resource,
@@ -388,7 +388,7 @@ describe("Checkout should", () => {
     await stripe.checkout.sessions.expire(session.id as string);
   });
 
-  it.only("session should have correct bundle + openjar fee amount for valid old clientType discount", async () => {
+  it("session should have correct bundle + openjar fee amount for valid old clientType discount", async () => {
     const responseWithNonExistantEmail: CalendlyInvitee = {
       resource: {
         ...getInviteeResponse.resource,

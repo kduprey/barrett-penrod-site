@@ -16,7 +16,7 @@
 		"@sanity/vision": "^3.36.0",
 		"next": "^14.2.2",
 		"next-sanity": "^8.5.0",
-		"react": "^18.2.0",
+		"react": "^18.3.1",
 		"react-dom": "^18.2.0",
 		"sanity": "^3.35.0",
 		"sanity-plugin-iframe-pane": "^3.1.6"
@@ -27,7 +27,7 @@
 		"@sanity/cli": "^3.35.1",
 		"@sanity/icons": "^2.11.4",
 		"@types/node": "^20.11.30",
-		"@types/react": "^18.2.64",
+		"@types/react": "^18.3.3",
 		"@types/react-dom": "^18.2.22",
 		"@typescript-eslint/eslint-plugin": "^7.8.0",
 		"@typescript-eslint/parser": "^7.2.0",

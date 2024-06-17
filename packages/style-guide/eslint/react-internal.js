@@ -12,6 +12,7 @@ const project = resolve(process.cwd(), "tsconfig.json");
  *
  */
 
+/** @type {import("eslint").Linter.Config} */
 module.exports = {
 	extends: [
 		"@vercel/style-guide/eslint/browser",
@@ -32,7 +33,6 @@ module.exports = {
 		},
 	},
 	ignorePatterns: ["node_modules/", "dist/", ".eslintrc.js"],
-
 	rules: {
 		// add specific rules configurations here
 		"@typescript-eslint/no-misused-promises": [

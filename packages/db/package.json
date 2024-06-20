@@ -24,7 +24,7 @@
 		"@faker-js/faker": "^8.4.1",
 		"@types/node": "^20.11.30",
 		"dotenv": "^16.4.5",
-		"prisma": "^5.10.2",
+		"prisma": "^5.15.1",
 		"ts-node": "^10.9.2",
 		"tsconfig": "workspace:*",
 		"tsup": "^8.0.2",

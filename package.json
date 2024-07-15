@@ -49,7 +49,7 @@
     "@mantine/modals": "^7.9.1",
     "@mantine/next": "^6.0.21",
     "@mantine/notifications": "^7.9.1",
-    "@mantine/spotlight": "^7.9.1",
+    "@mantine/spotlight": "^7.11.2",
     "@mantine/tiptap": "^7.9.1",
     "@next/font": "^14.2.3",
     "@sanity/cli": "^3.42.1",

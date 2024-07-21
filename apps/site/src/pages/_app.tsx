@@ -8,8 +8,6 @@ import { useEffect } from "react";
 import "../styles/globals.css";
 config.autoAddCss = false;
 
-export { useReportWebVitals } from "next-axiom";
-
 const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-montserrat",

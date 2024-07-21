@@ -1,12 +1,10 @@
 /** @type {import('next').NextConfig} */
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { withAxiom } = require("next-axiom");
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { withSentryConfig } = require("@sentry/nextjs");
 
 const { PrismaPlugin } = require("@prisma/nextjs-monorepo-workaround-plugin");
 
-const nextConfig = withAxiom({
+const nextConfig = {
   transpilePackages: ["@bpvs/config", "@bpvs/types"],
   reactStrictMode: true,
   webpack(config, { isServer }) {
@@ -127,7 +125,7 @@ const nextConfig = withAxiom({
     hideSourceMaps: true,
     tunnelRoute: "/monitoring",
   },
-});
+};
 
 const sentryWebpackPluginOptions = {
   silent: true,
